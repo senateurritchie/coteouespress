@@ -1,0 +1,752 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+    Intégration html + css  | page 1
+{% endblock %}
+
+{% block body %}
+    
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+
+        <div id="master-cover"></div>
+
+        <div id="master-cover-overlay"></div>
+
+
+        <div id="thumbnail-cover" class="d-none d-md-block">
+            <ul>
+
+                {% for i in 0..3 %}
+                    <li class="ml-2">
+                        <div class="position-relative has-media-detail d-block">
+                            <img width="150px" src="{{ asset('img/'~random(['other-movie-8','other-movie-9','other-movie-10','other-movie-7'])~'.jpg') }}" alt="">
+
+                            <div class="media-overlay"></div>
+
+                            <div class="media-btn-wrapper">
+                                <ul>
+                                    <li>
+                                        <a href="" class="to-overlay">
+                                            Bande annonce
+                                        </a>
+                                    </li>
+
+                                    <li>
+                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                            Details
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            {#<!--div class="media-info align-items-center justify-content-center">  
+                                <span class="badge badge-light">
+                                    
+                                    {{
+                                        random(['Serie','Film','Telenovelas','Animation'])
+                                    }}
+                                </span>
+                                <br>
+                                <span class="badge badge-light">
+                                    11-02-2014
+                                </span>
+                                
+                            </div-->#}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+            
+        </div>
+    </header>
+
+
+    <div  class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <section class="block has-carousel animation-none" id="block-originals">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Originals
+                        </h3>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="" class="vid-hover position-relative to-overlay">
+                                    <img class="img-fluid"  src="{{ asset('img/trailer1.jpg')}}" alt="">
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-6">
+
+                                <div class="row">
+                                    <div class="col-6 mb-3">
+                                        <div class="position-relative d-block has-media-detail">
+                                            <img  class="img-fluid" src="{{ asset('img/trailer2.jpg')}}" alt="">
+
+                                            <div class="media-overlay"></div>
+
+                                            <div class="media-btn-wrapper">
+                                                <ul class="d-block">
+                                                    <li>
+                                                        <a href="" class="to-overlay">
+                                                            Bande annonce
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                            Details
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+
+                                            <!--div class="media-info align-items-center justify-content-center">  
+                                                <div>
+                                                    <span class="badge badge-light">Documentaire</span>
+                                                
+                                                    <span class="badge badge-light">11-02-2014</span>
+                                                </div>
+                                            </div-->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6 mb-3">
+                                        <div class="position-relative d-block has-media-detail">
+                                            <img  class="img-fluid" src="{{ asset('img/trailer3.jpg')}}" alt="">
+
+                                            <div class="media-overlay"></div>
+
+                                            <div class="media-btn-wrapper">
+                                                <ul class="d-block">
+                                                    <li>
+                                                        <a href="" class="to-overlay">
+                                                            Bande annonce
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                            Details
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            {#<div class="media-info align-items-center justify-content-center">  
+                                                <div>
+                                                    <span class="badge badge-light">Telenovelas</span>
+                                                
+                                                    <span class="badge badge-light">11-02-2014</span>
+                                                </div>
+                                            </div>#}
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="position-relative d-block has-media-detail">
+                                            <img  class="img-fluid" src="{{ asset('img/trailer4.jpg')}}" alt="">
+
+                                            <div class="media-overlay"></div>
+
+                                            <div class="media-btn-wrapper">
+                                                <ul class="d-block">
+                                                    <li>
+                                                        <a href="" class="to-overlay">
+                                                            Bande annonce
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                            Details
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            <!--div class="media-info align-items-center justify-content-center">  
+                                                <div>
+                                                    <span class="badge badge-light">Animation</span>
+                                                
+                                                    <span class="badge badge-light">11-02-2014</span>
+                                                </div>
+                                                
+                                            </div-->
+                                        </div>
+                                    </div>
+
+                                    <div class="col-6">
+                                        <div class="position-relative d-block has-media-detail">
+                                            <img  class="img-fluid" src="{{ asset('img/trailer5.jpg')}}" alt=""/>
+
+                                            <div class="media-overlay"></div>
+
+                                            <div class="media-btn-wrapper">
+                                                <ul class="d-block">
+                                                    <li>
+                                                        <a href="" class="to-overlay">
+                                                            Bande annonce
+                                                        </a>
+                                                    </li>
+
+                                                    <li>
+                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                            Details
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            
+                                            {#<div class="media-info align-items-center justify-content-center">  
+                                                <div>
+                                                    <span class="badge badge-light">Film</span>
+                                                
+                                                    <span class="badge badge-light">11-02-2014</span>
+                                                </div>
+                                                
+                                            </div>#}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <section class="animation-right" style="margin-top: 60px;">
+        <img width="100%" src="{{ asset('img/PP_r11_c1.jpg')}}" alt="">
+    </section>
+
+    <!--div  style="margin-top: 60px;" class="d-block">
+        <div style="background:url('http://www.webstrot.com/html/moviepro/images/content/video_bg.jpg') 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;"></div>
+    </div-->
+
+
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-12">
+                <section class="block has-carousel" id="block-acteurs">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Acteurs
+                        </h3>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+                        <div class="card-group owl-carousel">
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r13_c2.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Stephan Flame</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                                
+                            </div>
+
+                            <div class="card">
+
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c5.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Yvonne Nelson</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c11.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >John Dumelo</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="card">
+
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c20.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Ik Ogbonna</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c27.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Jimmy Danger</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/actor-6.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Guy Kalou</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                         
+                        </div>
+                        
+                    </div>
+                    
+                </section>
+
+
+                <section class="block animation-right" id="block-video-a-voir">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Videos à voir
+                        </h3>
+                    </div>
+
+                    <div class="block-content" >
+
+                        <div class="row">
+                            <div class="col-md-4 mb-2 d-flex justify-content-center">
+                                <a href="" class="to-overlay">
+                                    <img  class="img-fluid" src="{{ asset('img/vid1.jpg')}}" alt="">
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4 mb-2 d-flex justify-content-center">
+                                <a href="" class="to-overlay">
+                                    <img class="img-fluid" src="{{ asset('img/vid2.jpg')}}" alt="">
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-4 mb-2 d-flex justify-content-center">
+                                <a href="" class="to-overlay">
+                                    <img class="img-fluid" src="{{ asset('img/vid3.jpg')}}" alt="">
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+                        </div>
+                    
+                    </div>
+                    
+                </section>
+
+                <section id="block-citation">
+                    <div class="cite-divider">
+                        <img src="{{ asset('img/div.png')}}" alt="">
+                    </div>
+                    <div class="cite-content">
+                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolore dignissimos, non iste, ea assumenda perferendis dolor incidunt dolorum eos, autem ut beatae illo quibusdam numquam fuga sed in! Dolores!</div>
+                    </div>
+                    <div class="cite-divider">
+                        <img src="{{ asset('img/div.png')}}" alt="">
+                    </div>
+                </section>
+
+
+                <section class="block  animation-top" id="block-realisateurs">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            producteurs & réalisateurs
+                        </h3>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav disabled">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+
+                        <div class="row">
+                            <div class="col-md-5 no-transition vid-hover has-detail" >
+                                <img  src="{{ asset('img/photo6.jpg')}}" alt="">
+                                
+                                <i class="detail d-flex flex-row justify-content-end align-items-center">
+                                    <span class="text-white mr-auto pl-2" style="font-size: 12px">savoir plus</span>
+
+                                    <a href="" class="bg-circle coa-bg-secondary">
+
+                                        <i class="fas fa-plus text-white"></i>
+                                    </a>
+                                </i>
+                            </div>
+
+                            <div class="col-md-7">
+
+                                <div class="row">
+                                    <div class="col-4 mb-2">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img  src="{{ asset('img/real1.jpg')}}" alt="" />
+                                            
+
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Hamed souamé</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-4  mb-2">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img src="{{ asset('img/real2.jpg')}}" alt="">
+                                            
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Guy Kalou</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="col-4  mb-2">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img src="{{ asset('img/real3.jpg')}}" alt="">
+                                            
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Stephan zabavi</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img src="{{ asset('img/real2.jpg')}}" alt="">
+                                            
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Stephan zabavi</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img src="{{ asset('img/real3.jpg')}}" alt="">
+                                            
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Stephan zabavi</span>
+                                            </div>
+                                        </a>
+                                    </div>
+
+                                    <div class="col-4">
+                                        <a href="" class="position-relative d-block vid-hover has-detail">
+                                            <img src="{{ asset('img/real1.jpg')}}" alt="">
+                                            
+                                            <div class="media-info align-items-center justify-content-center">
+                                                <span class="badge badge-light">Ange Kouadio</span>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    {#
+    <section class="block animation-top bg-light pt-5" id="contacts" >
+        
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="widget">
+                        <h4>Nos contacts</h4>
+                        <address>
+                            <strong>Côte Ouest Audiovisuel</strong><br>
+                            Abidjan, Cote d'Ivoire<br>
+                            BP 4715, Rue Viviane A23 Val Doyen Cocody.
+                        </address>
+
+
+
+                        <p>
+                            <i class="fas fa-phone"></i> 
+                            (225) 22 48 76 00 - (225) 22 48 75 06 <br>
+                            <i class="fas fa-envelope"></i> contact@coteouest.tv
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-md-8">
+
+                    <h4>Nous écrire</h4>
+
+                    <form id="contactform" action="" method="post" class="validateform" name="send-contact">
+                        <!--div id="sendmessage">
+                            Votre message a bien été envoyé. Merci !
+                        </div-->
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="name" placeholder="Votre nom" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="subject" placeholder="Votre prénom" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="email" name="email" placeholder="Votre adresse email" />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" name="subject" placeholder="Objet" />
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-12">
+                                <div class="form-group">
+                                    <textarea  name="message" class="input-block-level form-control" placeholder="Exprimez-vous..."></textarea>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-12">
+
+                                <div class="form-group">
+                                    <button class="btn btn-sm btn-info" type="submit">
+                                        <small>Envoyer</small>
+                                    </button>
+                                    
+                                    <span class="float-right ">
+                                        * Veuillez remplir tous les champs, Merci!
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section> #}
+
+    <div id="map"></div>
+
+    <div id="movie-overlay">
+        <a href="" id="movie-close">
+            <i class="fas fa-times text-white fa-2x"></i>
+        </a>
+
+        <div class="embed-responsive embed-responsive-16by9" style="width:70%">
+            <iframe frameborder="0" allowfullscreen class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    
+    <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+
+
+    <script>
+        $(document).ready(function($){
+
+            let mainMenu = $("#master-menu");
+            var sections = $("section");
+
+
+            $(window).on({
+                scroll:function(e){
+                    let pos = $(this).scrollTop();
+                    if(pos >= 600){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        mainMenu.removeClass('active');
+                    }
+
+                    sections.each(function(i,el){
+                        let obj = $(el);
+                        let top = obj.offset().top;
+                        let delta = top - pos;
+                        if(delta <= 600 && !obj.hasClass('section-animation')){
+                            obj.addClass('section-animation');
+                            //console.log(`section ${i}: top: ${top}, scrollTop: ${pos}`)
+                        }
+                    });
+
+                    
+                }
+            });
+
+            $(".has-carousel").each(function(i,el){
+                let obj = $(el);
+                let owl = obj.find(".owl-carousel");
+
+                obj.find(".slide-nav.nav-n, .slide-nav.nav-p").on({
+                    click:function(e){
+                        e.preventDefault();
+                        if($(this).hasClass('nav-n')){
+                            owl.trigger('next.owl.carousel');
+                        }
+                        else{
+                            owl.trigger('prev.owl.carousel');
+                        }
+                    }
+                });
+
+                let opts = {
+                    loop:true,
+                    //margin:3,
+                };
+
+                if(obj.attr('id') == "block-acteurs"){
+                    opts.items = 4;
+                    opts.margin = 4;
+                }
+                else{
+                    opts.items = 1;
+                }
+
+                owl.owlCarousel(opts);
+            });
+
+            $('.to-overlay').on({
+                click:function(e){
+                    e.preventDefault();
+                    $('#movie-overlay').addClass('active');
+                    $('body').css('overflow-y','hidden');
+                }
+            });
+
+            $('#movie-overlay #movie-close').on({
+                click:function(e){
+                    e.preventDefault();
+                    $('#movie-overlay').removeClass('active');
+                    $('body').css('overflow-y','auto');
+                }
+            });
+
+        });
+    </script>
+
+    
+    
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>
+
+    <script>
+        function initMap() {
+            var uluru = {lat: 5.331036, lng: -4.0009177};
+            var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map
+            });
+        }
+
+       
+    </script>
+
+{% endblock %}

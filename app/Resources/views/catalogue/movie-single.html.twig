@@ -1,0 +1,736 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+   Intégration html + css  | movie single
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+
+        <div id="master-cover"></div>
+        
+        <div id="movie-profil" class="d-none d-md-block">
+            <div class="card text-left">
+
+                <div style="overflow: hidden;height: 250px">
+                    <img class="card-img-top" src="{{ asset('img/movie-cover.jpg')}}" alt="Card image cap">
+                </div>
+
+
+                <div class="card-body pl-2 pr-2">
+                    <h3 class="block-title">
+                        Details techniques
+                    </h3>
+
+                    <table class="table">
+                        <tr>
+                            <td>
+                                <strong>Catégorie</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    Serie
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Genre</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    Comedie
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Format</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    104'
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Année</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    2017
+                                </div>
+                            </td>
+                        </tr>
+
+                        <!--tr>
+                            <td>
+                                <strong>Pays</strong>
+                            </td>
+
+                            <td class="text-right">Côte d'Ivoire</td>
+                        </tr-->
+
+                        <tr>
+                            <td>
+                                <strong>Langue</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    Français
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <strong>Version</strong>
+                            </td>
+
+                            <td class="text-right">
+                                <div class="badge badge-secondary">
+                                    2
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+
+
+                    <h3 class="block-title">
+                        Directors
+                    </h3>
+
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <img class="img-fluid" src="{{ asset('img/real1.jpg') }}" alt="">
+                        </div>
+                        <div class="col-sm-6">
+                            <img class="img-fluid" src="{{ asset('img/real2.jpg')}}" alt="">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-9 col-sm-12">
+
+                <section id="movie-title">
+                    <h2>Hospital i.T</h2>
+
+                    <div class="movie-vote">
+                        <i class="fas fa-star coa-color-secondary"></i>
+                        <i class="fas fa-star coa-color-secondary"></i>
+                        <i class="fas fa-star coa-color-secondary"></i>
+                        <i class="far fa-star"></i>
+                        <i class="far fa-star"></i>
+                    </div>
+                </section>
+
+                <section style="padding: 15px" id="movie-player">
+                    <div class="row">
+                        <div class="col-md-12 coa-player">
+
+                            <div class="coa-player-cover position-relative">
+                                <img class="img-fluid" src="{{ asset('img/arton193.jpg')}}" alt="">
+                                <i class="video-icon video-popup-control"></i>
+                            </div>
+                            
+                            <div class="coa-player-thumbnail d-flex flex-row justify-content-center">
+                                <div class="row justify-content-center">
+                                    <div class="col thumbnail-vid">
+                                        <a href="" >
+                                            <img  src="{{ asset('img/vid1.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="col thumbnail-vid">
+                                        <a href="">
+                                            <img  src="{{ asset('img/vid2.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="col thumbnail-vid">
+                                        <a href="">
+                                            <img  src="{{ asset('img/vid3.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="col thumbnail-vid">
+                                        <a href="">
+                                            <img  src="{{ asset('img/vid2.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="col thumbnail-vid">
+                                        <a href="">
+                                            <img  src="{{ asset('img/vid1.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+
+                                    <div class="col thumbnail-vid">
+                                        <a href="">
+                                            <img  src="{{ asset('img/vid3.jpg')}}" alt="" class="img-fluid">
+                                        </a>
+                                        
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="block animation-top"  id="movie-description">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Synopsis
+                        </h3>
+                    </div>
+
+                    <div class="block-content" >
+                        
+                        <div class="border-0 bg-light p-3">
+                            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat quod nostrum ex tenetur sapiente alias veritatis, possimus? Voluptas odit ab, nam ad numquam odio dicta ducimus itaque dignissimos sequi earum.</div>
+                            <div>Magni facere exercitationem non, recusandae unde asperiores vitae quam vero ipsum modi velit iure illum, cumque nemo adipisci consequuntur obcaecati, saepe nobis quos cum. Excepturi placeat quia sapiente, dolorem molestias.</div>
+                            <div>Maxime sunt officia neque hic eveniet molestias minus rem, fuga earum, consectetur, possimus blanditiis animi quia nam deserunt non ratione aliquam libero saepe suscipit incidunt repellendus beatae veniam voluptatibus. Pariatur?</div>
+                            <div>Adipisci quo sequi consequatur. Facilis dolorum ex vero nulla deleniti, architecto dolor dolorem voluptate, quidem placeat numquam magnam repellat tempora maxime pariatur quasi quisquam sunt cupiditate obcaecati recusandae laudantium, impedit!</div>
+                            <div>Labore expedita facilis quis, repellendus cum deleniti, voluptatem iusto voluptas. Pariatur, reiciendis obcaecati. Reprehenderit perferendis accusamus eius voluptate magni laudantium facilis quas molestias libero dignissimos voluptatum non id, mollitia suscipit.</div>
+                            <div>Consequatur eaque rem, debitis perferendis fuga fugit! Expedita, eos, porro. Esse, nulla laudantium. Error, possimus! Dignissimos eius incidunt sit culpa voluptas numquam, doloribus cupiditate itaque eum facere non perferendis blanditiis?</div>
+                        </div>
+                    </div>
+
+                    
+                </section>
+
+                <section  id="block-acteurs" class="has-carousel block">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Acteurs
+                        </h3>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+                        <div class="card-group owl-carousel">
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r13_c2.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Stephan Flame</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                                
+                            </div>
+
+                            <div class="card">
+
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c5.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Yvonne Nelson</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                                
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c11.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >John Dumelo</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="card">
+
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c20.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Ik Ogbonna</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c27.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Jimmy Danger</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+
+                            </div>
+
+                            <div class="card">
+                                <a href="" class="d-block  has-detail text-white">
+                                    <img class="card-img-top" src="{{ asset('img/actor-6.jpg')}}" alt="Card image cap">
+
+                                    <div class="card-body d-none d-md-block media-info" >
+                                        <h6 class="card-title">
+                                            <small >Guy Kalou</small>
+                                        </h6>
+
+                                        <p class="card-text">
+                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                        </p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="block animation-right" id="movie-disctinctions">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                            Recompenses & prix
+                        </h3>
+                    </div>
+
+                    <div class="block-content d-block">
+
+                        <div>
+                            <nav>
+                                <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                    <a class="nav-item nav-link active" id="nav-rewards-tab" data-toggle="tab" href="#nav-rewards" role="tab" aria-controls="nav-home" aria-selected="true">
+                                        Recompenses
+                                    </a>
+
+                                    <a class="nav-item nav-link" id="nav-awards-tab" data-toggle="tab" href="#nav-awards" role="tab" aria-controls="nav-profile" aria-selected="false">
+                                        Prix
+                                    </a>
+                                </div>
+                            </nav>
+
+                            <div class="tab-content" id="nav-tabContent">
+                                
+                                <div class="tab-pane fade show active pt-3" id="nav-rewards" role="tabpanel" aria-labelledby="nav-rewards-tab">
+                                    <div class="list-group list-group-flush">
+                                        <div class="list-group-item flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Golden Globe
+                                                </h5>
+
+                                                <small>il ya 3 jours</small>
+                                            </div>
+                                        
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                            
+                                            <small>
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+
+                                        <div class="list-group-item flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Cesar
+                                                </h5>
+                                                <small class="text-muted">
+                                                    il ya 3 ans
+                                                </small>
+                                            </div>
+
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                        
+                                            <small class="text-muted">
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+
+                                        <div  class="list-group-item  flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Fespaco
+                                                </h5>
+
+                                                <small class="text-muted">
+                                                    il ya 3 semaines
+                                                </small>
+                                            </div>
+                                        
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                        
+                                            <small class="text-muted">
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                              
+                                <div class="tab-pane fade pt-3" id="nav-awards" role="tabpanel" aria-labelledby="nav-awards-tab">
+                                    <div class="list-group list-group-flush">
+                                        <div class="list-group-item  flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Prix 1 
+                                                </h5>
+
+                                                <small>il ya 3 jours</small>
+                                            </div>
+                                        
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                            
+                                            <small>
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+
+                                        <div  class="list-group-item  flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Prix 2
+                                                </h5>
+                                                <small class="text-muted">
+                                                    il ya 3 ans
+                                                </small>
+                                            </div>
+
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                        
+                                            <small class="text-muted">
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+
+                                        <div  class="list-group-item  flex-column align-items-start">
+                                            <div class="d-flex w-100 justify-content-between">
+                                                <h5 class="mb-1">
+                                                    Prix 3
+                                                </h5>
+
+                                                <small class="text-muted">
+                                                    il ya 3 semaines
+                                                </small>
+                                            </div>
+                                        
+                                            <p class="mb-1">
+                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                            </p>
+                                        
+                                            <small class="text-muted">
+                                                Donec id elit non mi porta.
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        
+                    </div>
+                    
+                </section>
+
+                <section class="block has-carousel" id="movie-pictures">
+                    <div class="block-header">
+                        <h3 class="block-title">
+                           Dans les coulisses
+                        </h3>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+
+                        <ul class="list-inline text-left owl-carousel">
+                            <li class="list-inline-item">
+                                <a href="" class="vid-hover">
+                                    <img class="img-fluid" src="{{ asset('img/vid1.jpg')}}">
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="" class="vid-hover">
+                                    <img class="img-fluid" src="{{ asset('img/vid2.jpg')}}">
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="" class="vid-hover">
+                                    <img class="img-fluid" src="{{ asset('img/vid3.jpg')}}">
+                                </a>
+                            </li>
+
+                            <li class="list-inline-item">
+                                <a href="" class="vid-hover">
+                                    <img class="img-fluid" src="{{ asset('img/scene.jpg')}}">
+                                </a>
+                            </li>
+
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row justify-content-end bg-light">
+        <div class="col-md-12 col-sm-12">
+            <section class="block has-carousel animation-top bg-light" id="other-movies">
+                <div class="block-header">
+                    <h3 class="block-title">
+                        A voir egalement
+                    </h3>
+
+                    <div style="margin-left: auto;" class="d-flex">
+                        <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                            <i class="fas fa-angle-left"></i>
+                        </a>
+
+                        <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                            <i class="fas fa-angle-right"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="block-content" >
+                    <div class="text-left owl-carousel">
+                        
+                        {% for i in 0..5 %}
+                            <div >
+                                <div class="position-relative has-media-detail d-block vid-hover">
+                                    <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}" >
+
+                                    <div class="media-overlay"></div>
+
+                                    <div class="media-btn-wrapper">
+                                        <ul class="d-block">
+                                            <li>
+                                                <a href="" class="to-overlay">
+                                                    Bande annonce
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                    Details
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    
+                                    {#<div class="media-info align-items-center justify-content-center">  
+                                        <span class="badge badge-light">
+                                            {{
+                                                random(['Documentaire','Telenovelas','Animation','Serie'])
+                                            }}
+                                        </span>
+
+                                        <br>
+                                        
+                                        <span class="badge badge-light">11-02-2014</span>
+                                        
+                                    </div>#}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <div id="movie-overlay">
+        <a href="" id="movie-close">
+            <i class="fas fa-times text-white fa-2x"></i>
+        </a>
+
+        <div class="embed-responsive embed-responsive-16by9" style="width:70%">
+            <iframe frameborder="0" allowfullscreen class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+
+    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            let mainMenu = $("#master-menu");
+            var sections = $(".block");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 460){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        mainMenu.removeClass('active');
+                    }
+
+                    sections.each(function(i,el){
+                        let obj = $(el);
+                        let top = obj.offset().top;
+                        let delta = top - pos;
+                        if(delta <= 600 && !obj.hasClass('section-animation')){
+                            obj.addClass('section-animation');
+                            //console.log(`section ${i}: top: ${top}, scrollTop: ${pos}`)
+                        }
+                    });
+                }
+            });
+
+            $(".has-carousel").each(function(i,el){
+                let obj = $(el);
+                let owl = obj.find(".owl-carousel");
+
+                obj.find(".slide-nav.nav-n, .slide-nav.nav-p").on({
+                    click:function(e){
+                        e.preventDefault();
+                        if($(this).hasClass('nav-n')){
+                            owl.trigger('next.owl.carousel');
+                        }
+                        else{
+                            owl.trigger('prev.owl.carousel');
+                        }
+                    }
+                });
+
+                let opts = {
+                    loop:true,
+                    //margin:3,
+                };
+
+                if(obj.attr('id') == "block-acteurs"){
+                    opts.items = 4;
+                    opts.margin = 4;
+                }
+                else if(obj.attr('id') == "other-movies"){
+                    opts.items = 6;
+                    opts.margin = 10;
+                }
+                else{
+                    opts.items = 3;
+                    opts.margin = 15;
+                }
+
+                owl.owlCarousel(opts);
+            });
+
+            if(win.scrollTop() >= 400){
+                win.trigger('scroll')
+            }
+
+            $('.to-overlay').on({
+                click:function(e){
+                    e.preventDefault();
+                    $('#movie-overlay').addClass('active');
+                }
+            });
+
+            $('#movie-overlay #movie-close').on({
+                click:function(e){
+                    e.preventDefault();
+                    $('#movie-overlay').removeClass('active');
+                }
+            });
+        });
+    </script>
+
+{% endblock %}

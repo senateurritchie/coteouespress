@@ -1,0 +1,59 @@
+# To get started with security, check out the documentation:
+# https://symfony.com/doc/current/security.html
+security:
+
+    encoders:
+        AppBundle\Entity\User:
+            algorithm: bcrypt
+
+    # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
+    providers:
+        my_db_provider:
+            entity:
+                class: AppBundle\Entity\User
+                property: email
+
+        in_memory:
+            memory: ~
+
+    firewalls:
+        # disables authentication for assets and the profiler, adapt it according to your needs
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            pattern: ^/
+            anonymous: ~
+            provider: my_db_provider
+
+            form_login:
+                login_path: security_login
+                check_path: security_login
+                default_target_path: account_checker
+
+            logout:
+                path: /security/logout
+                target: /
+            # activate different ways to authenticate
+
+            # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
+            #http_basic: ~
+
+            # https://symfony.com/doc/current/security/form_login_setup.html
+            #form_login: ~
+
+    access_control:
+        - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN] }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
+
+    role_hierarchy:
+        ROLE_TRANSLATOR: ROLE_USER
+        ROLE_CATALOGUE_UPDATE: ROLE_USER
+        ROLE_CATALOGUE_REMOVE: ROLE_USER
+        ROLE_CATALOGUE_INSERT: ROLE_USER
+        ROLE_CATALOGUE: [ROLE_CATALOGUE_UPDATE,ROLE_CATALOGUE_REMOVE,ROLE_CATALOGUE_INSERT]
+        ROLE_SUBSCRIBER: ROLE_USER
+        ROLE_ADMIN:       [ROLE_TRANSLATOR,ROLE_CATALOGUE,ROLE_SUBSCRIBER]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
