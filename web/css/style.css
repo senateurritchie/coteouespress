@@ -994,7 +994,8 @@ footer #footer-social > a:hover{
 
 .homepage-user-info .dropdown-user .dw-user-box .u-text {
     display: inline-block;
-    padding-left: 10px
+    padding-left: 10px;
+    width: 70%;
 }
 
 .homepage-user-info .dropdown-user .dw-user-box .u-text h4 {
@@ -1010,7 +1011,7 @@ footer #footer-social > a:hover{
     margin-bottom: 3px;
     text-overflow: ellipsis;
     overflow: hidden;
-    width: 150px;
+    white-space: nowrap;
 }
 
 .homepage-user-info .btn-rounded {

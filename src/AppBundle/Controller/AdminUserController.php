@@ -8,7 +8,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 
 use AppBundle\Entity\User;
@@ -21,9 +20,9 @@ use AppBundle\Form\UserAdminRegistrationType;
 class AdminUserController extends Controller
 {
 	/**
-    * @Route("/", name="index")
+    * @Route("/{user_id}", requirements={"user_id":"(\d+)?"}, name="index")
     */
-    public function indexAction(Request $request,\Swift_Mailer $mailer, UserPasswordEncoderInterface $encoder){
+    public function indexAction(Request $request,$user_id=null){
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(User::class);
         $rep_role = $em->getRepository(Role::class);
@@ -33,7 +32,14 @@ class AdminUserController extends Controller
 
     	$limit = $limit > 50 ? 50 : $limit;
     	$offset = $offset < 0 ? 0 : $offset;
+
+        if($user_id){
+            $request->query->set('id',intval($user_id));
+        }
+
     	$params = $request->query->all();
+
+
         
 
     	$users = $rep->search($params,$limit,$offset);
@@ -54,35 +60,6 @@ class AdminUserController extends Controller
             }
 
             $user->setRoles($roles);
-
-            /*$password = uniqid();
-            $encoded = $encoder->encodePassword($user, $password);
-            $token = User::generateToken(64);
-
-            $user->setPassword($encoded);
-            $user->setSignUpToken($token);
-            $user->setState("pending");
-
-            // message a envoyer a l'utilisateur
-            $appsite = $this->getParameter('app.site');
-            $message = (new \Swift_Message("Création de compte"))
-            ->setFrom([$appsite["email"] => $appsite["name"]])
-            ->setTo([$user->getEmail()=>$user->getUsername()])
-            ->setBody(
-                $this->renderView(
-                    'admin/user/email/registration.html.twig',
-                    array(
-                        "username"=>$user->getUsername(),
-                        "email"=>$user->getEmail(),
-                        "password"=>$password,
-                        "token"=>$token
-                    )
-                ),
-                'text/html'
-            );
-*/
-            //$mailer->send($message);
-
     		$em->persist($user);
     		$em->flush();
     		$this->addFlash('notice-success',1);
