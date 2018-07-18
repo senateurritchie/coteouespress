@@ -1,0 +1,75 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Les Programmes</h3>
+
+        <div class="box-tools pull-right">
+
+            <span class="label label-primary">Les {{ movies|length }} Derniers</span>
+
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        
+            <button type="button" class="btn btn-box-tool" data-widget="remove">
+                <i class="fa fa-times"></i>
+            </button>
+        </div>
+
+
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <ul class="products-list product-list-in-box">
+
+            {% for item in movies %}
+                <li class="item">
+                    <div class="product-img">
+                        <img src="dist/img/default-50x50.gif" alt="Product Image">
+                    </div>
+                    
+                    <div class="product-info">
+                        <a href="javascript:void(0)" class="product-title">
+                            {{ item.name|lower|title }}
+
+                            {% set hours =  item.createAt|dateDiff(date("now"))|date("%H") %}
+                            {% set minutes =  item.createAt|dateDiff(date("now"))|date("%I") %}
+                            {% set seconds =  item.createAt|dateDiff(date("now"))|date("%s") %}
+
+                            {% set days =  item.createAt|dateDiff(date("now"))|date("%a") %}
+                            {% set weeks =  (days / 7)|round(0,'floor') %}
+                            {% set months =  (weeks / 4)|round(0,'floor') %}
+                            {% set years =  (months / 12)|round(0,'floor') %}
+                            <span class="label label-warning pull-right">
+                                il ya 
+                                {% if years %}
+                                    {{ years }} ans
+                                {% elseif months %}
+                                    {{ months }} mois
+                                {% elseif weeks %}
+                                    {{ weeks }} semaines
+                                {% elseif days %}
+                                    {{ days }} jours
+                                {% elseif hours %}
+                                    {{ hours }} heures
+                                {% elseif minutes %}
+                                    {{ minutes }} minutes
+                                {% else %}
+                                    A l'instant
+                                {% endif %}
+                            </span>
+                        </a>
+                        
+                        <span class="product-description">
+                            {{ item.synopsis ? item.synopsis : '- synopsis manquant'}}
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-center">
+        <a href="{{ path('admin_movie_index') }}" class="uppercase">Voir tout les programmes</a>
+    </div>
+    <!-- /.box-footer -->
+</div>
