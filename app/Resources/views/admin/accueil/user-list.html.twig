@@ -29,7 +29,7 @@
                 {% set years =  (months / 12)|round(0,'floor') %}
 
                 <li>
-                    <img src="{{ random(['dist/img/user1-128x128.jpg','dist/img/user8-128x128.jpg','dist/img/user7-128x128.jpg','dist/img/user6-128x128.jpg','dist/img/user2-160x160.jpg','dist/img/user5-128x128.jpg','dist/img/user3-128x128.jpg','dist/img/user4-128x128.jpg']) }}" alt="{{ site.name }}" />
+                    <img src="{{ random(['dist/img/user1-128x128.jpg','dist/img/user8-128x128.jpg','dist/img/user7-128x128.jpg','dist/img/user6-128x128.jpg','dist/img/user5-128x128.jpg','dist/img/user3-128x128.jpg','dist/img/user4-128x128.jpg']) }}" alt="{{ site.name }}" />
 
                     <a class="users-list-name" href="{{ path('admin_user_index',{'user_id':item.id})}}">{{ item.username|lower|title }}</a>
                     <span class="users-list-date">

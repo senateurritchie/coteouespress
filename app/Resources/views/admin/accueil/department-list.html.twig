@@ -4,7 +4,7 @@
     </div>
 
     <div class="box-body">
-        <table class="table table-condensed">
+        <table class="table table-condensed table-striped">
             <tbody>
                 <tr>
                     <th>Service</th>
@@ -12,22 +12,22 @@
                     <th>réçus</th>
                     <th>traités</th>
                 </tr>
-                {% for item in 0..4 %}
+                {% for item in departments %}
                     <tr>
                         <td>
-                            {{random(['Commercial','Communication','Acquisition','Webmaster'])}}
+                            {{ item.name|lower|title }}
                         </td>
                         
                         <td>
-                            service@coteouest.ci
+                            {{ item.email }}
                         </td>
 
                         <td class="text-center">
-                            <span class="badge bg-red">150</span>
+                            <span class="badge bg-blue">{{ item.emailReceived }}</span>
                         </td>
 
                         <td class="text-center">
-                            <span class="badge bg-aqua">50</span>
+                            <span class="badge bg-blue">{{ item.emailProcessed }}</span>
                         </td>
                     </tr>
                 {% endfor %}

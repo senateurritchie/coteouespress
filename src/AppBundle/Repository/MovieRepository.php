@@ -262,4 +262,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       	)
       	->setParameter("country",$value);
   	}
+
+  	public function count(){
+		return $this->createQueryBuilder('m')
+        ->select('count(m.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+	}
 }

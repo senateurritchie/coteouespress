@@ -39,9 +39,6 @@ class AdminUserController extends Controller
 
     	$params = $request->query->all();
 
-
-        
-
     	$users = $rep->search($params,$limit,$offset);
 
     	$user = new User();

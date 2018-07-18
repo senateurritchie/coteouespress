@@ -77,4 +77,12 @@ class UserRepository extends \Doctrine\ORM\EntityRepository implements UserLoade
 		$qb->andWhere($qb->expr()->eq("u.id", ":id"))
 	    ->setParameter("id",$value);
 	}
+
+
+	public function count(){
+		return $this->createQueryBuilder('u')
+        ->select('count(u.id)')
+        ->getQuery()
+        ->getSingleScalarResult();
+	}
 }

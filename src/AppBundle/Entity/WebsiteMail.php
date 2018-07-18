@@ -90,6 +90,13 @@ class WebsiteMail
     */
     private $message;
 
+     /**
+    * @var boolean
+    *
+    * @ORM\Column(name="is_processed", type="boolean")
+    */
+    private $isProcessed;
+
     /**
      * @var \DateTime
      *
@@ -324,5 +331,29 @@ class WebsiteMail
     public function getReferer()
     {
         return $this->referer;
+    }
+
+    /**
+     * Set isProcessed
+     *
+     * @param boolean $isProcessed
+     *
+     * @return WebsiteMail
+     */
+    public function setIsProcessed($isProcessed)
+    {
+        $this->isProcessed = $isProcessed;
+
+        return $this;
+    }
+
+    /**
+     * Get isProcessed
+     *
+     * @return boolean
+     */
+    public function getIsProcessed()
+    {
+        return $this->isProcessed;
     }
 }

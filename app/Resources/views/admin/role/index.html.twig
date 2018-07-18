@@ -4,6 +4,47 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 
+{% block stylesheets %}
+	{{ parent() }}
+
+	<style>
+
+		
+		#current-widget-data{
+			display: none;
+		}
+
+		#data-loading{
+			display: none;
+		}
+
+		
+		#right-section.data-loading #data-loading{
+			display: block;
+		}
+
+		#right-section.data-active #current-widget-data{
+			display: block !important;
+		}
+
+		#right-section.data-active #data-secondary-box,
+		#right-section.data-loading #data-secondary-box,
+		#right-section.data-loading #current-widget-data{
+			display: none;
+		}
+
+		#current-widget-data #spinner{
+			display: none;
+		}
+
+		#current-widget-data.updating #spinner{
+			display: block;
+		}
+	</style>
+
+{% endblock %}
+
+
 {% block header_content %}
 	Les Rôles <small>gestion des rôles et privilèges de la palateforme</small>
 {% endblock %}
@@ -18,7 +59,7 @@
             	</div>
             
             	<!-- /.box-header -->
-            	<div class="box-body table-responsive no-padding">
+            	<div class="box-body table-responsive no-padding" id="data-container">
               		<table class="table table-hover">
 		                <tbody>
 		                	<tr>
@@ -26,22 +67,35 @@
 		                 		<th>Reférence</th>
 		                  		<th>Description</th>
 		                  		<th>Nature</th>
-		                  		<th>Ajouté le</th>
+		                  		<th>#</th>
 		                	</tr>
 	                		
 	                		{% for item in roles %}
-		                		<tr class="user-item" data-user-profil="{{ {}|json_encode|e('html_attr') }}">
-		                  			<td>{{ item.name|lower|title }}</td>
-		                  			<td><span class="label label-primary">{{ item.label }}</span></td>
-		                  			<td>{{ item.description }}</td>
-		                  			<td>
+		                		<tr class="data-item" data-id="{{ item.id }}">
+		                  			<td class="data-item-name">
+		                  				{{ item.name|lower|title }}
+		                  			</td>
+
+		                  			<td class="data-item-label">
+		                  				<span class="label label-primary">
+		                  					{{ item.label }}
+		                  				</span>
+		                  			</td>
+
+		                  			<td class="data-item-description">
+		                  				{{ item.description }}
+		                  			</td>
+
+		                  			<td class="data-item-type">
 		                  				<span class="label label-primary">
 			                  				{{ item.type }}
 			                  			</span>
 		                  			</td>
 
-		                  			<td>
-		                  				{{item.createAt|date("d M Y à H:m")}}
+		                  			<td class="data-item-tools">
+		                  				<a data-id="{{ item.id }}" href="" class="edit btn">
+		                  					<i class="fa fa-edit"></i> modifier
+		                  				</a>
 		                  			</td>
 		                		</tr>
 		                	{% endfor %}
@@ -52,9 +106,91 @@
             </div>
         </div>
 
-        <div class="col-md-4 col-xs-12">
+        <div class="col-md-4 col-xs-12" id="right-section">
 
-        	<div class="box box-primary">
+        	<div style="text-align:center" id="data-loading">
+        		<i  class="fa fa-spinner fa-spin fa-3x"></i>
+        	</div>
+
+        	<div class="box box-danger" id="current-widget-data">
+            	<div class="box-header">
+            		<h3 class="box-title">Modification</h3>
+
+            		 <div class="box-tools pull-right">
+			            
+			            <button id="data-btn-remove" data-title="supprimer" data-toggle="tooltip" type="button" class="btn btn-box-tool" data-widget="collapse">
+			                <i class="fa fa-trash fa-2x"></i>
+			            </button>
+			       
+			        </div>
+            	</div>
+            	
+            	<form>
+	            	<div class="box-body preview">
+
+	            		
+
+				  		<div class="form-group">
+				    		<label for="name">Name</label>
+				    		<input name="name" type="text" class="form-control" id="name" />
+				  		</div>
+				  
+				  		<div class="form-group">
+				    		<label for="label">Reférence</label>
+				    		<input name="label" type="text" class="form-control" id="label" />
+				  		</div>
+
+				  		<div class="form-group">
+				    		<label for="description">Description</label>
+				    		<textarea style="resize:none" class="form-control" name="description" id="description" rows="3"></textarea>
+				  		</div>
+
+				  		<div class="form-group">
+				    		<label for="type">Nature</label>
+
+				    		<div class="radio">
+                    			<label>
+                      				<input name="type" class="role-type" value="role" type="radio">
+                      				Rôle
+                    			</label>
+                  			</div>
+
+                  			<div class="radio">
+                    			<label>
+                      				<input name="type" class="role-type" value="privilege" type="radio">
+                      				Privilège
+                    			</label>
+                  			</div>
+				  		</div>
+
+				  		<div id="alert-success" class="alert alert-dismissible" style="display:none">
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+			                <span class="message"></span>
+			            </div>
+
+			            <div id="alert-error" class="alert alert-dismissible" style="display:none">
+			                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+			                <h4><i class="icon fa fa-times"></i> Attention!</h4>
+			                <span class="message"></span>
+			            </div>
+
+	            	</div>
+
+	            	<div class="box-footer" style="padding-top:10px">
+	              		<button type="reset" class="btn btn-default">Annuler</button>
+	                	<button type="submit" class="btn btn-danger pull-right">
+	                		<i class="fa fa-save"></i> Enregistrer
+	                	</button>
+	            	</div>
+            	</form>
+
+            	<div class="overlay" id="spinner">
+              		<i class="fa fa-spinner fa-spin"></i>
+            	</div>
+          	</div>
+
+        	<div class="box box-primary" id="data-secondary-box">
 	            <div class="box-header with-border">
 	            	<h3 class="box-title">Créez un role</h3>
 	            </div>
@@ -97,6 +233,14 @@
 	        </div>
         </div>
     </div>
-      
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/admin/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/role/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/role/index.js') }}"></script>
 	
 {% endblock %}
+

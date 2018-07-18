@@ -1,0 +1,43 @@
+<div class="box box-primary">
+    <div class="box-header with-border">
+        <h3 class="box-title">Demande de catalogue</h3>
+
+        <div class="box-tools pull-right">
+            <span class="label label-primary">les 4 derniers demandes</span>
+
+            <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                <i class="fa fa-minus"></i>
+            </button>
+        
+            <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <ul class="products-list product-list-in-box">
+
+            {% for item in 0..2 %}
+                <li class="item">
+                    <div class="product-img">
+                        <img src="{{ asset('admin/dist/img/user1-128x128.jpg') }}" alt="Product Image">
+                    </div>
+                    
+                    <div class="product-info">
+                        <a data-title="priorité" data-toggle="tooltip" href="javascript:void(0)" class="product-title">Anna Alix
+                            <span class="label label-warning pull-right">il ya 2 jours</span>
+                        </a>
+                        
+                        <span class="product-description">
+                            Coucou Maï stp pour un client. merci.
+                        </span>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer text-center">
+        <a href="javascript:void(0)" class="uppercase">Voir plus</a>
+    </div>
+    <!-- /.box-footer -->
+</div>

@@ -11,7 +11,7 @@
          	<!-- small box -->
           	<div class="small-box bg-aqua">
             	<div class="inner">
-              		<h3>150</h3>
+              		<h3>{{ stats.user }}</h3>
               		<p>Utilisateurs</p>
             	</div>
             
@@ -27,7 +27,7 @@
         	<!-- small box -->
           	<div class="small-box bg-aqua">
             	<div class="inner">
-              		<h3>170</h3>
+              		<h3>{{ stats.movie }}</h3>
 
               		<p>Programmes</p>
             	</div>
@@ -41,7 +41,7 @@
         <!-- ./col -->
 
 
-        <div class="col-lg-3 col-xs-6">
+        {#<div class="col-lg-3 col-xs-6">
          	<!-- small box -->
           	<div class="small-box bg-aqua">
             	<div class="inner">
@@ -55,19 +55,34 @@
             	</div>
             	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
           	</div>
-        </div>
+        </div>#}
         <!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+            <!-- small box -->
+            <div class="small-box bg-aqua">
+                <div class="inner">
+                    <h3>{{ stats.mail_processed }}</h3>
+
+                    <p>Mails traités</p>
+                </div>
+                <div class="icon">
+                    <i class="ion ion-ios-email-outline"></i>
+                </div>
+                <a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+            </div>
+        </div>
 
         <div class="col-lg-3 col-xs-6">
         	<!-- small box -->
           	<div class="small-box bg-red">
             	<div class="inner">
-              		<h3>65</h3>
+              		<h3>{{ stats.mail_unprocessed }}</h3>
 
               		<p>Mails non traités</p>
             	</div>
             	<div class="icon">
-              		<i class="ion ion-pie-graph"></i>
+              		<i class="ion ion-ios-email-outline"></i>
             	</div>
             	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
           	</div>
@@ -76,66 +91,24 @@
     </div>
 
     <div class="row">
-        <div class="col-md-8">
-            <div class="row">
-                <div class="col-md-6">
-                    <!-- PROGRAMME LIST -->
-                    {{ render(controller('AppBundle\\Controller\\AdminController::renderMovieList')) }}
-                </div>
-                
-                <div class="col-md-6">
-                    <!-- USERS LIST -->
-                    {{ render(controller('AppBundle\\Controller\\AdminController::renderUserList')) }}
-                </div>
-            </div>
+        <div class="col-md-5">
+            <!-- PROGRAMME LIST -->
+            {{ render(controller('AppBundle\\Controller\\AdminController::renderMovieList')) }}
+
+            <!-- CATALOGUE TODO LIST -->
+            {{ render(controller('AppBundle\\Controller\\AdminController::renderCatalogTodoList')) }}
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-7">
+
+            <!-- USERS LIST -->
+            {{ render(controller('AppBundle\\Controller\\AdminController::renderUserList')) }}
+
             <!-- MAILING LIST -->
-            {{ render(controller('AppBundle\\Controller\\AdminController::renderMailingList')) }}
+            {{ render(controller('AppBundle\\Controller\\AdminController::renderDepartmentList')) }}
             
-
-            <div class="box box-primary">
-                <div class="box-header with-border">
-                    <h3 class="box-title">Catalogue à générer</h3>
-
-                    <div class="box-tools pull-right">
-                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
-                            <i class="fa fa-minus"></i>
-                        </button>
-                    
-                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-                    </div>
-                </div>
-                <!-- /.box-header -->
-                <div class="box-body">
-                    <ul class="products-list product-list-in-box">
-
-                        {% for item in 0..2 %}
-                            <li class="item">
-                                <div class="product-img">
-                                    <img src="{{ asset('admin/dist/img/user1-128x128.jpg') }}" alt="Product Image">
-                                </div>
-                                
-                                <div class="product-info">
-                                    <a data-title="priorité" data-toggle="tooltip" href="javascript:void(0)" class="product-title">Anna Alix
-                                        <span class="label label-warning pull-right">élévé</span>
-                                    </a>
-                                    
-                                    <span class="product-description">
-                                        Coucou Maï stp pour un client. merci.
-                                    </span>
-                                </div>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                <!-- /.box-body -->
-                <div class="box-footer text-center">
-                    <a href="javascript:void(0)" class="uppercase">Voir plus</a>
-                </div>
-                <!-- /.box-footer -->
-            </div>
+           
+            
         </div>
     </div>
 

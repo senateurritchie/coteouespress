@@ -10,4 +10,25 @@ namespace AppBundle\Repository;
  */
 class WebsiteMailRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function count($params){
+		$qb = $this->createQueryBuilder('w')
+        ->select('count(w.id)');
+
+        if(isset($params["is_processed"])){
+        	if($params["is_processed"]){
+        		$this->whereProcessed($qb,1);
+        	}
+        	else{
+        		$this->whereProcessed($qb,0);
+        	}
+        }
+        
+        return $qb->getQuery()
+        ->getSingleScalarResult();
+	}
+
+	public function whereProcessed($qb,$state){
+        $qb->where("w.isProcessed = :is_processed")
+        ->setParameter("is_processed",$state);
+	}
 }

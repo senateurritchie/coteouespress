@@ -57,7 +57,7 @@ class RoleType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_role';
+        return null;
     }
 
 
