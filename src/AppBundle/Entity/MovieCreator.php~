@@ -1,0 +1,49 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * MovieCreator
+ *
+ * @ORM\Table(name="movie_creator")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieCreatorRepository")
+ */
+class MovieCreator
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+     /**
+    * @var AppBundle\Entity\Movie
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Movie", inversedBy="creators")
+    * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+    */
+    private $movie;
+
+    /**
+    * @var AppBundle\Entity\Creator
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Creator", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+    */
+    private $creator;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime")
+     */
+    private $createAt;
+
+
+   
+}

@@ -6,9 +6,10 @@
     <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
 
     <style>
-		header #master-cover{
-			height: 200px;
-		}
+        header #master-cover{
+            height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        }
     </style>
 
 {% endblock %}
@@ -19,6 +20,8 @@
         {{ include('main-menu.html.twig') }}
 
         <div id="master-cover"></div>
+        <div id="master-cover-overlay"></div>
+
     </header>
 
     <div class="container">
@@ -26,9 +29,7 @@
             <div class="col-md-12 col-sm-12">
 
                 <section style="min-height:800px;margin-top:20px">
-                    <h3>Compte abonnés</h3>
-
-                    
+                    <h3>Espace utilisateur</h3>
                 </section>
 
                 

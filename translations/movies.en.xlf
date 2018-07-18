@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="gavpyat" resname="Bande annonce">
+        <source>Bande annonce</source>
+        <target>View Trailer</target>
+      </trans-unit>
+      <trans-unit id="RZid5J_" resname="Details">
+        <source>Details</source>
+        <target>View Details</target>
+      </trans-unit>
+      <trans-unit id="LyhcIeN" resname="savoir plus">
+        <source>savoir plus</source>
+        <target>See more</target>
+      </trans-unit>
+      <trans-unit id="qsb3dQj" resname="precedent">
+        <source>precedent</source>
+        <target>Previous</target>
+      </trans-unit>
+      <trans-unit id="55qliye" resname="suivant">
+        <source>suivant</source>
+        <target>Next</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

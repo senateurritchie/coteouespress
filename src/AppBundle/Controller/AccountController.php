@@ -35,13 +35,19 @@ class AccountController extends Controller
     	return $this->render('account/inbox.html.twig');
     }
 
+    /**
+    * @Route("/profile", name="profile")
+    */
+    public function profileAction(){
+    	return $this->render('account/profile.html.twig');
+    }
+
+
+
 	/**
     * @Route("/checker", name="checker")
     */
     public function checkerAction(){
-
-
-
 
     	/*if (false === $this->isGranted('IS_AUTHENTICATED_FULLY')) {
         	throw new AccessDeniedException('Unable to access this page!');
@@ -58,6 +64,4 @@ class AccountController extends Controller
 
     	return $this->redirectToRoute('homepage');
     }
-
-
 }

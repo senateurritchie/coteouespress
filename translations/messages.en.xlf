@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="NCYY2QZ" resname="A voir egalement">
+        <source>A voir egalement</source>
+        <target>Related movies</target>
+      </trans-unit>
+      <trans-unit id="UGwGwhK" resname="vider les champs">
+        <source>vider les champs</source>
+        <target>empty the fields</target>
+      </trans-unit>
+      <trans-unit id="O52xdQ0" resname="Vider">
+        <source>Vider</source>
+        <target>Clear</target>
+      </trans-unit>
+      <trans-unit id="f1MtLfm" resname="annuler le tri">
+        <source>annuler le tri</source>
+        <target>__annuler le tri</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

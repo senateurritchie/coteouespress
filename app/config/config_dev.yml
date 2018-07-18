@@ -39,3 +39,9 @@ monolog:
 
 #swiftmailer:
 #    delivery_addresses: ['me@example.com']
+
+parameters:
+    app.site: 
+        name:   'Côte Ouest Audiovisuel'
+        email:  'webmaster@coteouest.ci'
+        url:    'http://coteouesttv.local'

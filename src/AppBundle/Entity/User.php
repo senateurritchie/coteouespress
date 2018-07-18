@@ -5,66 +5,115 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
  *
- * @ORM\Table(name="user")
+ * @ORM\Table(name="user", options={"comment":"enregistre les utilisateurs de la plateforme avec différents niveau d'acces"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
+ * @UniqueEntity("email", message="cet adresse est déja enregistrée")
  */
 class User implements UserInterface, EquatableInterface, \Serializable
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=30, unique=true)
-     */
+    * @var string
+    * @Groups({"group1"})
+    * @Assert\NotBlank
+    * @Assert\Length(min=3, max=30)
+    * @ORM\Column(name="username", type="string", length=30)
+    */
     private $username;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1"})
+    * @Assert\Email
+    * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
+    */
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=64, nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group3"})
+    * @ORM\Column(name="salt", type="string", length=64, nullable=true)
+    */
     private $salt;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=70)
-     */
+    * @var string
+    *
+    * @Groups({"group3"})
+    * @Assert\Length(min=8)
+    * @ORM\Column(name="password", type="string", length=70)
+    */
     private $password;
-
     /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="array")
-     */
+    * @var string
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="state", type="string", options={"comment":"le status d'un utilisateur"}, columnDefinition="ENUM('activate','pending','blocked')", nullable=true)
+    */
+    private $state = "activate";
+    /**
+    * @var string
+    *
+    * @Groups({"group3"})
+    * @ORM\Column(name="signup_token", type="string", options={"comment":"un code arbitraire généré pour l'activation du compte"}, nullable=true, length=64)
+    */
+    private $signUpToken;
+    
+    /**
+    * @var array
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="roles", type="array")
+    */
     private $roles;
 
+    /**
+    * @var Role
+    *
+    * @Groups({"group1","group2"})
+    */
+    private $masterRole;
+    /**
+    * @var array<Role>
+    *
+    * @Groups({"group1","group2"})
+    */
+    private $privileges = array();
 
-    public function __construct($username=null, $email=null,$password=null, $salt=null, array $roles=array()){
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="create_at", type="datetime", nullable=true)
+    */
+    private $createAt;
+
+
+    public function __construct($username=null, $email=null,$password=null, $salt=null, array $roles=array(),$createAt=null){
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
         $this->salt = $salt;
         $this->roles = $roles;
+        $this->createAt = new \DateTime();
     }
 
 
@@ -174,6 +223,8 @@ class User implements UserInterface, EquatableInterface, \Serializable
         return $this->password;
     }
 
+    
+
     /**
      * Set roles
      *
@@ -198,6 +249,23 @@ class User implements UserInterface, EquatableInterface, \Serializable
         return $this->roles;
     }
 
+    public function setMasterRole(Role $masterRole){
+        $this->masterRole = $masterRole;
+        return $this;
+    }
+
+    public function setPrivileges(array $roles = array()){
+        $this->privileges = $roles;
+        return $this;
+    }
+
+    public function getMasterRole(){
+        return $this->masterRole;
+    }
+
+    public function getPrivileges(){
+        return $this->privileges;
+    }
 
     public function eraseCredentials()
     {
@@ -244,5 +312,80 @@ class User implements UserInterface, EquatableInterface, \Serializable
             $this->salt
         ) = unserialize($serialized);
     }
-}
 
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return User
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return User
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set signUpToken
+     *
+     * @param string $signUpToken
+     *
+     * @return User
+     */
+    public function setSignUpToken($signUpToken)
+    {
+        $this->signUpToken = $signUpToken;
+
+        return $this;
+    }
+
+    /**
+     * Get signUpToken
+     *
+     * @return string
+     */
+    public function getSignUpToken()
+    {
+        return $this->signUpToken;
+    }
+
+    public static function generateToken($length = 8){
+        return substr(trim(base64_encode(bin2hex(openssl_random_pseudo_bytes(64,$ok))),"="),0,$length);
+    }
+}

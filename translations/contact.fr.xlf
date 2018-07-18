@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="wB_qOf5" resname="Nos contacts">
+        <source>Nos contacts</source>
+        <target>Nos contacts</target>
+      </trans-unit>
+      <trans-unit id="bcoHoL7" resname="Nous écrire">
+        <source>Nous écrire</source>
+        <target>Nous écrire</target>
+      </trans-unit>
+      <trans-unit id="LbKonXo" resname="Votre nom">
+        <source>Votre nom</source>
+        <target>Votre nom</target>
+      </trans-unit>
+      <trans-unit id="bf2y8Z." resname="Votre prénom">
+        <source>Votre prénom</source>
+        <target>Votre prénom</target>
+      </trans-unit>
+      <trans-unit id="B50hZGY" resname="Votre adresse email">
+        <source>Votre adresse email</source>
+        <target>Votre adresse email</target>
+      </trans-unit>
+      <trans-unit id="sBGJzTX" resname="Objet">
+        <source>Objet</source>
+        <target>Objet</target>
+      </trans-unit>
+      <trans-unit id="9OFN3Ga" resname="Exprimez-vous">
+        <source>Exprimez-vous</source>
+        <target>Exprimez-vous</target>
+      </trans-unit>
+      <trans-unit id="eQdSCfK" resname="Envoyer">
+        <source>Envoyer</source>
+        <target>Envoyer</target>
+      </trans-unit>
+      <trans-unit id="w0nwEl0" resname="contact.alert">
+        <source>contact.alert</source>
+        <target>Merci de remplir le formulaire ci-dessous avec vos coordonnées et toute information qui permettra de cerner au mieux vos attentes. Nous nous chargerons d'analyser votre requête et de vous répondre dans un délai maximum de 24 heures.</target>
+      </trans-unit>
+      <trans-unit id="7vQlXHH" resname="mail.success">
+        <source>mail.success</source>
+        <target>Votre message a bien été envoyé. Merci</target>
+      </trans-unit>
+      <trans-unit id="lbpg_9o" resname="referer.message">
+        <source>referer.message</source>
+        <target>Comment avez-vous connu notre site web ?</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

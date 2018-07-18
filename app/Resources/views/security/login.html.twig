@@ -45,7 +45,7 @@
                 {% endif %}
 
                 <form action="{{ path('security_login') }}" method="post">
-                    <legend>Se connecter</legend>
+                    <legend>{{ 'Se connecter'|trans({},'login') }}</legend>
 
                     <div class="form-group">
                         <label for="login-email">Email</label>
@@ -61,7 +61,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label for="login-pwd">Mot de passe</label>
+                        <label for="login-pwd">{{ 'Mot de passe'|trans({},'login') }}</label>
 
                         <div class="position-relative">
                             <span class="fas fa-lock position-absolute text-secondary" style="right: 5px;top:5px;"></span>
@@ -72,21 +72,23 @@
                     </div>
 
                     <button type="submit" class="btn btn-sm btn-primary">
-                        <small>Se connecter</small></button>
+                        {{ 'sign.in'|trans({},'login') }}
+                    </button>
 
                     <hr>
-                    <div style="font-size: 12px">
+                    <div style="font-size: 13px">
                         <p>
-                            Des problèmes pour vous connecter ?
+                            {{ 'connect.blem'|trans({},'login') }}
                             <br>
-                            <a href="">cliquez ici</a>
+                            <a href="">{{ 'cliquez ici'|trans({},'login') }}</a>
                         </p>
                         
 
                         <p>
-                            Vous n’avez pas de compte ?
+                            {{ 'no.account'|trans({},'login') }}
+                            
                             <br>
-                            <a href="">inscrivez vous</a>
+                            <a href="">{{ 'inscrivez-vous'|trans({},'login') }}</a>
                         </p>
                         
                     </div>

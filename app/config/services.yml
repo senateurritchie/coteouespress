@@ -33,3 +33,21 @@ services:
     # AppBundle\Service\ExampleService:
     #     arguments:
     #         $someArgument: 'some_value'
+
+    # Mes listeners
+    app.request_listener:
+        class: AppBundle\EventListener\RequestListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, priority: 17}
+
+    app.twig_extention:
+        class: AppBundle\Extensions\Twig\AppExtension
+        tags:
+            - {name: twig.extention}
+
+    app.user_registration_mailer:
+        class: AppBundle\EventListener\Doctrine\UserMailingRegistration
+        arguments:
+            - "@service_container"
+        tags:
+            - {name: doctrine.event_listener, event: prePersist}

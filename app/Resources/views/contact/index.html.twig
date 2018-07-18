@@ -1,14 +1,31 @@
 {% extends 'base.html.twig' %}
 
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+
 {% block stylesheets %}
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
 
     <style>
+
+        header#header{
+            position: static !important;
+        }
 		header #master-cover{
 			height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
 		}
+
+        form input:focus[type], form select:focus,form textarea:focus{
+            outline:none !important;
+            box-shadow:none !important;
+        }
+
+        #contact-form label{
+            font-size: 14px;
+        }
     </style>
 
 {% endblock %}
@@ -17,27 +34,138 @@
    
     <header id="header">
         {{ include('main-menu.html.twig') }}
-
-        <div id="master-cover"></div>
     </header>
 
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-12 col-sm-12">
+    
+    <div id="map" style="margin-top:70px"></div>
 
-                <section style="min-height:800px;margin-top:20px">
-                    <h3>Nous contacter</h3>
+    <section class="block animation-none" id="contacts" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="widget">
+                        <h4 class="mblock-title mblock-title-info">{{'Nos contacts'|trans({},'contact')}}</h4>
+                        <br>
+                        <address>
+                            <strong>Abidjan, Cote d'Ivoire</strong><br>
+                            BP 4715, Rue Viviane A23 Val Doyen Cocody.
+                        </address>
 
-                    
-                </section>
+                        <p>
+                            <i class="fas fa-phone"></i> 
+                            (225) 22 48 76 00 - (225) 22 48 75 06 <br>
+                            <i class="fas fa-envelope"></i> contact@coteouest.tv
+                        </p>
 
-                
+                        <br>
+
+                        <address>
+                            <strong>Ebene, Mauritius</strong><br>
+
+                            3rd Floor, Citius Building 31 Cybercity.
+                        </address>
+
+                        <p>
+                            <i class="fas fa-phone"></i> 
+                            (230) 454 78 20 - (230) 454 75 71 <br>
+                            <i class="fas fa-envelope"></i> contact@coteouest.mu
+                        </p>
+
+
+                    </div>
+                </div>
+
+                <div class="col-md-8" id="contact-form">
+
+                    <h4>{{'Nous écrire'|trans({},'contact')}}</h4>
+
+                    {{ form_start(form,{'attr':{'method':'POST'}}) }}
+                        
+                        {% for notice in app.flashes('notice-success') %}
+                            <div class="alert alert-warning">
+                                {{ 'mail.success'|trans({},'contact') }} !
+                            </div>
+                        {% endfor %}
+
+                        <div class="row">
+                            <div class="col col-md-12">
+                                {{ form_row(form.department) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_errors(form.firstname) }}
+                                    {{ form_widget(form.firstname) }}
+                                </div>
+                               
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_errors(form.lastname) }}
+                                    {{ form_widget(form.lastname) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_errors(form.email) }}
+                                    {{ form_widget(form.email) }}
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ form_errors(form.subject) }}
+                                    {{ form_widget(form.subject) }}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row d-none" id="other-referer">
+                            <div class="col-md-12">
+                                {{ form_row(form.referer) }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-12" >
+                                <div class="form-group">
+                                    {{ form_errors(form.message) }}
+                                    {{ form_widget(form.message,{'attr':{'data-limit':500}}) }}
+
+
+                                    <small  class="form-text text-muted float-right">
+                                        <span class="text-counter"></span>-<span class="text-limit"></span> charactères
+                                    </small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col col-md-12">
+
+                                <div class="form-group">
+                                    <button class="btn btn-info" type="submit">
+                                        <small>{{'Envoyer'|trans({},'contact')}}</small>
+                                    </button>
+                            
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row alert alert-light">
+                            {{'contact.alert'|trans({},'contact')}}
+                        </div>
+                    {{ form_end(form) }}
+                </div>
             </div>
         </div>
-
-    </div>
-
-    <div id="map"></div>
+    </section>
 
 {% endblock %}
 
@@ -48,6 +176,90 @@
 
      <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            $('#master-menu').addClass('active').css('z-index',10);
+
+            let mainMenu = $("#master-menu");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 230){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        $('#master-menu').addClass('active').css('z-index',10);
+                    }
+                }
+            });
+
+            // gestion du formulaire de contact
+            var textarea = $("#contact-form textarea");
+            var textLimit = parseInt(textarea.data('limit'));
+            var textCounter = $('#contact-form .text-counter');
+            var textMax = $('#contact-form .text-limit');
+            textMax.html(textLimit);
+
+            var textareaLength = textarea.val().length;
+            if(textareaLength > textLimit ){
+                textarea.val(textarea.val().substr(0,textLimit));
+                textareaLength = textarea.val().length;
+            }
+
+            textarea.on({
+                keyup:function(e){
+                    textareaLength = textarea.val().length;
+                    if(textareaLength > textLimit ){
+                        textarea.val(textarea.val().substr(0,textLimit));
+                        textareaLength = textarea.val().length;
+                        e.preventDefault();
+
+                    }
+                    textCounter.html(textareaLength);
+                }
+            });
+            $("#contact-form .text-counter").html(textareaLength);
+
+            var linp = $("#other-referer input[type=radio]:last").addClass("d-none");
+            linp.next().remove();
+            linp.parent().removeClass("form-check").addClass("form-group mt-2");
+
+            var newLinp = $("<input>").attr({
+                "type":"text",
+                "class":"form-control form-control-sm col-12 col-sm-12 col-md-4 col-lg-4",
+                "name":"referer_message",
+                "placeholder":"Autre...",
+            });
+
+            linp.after(newLinp);
+
+            newLinp.on({
+                keyup:function(e){
+                    if(newLinp.val().length){
+                        linp.prop( "checked", true );
+                    }
+                }
+            })
+            $("#other-referer input[type=radio]:first").prop( "checked", true);
+
+            var linps = $("#other-referer input[type=radio]");
+            linps.each(function(i,el){
+                if(i == linps.length - 1) return;
+
+                $(el).addClass("custom-control-input")
+                .next().addClass("custom-control-label")
+                .parent().addClass("custom-control custom-radio");
+                
+            });
+
+            $("#other-referer").removeClass("d-none");
+        });
+    </script>
 
     <script>
         function initMap() {

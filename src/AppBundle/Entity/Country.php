@@ -1,0 +1,432 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Gedmo\Mapping\Annotation as Gedmo;
+/**
+ * Country
+ *
+ * @ORM\Table(name="country", options={"comment":"enregistre tout les pays"})
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CountryRepository")
+ * @UniqueEntity("name", message="le nom du pays doit être unique")
+ */
+class Country
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=30, unique=true)
+     */
+    private $name;
+
+    /**
+    * @var string
+    *
+    * @Gedmo\Slug(fields={"name"})
+    * @ORM\Column(name="slug", type="string", length=60, unique=true)
+    */
+    private $slug;
+
+
+     /**
+     * @var integer
+     *
+     * @ORM\Column(name="movie_nbr", type="integer")
+     */
+    private $movieNbr = 0;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="actor_nbr", type="integer", nullable=true)
+     */
+    private $actorNbr = 0;
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="producer_nbr", type="integer", nullable=true)
+     */
+    private $producerNbr = 0;
+     /**
+     * @var int
+     *
+     * @ORM\Column(name="director_nbr", type="integer", nullable=true)
+     */
+    private $directorNbr = 0;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieCountry", mappedBy="country")
+    */
+    private $movies;
+
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\ActorCountry", mappedBy="country")
+    */
+    private $actors;
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\CreatorCountry", mappedBy="country")
+    */
+    private $creators;
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\DirectorCountry", mappedBy="country")
+    */
+    private $directors;
+     /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProducerCountry", mappedBy="country")
+    */
+    private $producers;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->movies = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->creators = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+
+   
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Country
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Country
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set actorNbr
+     *
+     * @param integer $actorNbr
+     *
+     * @return Country
+     */
+    public function setActorNbr($actorNbr)
+    {
+        $this->actorNbr = $actorNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get actorNbr
+     *
+     * @return integer
+     */
+    public function getActorNbr()
+    {
+        return $this->actorNbr;
+    }
+
+    /**
+     * Set producerNbr
+     *
+     * @param integer $producerNbr
+     *
+     * @return Country
+     */
+    public function setProducerNbr($producerNbr)
+    {
+        $this->producerNbr = $producerNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get producerNbr
+     *
+     * @return integer
+     */
+    public function getProducerNbr()
+    {
+        return $this->producerNbr;
+    }
+
+    /**
+     * Set directorNbr
+     *
+     * @param integer $directorNbr
+     *
+     * @return Country
+     */
+    public function setDirectorNbr($directorNbr)
+    {
+        $this->directorNbr = $directorNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get directorNbr
+     *
+     * @return integer
+     */
+    public function getDirectorNbr()
+    {
+        return $this->directorNbr;
+    }
+   
+    /**
+     * Add movie
+     *
+     * @param \AppBundle\Entity\MovieCountry $movie
+     *
+     * @return Country
+     */
+    public function addMovie(\AppBundle\Entity\MovieCountry $movie)
+    {
+        $this->movies[] = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Remove movie
+     *
+     * @param \AppBundle\Entity\MovieCountry $movie
+     */
+    public function removeMovie(\AppBundle\Entity\MovieCountry $movie)
+    {
+        $this->movies->removeElement($movie);
+    }
+
+    /**
+     * Get movies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMovies()
+    {
+        return $this->movies;
+    }
+
+    /**
+     * Add actor
+     *
+     * @param \AppBundle\Entity\ActorCountry $actor
+     *
+     * @return Country
+     */
+    public function addActor(\AppBundle\Entity\ActorCountry $actor)
+    {
+        $this->actors[] = $actor;
+
+        return $this;
+    }
+
+    /**
+     * Remove actor
+     *
+     * @param \AppBundle\Entity\ActorCountry $actor
+     */
+    public function removeActor(\AppBundle\Entity\ActorCountry $actor)
+    {
+        $this->actors->removeElement($actor);
+    }
+
+    /**
+     * Get actors
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActors()
+    {
+        return $this->actors;
+    }
+
+    /**
+     * Add creator
+     *
+     * @param \AppBundle\Entity\CreatorCountry $creator
+     *
+     * @return Country
+     */
+    public function addCreator(\AppBundle\Entity\CreatorCountry $creator)
+    {
+        $this->creators[] = $creator;
+
+        return $this;
+    }
+
+    /**
+     * Remove creator
+     *
+     * @param \AppBundle\Entity\CreatorCountry $creator
+     */
+    public function removeCreator(\AppBundle\Entity\CreatorCountry $creator)
+    {
+        $this->creators->removeElement($creator);
+    }
+
+    /**
+     * Get creators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCreators()
+    {
+        return $this->creators;
+    }
+
+    /**
+     * Add director
+     *
+     * @param \AppBundle\Entity\DirectorCountry $director
+     *
+     * @return Country
+     */
+    public function addDirector(\AppBundle\Entity\DirectorCountry $director)
+    {
+        $this->directors[] = $director;
+
+        return $this;
+    }
+
+    /**
+     * Remove director
+     *
+     * @param \AppBundle\Entity\DirectorCountry $director
+     */
+    public function removeDirector(\AppBundle\Entity\DirectorCountry $director)
+    {
+        $this->directors->removeElement($director);
+    }
+
+    /**
+     * Get directors
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getDirectors()
+    {
+        return $this->directors;
+    }
+
+    /**
+     * Add producer
+     *
+     * @param \AppBundle\Entity\ProducerCountry $producer
+     *
+     * @return Country
+     */
+    public function addProducer(\AppBundle\Entity\ProducerCountry $producer)
+    {
+        $this->producers[] = $producer;
+
+        return $this;
+    }
+
+    /**
+     * Remove producer
+     *
+     * @param \AppBundle\Entity\ProducerCountry $producer
+     */
+    public function removeProducer(\AppBundle\Entity\ProducerCountry $producer)
+    {
+        $this->producers->removeElement($producer);
+    }
+
+    /**
+     * Get producers
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducers()
+    {
+        return $this->producers;
+    }
+    
+
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Country
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
+    }
+}

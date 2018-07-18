@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="wB_qOf5" resname="Nos contacts">
+        <source>Nos contacts</source>
+        <target>__Nos contacts</target>
+      </trans-unit>
+      <trans-unit id="bcoHoL7" resname="Nous écrire">
+        <source>Nous écrire</source>
+        <target>Write us</target>
+      </trans-unit>
+      <trans-unit id="LbKonXo" resname="Votre nom">
+        <source>Votre nom</source>
+        <target>Your name</target>
+      </trans-unit>
+      <trans-unit id="bf2y8Z." resname="Votre prénom">
+        <source>Votre prénom</source>
+        <target>__Votre prénom</target>
+      </trans-unit>
+      <trans-unit id="B50hZGY" resname="Votre adresse email">
+        <source>Votre adresse email</source>
+        <target>__Votre adresse email</target>
+      </trans-unit>
+      <trans-unit id="sBGJzTX" resname="Objet">
+        <source>Objet</source>
+        <target>Subject</target>
+      </trans-unit>
+      <trans-unit id="9OFN3Ga" resname="Exprimez-vous">
+        <source>Exprimez-vous</source>
+        <target>__Exprimez-vous</target>
+      </trans-unit>
+      <trans-unit id="eQdSCfK" resname="Envoyer">
+        <source>Envoyer</source>
+        <target>Send</target>
+      </trans-unit>
+      <trans-unit id="w0nwEl0" resname="contact.alert">
+        <source>contact.alert</source>
+        <target>Please fill in the below form with your details and any information that will help us identify your expectations. We will analyze your request and respond back to you within a maximum of 24 hours.</target>
+      </trans-unit>
+      <trans-unit id="7vQlXHH" resname="mail.success">
+        <source>mail.success</source>
+        <target>Your message has been sent. Thank you</target>
+      </trans-unit>
+      <trans-unit id="lbpg_9o" resname="referer.message">
+        <source>referer.message</source>
+        <target>__referer.message</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

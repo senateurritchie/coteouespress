@@ -1,8 +1,181 @@
 {% extends 'base.html.twig' %}
 
+{% set four_movie = programmes|slice(0,4) %}
+{% set original_cover = programmes|slice(4,1)[0] %}
+{% set four_movie_2 = programmes|slice(5,4) %}
+
 
 {% block title %}
     Intégration html + css  | page 1
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+
+
+    <style type="text/css">
+        .cb-slideshow,
+        .cb-slideshow:after { 
+            height: 600px;
+            overflow: hidden;
+            width: 100%;
+            top: 0px;
+            left: 0px;
+            z-index: 0; 
+            position: relative;
+        }
+        .cb-slideshow:after { 
+            content: '';
+            background: transparent url('https://tympanus.net/Tutorials/CSS3FullscreenSlideshow/images/pattern.png') repeat top left; 
+        }
+
+        .cb-slideshow li span { 
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            color: transparent;
+            background-size: cover;
+            background-position: 50% 50%;
+            background-repeat: none;
+            opacity: 0;
+            z-index: 0;
+            animation: imageAnimation 36s linear infinite 0s; 
+        }
+
+        .cb-slideshow li div { 
+            z-index: 1000;
+            position: absolute;
+            bottom: 30%;
+            left: 0px;
+            width: 100%;
+            text-align: center;
+            opacity: 0;
+            color: #fff;
+            animation: titleAnimation 36s linear infinite 0s; 
+        }
+        .cb-slideshow li div h3 { 
+            font-family: 'BebasNeueRegular', 'Arial Narrow', Arial, sans-serif;
+            font-size: 100px;
+            padding: 0;
+            line-height: 200px; 
+        }
+
+
+
+        .cb-slideshow li:nth-child(1) span { 
+            background-image: url('https://www.francetvpro.fr/sites/default/files/styles/ftvpro_medium_16_9/public/images/2018/02/15/HOSPITAL%20IT_4.jpg?h=f9b43b68&v=796-524-0-76&itok=SoaqD6CO&v=796-524-0-76') 
+        }
+        .cb-slideshow li:nth-child(2) span { 
+            background-image: url('https://www.francetvinfo.fr/image/75ipiimwq-b96c/1200/450/14594794.jpg');
+            animation-delay: 6s; 
+        }
+        .cb-slideshow li:nth-child(3) span { 
+            background-image: url('https://i2.wp.com/www.socialnews.xyz/wp-content/uploads/2018/01/12/taruns-idi-naa-love-story-trailer-Reaches-One-Million-Views-.jpg?quality=80&ssl=1');
+            animation-delay: 12s; 
+        }
+        .cb-slideshow li:nth-child(4) span { 
+            background-image: url('https://seriesblog.tv/wp-content/uploads/2015/12/2015-0508-Upfront2015-HotBothered-KeyArt-1920x1080-CC.jpg');
+            animation-delay: 18s; 
+        }
+        .cb-slideshow li:nth-child(5) span { 
+            background-image: url('https://www.rostercon.com/wp-content/uploads/2017/11/enchere-2.jpg');
+            animation-delay: 24s; 
+        }
+        .cb-slideshow li:nth-child(6) span { 
+            background-image: url('http://ekladata.com/RYloMQL97H6MqPF8P5KNEL9_cwY.jpg');
+            animation-delay: 30s; 
+        }
+
+        .cb-slideshow li:nth-child(2) div { 
+            animation-delay: 6s; 
+        }
+        .cb-slideshow li:nth-child(3) div { 
+            animation-delay: 12s; 
+        }
+        .cb-slideshow li:nth-child(4) div { 
+            animation-delay: 18s; 
+        }
+        .cb-slideshow li:nth-child(5) div { 
+            animation-delay: 24s; 
+        }
+        .cb-slideshow li:nth-child(6) div { 
+            animation-delay: 30s; 
+        }
+
+
+        @keyframes imageAnimation { 
+            0% { opacity: 0; animation-timing-function: ease-in; }
+            8% { opacity: 1; animation-timing-function: ease-out; }
+            17% { opacity: 1 }
+            25% { opacity: 0 }
+            100% { opacity: 0 }
+        }
+
+        @keyframes titleAnimation { 
+            0% { opacity: 0 }
+            8% { opacity: 1 }
+            17% { opacity: 1 }
+            19% { opacity: 0 }
+            100% { opacity: 0 }
+        }
+
+        .no-cssanimations .cb-slideshow li span{
+            opacity: 1;
+        }
+
+        @media screen and (max-width: 1140px) { 
+            .cb-slideshow li div h3 { font-size: 140px }
+        }
+        @media screen and (max-width: 600px) { 
+            .cb-slideshow li div h3 { font-size: 80px }
+        }
+
+        @keyframes imageAnimation { 
+            0% {
+                opacity: 0;
+                animation-timing-function: ease-in;
+            }
+            8% {
+                opacity: 1;
+                transform: scale(1.05);
+                animation-timing-function: ease-out;
+            }
+            17% {
+                opacity: 1;
+                transform: scale(1.1);
+            }
+            25% {
+                opacity: 0;
+                transform: scale(1.05);
+            }
+            100% { opacity: 0 }
+        }
+
+        @keyframes titleAnimation { 
+            0% {
+                opacity: 0;
+                transform: translateX(200px);
+            }
+            8% {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+            17% {
+                opacity: 1;
+                transform: translateX(0px);
+            }
+            19% {
+                opacity: 0;
+                transform: translateX(-400px);
+            }
+            25% { opacity: 0 }
+            100% { opacity: 0 }
+        }
+
+    </style>
 {% endblock %}
 
 {% block body %}
@@ -10,15 +183,26 @@
     <header id="header">
         {{ include('main-menu.html.twig') }}
 
-        <div id="master-cover"></div>
+        <ul class="cb-slideshow">
+            <li><span>Image 01</span><div><h3>rising·sun</h3></div></li>
+            <li><span>Image 02</span><div><h3>combat·de·femme</h3></div></li>
+            <li><span>Image 03</span><div><h3>40<sup>e</sup>·Single</h3></div></li>
+            <li><span>Image 04</span><div><h3>hospital·iT</h3></div></li>
+            <li><span>Image 05</span><div><h3>qui·e·tude</h3></div></li>
+            <li><span>Image 06</span><div><h3>re·lax·a·tion</h3></div></li>
+        </ul>
 
-        <div id="master-cover-overlay"></div>
+
+
+        {#<div id="master-cover"></div>
+
+        <div id="master-cover-overlay"></div>#}
 
 
         <div id="thumbnail-cover" class="d-none d-md-block">
             <ul>
 
-                {% for i in 0..3 %}
+                {% for movie in four_movie %}
                     <li class="ml-2">
                         <div class="position-relative has-media-detail d-block">
                             <img width="150px" src="{{ asset('img/'~random(['other-movie-8','other-movie-9','other-movie-10','other-movie-7'])~'.jpg') }}" alt="">
@@ -28,17 +212,31 @@
                             <div class="media-btn-wrapper">
                                 <ul>
                                     <li>
-                                        <a href="" class="to-overlay">
-                                            Bande annonce
+                                        <a data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox">
+                                           {{ 'Bande annonce'|trans({},'movies') }}
                                         </a>
                                     </li>
 
                                     <li>
-                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
-                                            Details
+                                        <a href="{{ path('catalogue_index',{'slug':movie.slug})}}">
+                                            {{ 'Details'|trans({},'movies') }}
                                         </a>
                                     </li>
                                 </ul>
+                            </div>
+
+                            <div class="movie-f">
+                                <h2 class="text-truncate">
+                                    {{ movie.name|lower|title }}
+                                </h2>
+
+                                <small class="text-white">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </small>
                             </div>
 
                             {#<!--div class="media-info align-items-center justify-content-center">  
@@ -68,16 +266,18 @@
             <div class="col-md-12">
                 <section class="block has-carousel animation-none" id="block-originals">
                     <div class="block-header">
-                        <h3 class="block-title">
+                        <h3 class="block-title mblock-title mblock-title-info">
                             Originals
                         </h3>
+                        <br>
+                        <br>
 
                         <div style="margin-left: auto;" class="d-flex">
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
 
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </div>
@@ -86,8 +286,8 @@
                     <div class="block-content" >
 
                         <div class="row">
-                            <div class="col-md-6">
-                                <a href="" class="vid-hover position-relative to-overlay">
+                            <div class="col-md-6 mb-2">
+                                <a class="vid-hover position-relative venobox" data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
                                     <img class="img-fluid"  src="{{ asset('img/trailer1.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
@@ -96,135 +296,37 @@
                             <div class="col-md-6">
 
                                 <div class="row">
-                                    <div class="col-6 mb-3">
-                                        <div class="position-relative d-block has-media-detail">
-                                            <img  class="img-fluid" src="{{ asset('img/trailer2.jpg')}}" alt="">
+                                    {% for movie in four_movie_2%}
+                                        <div class="col-6 mb-3">
+                                            <div class="position-relative d-block has-media-detail">
+                                                <img  class="img-fluid" src="{{ asset('img/trailer'~(loop.index+1)~'.jpg')}}" alt="">
 
-                                            <div class="media-overlay"></div>
+                                                <div class="media-overlay"></div>
 
-                                            <div class="media-btn-wrapper">
-                                                <ul class="d-block">
-                                                    <li>
-                                                        <a href="" class="to-overlay">
-                                                            Bande annonce
-                                                        </a>
-                                                    </li>
+                                                <div class="media-btn-wrapper">
+                                                    <ul class="d-block">
+                                                        <li>
+                                                            <a class="venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="https://www.youtube.com/embed/V_aDojXG8cM">
+                                                               {{ 'Bande annonce'|trans({},'movies') }}
+                                                            </a>
+                                                        </li>
 
-                                                    <li>
-                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
-                                                            Details
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-
-                                            <!--div class="media-info align-items-center justify-content-center">  
-                                                <div>
-                                                    <span class="badge badge-light">Documentaire</span>
-                                                
-                                                    <span class="badge badge-light">11-02-2014</span>
+                                                        <li>
+                                                            <a href="{{ path('catalogue_index',{'slug':movie.slug}) }}">
+                                                                {{ 'Details'|trans({},'movies') }}
+                                                            </a>
+                                                        </li>
+                                                    </ul>
                                                 </div>
-                                            </div-->
-                                        </div>
-                                    </div>
 
-                                    <div class="col-6 mb-3">
-                                        <div class="position-relative d-block has-media-detail">
-                                            <img  class="img-fluid" src="{{ asset('img/trailer3.jpg')}}" alt="">
-
-                                            <div class="media-overlay"></div>
-
-                                            <div class="media-btn-wrapper">
-                                                <ul class="d-block">
-                                                    <li>
-                                                        <a href="" class="to-overlay">
-                                                            Bande annonce
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
-                                                            Details
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            
-                                            {#<div class="media-info align-items-center justify-content-center">  
-                                                <div>
-                                                    <span class="badge badge-light">Telenovelas</span>
-                                                
-                                                    <span class="badge badge-light">11-02-2014</span>
+                                                <div class="movie-f">
+                                                    <h2 class="text-truncate">
+                                                        {{ movie.name|lower|title }}  
+                                                    </h2>
                                                 </div>
-                                            </div>#}
-                                        </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <div class="position-relative d-block has-media-detail">
-                                            <img  class="img-fluid" src="{{ asset('img/trailer4.jpg')}}" alt="">
-
-                                            <div class="media-overlay"></div>
-
-                                            <div class="media-btn-wrapper">
-                                                <ul class="d-block">
-                                                    <li>
-                                                        <a href="" class="to-overlay">
-                                                            Bande annonce
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
-                                                            Details
-                                                        </a>
-                                                    </li>
-                                                </ul>
                                             </div>
-                                            
-                                            <!--div class="media-info align-items-center justify-content-center">  
-                                                <div>
-                                                    <span class="badge badge-light">Animation</span>
-                                                
-                                                    <span class="badge badge-light">11-02-2014</span>
-                                                </div>
-                                                
-                                            </div-->
                                         </div>
-                                    </div>
-
-                                    <div class="col-6">
-                                        <div class="position-relative d-block has-media-detail">
-                                            <img  class="img-fluid" src="{{ asset('img/trailer5.jpg')}}" alt=""/>
-
-                                            <div class="media-overlay"></div>
-
-                                            <div class="media-btn-wrapper">
-                                                <ul class="d-block">
-                                                    <li>
-                                                        <a href="" class="to-overlay">
-                                                            Bande annonce
-                                                        </a>
-                                                    </li>
-
-                                                    <li>
-                                                        <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
-                                                            Details
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                            
-                                            {#<div class="media-info align-items-center justify-content-center">  
-                                                <div>
-                                                    <span class="badge badge-light">Film</span>
-                                                
-                                                    <span class="badge badge-light">11-02-2014</span>
-                                                </div>
-                                                
-                                            </div>#}
-                                        </div>
-                                    </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -236,31 +338,34 @@
         </div>
     </div>
 
-    <section class="animation-right" style="margin-top: 60px;">
-        <img width="100%" src="{{ asset('img/PP_r11_c1.jpg')}}" alt="">
+    <section class="animation-right" style="margin-top: 40px;">
+
+        <div class="site-slogan">
+            Premier Content Creator and Distributor for and from Africa
+        </div>
+
     </section>
 
     <!--div  style="margin-top: 60px;" class="d-block">
         <div style="background:url('http://www.webstrot.com/html/moviepro/images/content/video_bg.jpg') 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;"></div>
     </div-->
 
-
-
-    <div class="container mt-5">
+    <div class="container mt-3">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <section class="block has-carousel" id="block-acteurs">
                     <div class="block-header">
-                        <h3 class="block-title">
-                            Acteurs
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            {{ 'Acteurs'|trans({},'homepage') }}
                         </h3>
+                        <br><br>
 
                         <div style="margin-left: auto;" class="d-flex">
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
 
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </div>
@@ -268,142 +373,65 @@
 
                     <div class="block-content" >
                         <div class="card-group owl-carousel">
-                            <div class="card">
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/PP_r13_c2.jpg')}}" alt="Card image cap">
 
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >Stephan Flame</small>
-                                        </h6>
+                            {% for item in actors %}
+                                <div class="card">
+                                    <a href="{{ path('actor_index',{'slug':item.slug}) }}" class="d-block  has-detail text-white">
+                                        <img class="card-img-top" src="{{ asset('img/actor-'~loop.index~'.jpg')}}" alt="Card image cap">
 
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-                                
-                                
-                            </div>
+                                        <div class="card-body d-none d-md-block media-info" >
+                                            <h6 class="card-title">
+                                                {{item.name|lower|title}}
+                                            </h6>
 
-                            <div class="card">
-
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c5.jpg')}}" alt="Card image cap">
-
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >Yvonne Nelson</small>
-                                        </h6>
-
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-                                
-                            </div>
-
-                            <div class="card">
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c11.jpg')}}" alt="Card image cap">
-
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >John Dumelo</small>
-                                        </h6>
-
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-
-                            <div class="card">
-
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c20.jpg')}}" alt="Card image cap">
-
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >Ik Ogbonna</small>
-                                        </h6>
-
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-
-                            </div>
-
-                            <div class="card">
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/PP_r14_c27.jpg')}}" alt="Card image cap">
-
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >Jimmy Danger</small>
-                                        </h6>
-
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-
-                            </div>
-
-                            <div class="card">
-                                <a href="" class="d-block  has-detail text-white">
-                                    <img class="card-img-top" src="{{ asset('img/actor-6.jpg')}}" alt="Card image cap">
-
-                                    <div class="card-body d-none d-md-block media-info" >
-                                        <h6 class="card-title">
-                                            <small >Guy Kalou</small>
-                                        </h6>
-
-                                        <p class="card-text">
-                                            Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                                        </p>
-                                    </div>
-                                </a>
-                            </div>
-                         
+                                            <p class="card-text">
+                                                <small >
+                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                </small>
+                                            </p>
+                                        </div>
+                                    </a>
+                                </div>
+                            {% endfor %}
                         </div>
-                        
                     </div>
-                    
                 </section>
 
 
                 <section class="block animation-right" id="block-video-a-voir">
                     <div class="block-header">
-                        <h3 class="block-title">
-                            Videos à voir
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            {{ 'Videos à voir'|trans({},'homepage') }}
                         </h3>
+                        <br><br>
                     </div>
 
                     <div class="block-content" >
 
                         <div class="row">
-                            <div class="col-md-4 mb-2 d-flex justify-content-center">
-                                <a href="" class="to-overlay">
+                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                <a class="venobox"  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
                                     <img  class="img-fluid" src="{{ asset('img/vid1.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
                             </div>
 
-                            <div class="col-md-4 mb-2 d-flex justify-content-center">
-                                <a href="" class="to-overlay">
+                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                <a class="venobox"  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
                                     <img class="img-fluid" src="{{ asset('img/vid2.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
                             </div>
 
-                            <div class="col-md-4 mb-2 d-flex justify-content-center">
-                                <a href="" class="to-overlay">
+                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                <a  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox">
+                                    <img class="img-fluid" src="{{ asset('img/vid3.jpg')}}" alt="">
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                <a  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox">
                                     <img class="img-fluid" src="{{ asset('img/vid3.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
@@ -427,18 +455,19 @@
                 </section>
 
 
-                <section class="block  animation-top" id="block-realisateurs">
+                <section class="block  animation-top has-carousel" id="block-realisateurs">
                     <div class="block-header">
-                        <h3 class="block-title">
-                            producteurs & réalisateurs
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            {{ 'Producteurs et Réalisateurs'|trans({},'homepage') }}
                         </h3>
+                        <br><br>
 
                         <div style="margin-left: auto;" class="d-flex">
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav disabled">
+                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
 
-                            <a href="" class="bg-circle coa-bg-secondary slide-nav ml-1">
+                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </div>
@@ -447,81 +476,50 @@
                     <div class="block-content" >
 
                         <div class="row">
-                            <div class="col-md-5 no-transition vid-hover has-detail" >
-                                <img  src="{{ asset('img/photo6.jpg')}}" alt="">
-                                
-                                <i class="detail d-flex flex-row justify-content-end align-items-center">
-                                    <span class="text-white mr-auto pl-2" style="font-size: 12px">savoir plus</span>
+                            <div class="col-md-5 mb-2" >
 
-                                    <a href="" class="bg-circle coa-bg-secondary">
+                                <div class="position-relative">
+                                    <img  class="img-fluid" src="{{ asset('img/producer.jpg')}}" alt="">
 
-                                        <i class="fas fa-plus text-white"></i>
+                                    <a href="{{ path('producer_index',{'slug':producer.slug}) }}" class="bg-circle detail-producer">
+
+                                        <span class=" d-flex flex-row justify-content-end align-items-center">
+                                            <span class="text-white mr-auto pl-2" style="font-size: 12px">
+                                                {{ 'savoir plus'|trans({},'movies') }}
+                                            </span>
+
+                                            &nbsp;
+
+                                            <i class="fas fa-plus text-white"></i>
+                                        </span>
                                     </a>
-                                </i>
+                                </div>
+                                
                             </div>
 
                             <div class="col-md-7">
 
                                 <div class="row">
-                                    <div class="col-4 mb-2">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img  src="{{ asset('img/real1.jpg')}}" alt="" />
-                                            
 
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Hamed souamé</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                    {% for item in directors %}
+                                        {% set pos = loop.index %}
 
-                                    <div class="col-4  mb-2">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img src="{{ asset('img/real2.jpg')}}" alt="">
-                                            
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Guy Kalou</span>
-                                            </div>
-                                        </a>
-                                    </div>
-                                    <div class="col-4  mb-2">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img src="{{ asset('img/real3.jpg')}}" alt="">
-                                            
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Stephan zabavi</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                        {% if pos > 3 %}
+                                            {% set pos = pos - 3 %}
+                                        {% endif %}
 
-                                    <div class="col-4">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img src="{{ asset('img/real2.jpg')}}" alt="">
-                                            
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Stephan zabavi</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                        <div class="col-6 col-md-4 col-sm-6 mb-3">
+                                            <a href="{{ path('director_index',{'slug':item.slug}) }}" class="position-relative d-block vid-hover has-detail">
+                                                <img  class="img-fluid" src="{{ asset('img/director-'~pos~'.jpg')}}" alt="" />
 
-                                    <div class="col-4">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img src="{{ asset('img/real3.jpg')}}" alt="">
-                                            
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Stephan zabavi</span>
-                                            </div>
-                                        </a>
-                                    </div>
-
-                                    <div class="col-4">
-                                        <a href="" class="position-relative d-block vid-hover has-detail">
-                                            <img src="{{ asset('img/real1.jpg')}}" alt="">
-                                            
-                                            <div class="media-info align-items-center justify-content-center">
-                                                <span class="badge badge-light">Ange Kouadio</span>
-                                            </div>
-                                        </a>
-                                    </div>
+                                                <div class="media-info align-items-center justify-content-center">
+                                                    <span class="badge badge-light">
+                                                        {{item.name|lower|title}}
+                                                    </span>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    {% endfor %}
                                 </div>
                             </div>
                         </div>
@@ -624,16 +622,7 @@
 
     <div id="map"></div>
 
-    <div id="movie-overlay">
-        <a href="" id="movie-close">
-            <i class="fas fa-times text-white fa-2x"></i>
-        </a>
-
-        <div class="embed-responsive embed-responsive-16by9" style="width:70%">
-            <iframe frameborder="0" allowfullscreen class="embed-responsive-item" src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0"></iframe>
-        </div>
-
-    </div>
+   
 
 {% endblock %}
 
@@ -642,9 +631,8 @@
     {{ parent() }}
     
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
-
     <script src="{{ asset('js/main-menu-manager.js') }}"></script>
-
+    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
 
     <script>
         $(document).ready(function($){
@@ -709,20 +697,14 @@
                 owl.owlCarousel(opts);
             });
 
-            $('.to-overlay').on({
-                click:function(e){
-                    e.preventDefault();
-                    $('#movie-overlay').addClass('active');
-                    $('body').css('overflow-y','hidden');
-                }
-            });
-
-            $('#movie-overlay #movie-close').on({
-                click:function(e){
-                    e.preventDefault();
-                    $('#movie-overlay').removeClass('active');
-                    $('body').css('overflow-y','auto');
-                }
+             /* 09. VENOBOX JS */
+            $('.venobox').venobox({
+                numeratio: true,
+                titleattr: 'data-title',
+                titlePosition: 'top',
+                spinner: 'wandering-cubes',
+                spinColor: '#007bff',
+                autoplay:true
             });
 
         });

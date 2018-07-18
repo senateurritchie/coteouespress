@@ -1,0 +1,82 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ActorCountry
+ *
+ * @ORM\Table(name="actor_country")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ActorCountryRepository")
+ */
+class ActorCountry
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+    * @var AppBundle\Entity\Actor
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Actor", inversedBy="countries")
+    * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+    */
+    private $actor;
+
+    /**
+    * @var AppBundle\Entity\Country
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Country", inversedBy="actors")
+    * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+    */
+    private $country;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime")
+     */
+    private $createAt;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return ActorCountry
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+}
+

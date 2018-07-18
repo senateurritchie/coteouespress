@@ -1,0 +1,139 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * MovieSeason
+ *
+ * @ORM\Table(name="movie_season", options="enregistre les saisons des movies")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieSeasonRepository")
+ */
+class MovieSeason
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+    * @var AppBundle\Entity\Movie
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Movie", inversedBy="seasons")
+    * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
+    */
+    private $movie;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=50, options={"comment":"le nom ou le titre de la saison"})
+     */
+    private $name;
+
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="num", type="integer", options={"comment":"le numéro de la saison"})
+     */
+    private $num;
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime", options={"comment":"la date à laquelle la saison est ajoutéa à la plateforme"})
+     */
+    private $createAt;
+
+    
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return MovieSeason
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return MovieSeason
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set num
+     *
+     * @param integer $num
+     *
+     * @return MovieSeason
+     */
+    public function setNum($num)
+    {
+        $this->num = $num;
+
+        return $this;
+    }
+
+    /**
+     * Get num
+     *
+     * @return int
+     */
+    public function getNum()
+    {
+        return $this->num;
+    }
+}
+

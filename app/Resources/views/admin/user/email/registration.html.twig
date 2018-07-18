@@ -1,0 +1,28 @@
+{% extends 'contact/email/base.html.twig' %}
+
+{% block title %}
+	{{username}}
+{% endblock %}
+
+{% block message %}
+	<h3><center>Hello {{ username }}, </center></h3>
+	&nbsp;
+	
+	<p>
+		Votre compte chez <a href="{{ site.url }}">{{ site.name|lower|title}}</a> à été crée mais reste encore inactif, veuillez cliquez sur le lien ci-dessous pour l'activer et eventuellement modifier votre mot de passe.
+	</p>
+
+	<p>
+		<strong>Login</strong>: {{ email }}
+		<br>
+		<strong>Mot de passe</strong>: {{ password }}
+	</p>
+
+	<p>
+		<a href="{{ url('security_activation',{token:token}) }}">Activer votre compte ici</a>
+	</p>
+    <br><p>L'équipe Côte Ouest Audiovisuel.</p>
+{% endblock %}
+
+
+

@@ -1,47 +1,259 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
-
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
-
-    <style>
-		header #master-cover{
-			height: 200px;
-		}
-    </style>
-
+{% block header_content %}
+    Accueil 
 {% endblock %}
 
-{% block body %}
-   
-    <header id="header">
-        {{ include('main-menu.html.twig') }}
+{% block body_content %}
+	<h3>Bienvenu {{ app.user.username|lower|title }}</h3>
+	<div class="row">
+        <div class="col-lg-3 col-xs-6">
+         	<!-- small box -->
+          	<div class="small-box bg-aqua">
+            	<div class="inner">
+              		<h3>150</h3>
+              		<p>Utilisateurs</p>
+            	</div>
+            
+            	<div class="icon">
+              		<i class="ion ion-ios-people"></i>
+            	</div>
+            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          	</div>
+        </div>
 
-        <div id="master-cover"></div>
-    </header>
+        <!-- ./col -->
+        <div class="col-lg-3 col-xs-6">
+        	<!-- small box -->
+          	<div class="small-box bg-aqua">
+            	<div class="inner">
+              		<h3>170</h3>
 
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-12 col-sm-12">
+              		<p>Programmes</p>
+            	</div>
+            	
+            	<div class="icon">
+              		<i class="ion ion-ios-play"></i>
+            	</div>
+            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          	</div>
+        </div>
+        <!-- ./col -->
 
-                <section style="min-height:800px;margin-top:20px">
-                    <h3>Admin</h3>
 
-                    
-                </section>
+        <div class="col-lg-3 col-xs-6">
+         	<!-- small box -->
+          	<div class="small-box bg-aqua">
+            	<div class="inner">
+              		<h3>55</h3>
 
+              		<p>Abonnés</p>
+            	</div>
+            
+            	<div class="icon">
+              		<i class="ion ion-person-add"></i>
+            	</div>
+            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          	</div>
+        </div>
+        <!-- ./col -->
+
+        <div class="col-lg-3 col-xs-6">
+        	<!-- small box -->
+          	<div class="small-box bg-red">
+            	<div class="inner">
+              		<h3>65</h3>
+
+              		<p>Mails non traités</p>
+            	</div>
+            	<div class="icon">
+              		<i class="ion ion-pie-graph"></i>
+            	</div>
+            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+          	</div>
+        </div>
+        <!-- ./col -->
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Programmes Ajoutés Recemment</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-minus"></i>
+                                </button>
+                            
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <ul class="products-list product-list-in-box">
+
+                                {% for item in 0..3 %}
+                                    <li class="item">
+                                        <div class="product-img">
+                                            <img src="dist/img/default-50x50.gif" alt="Product Image">
+                                        </div>
+                                        
+                                        <div class="product-info">
+                                            <a href="javascript:void(0)" class="product-title">Samsung TV
+                                                <span class="label label-warning pull-right">$1800</span>
+                                            </a>
+                                            
+                                            <span class="product-description">
+                                                Samsung 32" 1080p 60Hz LED Smart HDTV.
+                                            </span>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer text-center">
+                            <a href="javascript:void(0)" class="uppercase">Voir tout les programmes</a>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                </div>
                 
+                <div class="col-md-6">
+                    <!-- USERS LIST -->
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Membres inscrits</h3>
+
+                            <div class="box-tools pull-right">
+                                <span class="label label-primary">8 Nouveaux Membres</span>
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                            
+                                <button type="button" class="btn btn-box-tool" data-widget="remove">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        
+                        <div class="box-body no-padding" style="display: block;">
+                            <ul class="users-list clearfix">
+
+                                {% for item in 0..7 %}
+                                    <li>
+                                        <img src="{{ random(['dist/img/user1-128x128.jpg','dist/img/user8-128x128.jpg','dist/img/user7-128x128.jpg','dist/img/user6-128x128.jpg','dist/img/user2-160x160.jpg','dist/img/user5-128x128.jpg','dist/img/user3-128x128.jpg','dist/img/user4-128x128.jpg']) }}" alt="{{ site.name }}" />
+
+                                        <a class="users-list-name" href="#">Alexander Pierce</a>
+                                        <span class="users-list-date">Today</span>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                          
+                            <!-- /.users-list -->
+                        </div>
+                        <!-- /.box-body -->
+                        <div class="box-footer text-center" style="display: block;">
+                            <a href="javascript:void(0)" class="uppercase">Voir tout les comptes</a>
+                        </div>
+                        <!-- /.box-footer -->
+                    </div>
+                    <!--/.box -->
+                </div>
             </div>
         </div>
 
+        <div class="col-md-4">
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Formulaire de contact</h3>
+                </div>
+
+                <div class="box-body">
+                    <table class="table table-condensed">
+                        <tbody>
+                            <tr>
+                                <th>Service</th>
+                                <th>Adresse email</th>
+                                <th>réçus</th>
+                                <th>traités</th>
+                            </tr>
+                            {% for item in 0..4 %}
+                                <tr>
+                                    <td>
+                                        {{random(['Commercial','Communication','Acquisition','Webmaster'])}}
+                                    </td>
+                                    
+                                    <td>
+                                        service@coteouest.ci
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="badge bg-red">150</span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <span class="badge bg-aqua">50</span>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="box-footer text-center" style="display: block;">
+                    <a href="javascript:void(0)" class="uppercase">Afficher la boite de reception</a>
+                </div>
+                <!-- /.box-body -->
+            </div>
+
+            <div class="box box-primary">
+                <div class="box-header with-border">
+                    <h3 class="box-title">Catalogue à générer</h3>
+
+                    <div class="box-tools pull-right">
+                        <button type="button" class="btn btn-box-tool" data-widget="collapse">
+                            <i class="fa fa-minus"></i>
+                        </button>
+                    
+                        <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                    </div>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                    <ul class="products-list product-list-in-box">
+
+                        {% for item in 0..2 %}
+                            <li class="item">
+                                <div class="product-img">
+                                    <img src="{{ asset('admin/dist/img/user1-128x128.jpg') }}" alt="Product Image">
+                                </div>
+                                
+                                <div class="product-info">
+                                    <a data-title="priorité" data-toggle="tooltip" href="javascript:void(0)" class="product-title">Anna Alix
+                                        <span class="label label-warning pull-right">élévé</span>
+                                    </a>
+                                    
+                                    <span class="product-description">
+                                        Coucou Maï stp pour un client. merci.
+                                    </span>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- /.box-body -->
+                <div class="box-footer text-center">
+                    <a href="javascript:void(0)" class="uppercase">Voir plus</a>
+                </div>
+                <!-- /.box-footer -->
+            </div>
+        </div>
     </div>
-
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
 
 {% endblock %}

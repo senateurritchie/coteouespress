@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
+
+    <style>
+		
+
+        header #master-cover{
+            height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+
+        <div id="master-cover"></div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-end">
+            <div class="col-md-12 col-sm-12">
+
+                <section style="min-height:800px;margin-top:20px">
+                    <h3>Affichage profil Producteurs</h3>
+                </section>
+
+                
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+
+{% endblock %}

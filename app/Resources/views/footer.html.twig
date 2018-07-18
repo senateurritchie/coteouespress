@@ -6,7 +6,7 @@
 
 					<span class="fas fa-at position-absolute text-secondary" style="left: 5px;top:10px;"></span>
 
-					<input class="pl-4" required type="email" placeholder="abonnez-vous à notre newsletter">
+					<input class="pl-4" required type="email" placeholder="{{'newsletter.alert'|trans({},'footer')}}">
 					
 					<div class="input-group-prepend">
 						<button class="btn btn-sm btn-info">
@@ -14,6 +14,7 @@
 						</button>
 					</div>
 				</div>
+
 				
 			</li>
 
@@ -36,14 +37,32 @@
 			</li>
 
 			<li class="d-none d-md-block">
-				<ul class="sitemap">
-					<li><a href="">Telenovelas</a></li>
-					<li><a href="">Series</a></li>
-					<li><a href="">Films</a></li>
-					<li><a href="">Telefilms</a></li>
-					<li><a href="">Documentaires</a></li>
-					<li><a href="">Animations</a></li>
-				</ul>
+				<div class="row">
+					<div class="col-md-6">
+						<ul class="sitemap text-left">
+							{% for item in categories|slice(0,5) %}
+								<li>
+									<a href="{{ path('catalogue_index',{'category':item.slug}) }}">
+										{{ item.name|lower|title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+
+					<div class="col-md-6">
+						<ul class="sitemap text-right">
+							{% for item in categories|slice(5,5) %}
+								<li>
+									<a href="{{ path('catalogue_index',{'category':item.slug}) }}">
+										{{ item.name|lower|title }}
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+				
 			</li>
 			<li class="align-self-center" style="flex-grow:.2">
 				<a href="">
@@ -55,6 +74,14 @@
 
 	
 	<div id="copyright">
-		Copyright 2018
+		Copyright 2018 .&nbsp; 
+
+		{% if app.request.getLocale() == 'fr' %}
+			Francais
+		{% elseif app.request.getLocale() == 'en' %}
+			English
+		{% else %}
+			Francais
+		{% endif %}
 	</div>
 </footer>

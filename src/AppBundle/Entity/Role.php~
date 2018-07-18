@@ -1,0 +1,169 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Role
+ *
+ * @ORM\Table(name="role", options={"comment":"Definition de tout les roles et privileges"})
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\RoleRepository")
+ */
+class Role
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=30, unique=true, options={"comment":"le nom court du role ex: Traducteur"})
+     */
+    private $name;
+
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="label", type="string", length=30, unique=true, options={"comment":"le label reference du role ex: ROLE_TRANSLATOR"})
+     */
+    private $label;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="type", type="string", length=30, columnDefinition="ENUM('role','privilege')", nullable=true, options={"comment":"le type fait la difference entre un role et un privilège"})
+     */
+    private $type;
+
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="description", type="string", length=250, options={"comment":"courte description de ce a quoi sert ce role"})
+     */
+    private $description;
+
+   
+
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_at", type="datetime")
+     */
+    private $createAt;
+
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Role
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Role
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set label
+     *
+     * @param string $label
+     *
+     * @return Role
+     */
+    public function setLabel($label)
+    {
+        $this->label = $label;
+
+        return $this;
+    }
+
+    /**
+     * Get label
+     *
+     * @return string
+     */
+    public function getLabel()
+    {
+        return $this->label;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Role
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+}
+

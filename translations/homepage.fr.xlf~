@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="79kGVXW" resname="Videos à voir">
+        <source>Videos à voir</source>
+        <target>Videos à voir</target>
+      </trans-unit>
+      <trans-unit id="i74iYTO" resname="producteurs &amp; réalisateurs">
+        <source>producteurs &amp; réalisateurs</source>
+        <target>Producteurs et Réalisateurs</target>
+      </trans-unit>
+      <trans-unit id="nSYtAe0" resname="Producteurs et Réalisateurs">
+        <source>Producteurs et Réalisateurs</source>
+        <target>Producteurs et Réalisateurs</target>
+      </trans-unit>
+      <trans-unit id="OI367Wt" resname="Acteurs">
+        <source>Acteurs</source>
+        <target>Acteurs</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -26,15 +26,17 @@ security:
             pattern: ^/
             anonymous: ~
             provider: my_db_provider
+            switch_user: true
 
             form_login:
                 login_path: security_login
                 check_path: security_login
-                default_target_path: account_checker
+                default_target_path: account_index
 
             logout:
                 path: /security/logout
                 target: /
+
             # activate different ways to authenticate
 
             # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
@@ -44,16 +46,29 @@ security:
             #form_login: ~
 
     access_control:
-        - { path: ^/admin/users, roles: ROLE_SUPER_ADMIN] }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/account/admin/users, roles: ROLE_ADMIN] }
+        - { path: ^/account/admin, roles: [ROLE_ADMIN,ROLE_TRANSLATOR,ROLE_CATALOG] }
         - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
 
+
+
+
     role_hierarchy:
-        ROLE_TRANSLATOR: ROLE_USER
-        ROLE_CATALOGUE_UPDATE: ROLE_USER
-        ROLE_CATALOGUE_REMOVE: ROLE_USER
-        ROLE_CATALOGUE_INSERT: ROLE_USER
-        ROLE_CATALOGUE: [ROLE_CATALOGUE_UPDATE,ROLE_CATALOGUE_REMOVE,ROLE_CATALOGUE_INSERT]
         ROLE_SUBSCRIBER: ROLE_USER
-        ROLE_ADMIN:       [ROLE_TRANSLATOR,ROLE_CATALOGUE,ROLE_SUBSCRIBER]
+        ROLE_TRANSLATOR: ROLE_USER
+        ROLE_CATALOG_UPDATE: ROLE_USER
+        ROLE_CATALOG_REMOVE: ROLE_USER
+        ROLE_CATALOG_INSERT: ROLE_USER
+        ROLE_CATALOG: 
+            - ROLE_CATALOG_READ
+            - ROLE_CATALOG_UPDATE
+            - ROLE_CATALOG_REMOVE
+            - ROLE_CATALOG_INSERT
+            - ROLE_CATALOG_GENERATE
+        ROLE_SALER: ROLE_USER
+        ROLE_PRODUCER: ROLE_USER
+        ROLE_DIRECTOR: ROLE_USER
+        ROLE_ACTOR: ROLE_USER
+        ROLE_CREATOR: ROLE_USER
+        ROLE_ADMIN:       [ROLE_CATALOG,ROLE_TRANSLATOR,ROLE_SALER]
         ROLE_SUPER_ADMIN: [ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]

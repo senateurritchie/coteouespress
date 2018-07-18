@@ -1,0 +1,47 @@
+<?php
+
+namespace AppBundle\Entity;
+
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Catalog
+ *
+ * @ORM\Table(name="catalog")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\CatalogRepository")
+ */
+class Catalog
+{
+    /**
+     * @var int
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    private $genre;
+    private $mention;
+    private $country;
+    private $category;
+    private $language;
+    private $producer;
+    private $director;
+    private $creator;
+    private $name;
+    private $theather;
+    private $year;
+
+    /**
+     * Get id
+     *
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+}

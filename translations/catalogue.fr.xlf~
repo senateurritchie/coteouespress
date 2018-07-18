@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="TwScPD5" resname="Recherche detaillée">
+        <source>Recherche detaillée</source>
+        <target>Recherche detaillée</target>
+      </trans-unit>
+      <trans-unit id="baeVqGZ" resname="Genre">
+        <source>Genre</source>
+        <target>Genre</target>
+      </trans-unit>
+      <trans-unit id=".nU._5u" resname="Pays">
+        <source>Pays</source>
+        <target>Pays</target>
+      </trans-unit>
+      <trans-unit id="VhQI.8p" resname="Année">
+        <source>Année</source>
+        <target>Année</target>
+      </trans-unit>
+      <trans-unit id="X2uqtNv" resname="Langue">
+        <source>Langue</source>
+        <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="LzQ2Zqq" resname="Format">
+        <source>Format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="oStzz1j" resname="Recherche">
+        <source>Recherche</source>
+        <target>Recherche</target>
+      </trans-unit>
+      <trans-unit id="SxUSCLz" resname="Catégories">
+        <source>Catégories</source>
+        <target>Catégories</target>
+      </trans-unit>
+      <trans-unit id="zc7eVkJ" resname="Trier par">
+        <source>Trier par</source>
+        <target>Trier par</target>
+      </trans-unit>
+      <trans-unit id="Z.T41qd" resname="Ordre alphabetique">
+        <source>Ordre alphabetique</source>
+        <target>Ordre alphabetique</target>
+      </trans-unit>
+      <trans-unit id="cav7Y5s" resname="Ordre chronologique">
+        <source>Ordre chronologique</source>
+        <target>Ordre chronologique</target>
+      </trans-unit>
+      <trans-unit id="dltQuMA" resname="Details techniques">
+        <source>Details techniques</source>
+        <target>Details techniques</target>
+      </trans-unit>
+      <trans-unit id="aKU0H8a" resname="Catégorie">
+        <source>Catégorie</source>
+        <target>Catégorie</target>
+      </trans-unit>
+      <trans-unit id="3RZ5Bd4" resname="Version">
+        <source>Version</source>
+        <target>Version</target>
+      </trans-unit>
+      <trans-unit id="nSYtAe0" resname="Producteurs et Réalisateurs">
+        <source>Producteurs et Réalisateurs</source>
+        <target>Producteurs et Réalisateurs</target>
+      </trans-unit>
+      <trans-unit id="jrN1U4F" resname="Synopsis">
+        <source>Synopsis</source>
+        <target>Synopsis</target>
+      </trans-unit>
+      <trans-unit id="OI367Wt" resname="Acteurs">
+        <source>Acteurs</source>
+        <target>Acteurs</target>
+      </trans-unit>
+      <trans-unit id="EsBMelf" resname="Recompenses et prix">
+        <source>Recompenses et prix</source>
+        <target>Recompenses et prix</target>
+      </trans-unit>
+      <trans-unit id="0p54AW8" resname="Recompenses">
+        <source>Recompenses</source>
+        <target>Recompenses</target>
+      </trans-unit>
+      <trans-unit id="VMMk9sE" resname="Prix">
+        <source>Prix</source>
+        <target>Prix</target>
+      </trans-unit>
+      <trans-unit id="yqhSDwt" resname="Dans les coulisses">
+        <source>Dans les coulisses</source>
+        <target>Dans les coulisses</target>
+      </trans-unit>
+      <trans-unit id="zSa1Ira" resname="Prix et Nominations">
+        <source>Prix et Nominations</source>
+        <target>Prix et Nominations</target>
+      </trans-unit>
+      <trans-unit id="VFwCNXa" resname="Audience">
+        <source>Audience</source>
+        <target>Audience</target>
+      </trans-unit>
+      <trans-unit id="5R7DWcj" resname="Producteur">
+        <source>Producteur</source>
+        <target>Producteur</target>
+      </trans-unit>
+      <trans-unit id="PebLBbn" resname="Réalisateur">
+        <source>Réalisateur</source>
+        <target>Réalisateur</target>
+      </trans-unit>
+      <trans-unit id="VbRqUx4" resname="Créateur">
+        <source>Créateur</source>
+        <target>Créateur</target>
+      </trans-unit>
+      <trans-unit id="8LFjNl3" resname="à l'affiche">
+        <source>à l'affiche</source>
+        <target>à l'affiche</target>
+      </trans-unit>
+      <trans-unit id="4gn4tGn" resname="Définition">
+        <source>Définition</source>
+        <target>Définition</target>
+      </trans-unit>
+      <trans-unit id="b8uouyz" resname="Nom du programme">
+        <source>Nom du programme</source>
+        <target>Nom du programme</target>
+      </trans-unit>
+      <trans-unit id="WgDLhYa" resname="Réalisateurs">
+        <source>Réalisateurs</source>
+        <target>__Réalisateurs</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,18 @@
+{% extends 'contact/email/base.html.twig' %}
+
+{% block title %}
+	{{mail.firstname}} {{mail.lastname}}
+{% endblock %}
+
+{% block message %}
+	<h3><center>Hello {{ mail.firstname }} {{ mail.lastname }}, </center></h3>
+	&nbsp;
+
+	<p>Nous avons bien reçu votre message</p>
+
+	<p>Nous nous chargerons d'analyser votre requête et de vous répondre dans un délai maximum de 24 heures.</p>
+    <br><p>L'équipe Côte Ouest Audiovisuel.</p>
+{% endblock %}
+
+
+

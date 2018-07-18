@@ -1,0 +1,254 @@
+{% extends 'admin/base.html.twig' %}
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<style>
+		.ml-1{
+			margin-left: 0.25rem !important;
+		}
+		.ml-2{
+			margin-left: 0.5rem !important;
+		}
+
+		#user-loading{
+			display: none;
+		}
+
+		#current-widget-user{
+			display: none;
+		}
+
+		
+
+		#right-section.user-loading #user-loading{
+			display: block;
+		}
+
+		#right-section.user-active #current-widget-user{
+			display: block;
+		}
+
+		#right-section.user-active #users-secondary-box,
+		#right-section.user-loading #users-secondary-box,
+		#right-section.user-loading #current-widget-user{
+			display: none;
+		}
+
+		.widget-user-privileges > div {
+			margin-right: 2px;
+		}
+	</style>
+
+{% endblock %}
+
+{% block header_content %}
+	Les Utilisateurs <small>gestions des utilisateurs de la plateforme</small>
+{% endblock %}
+
+
+{% block body_content %}
+
+	<div class="row">
+    	<div class="col-xs-12 col-md-8">
+        	<div class="box box-primary">
+            	<div class="box-header">
+              		<h3 class="box-title">Tout les comptes</h3>
+
+              		<div class="box-tools">
+              			<form action="" method="get">
+	                		<div class="input-group input-group-sm" style="width: 200px;">
+	                 			<input type="text" name="q" class="form-control pull-right" placeholder="Saisir un nom..." value="{{ app.request.query.get('q') }}">
+
+	                  			<div class="input-group-btn">
+	                    			<button type="submit" class="btn btn-info"><i class="fa fa-search"></i></button>
+	                  			</div>
+	                		</div>
+	                	</form>
+              		</div>
+            	</div>
+            
+            	<!-- /.box-header -->
+            	<div class="box-body table-responsive no-padding" id="users-container">
+              		<table class="table table-hover">
+		                <tbody>
+		                	<tr>
+		                 		<th>Nom & Prénom</th>
+		                 		<th>Adresse email</th>
+		                  		<th>Role</th>
+		                  		<th>Privilèges</th>
+		                  		<th>#</th>
+		                	</tr>
+	                		
+	                		{% for item in users %}
+		                		<tr class="user-item" data-id="{{ item.id }}">
+		                  			<td>{{ item.username|lower|title }}</td>
+		                  			<td>{{ item.email }}</td>
+		                  			<td>
+		                  				<span class="label label-info">
+                                            {% if 'ROLE_SUPER_ADMIN' in item.roles %}
+                                                Super administrateur
+                                            {% elseif 'ROLE_ADMIN' in item.roles %}
+                                                Administrateur
+                                            {% elseif 'ROLE_CATALOG' in item.roles %}
+                                                Catalogue
+                                            {% elseif 'ROLE_TRANSLATOR' in item.roles %}
+                                                Traducteur
+                                            {% elseif 'ROLE_SALER' in item.roles %}
+                                                Commercial
+                                            {% elseif 'ROLE_PRODUCER' in item.roles %}
+                                                Producteur
+                                            {% elseif 'ROLE_ACTOR' in item.roles %}
+                                                Acteur
+                                            {% elseif 'ROLE_CREATOR' in item.roles %}
+                                                Créateur
+                                            {% elseif 'ROLE_DIRECTOR' in item.roles %}
+                                                Réalisateur
+                                            {% elseif 'ROLE_SUBSCRIBER' in item.roles %}
+                                                Abonné
+                                            {% else %}
+                                            	{{ item.roles|json_encode}}
+                                            {% endif %} 
+		                  				</span>
+		                  			</td>
+
+		                  			<td class="user-item-privilege">
+		                  				{% for i in item.roles|slice(1) %}
+		                  					<div>
+			                  				<span data-label="{{ i }}" class="label label-info" style="margin-right:0.25rem">
+			                  					{{ i }}
+			                  				</span>		</div>	                  				
+			                  			{% endfor %}
+		                  			</td>
+
+		                  			<td class="user-item-tools">
+		                  				<a data-id="{{ item.id }}" href="" class="edit btn">
+		                  					<i class="fa fa-edit"></i> modifier
+		                  				</a>
+		                  			</td>
+		                		</tr>
+		                	{% endfor %}
+	               
+	              		</tbody>
+              		</table>
+            	</div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xs-12" id="right-section">
+
+        	<div style="text-align:center" id="user-loading">
+        		<i  class="fa fa-spinner fa-spin fa-3x"></i>
+        	</div>
+
+
+			<div class="box box-widget widget-user" id="current-widget-user">
+            	<div class="widget-user-header bg-aqua"></div>
+            
+            	<div class="box-body">
+            		<h5><strong>Privilèges</strong></h5>
+            		<div class="widget-user-privileges"></div>
+					
+					<hr>
+					<fieldset>
+						<h5><strong>Modifier les privilèges</strong></h5>
+						<div class="widget-user-privileges-model">
+							
+							{% for item in roles if item.type == 'privilege' %}
+								{% set itemId = 'customCheck-'~loop.index %}
+								<div class="checkbox">
+			                    	<label>
+			                      		<input data-name="{{ item.name }}" data-label="{{ item.label }}" name="privileges" value="{{ item.id }}" type="checkbox" class="custom-control-input" id="{{itemId}}">
+			                      		{{ item.name|lower|title }}
+			                    	</label>
+			                  	</div>
+
+							{% endfor %}
+
+							{#<select class="form-control input-sm" multiple="true">
+								<option value="">Privilèges...</option>
+								{% for item in roles if item.type == 'privilege' %}
+									<option value="{{ item.id }}">{{ item.name|lower|title }}</option>
+								{% endfor %}
+							</select>#}
+						</div>
+					</fieldset>
+
+            	</div>
+
+            	<div class="box-footer" style="padding-top:10px">
+              		<button class="btn btn-info">
+              			Enregistrer
+              		</button>
+            	</div>
+          	</div>
+        	
+        	<div class="box box-primary" id="users-secondary-box">
+	            <div class="box-header with-border">
+	            	<h3 class="box-title">Créez un compte</h3>
+	            </div>
+	            
+	            {{ form_start(form) }}
+	            	<div class="box-body">
+						
+						{% for notice in app.flashes('notice-success') %}
+                            <div class="alert alert-info alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+				                L'utilisateur à bien été enregistré avec succès.
+				            </div>
+                        {% endfor %}
+
+                        {% for notice in app.flashes('notice-error') %}
+                            <div class="alert alert-danger alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+				                {{ notice }}
+				            </div>
+                        {% endfor %}
+
+
+	            		{{ form_row(form.username) }}
+
+	            		{{ form_row(form.email) }}
+
+	            		{{ form_row(form.roles) }}
+	            		{{ form_row(form.privileges) }}
+	              	</div>
+
+	              	<div class="box-footer">
+	                	<button type="reset" class="btn btn-default">Annuler</button>
+
+	                	<button type="submit" class="btn btn-danger pull-right">
+	                		<i class="fa fa-save"></i> Enregistrer
+	                	</button>
+	              	</div>
+              	{{ form_end(form) }}
+	        </div>
+        </div>
+    </div>
+
+    <script type="text/template">
+    </script>
+
+{% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/admin/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/user/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/user/index.js') }}"></script>
+	
+	<script>
+		$(document).ready(function($){
+
+		});
+	</script>
+	
+{% endblock %}
+

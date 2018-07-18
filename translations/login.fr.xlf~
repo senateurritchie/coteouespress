@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="CsPSyzA" resname="Se connecter">
+        <source>Se connecter</source>
+        <target>Se connecter</target>
+      </trans-unit>
+      <trans-unit id=".5yLjAZ" resname="Mot de passe">
+        <source>Mot de passe</source>
+        <target>Mot de passe</target>
+      </trans-unit>
+      <trans-unit id="foGmrel" resname="sign.in">
+        <source>sign.in</source>
+        <target>Connexion</target>
+      </trans-unit>
+      <trans-unit id="IKrdoN3" resname="connect.blem">
+        <source>connect.blem</source>
+        <target>Des problèmes pour vous connecter ?</target>
+      </trans-unit>
+      <trans-unit id="qVgaKqP" resname="no.account">
+        <source>no.account</source>
+        <target>Vous n’avez pas de compte ?</target>
+      </trans-unit>
+      <trans-unit id="L9lzezY" resname="inscrivez-vous">
+        <source>inscrivez-vous</source>
+        <target>Inscrivez-vous</target>
+      </trans-unit>
+      <trans-unit id="n5gGNUn" resname="cliquez ici">
+        <source>cliquez ici</source>
+        <target>Cliquez ici</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

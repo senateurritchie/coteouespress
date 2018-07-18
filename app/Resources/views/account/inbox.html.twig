@@ -5,10 +5,11 @@
 
     <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
 
-    <style>
-		header #master-cover{
-			height: 200px;
-		}
+     <style>
+        header #master-cover{
+            height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        }
     </style>
 
 {% endblock %}
@@ -19,6 +20,8 @@
         {{ include('main-menu.html.twig') }}
 
         <div id="master-cover"></div>
+        <div id="master-cover-overlay"></div>
+
     </header>
 
     <div class="container">

@@ -27,9 +27,42 @@ class UserFixtures extends Fixture{
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
         $user->setRoles(array("ROLE_SUPER_ADMIN"));
+        $user->setCreateAt(new \Datetime());
         $manager->persist($user);
 
-        $roles = ["ROLE_ADMIN","ROLE_TRANSLATOR","ROLE_CATALOGUE","ROLE_CATALOGUE_UPDATE","ROLE_CATALOGUE_REMOVE","ROLE_CATALOGUE_INSERT","ROLE_SUBSCRIBER"];
+        $roles = [
+            "ROLE_ADMIN",
+            "ROLE_TRANSLATOR",
+            "ROLE_CATALOG",
+            "ROLE_SUBSCRIBER",
+            "ROLE_SALER",
+            "ROLE_PRODUCER",
+            "ROLE_DIRECTOR",
+            "ROLE_ACTOR",
+            "ROLE_CREATOR",
+        ];
+
+        $privileges = [
+            "ROLE_USER_READ",
+            "ROLE_USER_INSERT",
+            "ROLE_USER_PRIVIL_ADD",
+            "ROLE_USER_PRIVIL_DEL",
+
+            "ROLE_CATALOG_READ",
+            "ROLE_CATALOG_UPDATE",
+            "ROLE_CATALOG_REMOVE",
+            "ROLE_CATALOG_INSERT",
+            "ROLE_CATALOG_INSERT",
+
+            "ROLE_PRODUCER_READ",
+            "ROLE_PRODUCER_INSERT",
+
+            "ROLE_SALER_READ",
+            "ROLE_SALER_INSERT",
+
+            "ROLE_TRANSLATOR_READ",
+            "ROLE_TRANSLATOR_INSERT",
+        ];
 
         for ($i = 0; $i < 20; $i++) {
         	$username = 'user'.$i.uniqid();
@@ -40,9 +73,10 @@ class UserFixtures extends Fixture{
             $encoded = $this->encoder->encodePassword($user, $plainPassword);
             $user->setPassword($encoded);
             $user->setRoles(array($roles[mt_rand(0,count($roles)-1)]));
-
+            $user->setCreateAt(new \Datetime());
             $manager->persist($user);
         }
+
         $manager->flush();
     }
 }
