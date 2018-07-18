@@ -104,9 +104,8 @@ var AdminManager = AdminManager || {};
 					errors:`
 						<ul>
 							{{#errors}}
-								<li>[] {{}}</li>
+								<li>{{ . }}</li>
 							{{/errors}}
-							
 						</ul>
 					`
 				}
@@ -166,9 +165,13 @@ var AdminManager = AdminManager || {};
 							if(data.hasOwnProperty('errors')){
 								var mAlert = this.params.selectedDataView.find("#alert-error");
 								
-								var tpl = this.render(this.params.$tpl.errors,data.errors);	
-								mAlert.find(".message").html();
+								var tpl = this.render(this.params.$tpl.errors,data);	
+								mAlert.find(".message").html(tpl);
 								mAlert.fadeIn(500);
+
+								setTimeout(function(){
+									mAlert.fadeOut(500);
+								},5000);
 							}
 						}
 					}

@@ -61,7 +61,7 @@ class Role
     * @var string
     *
     * @Assert\NotBlank
-    * @Assert\Length(max=250)
+    * @Assert\Length(min=3, max=250)
     * @ORM\Column(name="description", type="string", length=250, options={"comment":"courte description de ce a quoi sert ce role"})
     * @Groups({"group1"})
     */

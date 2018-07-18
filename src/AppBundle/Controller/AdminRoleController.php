@@ -85,7 +85,7 @@ class AdminRoleController extends Controller
 
         foreach ($form->all() as $child) {
             if (!$child->isValid()) {
-                $result['errors'][$child->getName()] = $child->getErrors()[0]->getMessage();
+                $result['errors'][] = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
             }
         }
         
