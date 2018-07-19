@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Department
@@ -16,24 +17,27 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Department
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=30, unique=true)
-     */
-    private $name;
-
-     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="name", type="string", length=30, unique=true)
+    */
+    private $name;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=60, unique=true, nullable=true)
     */
@@ -42,6 +46,7 @@ class Department
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="email", type="string", length=254,nullable=true)
     */
     private $email;
@@ -49,6 +54,7 @@ class Department
     /**
     * @var integer
     *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="email_received", type="integer")
     */
     private $emailReceived = 0;
@@ -56,20 +62,23 @@ class Department
     /**
     * @var integer
     *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="email_processed", type="integer")
     */
     private $emailProcessed = 0;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
     /**
     * @var AppBundle\Entity\WebsiteMail
     *
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\WebsiteMail", mappedBy="department")
     */
     private $mails;

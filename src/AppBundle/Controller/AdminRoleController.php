@@ -112,7 +112,7 @@ class AdminRoleController extends Controller
     public function deleteAction(Request $request,$role_id){
 
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this page!');
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Role::class);
