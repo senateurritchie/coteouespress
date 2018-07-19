@@ -47,18 +47,35 @@ class AdminUserController extends Controller
 
     	$form->handleRequest($request);
     	if($form->isSubmitted() && $form->isValid()){
+            $user->setCreateAt(new \Datetime());
 
-            $roles = array($form->get('roles')->getData()->getLabel());
+            $roles = [];
+
+            $userrole = new UserRole();
+            $userrole->setUser($user);
+            $userrole->setRole($form->get('roles')->getData());
+            $userrole->setCreateAt(new \Datetime());
+            $roles[] = $userrole;
+
             $privileges = $form->get('privileges')->getData();
 
             if(count($privileges)){
                 foreach ($privileges as $key => $el) {
-                    $roles[] = $el->getLabel();
+                    $userrole = new UserRole();
+                    $userrole->setUser($user);
+                    $userrole->setRole($el);
+                    $userrole->setCreateAt(new \Datetime());
+                    $roles[] = $userrole;
                 }
             }
 
-            $user->setRoles($roles);
     		$em->persist($user);
+
+            foreach ($roles as $el) {
+                $em->persist($el);
+            }
+
+
     		$em->flush();
     		$this->addFlash('notice-success',1);
 
@@ -94,6 +111,10 @@ class AdminUserController extends Controller
     * @Method("POST")
     */
     public function grantAction(Request $request,$user_id){
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(User::class);
         $rep_role = $em->getRepository(Role::class);
@@ -120,6 +141,7 @@ class AdminUserController extends Controller
                 $em->persist($userrole);
                 $em->flush();
                 $result['status'] = true;
+                $result['message'] = "modification effectuée avec succès";
             }
         }
 
@@ -131,6 +153,9 @@ class AdminUserController extends Controller
     * @Method("POST")
     */
     public function revokeAction(Request $request,$user_id){
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(User::class);
         $rep_role = $em->getRepository(Role::class);
@@ -156,6 +181,7 @@ class AdminUserController extends Controller
                     $em->remove($userrole);
                     $em->flush();
                     $result['status'] = true;
+                    $result['message'] = "modification effectuée avec succès";
                 }
             }
         }

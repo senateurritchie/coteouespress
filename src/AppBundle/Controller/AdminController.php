@@ -3,11 +3,16 @@
 namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\Department;
 use AppBundle\Entity\WebsiteMail;
+
+
+use AppBundle\Form\UserProfilType;
 
 /**
 * @Route("/admin", name="admin_")
@@ -37,15 +42,24 @@ class AdminController extends Controller
     /**
     * @Route("/profil", name="profil")
     */
-    public function profilAction(){
-    	return $this->render('admin/profil/index.html.twig');
-    }
+    public function profilAction(Request $request){
+        $em = $this->getDoctrine()->getManager();
 
-    /**
-    * @Route("/inbox", name="inbox")
-    */
-    public function inboxAction(){
-    	return $this->render('admin/inbox/index.html.twig');
+        $form = $this->createForm(UserProfilType::class,$this->getUser());
+
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+            $user = $form->getData();
+            $em->merge($user);
+            $em->flush();
+
+            $this->addFlash('notice-success',"modification éffectuée avec success");
+            return $this->redirectToRoute("admin_profil",['tab'=>"settings"]);
+        }
+
+    	return $this->render('admin/profil/index.html.twig',[
+            "form"=>$form->createView()
+        ]);
     }
 
     public function renderUserList(){

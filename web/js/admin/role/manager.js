@@ -121,6 +121,26 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
+			$('#myModal').on('shown.bs.modal', function () {
+  				$('#myModal button').removeAttr('disabled');
+			});
+
+
+			$('#myModal button[type=submit]').on({
+				click:e=>{
+					e.preventDefault();
+					$('#myModal button').attr('disabled','disabled');
+
+					this.params.selectedDataView.addClass('updating');
+					var data = $(e.target).serialize();
+
+					this.emit(new nsp.RoleDeletingEvent({
+						state:'start',
+						model:data
+					}));
+				}
+			})
+
 			this.params.selectedDataView.find('form').on({
 				submit:e=>{
 					e.preventDefault();
@@ -142,7 +162,18 @@ var AdminManager = AdminManager || {};
 
 						if(event.params.state == 'end'){
 							var data = event.params.data;
-							console.log(data)
+
+							var alertShow = ()=>{
+								if(data.hasOwnProperty('message')){
+									$('#modal-info .modal-body h4').html(data.message);
+									$('#modal-info').modal('show');
+								}
+								else if(data.hasOwnProperty('errors')){
+									var tpl = this.render(this.params.$tpl.errors,data);
+									$('#modal-info .modal-body h4').html(tpl);
+									$('#modal-info').modal('show');
+								}
+							};
 
 							if(data.status){
 								var rol_sel = `#data-container .data-item[data-id=${this.params.selectedDataView.data('id')}]`;
@@ -152,30 +183,53 @@ var AdminManager = AdminManager || {};
 								rowItem.find('.data-item-label .label').html(data.data.label);
 								rowItem.find('.data-item-description').html(data.data.description);
 								rowItem.find('.data-item-type .label').html(data.data.type);
-
-								var mAlert = this.params.selectedDataView.find("#alert-success");
-
-								mAlert.find(".message").html(data.message);
-								mAlert.fadeIn(500);
-								setTimeout(function(){
-									mAlert.fadeOut(500);
-								},5000);
 							}
 							
-							if(data.hasOwnProperty('errors')){
-								var mAlert = this.params.selectedDataView.find("#alert-error");
-								
-								var tpl = this.render(this.params.$tpl.errors,data);	
-								mAlert.find(".message").html(tpl);
-								mAlert.fadeIn(500);
+							alertShow();
+						}
+					}
+				}
+				else if(event instanceof nsp.RoleDeletingEvent){
+					if(~['end','fails'].indexOf(event.params.state)){
+						this.params.selectedDataView.removeClass('updating');
 
-								setTimeout(function(){
-									mAlert.fadeOut(500);
-								},5000);
+						if(event.params.state == 'end'){
+							var data = event.params.data;
+
+							var alertShow = ()=>{
+								if(data.hasOwnProperty('message')){
+									$('#modal-info .modal-body h4').html(data.message);
+									$('#modal-info').modal('show');
+								}
+								else if(data.hasOwnProperty('errors')){
+									var tpl = this.render(this.params.$tpl.errors,data);
+									$('#modal-info .modal-body h4').html(tpl);
+									$('#modal-info').modal('show');
+								}
+								$('#myModal').off('hidden.bs.modal');
+							};
+
+							if(data.status){
+								var rol_sel = `#data-container .data-item[data-id=${this.params.selectedDataView.data('id')}]`;
+								var rowItem = $(rol_sel);
+								rowItem.remove();
+
+								
+								$('#myModal').on('hidden.bs.modal', function () {
+					  				alertShow();
+								});
+
+								$('#myModal').modal('hide');
+								
+								this.params.rightSection.removeClass('data-active');
+							}
+							else{
+								alertShow();
 							}
 						}
 					}
 				}
+
 			});
 
 			return this;

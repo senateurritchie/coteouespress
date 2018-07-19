@@ -15,7 +15,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="user", options={"comment":"enregistre les utilisateurs de la plateforme avec différents niveau d'acces"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity("email", message="cet adresse est déja enregistrée")
- * @ORM\HasLifecycleCallbacks() 
  */
 class User implements UserInterface, EquatableInterface, \Serializable
 {
@@ -46,6 +45,14 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
     */
     private $email;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="about_me", type="text", nullable=true,)
+    */
+    private $aboutMe;
 
     /**
     * @var string
@@ -105,7 +112,6 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @ORM\Column(name="create_at", type="datetime", nullable=true)
     */
     private $createAt;
-
 
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserRole", mappedBy="user")
@@ -257,15 +263,6 @@ class User implements UserInterface, EquatableInterface, \Serializable
      */
     public function getRoles()
     {
-        return $this->roles;
-    }
-
-    /**
-    * 
-    * @ORM\PostLoad
-    */
-    public function fillRoles($roles)
-    {
         $uroles = $this->getUroles();
         $roles = [];
 
@@ -279,22 +276,24 @@ class User implements UserInterface, EquatableInterface, \Serializable
         });
         $role = array_values($role);
 
-        if(count($role)) $role = $role[0];
+        if(count($role)){
+            $this->setMasterRole($role[0]);
+        };
 
         // privileges
         $privileges = array_filter($roles,function($el){
             return ($el->getType() == "privilege");
         });
         $privileges = array_values($privileges);
+        $this->setPrivileges($privileges);
 
         $roles = array_map(function($el){
             return $el->getLabel();
         }, $roles);
 
-        $this->setMasterRole($role);
-        $this->setPrivileges($privileges);
         $this->setRoles($roles);
-        return $this;
+
+        return $this->roles;
     }
 
     public function setMasterRole(Role $masterRole){
@@ -472,5 +471,29 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getUroles()
     {
         return $this->uroles;
+    }
+
+    /**
+     * Set aboutMe
+     *
+     * @param string $aboutMe
+     *
+     * @return User
+     */
+    public function setAboutMe($aboutMe)
+    {
+        $this->aboutMe = $aboutMe;
+
+        return $this;
+    }
+
+    /**
+     * Get aboutMe
+     *
+     * @return string
+     */
+    public function getAboutMe()
+    {
+        return $this->aboutMe;
     }
 }

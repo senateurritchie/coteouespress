@@ -49,6 +49,14 @@ class User implements UserInterface, EquatableInterface, \Serializable
     /**
     * @var string
     *
+    * @Groups({"group1"})
+    * @ORM\Column(name="about_me", type="string", length=255, nullable=true,)
+    */
+    private $aboutMe;
+
+    /**
+    * @var string
+    *
     * @Groups({"group3"})
     * @ORM\Column(name="salt", type="string", length=64, nullable=true)
     */
@@ -105,11 +113,24 @@ class User implements UserInterface, EquatableInterface, \Serializable
     */
     private $createAt;
 
-
     /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserRole", mappedBy="user")
+    * @Groups({"group4"})
     */
     private $uroles;
+
+
+    /**
+    * Constructor
+    */
+    public function __construct($username=null, $email=null,$password=null, $salt=null,$createAt=null){
+        $this->username = $username;
+        $this->email = $email;
+        $this->password = $password;
+        $this->salt = $salt;
+
+        $this->uroles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
 
@@ -242,6 +263,36 @@ class User implements UserInterface, EquatableInterface, \Serializable
      */
     public function getRoles()
     {
+        $uroles = $this->getUroles();
+        $roles = [];
+
+        foreach ($uroles as $key => $el) {
+            $roles[] = $el->getRole();
+        }
+
+        // role principal
+        $role = array_filter($roles,function($el){
+            return ($el->getType() == "role");
+        });
+        $role = array_values($role);
+
+        if(count($role)){
+            $this->setMasterRole($role[0]);
+        };
+
+        // privileges
+        $privileges = array_filter($roles,function($el){
+            return ($el->getType() == "privilege");
+        });
+        $privileges = array_values($privileges);
+        $this->setPrivileges($privileges);
+
+        $roles = array_map(function($el){
+            return $el->getLabel();
+        }, $roles);
+
+        $this->setRoles($roles);
+
         return $this->roles;
     }
 
@@ -383,5 +434,42 @@ class User implements UserInterface, EquatableInterface, \Serializable
 
     public static function generateToken($length = 8){
         return substr(trim(base64_encode(bin2hex(openssl_random_pseudo_bytes(64,$ok))),"="),0,$length);
+    }
+    
+
+
+
+    /**
+     * Add urole
+     *
+     * @param \AppBundle\Entity\UserRole $urole
+     *
+     * @return User
+     */
+    public function addUrole(\AppBundle\Entity\UserRole $urole)
+    {
+        $this->uroles[] = $urole;
+
+        return $this;
+    }
+
+    /**
+     * Remove urole
+     *
+     * @param \AppBundle\Entity\UserRole $urole
+     */
+    public function removeUrole(\AppBundle\Entity\UserRole $urole)
+    {
+        $this->uroles->removeElement($urole);
+    }
+
+    /**
+     * Get uroles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUroles()
+    {
+        return $this->uroles;
     }
 }

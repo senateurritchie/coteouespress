@@ -50,6 +50,44 @@
 {% endblock %}
 
 {% block body_content %}
+	
+	{{ include('admin/modal-info.html.twig') }}
+
+	<div class="modal modal-danger fade" id="myModal">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+          		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              			<span aria-hidden="true">×</span>
+              		</button>
+            		<h4 class="modal-title">Confirmation...</h4>
+          		</div>
+          
+          		<div class="modal-body">
+          			<h4>Voulez-vous vraiment supprimer ce rôle ?</h4>
+
+            		<p>
+            			Une fois l'action éfféctuée tout les utilisateurs possedant ce rôle ou privilège perdront tout leurs avantages.
+            		</p>
+
+          		</div>
+          
+          		<div class="modal-footer">
+            		<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+            			Annuler
+            		</button>
+
+            		<button type="submit" class="btn btn-outline">Valider</button>
+          		</div>
+        	</div>
+        	<!-- /.modal-content -->
+      	</div>
+      <!-- /.modal-dialog -->
+    </div>
+
+    
+
+    
 
 	<div class="row">
     	<div class="col-xs-12 col-md-8">
@@ -118,7 +156,7 @@
 
             		 <div class="box-tools pull-right">
 			            
-			            <button id="data-btn-remove" data-title="supprimer" data-toggle="tooltip" type="button" class="btn btn-box-tool" data-widget="collapse">
+			            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
 			                <i class="fa fa-trash fa-2x"></i>
 			            </button>
 			       
@@ -178,7 +216,10 @@
 	            	</div>
 
 	            	<div class="box-footer" style="padding-top:10px">
-	              		<button type="reset" class="btn btn-default">Annuler</button>
+	              		<button type="reset" class="btn btn-default" >
+	              			Annuler
+	              		</button>
+
 	                	<button type="submit" class="btn btn-danger pull-right">
 	                		<i class="fa fa-save"></i> Enregistrer
 	                	</button>

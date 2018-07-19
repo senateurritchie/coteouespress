@@ -2,22 +2,24 @@ $(document).ready(function($){
 	var nsp = AdminManager;
 	var repository = AdminManager.container.get('UserRepository');
 	var view = AdminManager.container.get('UserView');
+	var rightSection = $("#right-section");
+
 	view.vars({
+		rightSection:rightSection,
 		currentUserView:$("#current-widget-user"),
 		currentUserView:$("#current-widget-user"),
 		currentUserModels:$('#current-widget-user .widget-user-privileges-model input[type=checkbox]'),
 	})
 	.controller();
 
-	var rightSection = $("#right-section");
 
 	view.subscribe(event=>{
 		if((event instanceof nsp.UserRevokeRoleEvent) || (event instanceof nsp.UserGrantRoleEvent)) {
 			repository.roleRequest(event)
-			.then(e=>{
-
+			.then(data=>{
+				view.emit(new nsp.UserRoleUpdatingEvent({state:'end',data:data}));
 			},msg=>{
-
+				view.emit(new nsp.UserRoleUpdatingEvent({state:'fails'}));
 			});
 		}
 	});

@@ -72,6 +72,10 @@ class AdminRoleController extends Controller
     * @Method("POST")
     */
     public function updateAction(Request $request,$role_id){
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Role::class);
         $result = ["status"=>false];
@@ -106,15 +110,23 @@ class AdminRoleController extends Controller
     * @Method("POST")
     */
     public function deleteAction(Request $request,$role_id){
-        $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(User::class);
-        $rep_role = $em->getRepository(Role::class);
-        $result = ["status"=>false];
 
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Role::class);
+        $result = ["status"=>false];
 
         if(!($role = $rep->find($role_id))){
             throw $this->createNotFoundException();
         }
+
+        $em->remove($role);
+        $em->flush();
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $result["data"] = json_decode($this->get("serializer")->serialize($role,'json'),true);
 
         return $this->json($result);
     }

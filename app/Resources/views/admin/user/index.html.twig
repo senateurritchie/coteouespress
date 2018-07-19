@@ -42,6 +42,14 @@
 		.widget-user-privileges > div {
 			margin-right: 2px;
 		}
+
+		#current-widget-user #spinner{
+			display: none;
+		}
+
+		#current-widget-user.updating #spinner{
+			display: block;
+		}
 	</style>
 
 {% endblock %}
@@ -52,6 +60,8 @@
 
 
 {% block body_content %}
+	
+	{{ include('admin/modal-info.html.twig') }}
 
 	<div class="row">
     	<div class="col-xs-12 col-md-8">
@@ -79,8 +89,8 @@
 		                	<tr>
 		                 		<th>Nom & Prénom</th>
 		                 		<th>Adresse email</th>
-		                  		<th>Role</th>
-		                  		<th>Privilèges</th>
+		                  		<th>Ajouté le</th>
+		                  		<th>Etat</th>
 		                  		<th>#</th>
 		                	</tr>
 	                		
@@ -88,41 +98,15 @@
 		                		<tr class="user-item" data-id="{{ item.id }}">
 		                  			<td>{{ item.username|lower|title }}</td>
 		                  			<td>{{ item.email }}</td>
+
 		                  			<td>
-		                  				<span class="label label-info">
-                                            {% if 'ROLE_SUPER_ADMIN' in item.roles %}
-                                                Super administrateur
-                                            {% elseif 'ROLE_ADMIN' in item.roles %}
-                                                Administrateur
-                                            {% elseif 'ROLE_CATALOG' in item.roles %}
-                                                Catalogue
-                                            {% elseif 'ROLE_TRANSLATOR' in item.roles %}
-                                                Traducteur
-                                            {% elseif 'ROLE_SALER' in item.roles %}
-                                                Commercial
-                                            {% elseif 'ROLE_PRODUCER' in item.roles %}
-                                                Producteur
-                                            {% elseif 'ROLE_ACTOR' in item.roles %}
-                                                Acteur
-                                            {% elseif 'ROLE_CREATOR' in item.roles %}
-                                                Créateur
-                                            {% elseif 'ROLE_DIRECTOR' in item.roles %}
-                                                Réalisateur
-                                            {% elseif 'ROLE_SUBSCRIBER' in item.roles %}
-                                                Abonné
-                                            {% else %}
-                                            	{{ item.roles|json_encode}}
-                                            {% endif %} 
-		                  				</span>
+                                    	{{ item.createAt|date('d M Y à H:i') }}
 		                  			</td>
 
-		                  			<td class="user-item-privilege">
-		                  				{% for i in item.roles|slice(1) %}
-		                  					<div>
-			                  				<span data-label="{{ i }}" class="label label-info" style="margin-right:0.25rem">
-			                  					{{ i }}
-			                  				</span>		</div>	                  				
-			                  			{% endfor %}
+		                  			<td>
+		                  				<span class="label label-info">
+                                            {{ item.state }}
+		                  				</span>
 		                  			</td>
 
 		                  			<td class="user-item-tools">
@@ -180,9 +164,15 @@
             	</div>
 
             	<div class="box-footer" style="padding-top:10px">
-              		<button class="btn btn-info">
-              			Enregistrer
-              		</button>
+              		<button type="reset" class="btn btn-default">Annuler</button>
+              		
+                	<button type="submit" class="btn btn-danger pull-right">
+                		<i class="fa fa-save"></i> Enregistrer
+                	</button>
+            	</div>
+
+            	<div class="overlay" id="spinner">
+              		<i class="fa fa-spinner fa-spin"></i>
             	</div>
           	</div>
         	

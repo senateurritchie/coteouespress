@@ -40,8 +40,6 @@ class UserRepository extends \Doctrine\ORM\EntityRepository implements UserLoade
 			$this->whereId($qb,@$params["id"]);
 		}
 
-		
-
 		// ordre d'affichage par nom
 		if(@$params['order_name']){
 			$order = strtoupper(trim($params['order_name'])) == "ASC" ? "ASC" : "DESC";

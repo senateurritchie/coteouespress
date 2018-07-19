@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * WebsiteMailRepository
@@ -10,25 +11,70 @@ namespace AppBundle\Repository;
  */
 class WebsiteMailRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function count($params){
-		$qb = $this->createQueryBuilder('w')
+
+    public function search($params = array(),$limit = 50,$offset=0){
+        $qb = $this->createQueryBuilder("u");
+
+        $params = array_filter($params,function($el){
+            return strip_tags(trim($el));
+        });
+
+        // recherche par terms
+        if(@$params["q"]){
+            $this->whereTerms($qb,@$params["q"]);
+        }
+
+        // recherche par id
+        if(@$params["id"]){
+            $this->whereId($qb,@$params["id"]);
+        }
+
+        $qb->orderBy("u.createAt","DESC");
+
+        // limit et offset
+        $qb->setFirstResult( $offset )
+        ->setMaxResults( $limit );
+
+        $query = $qb->getQuery();
+
+        return $query->getResult();
+    }
+
+
+    public function whereTerms(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->orX(
+            $qb->expr()->like("u.firstname", ":q"),
+            $qb->expr()->like("u.lastname", ":q"),
+            $qb->expr()->like("u.subject", ":q"),
+            $qb->expr()->like("u.message", ":q")
+        ))
+        ->setParameter("q","%$value%");
+    }
+
+    public function whereId(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("u.id", ":id"))
+        ->setParameter("id",$value);
+    }
+
+    public function whereProcessed($qb,$state){
+        $qb->where("w.isProcessed = :is_processed")
+        ->setParameter("is_processed",$state);
+    }
+
+    public function count($params){
+        $qb = $this->createQueryBuilder('w')
         ->select('count(w.id)');
 
         if(isset($params["is_processed"])){
-        	if($params["is_processed"]){
-        		$this->whereProcessed($qb,1);
-        	}
-        	else{
-        		$this->whereProcessed($qb,0);
-        	}
+           if($params["is_processed"]){
+              $this->whereProcessed($qb,1);
+           }
+           else{
+              $this->whereProcessed($qb,0);
+           }
         }
-        
+
         return $qb->getQuery()
         ->getSingleScalarResult();
-	}
-
-	public function whereProcessed($qb,$state){
-        $qb->where("w.isProcessed = :is_processed")
-        ->setParameter("is_processed",$state);
-	}
+    }
 }

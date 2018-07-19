@@ -175,7 +175,10 @@
             100% { opacity: 0 }
         }
 
+       
+
     </style>
+
 {% endblock %}
 
 {% block body %}
@@ -356,6 +359,53 @@
                 <section class="block has-carousel" id="block-acteurs">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
+                            {{ ' Production à la une'|trans({},'homepage') }}
+                        </h3>
+                        <br><br>
+                    </div>
+
+                    <div class="block-content" >
+                        <div class="row">
+                            <div class="col-md-7">
+
+                               <a class="venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
+                                    
+                                    <div style="background:url({{ asset('img/'~random(['trailer-new.jpg','trailer-new-2.jpg']))}}) 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;padding-bottom:100px;"></div>
+
+                                    <i class="video-icon video-popup-control"></i>
+                                </a>
+                            </div>
+
+                            <div class="col-md-5 shadow-effect2 bg-white">
+                                <h3 class="mblock-title mblock-title-danger" style="line-height:0px;font-size:12px">
+                                    {{ 'Synopsis'|trans({},'homepage') }}
+                                </h3>
+                                <br>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quos nam, autem velit dolores, eos et sunt neque ab animi natus veritatis eum beatae minus saepe rerum, illo odio aliquam... <a href=""><small>lire la suite</small></a></div>
+
+                                <br>
+                                
+                                <h3 class="mblock-title mblock-title-danger" style="line-height:0px;font-size:12px">
+                                    {{ 'Producteurs'|trans({},'homepage') }}
+                                </h3>
+                                <br>
+
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <img class="img-fluid" src="{{ asset('img/director-1.jpg') }}" alt="">
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <img class="img-fluid" src="{{ asset('img/director-2.jpg')}}" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                {#<section class="block has-carousel" id="block-acteurs">
+                    <div class="block-header">
+                        <h3 class="block-title mblock-title mblock-title-info">
                             {{ 'Acteurs'|trans({},'homepage') }}
                         </h3>
                         <br><br>
@@ -395,7 +445,7 @@
                             {% endfor %}
                         </div>
                     </div>
-                </section>
+                </section>#}
 
 
                 <section class="block animation-right" id="block-video-a-voir">

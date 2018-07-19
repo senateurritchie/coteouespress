@@ -406,7 +406,7 @@ header #master-menu #search input:focus{
 	font-size: 20px;
 }
 
-.block-content ul:not(.list-inline) {
+/* .block-content ul:not(.list-inline) {
 	list-style: none;
 	text-align: center;
 	display: flex;
@@ -414,16 +414,16 @@ header #master-menu #search input:focus{
 	justify-content: center;
 	align-items: center;
 	flex-wrap: wrap;
-}
+} */
 
 
-.block-content ul > li{
+/* .block-content ul > li{
 	padding: 5px;
 }
 
 .block-content ul > li:firt-child,.block-content ul > li:last-child{
 	padding-left: 0px;
-}
+} */
 
 #block-citation{
 	display: flex;

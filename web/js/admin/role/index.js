@@ -12,9 +12,20 @@ $(document).ready(function($){
 			
 			repository.customRequest(event)
 			.then(data=>{
-				view.emit(new nsp.RoleUpdatingEvent({state:'end',data:data}));
+
+				if(event instanceof nsp.RoleUpdatingEvent){
+					view.emit(new nsp.RoleUpdatingEvent({state:'end',data:data}));
+				}
+				else if(event instanceof nsp.RoleDeletingEvent){
+					view.emit(new nsp.RoleDeletingEvent({state:'end',data:data}));
+				}
 			},msg=>{
-				view.emit(new nsp.RoleUpdatingEvent({state:'fails'}));
+				if(event instanceof nsp.RoleUpdatingEvent){
+					view.emit(new nsp.RoleUpdatingEvent({state:'fails'}));
+				}
+				else if(event instanceof nsp.RoleDeletingEvent){
+					view.emit(new nsp.RoleDeletingEvent({state:'fails'}));
+				}
 			});
 		}
 	});

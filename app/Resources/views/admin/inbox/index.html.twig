@@ -1,10 +1,57 @@
 {% extends 'admin/base.html.twig' %}
 
+
+{% block stylesheets %}
+	{{ parent() }}
+{% endblock %}
+
+
 {% block header_content %}
 	Boite de reception <small>gestion du flux de communication du site</small>
 {% endblock %}
 
 
 {% block body_content %}
-	
+	<div class="row">
+        <div class="col-md-3">
+          	<div class="box box-solid">
+            	<div class="box-header with-border">
+            		<h3 class="box-title">Dossiers</h3>
+
+              		<div class="box-tools">
+                		<button type="button" class="btn btn-box-tool" data-widget="collapse">
+                			<i class="fa fa-minus"></i>
+                		</button>
+              		</div>
+
+            	</div>
+
+	            <div class="box-body no-padding">
+	            	<ul class="nav nav-pills nav-stacked">
+	                	<li class="active">
+	                		<a href="{{ path("admin_webmail_index",{'folder':'inbox'}) }}">
+	                			<i class="fa fa-inbox"></i> Boite de reception
+	                  			<span class="label label-primary pull-right">12</span>
+	                  		</a>
+	                  	</li>
+
+	                	<li>
+	                		<a  href="#">
+	                			<i class="fa fa-envelope-o"></i> Envoyés
+	                		</a>
+	                	</li>
+	              	</ul>
+	            </div>
+        	</div>
+        </div>
+        
+
+        <div class="col-md-9">
+        	{% if app.request.attributes.get('message_id') %}
+        		{{ include('admin/inbox/read-mail.html.twig') }}
+        	{% else %}
+	          	{{ include('admin/inbox/inbox.html.twig') }}
+	        {% endif %}
+        </div>
+    </div>
 {% endblock %}

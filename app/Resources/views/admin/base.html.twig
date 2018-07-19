@@ -322,8 +322,8 @@
                             </a>
                         </li>
 
-                        <li class="{{ route == 'admin_inbox' ? 'active': ''}}">
-                            <a href="{{ path('admin_inbox') }}">
+                        <li class="{{ route == 'admin_webmail_index' ? 'active': ''}}">
+                            <a href="{{ path('admin_webmail_index') }}">
                                 <i class="fa fa-envelope"></i> 
                                 <span>Boite de reception</span>
                             </a>
@@ -347,12 +347,12 @@
                                 </a>
                             </li>
 
-                            <li class="{{ route == 'admin_setting_index' ? 'active': ''}}">
+                            {#<li class="{{ route == 'admin_setting_index' ? 'active': ''}}">
                                 <a href="{{ path('admin_setting_index') }}">
                                     <i class="fa fa-info-circle"></i> 
                                     <span>Informations</span>
                                 </a>
-                            </li>
+                            </li>#}
                         {% endif %}
 
                         {% if is_granted('ROLE_ADMIN') %}

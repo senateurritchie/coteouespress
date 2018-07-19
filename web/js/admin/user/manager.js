@@ -24,6 +24,17 @@ var AdminManager = AdminManager || {};
 		return UserGrantRoleEvent;
 	})();
 
+	/**
+	* evenement lorsqu'on fait une mise a jour
+	*/
+	nsp.UserRoleUpdatingEvent = (function(){
+		function UserRoleUpdatingEvent(params){
+			nsp.Event.call(this,'role-update',params);
+		};
+		Object.assign(UserRoleUpdatingEvent.prototype, nsp.Event.prototype);
+		return UserRoleUpdatingEvent;
+	})();
+
 	nsp.fn.UserRepository = (function(){
 
 		function UserRepository(params){
@@ -86,6 +97,13 @@ var AdminManager = AdminManager || {};
 
 		UserView.prototype.controller = function(){
 
+			this.params.currentUserView.find('button[type=reset]').on({
+				click:e=>{
+					this.params.rightSection.removeClass('user-active');
+				}
+			});
+
+
 			this.params.currentUserModels.on({
 				change:(e)=>{
 					var selected = e.target;
@@ -94,10 +112,7 @@ var AdminManager = AdminManager || {};
 					var name = $(selected).data('name');
 
 					var sel = `.widget-user-privileges [data-id=${value}]`;
-					var rol_sel = `#users-container .user-item[data-id=${this.params.currentUserView.data('id')}] .user-item-privilege`;
 					var item = this.params.currentUserView.find(sel);
-					var rowItem = $(rol_sel);
-					var item2 = rowItem.find(`[data-label=${label}]`);
 
 					// on ajoute
 					if(selected.checked){
@@ -112,13 +127,6 @@ var AdminManager = AdminManager || {};
 						var role = this.render(this.params.$tpl.currentUserRole,model);	
 						this.params.currentUserView.find('.widget-user-privileges').append($(role.trim())).app;
 
-						if(!item2.length){
-							model.name = label;
-							var role = this.render(this.params.$tpl.currentUserRole,model);	
-							rowItem.append($(role.trim()));
-						}
-						
-
 						this.emit(new nsp.UserGrantRoleEvent({role_id:model.id}));
 					}
 					// on supprime
@@ -128,8 +136,29 @@ var AdminManager = AdminManager || {};
 							id:value
 						};
 						item.remove();
-						item2.remove();
 						this.emit(new nsp.UserRevokeRoleEvent({role_id:model.id}));
+					}
+
+					this.params.currentUserView.addClass('updating');
+				}
+			});
+
+			// on ecoute les evenements
+			this.subscribe(event=>{
+				if(event instanceof nsp.UserRoleUpdatingEvent){
+					if(~['end','fails'].indexOf(event.params.state)){
+						this.params.currentUserView.removeClass('updating');
+						var data = event.params.data;
+
+						if(data.hasOwnProperty('message')){
+							$('#modal-info .modal-body h4').html(data.message);
+							$('#modal-info').modal('show');
+						}
+						else if(data.hasOwnProperty('errors')){
+							var tpl = this.render(this.params.$tpl.errors,data);
+							$('#modal-info .modal-body h4').html(tpl);
+							$('#modal-info').modal('show');
+						}
 					}
 				}
 			});

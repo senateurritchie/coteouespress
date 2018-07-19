@@ -50,8 +50,6 @@ security:
         - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
 
 
-
-
     role_hierarchy:
         ROLE_SUBSCRIBER: ROLE_USER
         ROLE_TRANSLATOR: ROLE_USER
