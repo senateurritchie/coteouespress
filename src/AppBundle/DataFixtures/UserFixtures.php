@@ -1,10 +1,13 @@
 <?php
 namespace AppBundle\DataFixtures;
 
-use AppBundle\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
+use AppBundle\Entity\User;
+use AppBundle\Entity\Role;
+use AppBundle\Entity\UserRole;
 
 class UserFixtures extends Fixture{
 
@@ -19,52 +22,36 @@ class UserFixtures extends Fixture{
 
     public function load(ObjectManager $manager){
 
-    	// super admin
+        $rep_role = $manager->getRepository(Role::class);
+
+        // on cree le super admin
     	$user = new User();
         $user->setUsername("zakeszako");
         $user->setEmail("zakeszako@test.coa");
         $plainPassword = 'zack-coa';
         $encoded = $this->encoder->encodePassword($user, $plainPassword);
         $user->setPassword($encoded);
-        $user->setRoles(array("ROLE_SUPER_ADMIN"));
         $user->setCreateAt(new \Datetime());
+
+        // role de super admin
+        $role = $rep_role->findOneByLabel("ROLE_SUPER_ADMIN");
+        $userrole = new UserRole();
+        $userrole->setUser($user);
+        $userrole->setRole($role);
+        $userrole->setCreateAt(new \Datetime());
+
         $manager->persist($user);
+        $manager->persist($userrole);
 
-        $roles = [
-            "ROLE_ADMIN",
-            "ROLE_TRANSLATOR",
-            "ROLE_CATALOG",
-            "ROLE_SUBSCRIBER",
-            "ROLE_SALER",
-            "ROLE_PRODUCER",
-            "ROLE_DIRECTOR",
-            "ROLE_ACTOR",
-            "ROLE_CREATOR",
-        ];
 
-        $privileges = [
-            "ROLE_USER_READ",
-            "ROLE_USER_INSERT",
-            "ROLE_USER_PRIVIL_ADD",
-            "ROLE_USER_PRIVIL_DEL",
+        // on cree les autres utilistateurs
+        $rolesData = $rep_role->findBy(["type"=>"role"]);
+        $roles = array_filter($rolesData,function($el){
+            return ($el->getType() == "role" && $el->getLabel() != "ROLE_SUPER_ADMIN");
+        });
+        $roles = array_values($roles);
 
-            "ROLE_CATALOG_READ",
-            "ROLE_CATALOG_UPDATE",
-            "ROLE_CATALOG_REMOVE",
-            "ROLE_CATALOG_INSERT",
-            "ROLE_CATALOG_INSERT",
-
-            "ROLE_PRODUCER_READ",
-            "ROLE_PRODUCER_INSERT",
-
-            "ROLE_SALER_READ",
-            "ROLE_SALER_INSERT",
-
-            "ROLE_TRANSLATOR_READ",
-            "ROLE_TRANSLATOR_INSERT",
-        ];
-
-        for ($i = 0; $i < 20; $i++) {
+        for ($i = 0; $i < 25; $i++) {
         	$username = 'user'.$i.uniqid();
             $user = new User();
             $user->setUsername($username);
@@ -72,11 +59,17 @@ class UserFixtures extends Fixture{
             $plainPassword = 'pwd-coa';
             $encoded = $this->encoder->encodePassword($user, $plainPassword);
             $user->setPassword($encoded);
-            $user->setRoles(array($roles[mt_rand(0,count($roles)-1)]));
             $user->setCreateAt(new \Datetime());
-            $manager->persist($user);
-        }
 
+            $role = $roles[mt_rand(0,count($roles)-1)];
+            $userrole = new UserRole();
+            $userrole->setUser($user);
+            $userrole->setRole($role);
+            $userrole->setCreateAt(new \Datetime());
+
+            $manager->persist($user);
+            $manager->persist($userrole);
+        }
         $manager->flush();
     }
 }

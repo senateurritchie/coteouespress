@@ -46,8 +46,7 @@ security:
             #form_login: ~
 
     access_control:
-        - { path: ^/account/admin/users, roles: ROLE_ADMIN] }
-        - { path: ^/account/admin, roles: [ROLE_ADMIN,ROLE_TRANSLATOR,ROLE_CATALOG] }
+        - { path: ^/admin, roles: [ROLE_ADMIN,ROLE_TRANSLATOR,ROLE_CATALOG,ROLE_SALER] }
         - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
 
 

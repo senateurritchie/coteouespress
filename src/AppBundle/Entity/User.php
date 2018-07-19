@@ -15,6 +15,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
  * @ORM\Table(name="user", options={"comment":"enregistre les utilisateurs de la plateforme avec différents niveau d'acces"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\UserRepository")
  * @UniqueEntity("email", message="cet adresse est déja enregistrée")
+ * @ORM\HasLifecycleCallbacks() 
  */
 class User implements UserInterface, EquatableInterface, \Serializable
 {
@@ -81,7 +82,6 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @var array
     *
     * @Groups({"group1"})
-    * @ORM\Column(name="roles", type="array")
     */
     private $roles;
 
@@ -107,14 +107,25 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $createAt;
 
 
-    public function __construct($username=null, $email=null,$password=null, $salt=null, array $roles=array(),$createAt=null){
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserRole", mappedBy="user")
+    * @Groups({"group4"})
+    */
+    private $uroles;
+
+
+    /**
+    * Constructor
+    */
+    public function __construct($username=null, $email=null,$password=null, $salt=null,$createAt=null){
         $this->username = $username;
         $this->email = $email;
         $this->password = $password;
         $this->salt = $salt;
-        $this->roles = $roles;
-        $this->createAt = new \DateTime();
+
+        $this->uroles = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
 
 
     /**
@@ -247,6 +258,43 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+    * 
+    * @ORM\PostLoad
+    */
+    public function fillRoles($roles)
+    {
+        $uroles = $this->getUroles();
+        $roles = [];
+
+        foreach ($uroles as $key => $el) {
+            $roles[] = $el->getRole();
+        }
+
+        // role principal
+        $role = array_filter($roles,function($el){
+            return ($el->getType() == "role");
+        });
+        $role = array_values($role);
+
+        if(count($role)) $role = $role[0];
+
+        // privileges
+        $privileges = array_filter($roles,function($el){
+            return ($el->getType() == "privilege");
+        });
+        $privileges = array_values($privileges);
+
+        $roles = array_map(function($el){
+            return $el->getLabel();
+        }, $roles);
+
+        $this->setMasterRole($role);
+        $this->setPrivileges($privileges);
+        $this->setRoles($roles);
+        return $this;
     }
 
     public function setMasterRole(Role $masterRole){
@@ -387,5 +435,42 @@ class User implements UserInterface, EquatableInterface, \Serializable
 
     public static function generateToken($length = 8){
         return substr(trim(base64_encode(bin2hex(openssl_random_pseudo_bytes(64,$ok))),"="),0,$length);
+    }
+    
+
+
+
+    /**
+     * Add urole
+     *
+     * @param \AppBundle\Entity\UserRole $urole
+     *
+     * @return User
+     */
+    public function addUrole(\AppBundle\Entity\UserRole $urole)
+    {
+        $this->uroles[] = $urole;
+
+        return $this;
+    }
+
+    /**
+     * Remove urole
+     *
+     * @param \AppBundle\Entity\UserRole $urole
+     */
+    public function removeUrole(\AppBundle\Entity\UserRole $urole)
+    {
+        $this->uroles->removeElement($urole);
+    }
+
+    /**
+     * Get uroles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getUroles()
+    {
+        return $this->uroles;
     }
 }

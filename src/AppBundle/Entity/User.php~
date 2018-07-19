@@ -7,6 +7,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * User
@@ -18,40 +19,45 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 class User implements UserInterface, EquatableInterface, \Serializable
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     * @Assert\NotBlank
-     * @Assert\Length(min=3, max=30)
-     * @ORM\Column(name="username", type="string", length=30)
-     */
+    * @var string
+    * @Groups({"group1"})
+    * @Assert\NotBlank
+    * @Assert\Length(min=3, max=30)
+    * @ORM\Column(name="username", type="string", length=30)
+    */
     private $username;
 
     /**
     * @var string
     *
+    * @Groups({"group1"})
     * @Assert\Email
     * @ORM\Column(name="email", type="string", length=255, nullable=true, unique=true)
     */
     private $email;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="salt", type="string", length=64, nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group3"})
+    * @ORM\Column(name="salt", type="string", length=64, nullable=true)
+    */
     private $salt;
 
     /**
     * @var string
     *
+    * @Groups({"group3"})
     * @Assert\Length(min=8)
     * @ORM\Column(name="password", type="string", length=70)
     */
@@ -59,40 +65,52 @@ class User implements UserInterface, EquatableInterface, \Serializable
     /**
     * @var string
     *
+    * @Groups({"group1"})
     * @ORM\Column(name="state", type="string", options={"comment":"le status d'un utilisateur"}, columnDefinition="ENUM('activate','pending','blocked')", nullable=true)
     */
     private $state = "activate";
     /**
     * @var string
     *
+    * @Groups({"group3"})
     * @ORM\Column(name="signup_token", type="string", options={"comment":"un code arbitraire généré pour l'activation du compte"}, nullable=true, length=64)
     */
     private $signUpToken;
     
     /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="array")
-     */
+    * @var array
+    *
+    * @Groups({"group1"})
+    */
     private $roles;
 
-     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime", nullable=true)
-     */
+    /**
+    * @var Role
+    *
+    * @Groups({"group1","group2"})
+    */
+    private $masterRole;
+    /**
+    * @var array<Role>
+    *
+    * @Groups({"group1","group2"})
+    */
+    private $privileges = array();
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="create_at", type="datetime", nullable=true)
+    */
     private $createAt;
 
 
-    public function __construct($username=null, $email=null,$password=null, $salt=null, array $roles=array(),$createAt=null){
-        $this->username = $username;
-        $this->email = $email;
-        $this->password = $password;
-        $this->salt = $salt;
-        $this->roles = $roles;
-        $this->createAt = new \DateTime();
-        $this->state = "pending";
-    }
+    /**
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\UserRole", mappedBy="user")
+    */
+    private $uroles;
+
 
 
     /**
@@ -227,6 +245,23 @@ class User implements UserInterface, EquatableInterface, \Serializable
         return $this->roles;
     }
 
+    public function setMasterRole(Role $masterRole){
+        $this->masterRole = $masterRole;
+        return $this;
+    }
+
+    public function setPrivileges(array $roles = array()){
+        $this->privileges = $roles;
+        return $this;
+    }
+
+    public function getMasterRole(){
+        return $this->masterRole;
+    }
+
+    public function getPrivileges(){
+        return $this->privileges;
+    }
 
     public function eraseCredentials()
     {

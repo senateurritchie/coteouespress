@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Role;
+use AppBundle\Entity\UserRole;
 use AppBundle\Form\UserAdminRegistrationType;
 
 /**
@@ -70,22 +71,7 @@ class AdminUserController extends Controller
                 if(empty($users)){
                     throw $this->createNotFoundException("Utilisateur introuvable");
                 }
-
                 $users = $users[0];
-
-                if(count($users->getRoles())){
-                    $role = array_slice($users->getRoles(), 0,1);
-                    if(($role = $rep_role->findOneBy(["label"=>$role]))){
-                        $users->setMasterRole($role);
-                    }
-
-                    if(count($users->getRoles()) > 1){
-                        $privileges = array_slice($users->getRoles(), 1);
-                            if(($privileges = $rep_role->findBy(["label"=>$privileges]))){
-                            $users->setPrivileges($privileges);
-                        }
-                    }
-                }
             }
 
             $json = $this->get("serializer")->serialize($users,'json', array('groups' => array('group1')));
@@ -124,13 +110,17 @@ class AdminUserController extends Controller
         }
 
         $roles = $user->getRoles();
+
         if(!in_array($role->getLabel(), $roles)){
             if($role->getType() != "role"){
-                $roles[] = $role->getLabel();
+                $userrole = new UserRole();
+                $userrole->setUser($user);
+                $userrole->setRole($role);
+                $userrole->setCreateAt(new \Datetime());
+                $em->persist($userrole);
+                $em->flush();
+                $result['status'] = true;
             }
-            $user->setRoles($roles);
-            $em->flush();
-            $result['status'] = true;
         }
 
         return $this->json($result);
@@ -152,21 +142,22 @@ class AdminUserController extends Controller
             throw $this->createNotFoundException();
         }
 
-
         if(!($role = $rep_role->find($role_id))){
             throw $this->createNotFoundException();
         }
 
         $roles = $user->getRoles();
+
         if(in_array($role->getLabel(), $roles)){
             if($role->getType() != "role"){
-                $pos = array_search($role->getLabel(),  $roles);
-                unset($roles[$pos]);
-            }
+                $rep = $em->getRepository(UserRole::class);
 
-            $user->setRoles($roles);
-            $em->flush();
-            $result['status'] = true;
+                if(($userrole = $rep->findOneBy(["user"=>$user,"role"=>$role]))) {
+                    $em->remove($userrole);
+                    $em->flush();
+                    $result['status'] = true;
+                }
+            }
         }
 
         return $this->json($result);
