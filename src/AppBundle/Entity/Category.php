@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
 * Category
@@ -16,39 +17,44 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Category
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=30, unique=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="name", type="string", length=30, unique=true)
+    */
     private $name;
 
 
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=60, unique=true,nullable=true)
     */
     private $slug;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="movie_nbr", type="integer")
-     */
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
     private $movieNbr = 0;
 
 
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Movie", mappedBy="category")
     */
     private $movies;
