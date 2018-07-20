@@ -1,9 +1,361 @@
 {% extends 'admin/base.html.twig' %}
 
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<style>
+
+		
+		#current-widget-data{
+			display: none;
+		}
+
+		#data-loading{
+			display: none;
+		}
+
+		
+		#right-section.data-loading #data-loading{
+			display: block;
+		}
+
+		#right-section.data-active #current-widget-data{
+			display: block;
+		}
+
+		#right-section.data-active #data-secondary-box,
+		#right-section.data-loading #data-secondary-box,
+		#right-section.data-loading #current-widget-data{
+			display: none;
+		}
+
+		#current-widget-data #spinner{
+			display: none;
+		}
+
+		#current-widget-data.updating #spinner{
+			display: block;
+		}
+
+		#data-btn-remove{
+			position: absolute;
+			right: 20px;
+			top: 20px;
+		}
+
+		.widget-user-username{
+			text-overflow: ellipsis;
+    		overflow: hidden;
+    		white-space: nowrap
+		}
+
+		#current-widget-data form .box-footer #area-persist{
+			display: none;
+		}
+
+		#current-widget-data.action-update-active form .box-footer #area-persist{
+			display: block;
+		}
+
+		#current-widget-data.action-update-active form .box-footer #area-action{
+			display: none;
+		}
+
+		#current-widget-data form #update-form{
+			display: none;
+		}
+
+		#current-widget-data.action-update-active form #update-form{
+			display: block;
+		}
+
+		#current-widget-data.action-update-active form #update-show{
+			display: none;
+		}
+
+		
+	</style>
+
+{% endblock %}
+
 {% block header_content %}
     Les Réalisateurs <small>gestions des réalisateurs de la plateforme</small>
 {% endblock %}
 
 {% block body_content %}
 	
+	{{ include('admin/modal-info.html.twig') }}
+
+	<div class="modal modal-danger fade" id="myModal">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+          		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              			<span aria-hidden="true">×</span>
+              		</button>
+            		<h4 class="modal-title">Confirmation...</h4>
+          		</div>
+          
+          		<div class="modal-body">
+          			<h4>Voulez-vous vraiment supprimer ce réalisateur ?</h4>
+
+            		<p>
+            			Une fois l'action éfféctuée tout les programmes possedant ce réalisateur ne seront plus referencés.
+            		</p>
+
+          		</div>
+          
+          		<div class="modal-footer">
+            		<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+            			Annuler
+            		</button>
+
+            		<button type="submit" class="btn btn-outline">Valider</button>
+          		</div>
+        	</div>
+      	</div>
+    </div>
+
+	<div class="row">
+    	<div class="col-xs-12 col-md-8">
+        	<div class="box box-primary">
+            	<div class="box-header">
+              		<h3 class="box-title">Toutes les réalisateurs</h3>
+
+              		<div class="box-tools pull-right">
+			    		<form class="has-feedback">
+			      			<input name="q" type="text" class="form-control input-sm" placeholder="Recherche...">
+			      			<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			    		</form>
+			  		</div>
+            	</div>
+            
+            	<!-- /.box-header -->
+            	<div class="box-body table-responsive no-padding" id="data-container">
+              		<table class="table table-hover">
+		                <tbody>
+		                	<tr>
+		                 		<th>Nom</th>
+		                 		<th style="text-align:center">Programmes associés</th>
+		                 		<th>#</th>
+		                	</tr>
+	                		
+	                		{% for item in data %}
+		                		<tr class="data-item" data-id="{{ item.id }}">
+		                  			<td class="data-item-name">
+		                  				{{ item.name|lower|title }}
+		                  			</td>
+
+		             
+		                  			<td style="text-align:center">
+		                  				<i class="label bg-blue">{{ item.movieNbr }}</i>
+		                  			</td>
+
+		                  			<td class="data-item-tools">
+		                  				<a data-id="{{ item.id }}" href="" class="edit btn">
+		                  					<i class="fa fa-edit"></i> modifier
+		                  				</a>
+		                  			</td>
+		                		</tr>
+		                	{% endfor %}
+	               
+	              		</tbody>
+              		</table>
+            	</div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-xs-12" id="right-section">
+
+        	<div style="text-align:center" id="data-loading">
+        		<i  class="fa fa-spinner fa-spin fa-3x"></i>
+        	</div>
+
+			<div class="box box-widget widget-user-2" id="current-widget-data">
+	            <div class="widget-user-header bg-aqua-active">
+	            	<div class="widget-user-image">
+	                	<img class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
+	              	</div>
+	              	<h3 class="widget-user-username">
+	              		Nadia Carmichael
+	              	</h3>
+	              	<h5 class="widget-user-desc">
+	              		Réalisateur 
+	              	</h5>
+		            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
+		                <i class="fa fa-trash fa-2x" style="color:#fff"></i>
+		            </button>
+	            </div>
+
+	           	<form >
+		            <div class="box-body">
+		            	<h4>Pays d'origine</h4>
+			            <div  id="countries"></div>
+
+		            	<div id="update-show">
+			            	<hr>
+
+			            	<h4>A propos</h4>
+							<div  id="aboutme"></div>
+		            	</div>
+		            	
+
+						<div id="update-form">
+							<hr>
+
+							<div class="form-group">
+					    		<label for="name">Name</label>
+					    		<input name="name" type="text" class="form-control input-sm" id="name" />
+					  		</div>
+
+					  		<div class="form-group">
+					    		<label for="name">Description</label>
+					    		<textarea name="description" class="form-control" id="description"></textarea>
+					  		</div>
+
+							<div class="form-group">
+								<label for="name">Ajouter un pays</label>
+					    		<div id="current-user-cmodel"></div>
+							</div>
+						</div>
+						
+		            </div>
+
+		            <div class="box-footer">
+		            	<div id="area-action">
+		            		<button  type="button" class="btn btn-default reset" >
+	              				Quitter
+	              			</button>
+
+		            		<button  type="button" class="btn btn-default update" >
+	              				Modifier
+	              			</button>
+		            	</div>
+
+		            	<div id="area-persist">
+		            		<button type="reset" class="btn btn-default" >
+		              			Annuler
+		              		</button>
+
+		                	<button type="submit" class="btn btn-danger pull-right">
+		                		<i class="fa fa-save"></i> Enregistrer
+		                	</button>
+		            	</div>
+						
+		            </div>
+		        </form>
+
+	            <div class="overlay" id="spinner">
+              		<i class="fa fa-spinner fa-spin"></i>
+            	</div>
+	        </div>
+
+
+
+        	{#<div class="box box-danger" id="current-widget-data">
+            	<div class="box-header">
+            		<h3 class="box-title">Modification</h3>
+
+            		<div class="box-tools pull-right">
+			            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
+			                <i class="fa fa-trash fa-2x"></i>
+			            </button>
+			        </div>
+            	</div>
+            	
+            	<form>
+	            	<div class="box-body preview">
+
+				  		<div class="form-group">
+				    		<label for="name">Name</label>
+				    		<input name="name" type="text" class="form-control" id="name" />
+				  		</div>
+						
+
+						<div class="form-group">
+							<label for="name">Pays d'origine</label>
+							<div  id="countries"></div>
+						</div>
+
+						<hr>
+
+						<div class="form-group">
+				    		<label for="name">Ajouter un pays</label>
+				    		<div id="current-user-cmodel">
+				    			
+				    		</div>
+				  		</div>
+
+	            	</div>
+
+	            	<div class="box-footer" style="padding-top:10px">
+	              		<button type="reset" class="btn btn-default" >
+	              			Annuler
+	              		</button>
+
+	                	<button type="submit" class="btn btn-danger pull-right">
+	                		<i class="fa fa-save"></i> Enregistrer
+	                	</button>
+	            	</div>
+            	</form>
+
+            	<div class="overlay" id="spinner">
+              		<i class="fa fa-spinner fa-spin"></i>
+            	</div>
+          	</div>#}
+
+        	<div class="box box-primary" id="data-secondary-box">
+	            <div class="box-header with-border">
+	            	<h3 class="box-title">Ajouter un réalisateur</h3>
+	            </div>
+	            
+	            {{ form_start(form) }}
+	            	<div class="box-body">
+						
+						{% for notice in app.flashes('notice-success') %}
+                            <div class="alert alert-info alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+				                Le catégorie à bien été enregistré avec succès.
+				            </div>
+                        {% endfor %}
+
+                        {% for notice in app.flashes('notice-error') %}
+                            <div class="alert alert-danger alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+				                {{ notice }}
+				            </div>
+                        {% endfor %}
+
+
+	            		{{ form_row(form.name) }}
+	            		{{ form_row(form.description) }}
+	            		{{ form_row(form.pays) }}
+	              	</div>
+
+	              	<div class="box-footer">
+
+	                	<button type="submit" class="btn btn-danger pull-right">
+	                		<i class="fa fa-save"></i> Enregistrer
+	                	</button>
+	              	</div>
+              	{{ form_end(form) }}
+	        </div>
+        </div>
+    </div>
 {% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/admin/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/director/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/director/index.js') }}"></script>
+	
+{% endblock %}
+

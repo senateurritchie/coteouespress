@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Director
@@ -14,40 +15,62 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Director
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="name", type="string", length=50)
+    */
     private $name;
 
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="description", type="string", length=254)
+    */
+    private $description;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=100, unique=true)
     */
     private $slug;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
+    private $movieNbr = 0;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\DirectorCountry", mappedBy="director")
     */
     private $countries;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieDirector", mappedBy="director")
     */
     private $movies;
@@ -210,5 +233,53 @@ class Director
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Director
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Director
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 }
