@@ -5,6 +5,9 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
+
+
 /**
  * Country
  *
@@ -15,78 +18,85 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Country
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=30, unique=true)
-     */
-    private $name;
 
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="name", type="string", length=30, unique=true)
+    */
+    private $name;
+
+    /**
+    * @var string
+    * 
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=60, unique=true)
     */
     private $slug;
 
 
-     /**
-     * @var integer
-     *
-     * @ORM\Column(name="movie_nbr", type="integer")
-     */
+    /**
+    * @var integer
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
     private $movieNbr = 0;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="actor_nbr", type="integer", nullable=true)
-     */
+    * @var int
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="actor_nbr", type="integer", nullable=true)
+    */
     private $actorNbr = 0;
-     /**
-     * @var int
-     *
-     * @ORM\Column(name="producer_nbr", type="integer", nullable=true)
-     */
+    /**
+    * @var int
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="producer_nbr", type="integer", nullable=true)
+    */
     private $producerNbr = 0;
-     /**
-     * @var int
-     *
-     * @ORM\Column(name="director_nbr", type="integer", nullable=true)
-     */
+    /**
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="director_nbr", type="integer", nullable=true)
+    */
     private $directorNbr = 0;
 
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieCountry", mappedBy="country")
     */
     private $movies;
 
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ActorCountry", mappedBy="country")
     */
     private $actors;
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\CreatorCountry", mappedBy="country")
-    */
-    private $creators;
-    /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\DirectorCountry", mappedBy="country")
     */
     private $directors;
-     /**
+    /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProducerCountry", mappedBy="country")
     */
     private $producers;
 
+    
     /**
      * Constructor
      */
@@ -94,19 +104,14 @@ class Country
     {
         $this->movies = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->creators = new \Doctrine\Common\Collections\ArrayCollection();
         $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
     }
-    
-
-   
-
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -137,7 +142,6 @@ class Country
         return $this->name;
     }
 
-
     /**
      * Set slug
      *
@@ -160,6 +164,30 @@ class Country
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Country
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 
     /**
@@ -233,7 +261,7 @@ class Country
     {
         return $this->directorNbr;
     }
-   
+
     /**
      * Add movie
      *
@@ -303,40 +331,6 @@ class Country
     }
 
     /**
-     * Add creator
-     *
-     * @param \AppBundle\Entity\CreatorCountry $creator
-     *
-     * @return Country
-     */
-    public function addCreator(\AppBundle\Entity\CreatorCountry $creator)
-    {
-        $this->creators[] = $creator;
-
-        return $this;
-    }
-
-    /**
-     * Remove creator
-     *
-     * @param \AppBundle\Entity\CreatorCountry $creator
-     */
-    public function removeCreator(\AppBundle\Entity\CreatorCountry $creator)
-    {
-        $this->creators->removeElement($creator);
-    }
-
-    /**
-     * Get creators
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCreators()
-    {
-        return $this->creators;
-    }
-
-    /**
      * Add director
      *
      * @param \AppBundle\Entity\DirectorCountry $director
@@ -402,31 +396,5 @@ class Country
     public function getProducers()
     {
         return $this->producers;
-    }
-    
-
-
-    /**
-     * Set movieNbr
-     *
-     * @param integer $movieNbr
-     *
-     * @return Country
-     */
-    public function setMovieNbr($movieNbr)
-    {
-        $this->movieNbr = $movieNbr;
-
-        return $this;
-    }
-
-    /**
-     * Get movieNbr
-     *
-     * @return integer
-     */
-    public function getMovieNbr()
-    {
-        return $this->movieNbr;
     }
 }

@@ -183,17 +183,9 @@ class Movie
     */
     private $directors;
     /**
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieCreator", mappedBy="movie")
-    */
-    private $creators;
-    /**
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;
-
-
-   
-    
     /**
      * Constructor
      */
@@ -208,7 +200,6 @@ class Movie
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->creators = new \Doctrine\Common\Collections\ArrayCollection();
         $this->scenes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -934,40 +925,6 @@ class Movie
     public function getDirectors()
     {
         return $this->directors;
-    }
-
-    /**
-     * Add creator
-     *
-     * @param \AppBundle\Entity\MovieCreator $creator
-     *
-     * @return Movie
-     */
-    public function addCreator(\AppBundle\Entity\MovieCreator $creator)
-    {
-        $this->creators[] = $creator;
-
-        return $this;
-    }
-
-    /**
-     * Remove creator
-     *
-     * @param \AppBundle\Entity\MovieCreator $creator
-     */
-    public function removeCreator(\AppBundle\Entity\MovieCreator $creator)
-    {
-        $this->creators->removeElement($creator);
-    }
-
-    /**
-     * Get creators
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCreators()
-    {
-        return $this->creators;
     }
 
     /**

@@ -450,7 +450,7 @@ footer #copyright{
 	text-align: center;
 	background: #3366CC;
 	padding: 10px;
-	font-size: 12px;
+	font-size: 14px;
 	color: #fff;
 }
 
@@ -490,7 +490,7 @@ footer #footer-info > ul input {
 	width: 200px;
 	outline: none;
 	padding: 5px;
-	font-size: 12px;
+	font-size: 14px;
 }
 footer #footer-info  ul.sitemap {
 	list-style: none;
@@ -499,7 +499,7 @@ footer #footer-info  ul.sitemap {
 }
 
 footer #footer-info  ul.sitemap li a {
-	font-size: 12px;
+	font-size: 14px;
 	text-decoration: none;
 	color: #666666;
 }

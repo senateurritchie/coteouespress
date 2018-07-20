@@ -28,7 +28,6 @@ use AppBundle\Entity\Genre;
 use AppBundle\Entity\Country;
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\Director;
-use AppBundle\Entity\Creator;
 
 class CatalogType extends AbstractType
 {
@@ -187,29 +186,6 @@ class CatalogType extends AbstractType
                 ->orderBy('u.name', 'ASC');
             },
             "mapped"=>false,
-        ))
-        ->add('creator',EntityType::class,array(
-            "required"=>false,
-            "placeholder"=>$this->translator->trans("Créateur",array(),"catalogue"),
-            "class"=>Creator::class,
-            "choice_label"=>"name",
-            "choice_value"=>"slug",
-            "mapped"=>false,
-            'choice_attr' => function($value, $key, $value) {
-                $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("creator") == $value){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            'group_by' => function($value, $key, $value) {
-                return strtoupper($value[0]);
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                ->orderBy('u.name', 'ASC');
-            },
         ))
         ->add('name',TextType::class,array(
             "required"=>false,
