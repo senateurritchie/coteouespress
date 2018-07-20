@@ -77,7 +77,7 @@ var AdminManager = AdminManager || {};
 	  			this.request({
 	  				url:`/admin/directors/${this.current.id}/country/${event.type}`,
 	  				method:"POST",
-	  				data:event.params.model
+	  				data:{country_id:event.params.model.id}
 		  		})
 		  		.done(data=>{
 		  			resolve(data);
@@ -314,23 +314,7 @@ var AdminManager = AdminManager || {};
 								$('#myModal').off('hidden.bs.modal');
 							};
 
-							if(data.status){
-								var rol_sel = `#data-container .data-item[data-id=${this.params.selectedDataView.data('id')}]`;
-								var rowItem = $(rol_sel);
-								rowItem.remove();
-
-								
-								$('#myModal').on('hidden.bs.modal', function () {
-					  				alertShow();
-								});
-
-								$('#myModal').modal('hide');
-								
-								this.params.rightSection.removeClass('data-active');
-							}
-							else{
-								alertShow();
-							}
+							alertShow();
 						}
 					}
 				}

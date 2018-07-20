@@ -184,7 +184,7 @@ class AdminDirectorController extends Controller
             throw $this->createNotFoundException();
         }
 
-        if(!($country = $rep_c->find($country_id))){
+        if(!($country = $rep_c->findOneBySlug($country_id))){
             throw $this->createNotFoundException();
         }
 
