@@ -321,6 +321,56 @@ var AdminManager = AdminManager || {};
 
 			});
 
+			var dropper = document.getElementById("current-widget-data");
+
+			dropper.addEventListener("dragenter",e=>{
+				this.params.selectedDataView.addClass('dragenter');
+				e.preventDefault();
+			});
+
+			dropper.addEventListener("dragover",e=>{
+				this.params.selectedDataView.addClass('dragenter');
+				e.preventDefault();
+			});
+			
+
+			dropper.addEventListener("dragleave",e=>{
+				e.preventDefault();
+				this.params.selectedDataView.removeClass('dragenter');
+			});
+
+			dropper.addEventListener("drop",e=>{
+				e.preventDefault();
+				this.params.selectedDataView.removeClass('dragenter');
+
+				var file = e.dataTransfer.files[0];
+		        var filenames = file.name;
+
+			    var reader = new FileReader();
+
+			    reader.addEventListener('load', ()=> {
+			    	this.params.selectedDataView.find('img:first').attr('src',reader.result);
+			    	this.upload(file)
+			    	.then(e=>{
+
+			    	},msg=>{
+
+			    	});
+			    });
+
+			    reader.readAsDataURL(file);
+			});
+
+			
+
+			$(document.body).on({
+				dragend:e=>{
+					
+				}
+			});
+
+
+
 			return this;
 		}
 
@@ -330,18 +380,22 @@ var AdminManager = AdminManager || {};
 			this.params.selectedDataView.find("#description").val(model.description);
 			this.params.selectedDataView.find("#aboutme").html(model.description);
 			this.params.selectedDataView.find(".widget-user-username").html(model.name);
+			this.params.selectedDataView.find("#countries").html('');
 
-			model.countries = model.countries.map(function(el){
-				el.id = el.slug;
-				return el;
-			})
-			var countries = this.render(this.params.$tpl.countries,model,{
-				country:this.params.$tpl.country
-			});
+			if(model.hasOwnProperty('countries')){
+				model.countries = model.countries.map(function(el){
+					el.id = el.slug;
+					return el;
+				})
+				var countries = this.render(this.params.$tpl.countries,model,{
+					country:this.params.$tpl.country
+				});
 
-			countries = $(countries);
-			this.applyRemoveCountryEvent(countries);
-			this.params.selectedDataView.find("#countries").html(countries);
+				countries = $(countries);
+				this.applyRemoveCountryEvent(countries);
+				this.params.selectedDataView.find("#countries").html(countries);
+			}
+			
 		}
 
 		DirectorView.prototype.applyRemoveCountryEvent = function(elts){

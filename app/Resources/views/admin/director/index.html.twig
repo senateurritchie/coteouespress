@@ -77,6 +77,10 @@
 			display: none;
 		}
 
+		#current-widget-data.dragenter{
+			border: 2px dashed #00a7d0;
+		}
+
 		
 	</style>
 
@@ -152,7 +156,7 @@
 
 		             
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.movieNbr }}</i>
+		                  				{{ item.movieNbr }}
 		                  			</td>
 
 		                  			<td class="data-item-tools">
@@ -175,10 +179,10 @@
         		<i  class="fa fa-spinner fa-spin fa-3x"></i>
         	</div>
 
-			<div class="box box-widget widget-user-2" id="current-widget-data">
+			<div class="box box-widget widget-user-2" id="current-widget-data" draggable="false">
 	            <div class="widget-user-header bg-aqua-active">
 	            	<div class="widget-user-image">
-	                	<img class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
+	                	<img style="width:65px;height:65px;" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
 	              	</div>
 	              	<h3 class="widget-user-username">
 	              		Nadia Carmichael
