@@ -28,7 +28,7 @@ class DirectorRepository extends \Doctrine\ORM\EntityRepository
 			$this->whereId($qb,@$params["id"]);
 		}
 		
-		$qb->orderBy("u.name","ASC");
+		$qb->orderBy("u.id","DESC");
 
 	    // limit et offset
 	    $qb->setFirstResult( $offset )

@@ -12,10 +12,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 
-use AppBundle\Entity\Director;
+use AppBundle\Entity\Producer;
 use AppBundle\Entity\Country;
 
-class DirectorType extends AbstractType
+class ProducerType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -24,10 +24,10 @@ class DirectorType extends AbstractType
     {
         $builder
         ->add('name',TextType::class,array(
-            "attr"=>["placeholder"=>"Nom du réalisateur","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"Nom du producteur","class"=>"input-sm"]
         ))
         ->add('description',TextareaType::class,array(
-            "attr"=>["placeholder"=>"A propos du réalisateur","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"A propos du producteur","class"=>"input-sm"]
         ))
         ->add('pays',EntityType::class,array(
             "mapped"=>false,
@@ -54,7 +54,7 @@ class DirectorType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => Director::class
+            'data_class' => Producer::class
         ));
     }
 

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Producer
@@ -28,9 +29,18 @@ class Producer
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @assert\Length(min=3, max=50)
     * @ORM\Column(name="name", type="string", length=30)
     */
     private $name;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="description", type="string", length=254)
+    */
+    private $description;
 
    /**
     * @var string
@@ -40,6 +50,23 @@ class Producer
     * @ORM\Column(name="slug", type="string", length=30, unique=true, nullable=true)
     */
     private $slug;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=200,maxWidth=400, minHeight=180,maxHeight=400,allowPortrait=false)
+    */
+    private $image;
+
+    /**
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
+    private $movieNbr = 0;
 
     /**
     * @var \DateTime
@@ -61,6 +88,8 @@ class Producer
     private $movies;
 
     
+    
+
     /**
      * Constructor
      */
@@ -105,6 +134,30 @@ class Producer
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Producer
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -126,6 +179,30 @@ class Producer
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Producer
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -218,5 +295,29 @@ class Producer
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Producer
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 }
