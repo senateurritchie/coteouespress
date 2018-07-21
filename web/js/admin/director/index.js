@@ -51,6 +51,23 @@ $(document).ready(function($){
 				}
 			});
 		}
+		else if(event instanceof nsp.UploadEvent){
+			if(event.params.state != "start") return;
+
+			repository.uploadImage(event)
+	    	.then(data=>{
+
+	    		view.emit(new nsp.UploadEvent({
+					state:'end',
+					data:data
+				}));
+
+	    	},msg=>{
+	    		view.emit(new nsp.UploadEvent({
+					state:'fails',
+				}));
+	    	});
+		}
 	});
 
 	$("#data-container .data-item .data-item-tools .edit").on({
@@ -69,6 +86,7 @@ $(document).ready(function($){
 				self.removeClass('disabled');
 				repository.setCurrent(data);
 				view.renderSelectedData(data);
+
 			},msg=>{
 				rightSection.removeClass('data-active');
 				rightSection.removeClass('data-loading');

@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 use AppBundle\Entity\Director;
 use AppBundle\Entity\Country;
@@ -27,6 +28,9 @@ class DirectorType extends AbstractType
         ))
         ->add('description',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos du réalisateur","class"=>"input-sm"]
+        ))
+        ->add('image',FileType::class,array(
+            "required"=>false
         ))
         ->add('pays',EntityType::class,array(
             "mapped"=>false,
@@ -46,7 +50,8 @@ class DirectorType extends AbstractType
                 ->orderBy('u.name', 'ASC');
             },
         ));
-    }/**
+    }
+    /**
      * {@inheritdoc}
      */
     public function configureOptions(OptionsResolver $resolver)

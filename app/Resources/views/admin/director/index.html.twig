@@ -81,6 +81,11 @@
 			border: 2px dashed #00a7d0;
 		}
 
+		.data-item .data-item-image img{
+			width: 50px;
+			height: 50px;
+		}
+
 		
 	</style>
 
@@ -143,6 +148,7 @@
               		<table class="table table-hover">
 		                <tbody>
 		                	<tr>
+		                 		<th>Image</th>
 		                 		<th>Nom</th>
 		                 		<th style="text-align:center">Programmes associés</th>
 		                 		<th>#</th>
@@ -150,6 +156,15 @@
 	                		
 	                		{% for item in data %}
 		                		<tr class="data-item" data-id="{{ item.id }}">
+		                			<td class="data-item-image">
+		                  				{% if item.image %}
+		                  					<img  class="img-circle" src="{{ asset('upload/public/'~item.image) }}" alt="" />
+		                  					
+		                  				{% else %}
+		                  					<img  class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}">
+		                  				{% endif %}
+		                  			</td>
+
 		                  			<td class="data-item-name">
 		                  				{{ item.name|lower|title }}
 		                  			</td>
@@ -182,6 +197,7 @@
 			<div class="box box-widget widget-user-2" id="current-widget-data" draggable="false">
 	            <div class="widget-user-header bg-aqua-active">
 	            	<div class="widget-user-image">
+	            		<input id="upload-folder" type="hidden" value="{{ asset('upload/public/') }}" />
 	                	<img style="width:65px;height:65px;" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
 	              	</div>
 	              	<h3 class="widget-user-username">

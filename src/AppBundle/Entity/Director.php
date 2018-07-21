@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Director
@@ -28,6 +29,7 @@ class Director
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @assert\Length(min=3, max=50)
     * @ORM\Column(name="name", type="string", length=50)
     */
     private $name;
@@ -48,6 +50,15 @@ class Director
     * @ORM\Column(name="slug", type="string", length=100, unique=true)
     */
     private $slug;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=200,maxWidth=400, minHeight=180,maxHeight=400,allowPortrait=false)
+    */
+    private $image;
 
     /**
     * @var integer
@@ -76,6 +87,7 @@ class Director
     private $movies;
 
     
+   
     /**
      * Constructor
      */
@@ -120,6 +132,30 @@ class Director
     }
 
     /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Director
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -141,6 +177,54 @@ class Director
     public function getSlug()
     {
         return $this->slug;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Director
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Director
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 
     /**
@@ -233,53 +317,5 @@ class Director
     public function getMovies()
     {
         return $this->movies;
-    }
-
-    /**
-     * Set movieNbr
-     *
-     * @param integer $movieNbr
-     *
-     * @return Director
-     */
-    public function setMovieNbr($movieNbr)
-    {
-        $this->movieNbr = $movieNbr;
-
-        return $this;
-    }
-
-    /**
-     * Get movieNbr
-     *
-     * @return integer
-     */
-    public function getMovieNbr()
-    {
-        return $this->movieNbr;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Director
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
     }
 }

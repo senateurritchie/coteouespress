@@ -13,6 +13,7 @@ use AppBundle\Entity\Country;
 use AppBundle\Entity\Director;
 use AppBundle\Entity\DirectorCountry;
 use AppBundle\Form\DirectorType;
+use AppBundle\Form\DirectorUploadImageType;
 
 
 /**
@@ -206,7 +207,7 @@ class AdminDirectorController extends Controller
 
 
     /**
-    * @Route("/{director_id}/country/delete", requirements={"director_id":"\d+"}, name="insert_country")
+    * @Route("/{director_id}/country/delete", requirements={"director_id":"\d+"}, name="delete_country")
     * @Method("POST")
     */
     public function countryDeleteAction(Request $request,$director_id){
@@ -242,7 +243,7 @@ class AdminDirectorController extends Controller
     }
 
     /**
-    * @Route("/{director_id}/image/upload", requirements={"director_id":"\d+"}, name="insert_country")
+    * @Route("/{director_id}/image/upload", requirements={"director_id":"\d+"}, name="upload_cover")
     * @Method("POST")
     */
     public function imageUploadAction(Request $request,$director_id){
@@ -255,24 +256,31 @@ class AdminDirectorController extends Controller
         $rep_c = $em->getRepository(Country::class);
         $result = ["status"=>false];
 
-        $country_id = $request->request->get("country_id");
 
         if(!($item = $rep->find($director_id))){
             throw $this->createNotFoundException();
         }
 
-        if(!($country = $rep_c->findOneBySlug($country_id))){
-            throw $this->createNotFoundException();
+        $form = $this->createForm(DirectorUploadImageType::class,$item,array(
+            'csrf_protection' => false,
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ));
+        $form->submit($request->files->all());
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid()) {
+                $result['errors'][] = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+            }
         }
-
-        $rep = $em->getRepository(DirectorCountry::class);
-        if(($dc = $rep->findOneBy(["director"=>$item,"country"=>$country]))){
-            
-
+        
+        if($form->isSubmitted() && $form->isValid()){
+            $em->merge($item);
+            $em->flush();
             $result['status'] = true;
             $result['message'] = "modification effectuée avec succès";
-            $result["data"] = json_decode($this->get("serializer")->serialize($dc,'json',array("groups"=>["group1"])),true);
+            $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);
         }
+
 
         return $this->json($result);
     }

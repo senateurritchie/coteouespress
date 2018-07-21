@@ -348,7 +348,7 @@ var AdminManager = AdminManager || {};
 	*/
 	nsp.UploadEvent = (function(){
 		function UploadEvent(params){
-			nsp.Event.call(this,'scroll',params);
+			nsp.Event.call(this,'upload',params);
 		};
 		Object.assign(UploadEvent.prototype, nsp.Event.prototype);
 		return UploadEvent;

@@ -88,17 +88,21 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
-		DirectorRepository.prototype.uploadImage = function(file){
+		DirectorRepository.prototype.uploadImage = function(event){
+			var file = event.params.file;
 			var formData = new FormData();
-			formData.append('file',file,file.getName());
+			formData.append('image',file);
 
-			
 			return new Promise((resolve,reject)=>{
+
 	  			this.request({
 	  				enctype: 'multipart/form-data',
 	  				url:`/admin/directors/${this.current.id}/image/${event.type}`,
 	  				method:"POST",
-	  				data:formData
+	  				data:formData,
+	  				processData: false,
+	  				cache: false,
+            		contentType: false,
 		  		})
 		  		.done(data=>{
 		  			resolve(data);
@@ -314,12 +318,23 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
-				else if(event instanceof nsp.CountryInsertEvent || event instanceof nsp.CountryDeleteEvent){
+				else if(event instanceof nsp.CountryInsertEvent || event instanceof nsp.CountryDeleteEvent || event instanceof nsp.UploadEvent){
 					if(~['end','fails'].indexOf(event.params.state)){
 						this.params.selectedDataView.removeClass('updating');
 
 						if(event.params.state == 'end'){
 							var data = event.params.data;
+
+							if(data && data.status){
+								if(event instanceof nsp.UploadEvent){
+									var src = $("#data-container .data-item[data-id="+data.data.id+"] .data-item-image img");
+
+									src.attr("src","/upload/public/"+data.data.image);
+
+								}
+							}
+
+							
 
 							var alertShow = ()=>{
 								if(data.hasOwnProperty('message')){
@@ -335,30 +350,12 @@ var AdminManager = AdminManager || {};
 							};
 
 							alertShow();
+
+
 						}
 					}
 				}
-				else if(event instanceof nsp.UploadEvent){
-					if(event.params.state == "start"){
-						this.params.selectedDataView.addClass('updating');
-						this.uploadImage(file)
-				    	.then(data=>{
-
-				    		this.emit(new nsp.UploadEvent({
-								state:'end',
-								data:data
-							}));
-
-				    	},msg=>{
-				    		this.emit(new nsp.UploadEvent({
-								state:'fails',
-							}));
-				    	});
-					}
-					else{
-				    	this.params.selectedDataView.removeClass('updating');
-					}
-				}
+				
 
 			});
 
@@ -390,6 +387,7 @@ var AdminManager = AdminManager || {};
 
 			    reader.addEventListener('load', ()=> {
 			    	this.params.selectedDataView.find('img:first').attr('src',reader.result);
+			    	this.params.selectedDataView.addClass('updating');
 
 			    	this.emit(new nsp.UploadEvent({
 						state:'start',
@@ -399,7 +397,6 @@ var AdminManager = AdminManager || {};
 
 			    reader.readAsDataURL(file);
 			});
-
 			
 
 			$(document.body).on({
@@ -407,8 +404,6 @@ var AdminManager = AdminManager || {};
 					
 				}
 			});
-
-
 
 			return this;
 		}
@@ -420,6 +415,8 @@ var AdminManager = AdminManager || {};
 			this.params.selectedDataView.find("#aboutme").html(model.description);
 			this.params.selectedDataView.find(".widget-user-username").html(model.name);
 			this.params.selectedDataView.find("#countries").html('');
+			var src = $("#data-container .data-item[data-id="+model.id+"] .data-item-image img");
+			this.params.selectedDataView.find('.widget-user-image img:first').attr('src',src.attr("src"));
 
 			if(model.hasOwnProperty('countries')){
 				model.countries = model.countries.map(function(el){
