@@ -18,6 +18,7 @@ var AdminManager = AdminManager || {};
 
 		nsp.container.set('EntityManager',nsp.EntityManager);
 		nsp.container.set('EventDispatcher',nsp.EventDispatcher);
+		nsp.container.set('Scroller',nsp.Scroller);
 
 		for(var i in nsp.fn){
 			nsp.container.set(i,nsp.fn[i]);
@@ -340,6 +341,60 @@ var AdminManager = AdminManager || {};
 		}
 
 		return Container;
+	})();
+
+	/**
+	* evenement de scrolling dynamique
+	*/
+	nsp.ScrollerEvent = (function(){
+		function ScrollerEvent(params){
+			nsp.Event.call(this,'scroll',params);
+		};
+		Object.assign(ScrollerEvent.prototype, nsp.Event.prototype);
+		return ScrollerEvent;
+	})();
+
+	/**	
+	* l'infinite scrolling
+	*/
+	nsp.Scroller = (function(){
+
+		function Scroller(){
+			nsp.EventDispatcher.call(this);
+		};
+
+		Object.assign(Scroller.prototype,nsp.EventDispatcher.prototype);
+
+		Scroller.prototype.forWindow = function(key){
+
+			var doc = $(document);
+			var win = $(window);
+
+			win.on({
+				scroll:e=>{
+					var tHeight = doc.height() - win.height();
+					var scrollTop = win.scrollTop();
+					var pos = tHeight-scrollTop;
+					var percent = (pos*100)/tHeight;
+
+					var ev = {
+						scrollTop:scrollTop,
+						pos:pos,
+						percent:percent
+					};
+					this.emit(new nsp.ScrollerEvent(nsp.utilis.merge({state:"scrolling"},ev)));
+
+					if (tHeight == scrollTop) {
+						this.emit(new nsp.ScrollerEvent(nsp.utilis.merge({state:"end"},ev)));
+					}
+					else if (scrollTop == 0) {
+						this.emit(new nsp.ScrollerEvent(nsp.utilis.merge({state:"start"},ev)));
+					}
+				}
+			});
+		}
+
+		return Scroller;
 	})();
 
 	(function(){

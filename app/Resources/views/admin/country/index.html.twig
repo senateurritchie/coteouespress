@@ -40,6 +40,14 @@
 		#current-widget-data.updating #spinner{
 			display: block;
 		}
+
+		body #infinifte-loading{
+			display: none;
+		}
+
+		body.infinite-scroll-active #infinite-loading{
+			display: block;
+		}
 	</style>
 
 {% endblock %}
@@ -97,7 +105,7 @@
             	</div>
             
             	<!-- /.box-header -->
-            	<div class="box-body table-responsive no-padding" id="data-container">
+            	<div class="box-body no-padding" id="data-container">
               		<table class="table table-hover">
 		                <tbody>
 		                	<tr>
@@ -117,28 +125,28 @@
 
 		             
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.movieNbr }}</i>
+		                  				{{ item.movieNbr }}
 		                  			</td>
 
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.actorNbr }}</i>
+		                  				{{ item.actorNbr }}
 		                  			</td>
 
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.movieNbr }}</i>
+		                  				{{ item.movieNbr }}
 		                  			</td>
 
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.directorNbr }}</i>
+		                  				{{ item.directorNbr }}
 		                  			</td>
 
 		                  			<td style="text-align:center">
-		                  				<i class="label bg-blue">{{ item.producerNbr }}</i>
+		                  				{{ item.producerNbr }}
 		                  			</td>
 
 		                  			<td class="data-item-tools">
 		                  				<a data-id="{{ item.id }}" href="" class="edit btn">
-		                  					<i class="fa fa-edit"></i> modifier
+		                  					<i class="fa fa-edit"></i>
 		                  				</a>
 		                  			</td>
 		                		</tr>
@@ -148,6 +156,10 @@
               		</table>
             	</div>
             </div>
+
+            <div style="text-align:center" id="infinite-loading">
+				<i  class="fa fa-spinner fa-spin fa-3x"></i>
+			</div>
         </div>
 
         <div class="col-md-4 col-xs-12" id="right-section">

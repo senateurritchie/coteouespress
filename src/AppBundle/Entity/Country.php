@@ -60,24 +60,27 @@ class Country
     private $locale;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="cnt_code", type="string", length=3, nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="cnt_code", type="string", length=3, nullable=true)
+    */
     private $cntCode;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="cnt_name", type="string", length=50, nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="cnt_name", type="string", length=50, nullable=true)
+    */
     private $cntName;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_in_european_union", type="boolean", nullable=true)
-     */
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="is_in_european_union", type="boolean", nullable=true)
+    */
     private $isInEuropeanUnion = 0;
 
 

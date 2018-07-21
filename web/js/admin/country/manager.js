@@ -190,8 +190,18 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
-
 			});
+
+
+			var scroller = nsp.container.get('Scroller');
+			scroller.subscribe(event=>{
+				console.log(event)
+				if(event instanceof nsp.ScrollerEvent && event.params.percent <= 20){
+					$(document.body).addClass("infinite-scroll-active");
+				}
+			});
+
+			scroller.forWindow();
 
 			return this;
 		}
