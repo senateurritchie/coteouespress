@@ -71,6 +71,44 @@ var AdminManager = AdminManager || {};
 								<li>{{ . }}</li>
 							{{/errors}}
 						</ul>
+					`,
+					country:`
+						<tr class="data-item" data-id="{{ id }}">
+	              			<td class="data-item-name">
+	              				{{ name }}
+	              			</td>
+
+	              			<td style="text-align:center">
+	              				{{ movieNbr }}
+	              			</td>
+
+	              			<td style="text-align:center">
+	              				{{ actorNbr }}
+	              			</td>
+
+	              			<td style="text-align:center">
+	              				{{ movieNbr }}
+	              			</td>
+
+	              			<td style="text-align:center">
+	              				{{ directorNbr }}
+	              			</td>
+
+	              			<td style="text-align:center">
+	              				{{ producerNbr }}
+	              			</td>
+
+	              			<td class="data-item-tools">
+	              				<a data-id="{{ id }}" href="" class="edit btn">
+	              					<i class="fa fa-edit"></i>
+	              				</a>
+	              			</td>
+	            		</tr>
+					`,
+					countries:`
+						{{#data}}
+							{{> country}}
+		            	{{/data}}
 					`
 				}
 			});
@@ -79,6 +117,9 @@ var AdminManager = AdminManager || {};
 		Object.assign(CountryView.prototype, nsp.View.prototype);
 
 		CountryView.prototype.controller = function(){
+
+			var repository = nsp.container.get('CountryRepository');
+
 			this.params.selectedDataView.find('button[type=reset]').on({
 				click:e=>{
 					this.params.rightSection.removeClass('data-active');
@@ -190,15 +231,44 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
+				else if(event instanceof nsp.InfiniteScrollEvent){
+					if(event.params.state == "start"){
+						$(document.body).addClass("infinite-scroll-active");
+
+						var limit = 20;
+						var offset = $("#data-container .data-item").length;
+						repository.findBy({},{},limit,offset)
+						.then(data=>{
+							var tpl = this.render(this.params.$tpl.countries,{data:data},{
+								country:this.params.$tpl.country
+							});
+
+							$("#data-container table:first").append($(tpl));
+
+							$(document.body).removeClass("infinite-scroll-active");
+						},msg=>{
+							$(document.body).removeClass("infinite-scroll-active");
+						});
+					}
+					else if(event.params.state == "end"){
+						$(document.body).removeClass("infinite-scroll-active");
+					}
+				}
+
 			});
 
 
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{
-				console.log(event)
-				if(event instanceof nsp.ScrollerEvent && event.params.percent <= 20){
-					$(document.body).addClass("infinite-scroll-active");
+				if(event instanceof nsp.ScrollerEvent && event.params.percent <= 20 && event.params.dir == "ttb"){
+					if(!$(document.body).hasClass("infinite-scroll-active")){
+						this.emit(new nsp.InfiniteScrollEvent({
+							state:'start',
+							data:event.params
+						}));
+					}
 				}
+
 			});
 
 			scroller.forWindow();

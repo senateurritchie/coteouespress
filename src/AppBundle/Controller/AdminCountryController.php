@@ -26,10 +26,10 @@ class AdminCountryController extends Controller
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Country::class);
 
-    	$limit = intval($request->query->get('limit',50));
+    	$limit = intval($request->query->get('limit',20));
     	$offset = intval($request->query->get('offset',0));
 
-    	$limit = $limit > 50 ? 50 : $limit;
+    	$limit = $limit > 20 ? 20 : $limit;
     	$offset = $offset < 0 ? 0 : $offset;
 
         if($country_id){

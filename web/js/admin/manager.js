@@ -354,6 +354,17 @@ var AdminManager = AdminManager || {};
 		return ScrollerEvent;
 	})();
 
+	/**
+	* evenement de scrolling dynamique
+	*/
+	nsp.InfiniteScrollEvent = (function(){
+		function InfiniteScrollEvent(params){
+			nsp.Event.call(this,'infinite-scroll',params);
+		};
+		Object.assign(InfiniteScrollEvent.prototype, nsp.Event.prototype);
+		return InfiniteScrollEvent;
+	})();
+
 	/**	
 	* l'infinite scrolling
 	*/
@@ -369,6 +380,7 @@ var AdminManager = AdminManager || {};
 
 			var doc = $(document);
 			var win = $(window);
+			var oldPos = win.scrollTop();
 
 			win.on({
 				scroll:e=>{
@@ -376,11 +388,14 @@ var AdminManager = AdminManager || {};
 					var scrollTop = win.scrollTop();
 					var pos = tHeight-scrollTop;
 					var percent = (pos*100)/tHeight;
+					var dir = scrollTop > oldPos ? "ttb":"btt";
+					oldPos = scrollTop;
 
 					var ev = {
 						scrollTop:scrollTop,
 						pos:pos,
-						percent:percent
+						percent:percent,
+						dir:dir
 					};
 					this.emit(new nsp.ScrollerEvent(nsp.utilis.merge({state:"scrolling"},ev)));
 
@@ -390,6 +405,7 @@ var AdminManager = AdminManager || {};
 					else if (scrollTop == 0) {
 						this.emit(new nsp.ScrollerEvent(nsp.utilis.merge({state:"start"},ev)));
 					}
+
 				}
 			});
 		}
