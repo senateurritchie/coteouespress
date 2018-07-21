@@ -257,7 +257,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       			->innerJoin("x5.movie","xm5")
       			->innerJoin("x5.country","xc5")
       			->where("m.id = xm5.id")
-      			->andWhere("xc5.slug = :country")
+      			->andWhere("xc5.code = :country")
       		)
       	)
       	->setParameter("country",$value);

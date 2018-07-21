@@ -22,7 +22,7 @@ class UserFixtures extends Fixture{
 
     public function load(ObjectManager $manager){
 
-        $rep_role = $manager->getRepository(Role::class);
+        /*$rep_role = $manager->getRepository(Role::class);
 
         // on cree le super admin
     	$user = new User();
@@ -70,6 +70,6 @@ class UserFixtures extends Fixture{
             $manager->persist($user);
             $manager->persist($userrole);
         }
-        $manager->flush();
+        $manager->flush();*/
     }
 }
