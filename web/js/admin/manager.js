@@ -344,6 +344,17 @@ var AdminManager = AdminManager || {};
 	})();
 
 	/**
+	* evenement de upload
+	*/
+	nsp.UploadEvent = (function(){
+		function UploadEvent(params){
+			nsp.Event.call(this,'scroll',params);
+		};
+		Object.assign(UploadEvent.prototype, nsp.Event.prototype);
+		return UploadEvent;
+	})();
+
+	/**
 	* evenement de scrolling dynamique
 	*/
 	nsp.ScrollerEvent = (function(){

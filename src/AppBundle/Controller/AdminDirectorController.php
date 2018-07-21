@@ -203,4 +203,77 @@ class AdminDirectorController extends Controller
 
         return $this->json($result);
     }
+
+
+    /**
+    * @Route("/{director_id}/country/delete", requirements={"director_id":"\d+"}, name="insert_country")
+    * @Method("POST")
+    */
+    public function countryDeleteAction(Request $request,$director_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Director::class);
+        $rep_c = $em->getRepository(Country::class);
+        $result = ["status"=>false];
+
+        $country_id = $request->request->get("country_id");
+
+        if(!($item = $rep->find($director_id))){
+            throw $this->createNotFoundException();
+        }
+
+        if(!($country = $rep_c->findOneBySlug($country_id))){
+            throw $this->createNotFoundException();
+        }
+
+        $rep = $em->getRepository(DirectorCountry::class);
+        if(($dc = $rep->findOneBy(["director"=>$item,"country"=>$country]))){
+            $em->remove($dc);
+            $em->flush();
+            $result['status'] = true;
+            $result['message'] = "modification effectuée avec succès";
+            $result["data"] = json_decode($this->get("serializer")->serialize($dc,'json',array("groups"=>["group1"])),true);
+        }
+
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{director_id}/image/upload", requirements={"director_id":"\d+"}, name="insert_country")
+    * @Method("POST")
+    */
+    public function imageUploadAction(Request $request,$director_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Director::class);
+        $rep_c = $em->getRepository(Country::class);
+        $result = ["status"=>false];
+
+        $country_id = $request->request->get("country_id");
+
+        if(!($item = $rep->find($director_id))){
+            throw $this->createNotFoundException();
+        }
+
+        if(!($country = $rep_c->findOneBySlug($country_id))){
+            throw $this->createNotFoundException();
+        }
+
+        $rep = $em->getRepository(DirectorCountry::class);
+        if(($dc = $rep->findOneBy(["director"=>$item,"country"=>$country]))){
+            
+
+            $result['status'] = true;
+            $result['message'] = "modification effectuée avec succès";
+            $result["data"] = json_decode($this->get("serializer")->serialize($dc,'json',array("groups"=>["group1"])),true);
+        }
+
+        return $this->json($result);
+    }
 }

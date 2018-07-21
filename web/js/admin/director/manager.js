@@ -88,6 +88,27 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
+		DirectorRepository.prototype.uploadImage = function(file){
+			var formData = new FormData();
+			formData.append('file',file,file.getName());
+
+			
+			return new Promise((resolve,reject)=>{
+	  			this.request({
+	  				enctype: 'multipart/form-data',
+	  				url:`/admin/directors/${this.current.id}/image/${event.type}`,
+	  				method:"POST",
+	  				data:formData
+		  		})
+		  		.done(data=>{
+		  			resolve(data);
+		  		})
+		  		.fail(msg=>{
+		  			reject(msg);
+		  		});
+	  		});
+		};
+
 		return DirectorRepository;
 	})();
 
@@ -201,7 +222,6 @@ var AdminManager = AdminManager || {};
 					}
 				}
 			});
-
 
 			this.params.selectedDataView.find('form .box-footer #area-action button.update').on({
 				click:e=>{
@@ -318,6 +338,27 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
+				else if(event instanceof nsp.UploadEvent){
+					if(event.params.state == "start"){
+						this.params.selectedDataView.addClass('updating');
+						this.uploadImage(file)
+				    	.then(data=>{
+
+				    		this.emit(new nsp.UploadEvent({
+								state:'end',
+								data:data
+							}));
+
+				    	},msg=>{
+				    		this.emit(new nsp.UploadEvent({
+								state:'fails',
+							}));
+				    	});
+					}
+					else{
+				    	this.params.selectedDataView.removeClass('updating');
+					}
+				}
 
 			});
 
@@ -333,7 +374,6 @@ var AdminManager = AdminManager || {};
 				e.preventDefault();
 			});
 			
-
 			dropper.addEventListener("dragleave",e=>{
 				e.preventDefault();
 				this.params.selectedDataView.removeClass('dragenter');
@@ -350,12 +390,11 @@ var AdminManager = AdminManager || {};
 
 			    reader.addEventListener('load', ()=> {
 			    	this.params.selectedDataView.find('img:first').attr('src',reader.result);
-			    	this.upload(file)
-			    	.then(e=>{
 
-			    	},msg=>{
-
-			    	});
+			    	this.emit(new nsp.UploadEvent({
+						state:'start',
+						file:file
+					}));
 			    });
 
 			    reader.readAsDataURL(file);
