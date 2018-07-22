@@ -149,6 +149,39 @@ var AdminManager = AdminManager || {};
 
 							<a data-title="supprimer" data-toggle="tooltip" href="" style="margin-left: 10px;color:#fff"><i class="fa fa-times"></i></a>
 						</span>
+					`,
+					entry:`
+						<tr class="data-item" data-id="{{ id }}">
+                			<td class="data-item-image">
+                				{{#image}} 
+                  					<img  class="img-circle" src="/upload/public/{{ . }}" alt="" />
+                				{{/image}}
+
+                				{{^image}} 
+                					<img  class="img-circle" src="/admin/dist/img/user7-128x128.jpg" alt="User Avatar">
+                				{{/image}}
+                  			</td>
+
+                  			<td class="data-item-name">
+                  				{{ name }}
+                  			</td>
+
+             
+                  			<td style="text-align:center">
+                  				{{ movieNbr }}
+                  			</td>
+
+                  			<td class="data-item-tools">
+                  				<a data-id="{{ id }}" href="" class="edit btn">
+                  					<i class="fa fa-edit"></i> modifier
+                  				</a>
+                  			</td>
+                		</tr>
+					`,
+					entries:`
+						{{#data}}
+							{{> entry}}
+						{{/data}}
 					`
 				}
 			});
@@ -350,13 +383,31 @@ var AdminManager = AdminManager || {};
 							};
 
 							alertShow();
-
-
 						}
 					}
 				}
-				
+				else if(event instanceof nsp.InfiniteScrollEvent){
 
+					if(event.params.state == "start"){
+						$(document.body).addClass("infinite-scroll-active");
+					}
+					else if(~['end','fails'].indexOf(event.params.state)){
+						$(document.body).removeClass("infinite-scroll-active");
+
+						if(event.params.state == 'end'){
+							var data = event.params.data;
+							var model = {data:data};
+
+							if(data){
+								var tpl = this.render(this.params.$tpl.entries,model,{
+									entry:this.params.$tpl.entry
+								});
+
+								$("#data-container table:first").append($(tpl));
+							}
+						}
+					}
+				}
 			});
 
 			var dropper = document.getElementById("current-widget-data");
@@ -399,11 +450,25 @@ var AdminManager = AdminManager || {};
 			});
 			
 
-			$(document.body).on({
-				dragend:e=>{
-					
+			var scroller = nsp.container.get('Scroller');
+			scroller.subscribe(event=>{
+				if(event instanceof nsp.ScrollerEvent && event.params.percent <= 20 && event.params.dir == "ttb"){
+					if(!$(document.body).hasClass("infinite-scroll-active")){
+
+						var limit = 20;
+						var offset = $("#data-container .data-item").length;
+						nsp.utilis.merge(event.params,{limit:limit,offset:offset});
+
+						this.emit(new nsp.InfiniteScrollEvent({
+							state:'start',
+							data:event.params
+						}));
+					}
 				}
+
 			});
+
+			scroller.forWindow();
 
 			return this;
 		}

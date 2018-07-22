@@ -61,6 +61,14 @@ class Actor
     private $image;
 
     /**
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
+    private $movieNbr = 0;
+
+    /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
@@ -79,6 +87,7 @@ class Actor
     */
     private $movies;
 
+    
     
     /**
      * Constructor
@@ -193,6 +202,30 @@ class Actor
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Actor
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 
     /**

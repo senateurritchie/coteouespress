@@ -5,23 +5,23 @@ var AdminManager = AdminManager || {};
 	/**
 	* evenement lorsqu'on lance la mise a jour
 	*/
-	nsp.ProducerUpdatingEvent = (function(){
-		function ProducerUpdatingEvent(params){
+	nsp.ActorUpdatingEvent = (function(){
+		function ActorUpdatingEvent(params){
 			nsp.Event.call(this,'update',params);
 		};
-		Object.assign(ProducerUpdatingEvent.prototype, nsp.Event.prototype);
-		return ProducerUpdatingEvent;
+		Object.assign(ActorUpdatingEvent.prototype, nsp.Event.prototype);
+		return ActorUpdatingEvent;
 	})();
 
 	/**
 	* evenement lorsqu'on lance la suppression
 	*/
-	nsp.ProducerDeletingEvent = (function(){
-		function ProducerDeletingEvent(params){
+	nsp.ActorDeletingEvent = (function(){
+		function ActorDeletingEvent(params){
 			nsp.Event.call(this,'delete',params);
 		};
-		Object.assign(ProducerDeletingEvent.prototype, nsp.Event.prototype);
-		return ProducerDeletingEvent;
+		Object.assign(ActorDeletingEvent.prototype, nsp.Event.prototype);
+		return ActorDeletingEvent;
 	})();
 
 	/**
@@ -46,19 +46,19 @@ var AdminManager = AdminManager || {};
 		return CountryDeleteEvent;
 	})();
 
-	nsp.fn.ProducerRepository = (function(){
+	nsp.fn.ActorRepository = (function(){
 
-		function ProducerRepository(params){
+		function ActorRepository(params){
 			nsp.Repository.call(this,params);
 		};
 
-		Object.assign(ProducerRepository.prototype, nsp.Repository.prototype);
+		Object.assign(ActorRepository.prototype, nsp.Repository.prototype);
 
-		ProducerRepository.prototype.customRequest = function(event){
+		ActorRepository.prototype.customRequest = function(event){
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/producers/${event.type}/${this.current.id}`,
+	  				url:`/admin/Actors/${event.type}/${this.current.id}`,
 	  				method:"POST",
 	  				data:event.params.model
 		  		})
@@ -71,11 +71,11 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
-		ProducerRepository.prototype.customCountryRequest = function(event){
+		ActorRepository.prototype.customCountryRequest = function(event){
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/producers/${this.current.id}/country/${event.type}`,
+	  				url:`/admin/Actors/${this.current.id}/country/${event.type}`,
 	  				method:"POST",
 	  				data:{country_id:event.params.model.id}
 		  		})
@@ -88,7 +88,7 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
-		ProducerRepository.prototype.uploadImage = function(event){
+		ActorRepository.prototype.uploadImage = function(event){
 			var file = event.params.file;
 			var formData = new FormData();
 			formData.append('image',file);
@@ -97,7 +97,7 @@ var AdminManager = AdminManager || {};
 
 	  			this.request({
 	  				enctype: 'multipart/form-data',
-	  				url:`/admin/producers/${this.current.id}/image/${event.type}`,
+	  				url:`/admin/Actors/${this.current.id}/image/${event.type}`,
 	  				method:"POST",
 	  				data:formData,
 	  				processData: false,
@@ -113,12 +113,12 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
-		return ProducerRepository;
+		return ActorRepository;
 	})();
 
 
-	nsp.fn.ProducerView = (function(){
-		function ProducerView(params){
+	nsp.fn.ActorView = (function(){
+		function ActorView(params){
 			nsp.View.call(this,params);
 
 			this.vars({
@@ -187,9 +187,9 @@ var AdminManager = AdminManager || {};
 			});
 		};
 
-		Object.assign(ProducerView.prototype, nsp.View.prototype);
+		Object.assign(ActorView.prototype, nsp.View.prototype);
 
-		ProducerView.prototype.controller = function(){
+		ActorView.prototype.controller = function(){
 			this.params.selectedDataView.find('#area-persist button[type=reset]').on({
 				click:e=>{
 					e.preventDefault();
@@ -219,7 +219,7 @@ var AdminManager = AdminManager || {};
 					this.params.selectedDataView.addClass('updating');
 					var data = $(e.target).serialize();
 
-					this.emit(new nsp.ProducerDeletingEvent({
+					this.emit(new nsp.ActorDeletingEvent({
 						state:'start',
 						model:data
 					}));
@@ -272,7 +272,7 @@ var AdminManager = AdminManager || {};
 					this.params.selectedDataView.addClass('updating');
 					var data = $(e.target).serialize();
 
-					this.emit(new nsp.ProducerUpdatingEvent({
+					this.emit(new nsp.ActorUpdatingEvent({
 						state:'start',
 						model:data
 					}));
@@ -281,7 +281,7 @@ var AdminManager = AdminManager || {};
 
 			// on ecoute les evenements
 			this.subscribe(event=>{
-				if(event instanceof nsp.ProducerUpdatingEvent){
+				if(event instanceof nsp.ActorUpdatingEvent){
 					if(~['end','fails'].indexOf(event.params.state)){
 						this.params.selectedDataView.removeClass('updating');
 
@@ -311,7 +311,7 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
-				else if(event instanceof nsp.ProducerDeletingEvent){
+				else if(event instanceof nsp.ActorDeletingEvent){
 					if(~['end','fails'].indexOf(event.params.state)){
 						this.params.selectedDataView.removeClass('updating');
 
@@ -473,7 +473,6 @@ var AdminManager = AdminManager || {};
 						}));
 					}
 				}
-
 			});
 
 			scroller.forWindow();
@@ -481,7 +480,7 @@ var AdminManager = AdminManager || {};
 			return this;
 		}
 
-		ProducerView.prototype.renderSelectedData = function(model){
+		ActorView.prototype.renderSelectedData = function(model){
 			this.params.selectedDataView.attr('data-id',model.id);
 			this.params.selectedDataView.find("#name").val(model.name);
 			this.params.selectedDataView.find("#description").val(model.description);
@@ -507,7 +506,7 @@ var AdminManager = AdminManager || {};
 			
 		}
 
-		ProducerView.prototype.applyRemoveCountryEvent = function(elts){
+		ActorView.prototype.applyRemoveCountryEvent = function(elts){
 			elts.each((i,el)=>{
 				var obj = $(el);
 				$(el).find("a").on({
@@ -531,7 +530,7 @@ var AdminManager = AdminManager || {};
 			});
 		}
 
-		return ProducerView;
+		return ActorView;
 	})();
 
 })(AdminManager);

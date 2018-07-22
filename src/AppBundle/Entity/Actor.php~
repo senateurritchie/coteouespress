@@ -61,6 +61,14 @@ class Actor
     private $image;
 
     /**
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
+    private $movieNbr = 0;
+
+    /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
@@ -79,5 +87,6 @@ class Actor
     */
     private $movies;
 
+    
     
 }

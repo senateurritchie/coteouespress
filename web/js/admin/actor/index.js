@@ -1,31 +1,31 @@
 $(document).ready(function($){
 	var nsp = AdminManager;
-	var repository = AdminManager.container.get('DirectorRepository');
-	var view = AdminManager.container.get('DirectorView');
+	var repository = AdminManager.container.get('ActorRepository');
+	var view = AdminManager.container.get('ActorView');
 	view.controller();
 
 	var rightSection = $("#right-section");
 
 	view.subscribe(event=>{
 
-		if((event instanceof nsp.DirectorUpdatingEvent) || (event instanceof nsp.DirectorDeletingEvent)) {
+		if((event instanceof nsp.ActorUpdatingEvent) || (event instanceof nsp.ActorDeletingEvent)) {
 			if(event.params.state != "start") return;
 			
 			repository.customRequest(event)
 			.then(data=>{
 
-				if(event instanceof nsp.DirectorUpdatingEvent){
-					view.emit(new nsp.DirectorUpdatingEvent({state:'end',data:data}));
+				if(event instanceof nsp.ActorUpdatingEvent){
+					view.emit(new nsp.ActorUpdatingEvent({state:'end',data:data}));
 				}
-				else if(event instanceof nsp.DirectorDeletingEvent){
-					view.emit(new nsp.DirectorDeletingEvent({state:'end',data:data}));
+				else if(event instanceof nsp.ActorDeletingEvent){
+					view.emit(new nsp.ActorDeletingEvent({state:'end',data:data}));
 				}
 			},msg=>{
-				if(event instanceof nsp.DirectorUpdatingEvent){
-					view.emit(new nsp.DirectorUpdatingEvent({state:'fails'}));
+				if(event instanceof nsp.ActorUpdatingEvent){
+					view.emit(new nsp.ActorUpdatingEvent({state:'fails'}));
 				}
-				else if(event instanceof nsp.DirectorDeletingEvent){
-					view.emit(new nsp.DirectorDeletingEvent({state:'fails'}));
+				else if(event instanceof nsp.ActorDeletingEvent){
+					view.emit(new nsp.ActorDeletingEvent({state:'fails'}));
 				}
 			});
 		}

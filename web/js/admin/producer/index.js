@@ -68,6 +68,25 @@ $(document).ready(function($){
 				}));
 	    	});
 		}
+		else if(event instanceof nsp.InfiniteScrollEvent){
+			if(event.params.state != "start") return;
+
+			var limit = event.params.data.limit;
+			var offset = event.params.data.offset;
+			repository.findBy({},{},limit,offset)
+			.then(data=>{
+
+				view.emit(new nsp.InfiniteScrollEvent({
+					state:'end',
+					data:data
+				}));
+
+			},msg=>{
+				view.emit(new nsp.InfiniteScrollEvent({
+					state:'fails',
+				}));
+			});
+		}
 	});
 
 	$("#data-container .data-item .data-item-tools .edit").on({
