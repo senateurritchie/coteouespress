@@ -4,6 +4,8 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MovieTrailer
@@ -14,32 +16,36 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class MovieTrailer
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
-     /**
-    * @var AppBundle\Entity\Image
+    /**
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270,maxWidth=270, minHeight=360,maxHeight=360)
     */
     private $image;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="title", type="string", length=254, nullable=true, options={"comment":"enregistre le titre ou du trailer"})
-     */
-    private $title;
-
-     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="title", type="string", length=254, nullable=true, options={"comment":"enregistre le titre ou du trailer"})
+    */
+    private $title;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"title"})
     * @ORM\Column(name="slug", type="string", length=30, unique=true, nullable=true)
     */
@@ -47,35 +53,109 @@ class MovieTrailer
 
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="full_url", type="string", length=254, options={"comment":"url absolue du trailer"},nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="full_url", type="string", length=254, options={"comment":"url absolue du trailer"},nullable=true)
+    */
     private $fullUrl;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="code_url", type="string", length=50, options={"comment":"code (id) de la video sur vimeo ou youtube"}, nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="code_url", type="string", length=50, options={"comment":"code (id) de la video sur vimeo ou youtube"}, nullable=true)
+    */
     private $codeUrl;
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime", options={"comment":"date d'ajout du trailer sur la plateforme"})
-     */
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime", options={"comment":"date d'ajout du trailer sur la plateforme"})
+    */
     private $createAt;
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
 
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return MovieTrailer
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set title
+     *
+     * @param string $title
+     *
+     * @return MovieTrailer
+     */
+    public function setTitle($title)
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return MovieTrailer
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
 
     /**
      * Set fullUrl
@@ -126,30 +206,6 @@ class MovieTrailer
     }
 
     /**
-     * Set title
-     *
-     * @param string $title
-     *
-     * @return MovieTrailer
-     */
-    public function setTitle($title)
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    /**
-     * Get title
-     *
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
      * Set createAt
      *
      * @param \DateTime $createAt
@@ -171,53 +227,5 @@ class MovieTrailer
     public function getCreateAt()
     {
         return $this->createAt;
-    }
-
-    /**
-     * Set slug
-     *
-     * @param string $slug
-     *
-     * @return MovieTrailer
-     */
-    public function setSlug($slug)
-    {
-        $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * Get slug
-     *
-     * @return string
-     */
-    public function getSlug()
-    {
-        return $this->slug;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \AppBundle\Entity\Image $image
-     *
-     * @return MovieTrailer
-     */
-    public function setImage(\AppBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \AppBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 }

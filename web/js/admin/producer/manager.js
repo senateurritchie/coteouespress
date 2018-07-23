@@ -414,17 +414,19 @@ var AdminManager = AdminManager || {};
 
 			var dropper = document.getElementById("current-widget-data");
 
-			dropper.addEventListener("dragenter",e=>{
+			document.addEventListener("dragenter",e=>{
 				this.params.selectedDataView.addClass('dragenter');
 				e.preventDefault();
 			});
-
-			dropper.addEventListener("dragover",e=>{
+			document.addEventListener("dragover",e=>{
 				this.params.selectedDataView.addClass('dragenter');
 				e.preventDefault();
 			});
-			
-			dropper.addEventListener("dragleave",e=>{
+			document.addEventListener("dragleave",e=>{
+				e.preventDefault();
+				this.params.selectedDataView.removeClass('dragenter');
+			});
+			document.addEventListener("dragend",e=>{
 				e.preventDefault();
 				this.params.selectedDataView.removeClass('dragenter');
 			});

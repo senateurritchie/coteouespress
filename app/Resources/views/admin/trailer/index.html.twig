@@ -1,5 +1,124 @@
 {% extends 'admin/base.html.twig' %}
 
+
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+
+{% block stylesheets %}
+	{{ parent() }}
+
+	<style>
+
+		
+		#current-widget-data{
+			display: none;
+		}
+
+		#data-loading{
+			display: none;
+		}
+
+		
+		#right-section.data-loading #data-loading{
+			display: block;
+		}
+
+		#right-section.data-active #current-widget-data{
+			display: block;
+		}
+
+		#right-section.data-active #data-secondary-box,
+		#right-section.data-loading #data-secondary-box,
+		#right-section.data-loading #current-widget-data{
+			display: none;
+		}
+
+		#current-widget-data #spinner{
+			display: none;
+		}
+
+		#current-widget-data.updating #spinner{
+			display: block;
+		}
+
+		#data-btn-remove{
+			position: absolute;
+			right: 20px;
+			top: 0px;
+		}
+
+		.widget-user-username{
+			text-overflow: ellipsis;
+    		overflow: hidden;
+    		white-space: nowrap
+		}
+
+		#current-widget-data form .box-footer #area-persist{
+			display: none;
+		}
+
+		#current-widget-data.action-update-active form .box-footer #area-persist{
+			display: block;
+		}
+
+		#current-widget-data.action-update-active form .box-footer #area-action{
+			display: none;
+		}
+
+		#current-widget-data form #update-form{
+			display: none;
+		}
+
+		#current-widget-data.action-update-active form #update-form{
+			display: block;
+		}
+
+		#current-widget-data.action-update-active form #update-show{
+			display: none;
+		}
+
+		body.dragenter #current-widget-data,body.dragenter #thumbnail-trailer-container{
+			border: 2px dashed #00a7d0;
+		}
+
+
+		.data-item .data-item-image img{
+			width: 50px;
+			height: 50px;
+		}
+
+		body #infinite-loading{
+			display: none;
+		}
+
+		body.infinite-scroll-active #infinite-loading{
+			display: block;
+		}
+
+		.prs_upcom_video_img_cont_over{
+			position:absolute;
+			bottom: 5%;
+		    left: 15%;
+		    right: 15%;
+			z-index:1;
+			text-align:left;
+		}
+
+		.prs_upcom_video_img_cont_over h2{
+			font-size:22px;
+			font-weight:bold;
+			color:#a5a5a5;
+			text-transform:uppercase;
+			padding-top:10px;
+			padding-bottom:10px;
+			display:inline-block;
+		    line-height: 1.1;
+		    pointer-events: none;
+		}
+	</style>
+
+{% endblock %}
+
 {% block header_content %}
     Les Trailers <small>gestions des bandes annonce</small>
 {% endblock %}
@@ -7,4 +126,157 @@
 
 {% block body_content %}
 	
+	{{ include('admin/modal-info.html.twig') }}
+
+	<div class="modal modal-danger fade" id="myModal">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+          		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              			<span aria-hidden="true">×</span>
+              		</button>
+            		<h4 class="modal-title">Confirmation...</h4>
+          		</div>
+          
+          		<div class="modal-body">
+          			<h4>Voulez-vous vraiment supprimer ce trailer ?</h4>
+
+            		<p>
+            			Une fois l'action éfféctuée tout les programmes possedant ce trailer ne seront plus referencés.
+            		</p>
+
+          		</div>
+          
+          		<div class="modal-footer">
+            		<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+            			Annuler
+            		</button>
+
+            		<button type="submit" class="btn btn-outline">Valider</button>
+          		</div>
+        	</div>
+      	</div>
+    </div>
+
+	<div class="row">
+    	<div class="col-xs-12 col-md-8">
+        	<div class="box box-primary">
+            	<div class="box-header">
+              		<h3 class="box-title">Trailers et extraits</h3>
+
+              		<div class="box-tools pull-right">
+			    		<form class="has-feedback">
+			      			<input name="q" type="text" class="form-control input-sm" placeholder="Recherche...">
+			      			<span class="glyphicon glyphicon-search form-control-feedback"></span>
+			    		</form>
+			  		</div>
+            	</div>
+            
+            	<!-- /.box-header -->
+            	<div class="box-body table-responsive no-padding" id="data-container">
+              		<table class="table table-hover">
+		                <tbody>
+		                	<tr>
+		                 		<th>Image</th>
+		                 		<th>Titre</th>
+		                 		<th>Lien</th>
+		                 		<th style="text-align:center">Ajouté le</th>
+		                 		<th>#</th>
+		                	</tr>
+	                		
+	                		{{ include('admin/trailer/item-render.html.twig') }}
+	               
+	              		</tbody>
+              		</table>
+            	</div>
+            </div>
+
+            <div style="text-align:center" id="infinite-loading">
+				<i  class="fa fa-spinner fa-spin fa-3x"></i>
+			</div>
+        </div>
+
+        <div class="col-md-4 col-xs-12" id="right-section">
+
+        	<div style="text-align:center" id="data-loading">
+        		<i  class="fa fa-spinner fa-spin fa-3x"></i>
+        	</div>
+			
+			<div id="selected-data" draggable="false"></div>
+
+        	<div class="box box-primary" id="data-secondary-box">
+	            <div class="box-header with-border">
+	            	<h3 class="box-title">Ajouter</h3>
+	            </div>
+	            
+	            {{ form_start(form) }}
+	            	<div class="box-body">
+						
+						{% for notice in app.flashes('notice-success') %}
+                            <div class="alert alert-info alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+				                L'element à bien été enregistré avec succès.
+				            </div>
+                        {% endfor %}
+
+                        {% for notice in app.flashes('notice-error') %}
+                            <div class="alert alert-danger alert-dismissible">
+				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+				                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+				                {{ notice }}
+				            </div>
+                        {% endfor %}
+
+	            		{{ form_row(form.title) }}
+	            		{{ form_row(form.fullUrl) }}
+	            		{{ form_row(form.image) }}
+
+						<div style="text-align:center" id="thumbnail-trailer-container">
+							
+							<div style="display:inline-block;position:relative">
+
+								<img width="270" height="360" id="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" alt="...">
+
+								<div class="prs_upcom_video_img_cont_over">
+									<h2>Image à charger</h2>
+									<button class="btn btn-info btn-block">Annuler</button>
+								</div>
+							</div>
+
+					    	{#<div class="thumbnail">
+					      		
+					      		<div class="caption">
+					        		<h3>Thumbnail label</h3>
+					        		<p>Veuillez glisser deposer içi une image a mettre en avant pour cet élémént.</p>
+					        		<p>
+					        			<a href="#" class="btn btn-primary" role="button">
+					        				Cliquez-içi
+					        			</a>
+					        		</p>
+					      		</div>
+					    	</div>#}
+					  	</div>
+	              	</div>
+
+	              	<div class="box-footer">
+
+	                	<button type="submit" class="btn btn-danger pull-right">
+	                		<i class="fa fa-save"></i> Enregistrer
+	                	</button>
+	              	</div>
+              	{{ form_end(form) }}
+	        </div>
+        </div>
+    </div>
 {% endblock %}
+
+{% block javascripts %}
+	{{ parent() }}
+
+	<script src="{{ asset('js/admin/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/trailer/manager.js') }}"></script>
+	<script src="{{ asset('js/admin/trailer/index.js') }}"></script>
+	
+{% endblock %}
+

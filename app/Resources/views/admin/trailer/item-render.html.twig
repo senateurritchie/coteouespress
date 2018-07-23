@@ -1,0 +1,30 @@
+{% for item in data %}
+	<tr class="data-item" data-id="{{ item.id }}">
+		<td class="data-item-image">
+			{% if item.image %}
+				<img  src="{{ asset('upload/public/'~item.image) }}" alt="" />
+				
+			{% else %}
+				<img  src="{{ asset('admin/dist/img/default-50x50.gif') }}">
+			{% endif %}
+		</td>
+
+		<td class="data-item-title" style="vertical-align:middle">
+			{{ item.title|lower|title }}
+		</td>
+
+		<td class="data-item-url" style="vertical-align:middle">
+			{{ item.fullUrl }}
+		</td>
+
+		<td style="vertical-align:middle">
+			{{ item.createAt|date() }}
+		</td>
+
+		<td class="data-item-tools" style="vertical-align:middle">
+			<a data-id="{{ item.id }}" href="" class="edit btn">
+				<i class="fa fa-edit"></i> modifier
+			</a>
+		</td>
+	</tr>
+{% endfor %}

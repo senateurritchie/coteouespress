@@ -253,15 +253,26 @@ var AdminManager = AdminManager || {};
 		Object.assign(Repository.prototype, nsp.AbstractRepository.prototype);
 
 		Repository.prototype.find = function(id){
+
 			return this.findBy({
-				id:id
+				data:{
+					id:id
+				}
 			});
 		};
 	  	Repository.prototype.findAll = function(){
 	  		return this.findBy();
 	  	};
-	  	Repository.prototype.findBy = function(params = {},orderBy = {},limit = 20,offset=0){
-	  		params["data"] = {limit:limit,offset:offset};
+	  	Repository.prototype.findBy = function(params = {},orderBy = {},limit,offset){
+	  		
+	  		if(!params.hasOwnProperty('data')){
+	  			params.data = {};
+	  		}
+
+	  		if(limit){
+	  			params["data"].limit = limit;
+	  			params["data"].offset = offset;
+	  		}
 
 	  		return new Promise((resolve,reject)=>{
 	  			this.request(params)
@@ -339,6 +350,18 @@ var AdminManager = AdminManager || {};
 		}
 
 		return Container;
+	})();
+
+
+	/**
+	* evenement de filereader
+	*/
+	nsp.FileReaderEvent = (function(){
+		function FileReaderEvent(params){
+			nsp.Event.call(this,'upload',params);
+		};
+		Object.assign(FileReaderEvent.prototype, nsp.Event.prototype);
+		return FileReaderEvent;
 	})();
 
 	/**

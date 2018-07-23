@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use AppBundle\Entity\Director;
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\Actor;
+use AppBundle\Entity\MovieTrailer;
 use AppBundle\Services\FileUploader;
 
 class GeneralUploadListener{
@@ -32,7 +33,7 @@ class GeneralUploadListener{
     public function postLoad(LifecycleEventArgs $args){
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor)) {
+        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
             return;
         }
 
@@ -42,7 +43,7 @@ class GeneralUploadListener{
     }
 
     private function uploadFile($entity){
-        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor)) {
+        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
             return;
         }
 
