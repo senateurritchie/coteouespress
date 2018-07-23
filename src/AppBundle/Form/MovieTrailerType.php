@@ -52,6 +52,8 @@ class MovieTrailerType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setRequired('upload_dir');
+
         $resolver->setDefaults(array(
             'data_class' => MovieTrailer::class
         ));

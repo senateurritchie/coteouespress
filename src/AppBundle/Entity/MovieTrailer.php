@@ -56,6 +56,7 @@ class MovieTrailer
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @assert\Url()
     * @ORM\Column(name="full_url", type="string", length=254, options={"comment":"url absolue du trailer"},nullable=true)
     */
     private $fullUrl;

@@ -126,8 +126,7 @@ var AdminManager = AdminManager || {};
 			});
 
 			$('#data-secondary-box form input[type=file]').on('change',(e)=> {
-  				var file = e.target.files[0];
-  				this.previewImage(file);
+  				this.previewImage(e.target.files);
 			});
 
 
@@ -239,21 +238,18 @@ var AdminManager = AdminManager || {};
 					if(event.params.state == "load"){
 
 						if(event.params.pos == 1){
-							var file = event.params.file;
-								console.log(file)
-
+							var files = event.params.files;
 							var input  = $('#data-secondary-box form input[type=file]');
-							input.files = [file];
-							input.val(file.name);
+							input.get()[0].files = files;
 						}
 						else if(event.params.pos == 2){
-							this.params.selectedDataView.find('img:first').attr('src',reader.result);
+							/*this.params.selectedDataView.find('img:first').attr('src',reader.result);
 					    	this.params.selectedDataView.addClass('updating');
 
 					    	this.emit(new nsp.UploadEvent({
 								state:'start',
 								file:file
-							}));
+							}));*/
 						}
 					}
 				}
@@ -283,8 +279,7 @@ var AdminManager = AdminManager || {};
 			dropper_1.addEventListener("drop",e=>{
 				e.preventDefault();
 				$(document.body).removeClass('dragenter');
-				var file = e.dataTransfer.files[0];
-				this.previewImage(file);
+				this.previewImage(e.dataTransfer.files);
 			});
 
 			
@@ -317,33 +312,34 @@ var AdminManager = AdminManager || {};
 			this.eventsToSelectedDataView();
 		}
 
-		TrailerView.prototype.previewImage = function(file,pos=1){
+		TrailerView.prototype.previewImage = function(files,pos=1){
+			var file = files[0];
 			var filenames = file.name;
 			var reader = new FileReader();
 
 		    reader.addEventListener('load', ()=> {
 		    	var img = $('#data-secondary-box #thumbnail-trailer');
 		    	img.attr('src',reader.result);
-		    	this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,file:file}));
+		    	this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files}));
 		    });
 
 		    reader.addEventListener('error', ()=> {
-		    	this.emit(new nsp.FileReaderEvent({state:"error",pos:pos,file:file}));
+		    	this.emit(new nsp.FileReaderEvent({state:"error",pos:pos,files:files}));
 		    });
 
 		    reader.addEventListener('loadend', ()=> {
-		    	this.emit(new nsp.FileReaderEvent({state:"end",pos:pos,file:file}));
+		    	this.emit(new nsp.FileReaderEvent({state:"end",pos:pos,files:files}));
 		    });
 
 		    reader.addEventListener('progress', ()=> {
-		    	this.emit(new nsp.FileReaderEvent({state:"progress",pos:pos,file:file}));
+		    	this.emit(new nsp.FileReaderEvent({state:"progress",pos:pos,files:files}));
 		    });
 
 		    reader.addEventListener('abort', ()=> {
-		    	this.emit(new nsp.FileReaderEvent({state:"abort",pos:pos,file:file}));
+		    	this.emit(new nsp.FileReaderEvent({state:"abort",pos:pos,files:files}));
 		    });
 
-		    this.emit(new nsp.FileReaderEvent({state:"start",pos:pos,file:file}));
+		    this.emit(new nsp.FileReaderEvent({state:"start",pos:pos,files:files}));
 
 		    reader.readAsDataURL(file);
 		}
@@ -388,8 +384,7 @@ var AdminManager = AdminManager || {};
 			dropper.addEventListener("drop",e=>{
 				e.preventDefault();
 				this.params.selectedDataView.removeClass('dragenter');
-				var file = e.dataTransfer.files[0];
-				this.previewImage(file,2);
+				this.previewImage(e.dataTransfer.files,2);
 			});
 
 		}

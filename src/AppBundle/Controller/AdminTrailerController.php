@@ -38,7 +38,9 @@ class AdminTrailerController extends Controller
 
     	$item = new MovieTrailer();
     	$item->setCreateAt(new \Datetime());
-    	$form = $this->createForm(MovieTrailerType::class,$item);
+    	$form = $this->createForm(MovieTrailerType::class,$item,[
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ]);
 
     	$form->handleRequest($request);
     	if($form->isSubmitted() && $form->isValid()){
@@ -51,24 +53,42 @@ class AdminTrailerController extends Controller
         if($request->isXmlHttpRequest()){
             if(intval(@$params['id'])){
                 if(empty($data)){
-                    throw $this->createNotFoundException("Departement introuvable");
+                    throw $this->createNotFoundException("Element introuvable");
                 }
                 $data = $data[0];
             }
 
-            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
-
             $result = array();
-
+            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
             $result['model'] = $json;
-            $view = $this->render('admin/trailer/item-render.html.twig',array(
-	    		"data"=>$data,
-	    	));
+            $result['view'] = "";
+            $view;
 
-            $result['view'] = $view->getResponse();
+            if(is_array($data)){
+                $view = $this->render('admin/trailer/item-render.html.twig',array(
+                    "data"=>$data,
+                ));
+
+            }
+            else{
+               
+                $form2 = $this->createForm(MovieTrailerType::class,$data,[
+                    'upload_dir' => $this->getParameter('public_upload_directory'),
+                ]);
+
+                $em->refresh($data);
+                $view = $this->render('admin/trailer/selected-view.html.twig',array(
+                    "data"=>$data,
+                    "form"=>$form2->createView(),
+                ));
+            }
+            
+           
+
+            $result['view'] = $view->getContent();
 
             $json = json_encode($result);
-            $response = new Response($result);
+            $response = new Response($json);
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
