@@ -231,10 +231,10 @@ var AdminManager = AdminManager || {};
 	  			url: this.endpoint,
 	  			dataType:'json',
 	  			method:'GET',
+	  			
 	  		};
 
 	  		for(var i in options){
-	  			if(typeof params[i] == "function") continue;
 	  			params[i] = options[i];
 	  		}
 
@@ -261,17 +261,15 @@ var AdminManager = AdminManager || {};
 	  		return this.findBy();
 	  	};
 	  	Repository.prototype.findBy = function(params = {},orderBy = {},limit = 20,offset=0){
-	  		params["limit"] = limit;
-	  		params["offset"] = offset;
+	  		params["data"] = {limit:limit,offset:offset};
 
 	  		return new Promise((resolve,reject)=>{
-	  			this.request({
-	  				data:params
-		  		})
+	  			this.request(params)
 		  		.done(data=>{
 		  			resolve(data);
 		  		})
 		  		.fail(msg=>{
+		  			console.log(msg)
 		  			reject(msg);
 		  		});
 	  		});

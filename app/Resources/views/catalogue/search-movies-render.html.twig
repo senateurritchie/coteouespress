@@ -1,0 +1,53 @@
+{% for movie in programmes if movie.slug is defined %}
+                                        
+    <div class="col-6 col-md-3 col-sm-4 data-item">
+
+        {# affichage desktop #}
+
+        <div  class="position-relative has-media-detail vid-hover text-white mb-4 d-none d-md-block">
+
+            <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
+
+            <div class="media-overlay d-none d-md-block"></div>
+
+            <div class="media-btn-wrapper d-none d-md-block">
+                <ul>
+
+                    <li>
+                        <a data-vbtype="video" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox movie-trailer-link" >
+                            {{ 'Bande annonce'|trans({},'movies') }}
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ path('catalogue_index',{'slug':movie.slug})}}" class="movie-link">
+                            {{ 'Details'|trans({},'movies') }}
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="movie-f d-none d-md-flex">
+                <h2 class="text-truncate movie-name" >
+                    {{ movie.name|lower|title }} 
+                </h2>
+
+                <small class="d-none d-md-block movie-rank">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="far fa-star"></i>
+                    <i class="far fa-star"></i>
+                </small>
+            </div>
+        </div>
+
+        {# affichage mobile #}
+
+        <div  class="position-relative has-media-detail vid-hover text-white mb-4 d-md-none d-sm-block d-block">
+            <a class="movie-link" href="{{ path('catalogue_index',{'slug':movie.slug})}}">
+                <img class="{{ movie.name|lower|title }}" alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
+            </a>
+        </div>
+    </div>
+{% endfor %}

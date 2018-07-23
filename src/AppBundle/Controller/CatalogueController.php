@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 
 use AppBundle\Form\CatalogType;
 use AppBundle\Entity\Catalog;
@@ -25,6 +27,11 @@ class CatalogueController extends Controller{
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Movie::class);
 
+        $limit = intval($request->query->get('limit',20));
+        $offset = intval($request->query->get('offset',0));
+
+        $limit = $limit > 20 ? 20 : $limit;
+        $offset = $offset < 0 ? 0 : $offset;
 
     	if($slug){
     		if(!($programme = $rep->findOneBy(array("slug"=>$slug)))){
@@ -46,7 +53,37 @@ class CatalogueController extends Controller{
     	$params = $request->query->all();
 
     	$params["locale"] = $request->getLocale();
-    	$programmes = $rep->search($params);
+    	$data = $rep->search($params,$limit,$offset);
+
+        if($request->isXmlHttpRequest()){
+
+            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+            if ($acceptHeader->has('text/html')) {
+                $item = $acceptHeader->get('text/html');
+                $charset = $item->getAttribute('charset', 'utf-8');
+                $quality = $item->getQuality();
+
+                return $this->render('catalogue/search-movies-render.html.twig',array(
+                    "programmes"=>$data,
+                ));
+            }
+
+            if(intval(@$params['id'])){
+                if(empty($data)){
+                    throw $this->createNotFoundException("programme introuvable");
+                }
+                $data = $data[0];
+            }
+
+            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
+        
+
+            $json = json_encode($json);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
 
     	//  on charge les categories
     	$rep = $em->getRepository(Category::class);
@@ -58,7 +95,7 @@ class CatalogueController extends Controller{
 
     	return $this->render('catalogue/search.html.twig',array(
     		"form"=>$form->createView(),
-    		"programmes"=>$programmes,
+    		"programmes"=>$data,
     		"categories"=>$categories,
     		"genres"=>$genres,
     	));

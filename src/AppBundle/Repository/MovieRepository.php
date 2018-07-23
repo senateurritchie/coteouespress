@@ -21,7 +21,7 @@ use AppBundle\Entity\Language;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function search($params = array(),$orderBy=array(),$limit = 16,$offset=0){
+	public function search($params = array(),$limit = 20,$offset=0){
 		$qb = $this->_em->createQueryBuilder();
 
 		if(@$params["q"]){
@@ -161,9 +161,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
   	}
 
 	public function whereCategory(QueryBuilder $qb,$value){
-      	$qb->innerJoin("m.category","c")
-		->addSelect("c")
-		->where("c.slug = :category")
+		$qb->andWhere("category.slug = :category")
 		->setParameter("category",$value);
   	}
 

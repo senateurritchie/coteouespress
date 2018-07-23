@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * Movie
@@ -14,25 +15,28 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Movie
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
     * @var AppBundle\Entity\Category
     *
+    * @Groups({"group1","group2"})
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="movies")
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
     private $category;
 
     /**
-    * @var AppBundle\Entity\Category
+    * @var AppBundle\Entity\MovieResource
     *
+    * @Groups({"group1","group2"})
     * @ORM\OneToOne(targetEntity="AppBundle\Entity\MovieResource")
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
@@ -41,148 +45,173 @@ class Movie
     /**
     * @var AppBundle\Entity\MovieTrailer
     *
+    * @Groups({"group1","group2"})
     * @ORM\OneToOne(targetEntity="AppBundle\Entity\MovieTrailer")
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
     private $trailer;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=50, unique=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="name", type="string", length=50, unique=true)
+    */
     private $name;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="original_name", type="string", length=50, nullable=true)
-     */
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="original_name", type="string", length=50, nullable=true)
+    */
     private $originalName;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="synopsis", type="text", nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="synopsis", type="text", nullable=true)
+    */
     private $synopsis;
 
-     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
-     */
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
+    */
     private $in_theather = 0;
 
-     /**
-     * @var \Datetime
-     *
-     * @ORM\Column(name="year_start", type="datetime", options={"comment":"debut de l'année de production du film"}, nullable=true)
-     */
+    /**
+    * @var \Datetime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="year_start", type="datetime", options={"comment":"debut de l'année de production du film"}, nullable=true)
+    */
     private $yearStart;
 
-     /**
-     * @var \Datetime
-     *
-     * @ORM\Column(name="year_end", type="datetime", options={"comment":"fin de l'année de production du film"}, nullable=true)
-     */
+    /**
+    * @var \Datetime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="year_end", type="datetime", options={"comment":"fin de l'année de production du film"}, nullable=true)
+    */
     private $yearEnd;
 
-     /**
-     * @var integer
-     *
-     * @ORM\Column(name="episode_num", type="integer", options={"comment":"le nombre d'épisodes du movie"}, nullable=true)
-     */
+    /**
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="episode_num", type="integer", options={"comment":"le nombre d'épisodes du movie"}, nullable=true)
+    */
     private $episodeNum;
 
-     /**
-     * @var integer
-     *
-     * @ORM\Column(name="duration", type="integer", options={"comment":"enregistre la durée du film en minutes"}, nullable=true)
-     */
+    /**
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="duration", type="integer", options={"comment":"enregistre la durée du film en minutes"}, nullable=true)
+    */
     private $duration;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="format", type="string", options={"comment":"enregistre le format du film"}, nullable=true)
-     */
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="format", type="string", options={"comment":"enregistre le format du film"}, nullable=true)
+    */
     private $format;
 
-     /**
-     * @var string
-     *
-     * @ORM\Column(name="mention", type="string", options={"comment":"determine si le movie est en HD, SD ou autre"}, columnDefinition="ENUM('HD','SD','4k','2k')", nullable=true)
-     */
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="mention", type="string", options={"comment":"determine si le movie est en HD, SD ou autre"}, columnDefinition="ENUM('HD','SD','4k','2k')", nullable=true)
+    */
     private $mention = "HD";
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="original_language", type="string", options={"comment":"la langue original du movie"},nullable=true)
-     */
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="original_language", type="string", options={"comment":"la langue original du movie"},nullable=true)
+    */
     private $originalLanguage;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
-     */
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
+    */
     private $hasExclusivity = 0;
 
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=30, unique=true)
     */
     private $slug;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
 
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieGenre", mappedBy="movie")
     */
     private $genres;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieCountry", mappedBy="movie")
     */
     private $countries;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieLanguage", mappedBy="movie")
     */
     private $languages;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieEpisode", mappedBy="movie")
     */
     private $episodes;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieActor", mappedBy="movie")
     */
     private $actors;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieSeason", mappedBy="movie")
     */
     private $seasons;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieReward", mappedBy="movie")
     */
     private $rewards;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieProducer", mappedBy="movie")
     */
     private $producers;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieDirector", mappedBy="movie")
     */
     private $directors;
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;

@@ -64,6 +64,14 @@
             padding-left: 30px;
         }
 
+        body #infinite-loading{
+            display: none;
+        }
+
+        body.infinite-scroll-active #infinite-loading{
+            display: block;
+        }
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
@@ -277,90 +285,18 @@
                                             <i class="fas fa-times"></i>
                                         </a>
                                     {% endif %}
-
-
-                                    <!--div class="dropdown-menu bg-secondary  dropdown-menu-right" aria-labelledby="dropdownMenuButton" style="font-size: 11px;min-width: 50px">
-
-                                        <a  href="?annee=2010" class="dropdown-item">
-                                            2010
-                                        </a>
-
-                                        <a  href="?annee=2011" class="dropdown-item">
-                                            2011
-                                        </a>
-
-                                        <a  href="?annee=2012" class="dropdown-item">
-                                            2012
-                                        </a>
-                                    </div-->
                                 </div>
 
                                 
                             </div>
 
-                            <div class="mt-4" id="catalogue-list">
-                               <div class="row">
+                            <div class="mt-4" id="data-container">
+                                <div class="row">
 
 
-                                    {% for movie in programmes if movie.slug is defined %}
-                                        
-                                        <div class="col-6 col-md-3 col-sm-4">
+                                    {{ include('catalogue/search-movies-render.html.twig') }}
 
-                                            {# affichage desktop #}
-
-                                            <div  class="position-relative has-media-detail vid-hover text-white mb-4 d-none d-md-block">
-
-                                                <img alt="{{ movie.name|lower|title }}" class="img-fluid" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
-
-                                                <div class="media-overlay d-none d-md-block"></div>
-
-                                                <div class="media-btn-wrapper d-none d-md-block">
-                                                    <ul>
-
-                                                        <li>
-                                                            <a data-vbtype="video" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox" >
-                                                                {{ 'Bande annonce'|trans({},'movies') }}
-                                                            </a>
-                                                        </li>
-
-                                                        <li>
-                                                            <a href="{{ path('catalogue_index',{'slug':movie.slug})}}">
-                                                                {{ 'Details'|trans({},'movies') }}
-                                                            </a>
-                                                        </li>
-                                                    </ul>
-                                                </div>
-
-                                                <div class="movie-f d-none d-md-flex">
-                                                    <h2 class="text-truncate" >
-                                                        {{ movie.name|lower|title }} 
-                                                    </h2>
-
-                                                    <small class="d-none d-md-block">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="far fa-star"></i>
-                                                        <i class="far fa-star"></i>
-                                                    </small>
-                                                </div>
-
-                                                <!--div class="media-info align-items-center justify-content-center"> 
-                                                    <span class="badge badge-light">Serie</span>
-                                                    <br>
-                                                    <span class="badge badge-light">11-02-2014</span>
-                                                </div-->
-                                            </div>
-
-                                            {# affichage mobile #}
-
-                                            <div  class="position-relative has-media-detail vid-hover text-white mb-4 d-md-none d-sm-block d-block">
-                                                <a href="{{ path('catalogue_index',{'slug':movie.slug})}}">
-                                                    <img class="{{ movie.name|lower|title }}" alt="{{ movie.name|lower|title }}" class="img-fluid" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
-                                                </a>
-                                            </div>
-                                        </div>
-                                    {% else %}
+                                    {% if programmes|length == 0 %}
                                         <div class="col-12">
                                             <div class="alert alert-light" role="alert">
                                                 <h4 class="alert-heading">Oops</h4>
@@ -377,7 +313,7 @@
                                                 </p>
                                             </div>
                                         </div>
-                                    {% endfor %}
+                                    {% endif %}
                                 </div>
                                 
                                 {#<div class="w-100"></div>
@@ -422,6 +358,10 @@
                                         </li>
                                     </ul>
                                 </nav>#}
+
+                                <div style="text-align:center" id="infinite-loading">
+                                    <i  class="fa fa-spinner fa-spin fa-3x"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -438,65 +378,10 @@
     
     <script src="{{ asset('js/main-menu-manager.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
-
-    <script>
-        $(document).ready(function($){
-
-            let mainMenu = $("#master-menu");
-            var sections = $(".block");
-            var win = $(window);
-
-            sections.each(function(i,el){
-                let obj = $(el);
-                obj.addClass('section-animation');
-            });
-
-            win.on({
-                scroll:function(e){
-
-                    let pos = $(this).scrollTop();
-                    if(pos >= 230){
-                        mainMenu.addClass('active');
-                    }
-                    else if(pos <= 120){
-                        mainMenu.removeClass('active');
-                    }
-                }
-            });
-
-
-            function genrePrintHook(){
-                let gp = $("#gender-print");
-                let gpp = gp.parent();
-                let hr = gpp.innerHeight() + $("#master-menu").innerHeight();
-
-                gp.css({
-                    left:(gpp.innerWidth()/2) - (gp.innerWidth()/2),
-                    top:(hr/2) - (gp.innerHeight()/2),
-                    visibility:'visible'
-                });
-            }
-            
-            $(window).on({
-                resize:function(e){
-                    genrePrintHook();
-                }
-            });
-            genrePrintHook();
-
-             /* 09. VENOBOX JS */
-            $('.venobox').venobox({
-                numeratio: true,
-                titleattr: 'data-title',
-                titlePosition: 'top',
-                spinner: 'wandering-cubes',
-                spinColor: '#007bff',
-                autoplay:true,
-            });
-
-            $('[data-toggle="tooltip"]').tooltip();
-        });
-    </script>
+    
+    <script src="{{ asset('js/admin/manager.js') }}"></script>
+    <script src="{{ asset('js/programmes/manager.js') }}"></script>
+    <script src="{{ asset('js/programmes/index.js') }}"></script>
 
 {% endblock %}
 

@@ -42,7 +42,7 @@ header #movie-profil.active{
 	-o-transition:.4s linear all;
 	transition:.4s linear all;
 	position: fixed;
-	top: 0px;
+	top: -100px;
 }
 
 header #movie-profil.active.reduced{
@@ -51,7 +51,7 @@ header #movie-profil.active.reduced{
 	-o-transition:.4s linear all;
 	transition:.4s linear all;
 
-	top: -445px;
+	top: -450px;
 }
 
 #movie-title{

@@ -4,9 +4,3 @@ header #master-cover{
 	overflow: hidden;
 	background: url('../img/photo1.jpg') no-repeat left top / cover;
 }
-
-
-#catalogue-list ul > li{
-	margin: 0px;
-	margin-bottom: 10px;
-}

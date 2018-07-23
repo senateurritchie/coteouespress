@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
 .coa-bg-secondary{
 	background-color: #999933 !important;
 }
@@ -1166,4 +1168,69 @@ header #gender-print h1{
                0 5px 10px rgba(0,0,0,.25),
                0 10px 10px rgba(0,0,0,.2),
                0 20px 20px rgba(0,0,0,.15);
+}
+
+/* production a la une */
+
+.prs_upcom_movie_video_overlay{
+	position: absolute;
+    top: 0%;
+    right: 0%;
+    left: 0%;
+    bottom: 0%;
+    background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(212,212,212,0) 17%, rgba(3,3,3,1) 99%, rgba(0,0,0,1) 100%);
+    background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(212,212,212,0) 17%,rgba(3,3,3,1) 99%,rgba(0,0,0,1) 100%);
+    background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(212,212,212,0) 17%,rgba(3,3,3,1) 99%,rgba(0,0,0,1) 100%);
+}
+.prs_upcom_video_img_cont_over{
+	position:absolute;
+	bottom: 30px;
+    left: 35px;
+	z-index:1;
+	text-align:left;
+}
+.prs_upcom_video_img_cont_over ul{
+	list-style: none;
+}
+.prs_upcom_video_img_cont_over li{
+	float:left;
+	color:#ffffff;
+}
+.prs_upcom_video_img_cont_over li i{
+}
+.prs_upcom_video_img_cont_over h2{
+	font-size:32px;
+	font-weight:bold;
+	color:#ffffff;
+	text-transform:uppercase;
+	padding-top:10px;
+	padding-bottom:10px;
+	display:inline-block;
+	font-family: 'Poppins', sans-serif;
+    line-height: 1.1;
+}
+.prs_upcom_video_img_cont_over p{
+	color:#ffffff;
+	text-align:left;
+}
+.prs_upcom_video_img_cont_over li:first-child{
+	margin-right:20px;
+}
+
+#block-production-a-laffiche{
+
+}
+
+
+#block-production-a-laffiche .btn{
+	position: absolute;
+	bottom:10px;
+	outline: none !important;
+} 
+#block-production-a-laffiche .btn:first-child{
+	left: 20px;
+}
+
+#block-production-a-laffiche .btn:last-child{
+	right: 20px;
 }
