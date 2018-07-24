@@ -66,12 +66,13 @@ header #movie-profil.active.reduced{
 	overflow:hidden;
 }
 
+
 .coa-player .coa-player-thumbnail{
 	position: absolute;
 	top: 0;
 	right: -100%;
 	width: 250px;
-	bottom: 0;
+	bottom: 10%;
 	background: rgba(0,0,0,.5);
 	padding: 10px;
 
@@ -81,23 +82,43 @@ header #movie-profil.active.reduced{
 	-moz-transition: all .35s linear;
 	transition: all .35s linear;
 }
+.coa-player .coa-player-thumbnail.fix{
+	right: 0%;
+}
+
+.coa-player .coa-player-thumbnail button{
+	display: none;
+}
+.coa-player .coa-player-thumbnail.fix button{
+	display: block;
+}
 
 .coa-player .coa-player-thumbnail a:hover img{
 	box-shadow: 0 5px 35px rgba(255,255,255,0.3);
 }
 
-.coa-player:hover .coa-player-thumbnail{
+.coa-player:hover .coa-player-thumbnail:not(.fix){
 	
 	-webkit-transition: all .5s linear;
 	-ms-transition: all .5s linear;
 	-o-transition: all .5s linear;
 	-moz-transition: all .5s linear;
 	transition: all .5s linear;
+	right: 5px;
+}
 
-	right: 0;
+.coa-player:hover .coa-player-thumbnail.fix-rem{
+	
+	-webkit-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	-moz-transition: all .5s linear;
+	transition: all .5s linear;
+	right: -100%;
 }
 
 section{
+
 }
 
 .block{

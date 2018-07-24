@@ -242,22 +242,32 @@
                                 <i class="video-icon video-popup-control"></i>
                             </div>#}
                             
-                            <div class="coa-player-thumbnail">
+                            <div class="coa-player-thumbnail fix">
                                 
                                 <ul class="list-group">
+                                    
+                                    <a data-id="253644176" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        <img style="width:40px;height:40px;"  src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>{{ programme.name|lower|title }} - Trailer</span>
+                                    </a>
 
                                     <a data-id="253644176" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <img style="width:40px;height:40px;"  src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 01_FR</span>
+                                        <img style="width:40px;height:40px;"  src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>{{ programme.name|lower|title }} Episode 01</span>
                                     </a>
 
                                     <a data-id="204188760" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 02_FR</span>
+                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>{{ programme.name|lower|title }} Episode 02</span>
                                     </a>
 
                                     <a data-id="204195114" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid3.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 03_FR</span>
+                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid3.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>{{ programme.name|lower|title }} Episode 03</span>
                                     </a>
                                 </ul>
+
+                                <div class="mt-4">
+                                    <button class="btn btn-info btn-sm">
+                                        <i class="fas fa-times"></i> Fermer 
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -943,6 +953,21 @@
             handstickPlayer.on('loaded', function() {
                 handstickPlayer.play();
             });
+
+            $(".coa-player-thumbnail button.btn").on({
+                click:function(e){
+                    e.preventDefault();
+                    var parent = $(this).parents(".coa-player-thumbnail");
+                    parent
+                    .removeClass('fix')
+                    .addClass('fix-rem');
+
+                    setTimeout(function(){
+                        parent.removeClass('fix-rem');
+                    },5000)
+                }
+            });
+
 
             $(".coa-player-thumbnail a").on({
                 click:function(e){
