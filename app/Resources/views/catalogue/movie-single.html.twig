@@ -235,58 +235,29 @@
 
                 <section style="padding: 15px" id="movie-player">
                     <div class="row">
-                        <div class="col-md-12 coa-player">
-
-                            <div class="coa-player-cover position-relative">
+                        <div class="col-md-12 coa-player p-0">
+                            <div data-vimeo-url="https://vimeo.com/205265379" id="coa-player-cover" data-vimeo-width="820px" ></div>
+                            {#<div class="coa-player-cover position-relative">
                                 <img  class="img-fluid" src="{{ asset('img/arton193.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                 <i class="video-icon video-popup-control"></i>
-                            </div>
+                            </div>#}
                             
-                            <div class="coa-player-thumbnail d-flex flex-row justify-content-center">
-                                <div class="row justify-content-center">
-                                    <div class="col thumbnail-vid">
-                                        <a href="" >
-                                            <img  src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
+                            <div class="coa-player-thumbnail">
+                                
+                                <ul class="list-group">
 
-                                    <div class="col thumbnail-vid">
-                                        <a href="">
-                                            <img  src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
+                                    <a data-id="253644176" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        <img style="width:40px;height:40px;"  src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 01_FR</span>
+                                    </a>
 
-                                    <div class="col thumbnail-vid">
-                                        <a href="">
-                                            <img  src="{{ asset('img/vid3.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
+                                    <a data-id="204188760" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 02_FR</span>
+                                    </a>
 
-                                    <div class="col thumbnail-vid">
-                                        <a href="">
-                                            <img  src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
-
-                                    <div class="col thumbnail-vid">
-                                        <a href="">
-                                            <img  src="{{ asset('img/vid1.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
-
-                                    <div class="col thumbnail-vid">
-                                        <a href="">
-                                            <img  src="{{ asset('img/vid3.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
-                                        </a>
-                                        
-                                    </div>
-                                    
-                                </div>
+                                    <a data-id="204195114" href="" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                                        <img style="width:40px;height:40px;" src="{{ asset('img/vid3.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span>HOSPITAL IT Episode 03_FR</span>
+                                    </a>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -814,12 +785,15 @@
 
 {% block javascripts %}
     {{ parent() }}
+
+    <script src="https://player.vimeo.com/api/player.js"></script>
     
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
 
     <script src="{{ asset('js/main-menu-manager.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+
 
     <script>
         $(document).ready(function($){
@@ -957,6 +931,47 @@
                 spinColor: '#007bff',
                 autoplay:true,
             });
+
+
+           
+
+            var handstickPlayer = new Vimeo.Player('coa-player-cover');
+            handstickPlayer.on('play', function() {
+                console.log('played the handstick video!');
+            });
+
+            handstickPlayer.on('loaded', function() {
+                handstickPlayer.play();
+            });
+
+            $(".coa-player-thumbnail a").on({
+                click:function(e){
+                    e.preventDefault();
+
+                    handstickPlayer.loadVideo($(this).data('id')).then(function(id) {
+                        // the video successfully loaded
+                    }).catch(function(error) {
+                        switch (error.name) {
+                            case 'TypeError':
+                                // the id was not a number
+                                break;
+
+                            case 'PasswordError':
+                                // the video is password-protected and the viewer needs to enter the
+                                // password first
+                                break;
+
+                            case 'PrivacyError':
+                                // the video is password-protected or private
+                                break;
+
+                            default:
+                                // some other error occurred
+                                break;
+                        }
+                    });
+                }
+            })
         });
     </script>
 

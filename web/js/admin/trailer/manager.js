@@ -37,7 +37,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/Trailers/${event.type}/${this.current.id}`,
+	  				url:`/admin/trailers/${event.type}/${this.current.id}`,
 	  				method:"POST",
 	  				data:event.params.model
 		  		})
@@ -53,14 +53,16 @@ var AdminManager = AdminManager || {};
 
 		TrailerRepository.prototype.uploadImage = function(event){
 			var file = event.params.file;
+			var _token = event.params._token;
 			var formData = new FormData();
 			formData.append('image',file);
+			formData.append('_token',_token);
 
 			return new Promise((resolve,reject)=>{
 
 	  			this.request({
 	  				enctype: 'multipart/form-data',
-	  				url:`/admin/Trailers/${this.current.id}/image/${event.type}`,
+	  				url:`/admin/trailers/${this.current.id}/image/${event.type}`,
 	  				method:"POST",
 	  				data:formData,
 	  				processData: false,
@@ -87,6 +89,7 @@ var AdminManager = AdminManager || {};
 			this.vars({
 				selectedDataView:$("#current-widget-data"),
 				rightSection:$("#right-section"),
+				renderAs:1,
 				copyDefaultImage:null,
 				model:null,
 				$tpl:{
@@ -105,6 +108,16 @@ var AdminManager = AdminManager || {};
 
 
 		TrailerView.prototype.controller = function(){
+
+			/* 09. VENOBOX JS */
+            $('.venobox').venobox({
+                numeratio: true,
+                titleattr: 'data-title',
+                titlePosition: 'top',
+                spinner: 'wandering-cubes',
+                spinColor: '#007bff',
+                autoplay:true
+            });
 			
 			$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
@@ -126,11 +139,16 @@ var AdminManager = AdminManager || {};
 			});
 
 			$('#data-secondary-box form input[type=file]').on('change',(e)=> {
-  				this.previewImage(e.target.files);
+  				this.previewImage(e.target.files,this.params.renderAs);
+  				this.params.renderAs = 1;
+			});
+
+			$('#data-secondary-box form .trigger-file').on('click',(e)=> {
+  				$('#data-secondary-box form input[type=file]').click();
 			});
 
 
-			var img = $('#data-secondary-box #thumbnail-trailer');
+			var img = $('#data-secondary-box .thumbnail-trailer');
 		    this.copyDefaultImage = img.attr('src');
 
 			$('#data-secondary-box #thumbnail-trailer-container button').on('click',(e)=> {
@@ -224,11 +242,7 @@ var AdminManager = AdminManager || {};
 							var model = {data:data};
 
 							if(data){
-								var tpl = this.render(this.params.$tpl.entries,model,{
-									entry:this.params.$tpl.entry
-								});
-
-								$("#data-container table:first").append($(tpl));
+								$("#data-container table:first tbody:first").append(data);
 							}
 						}
 					}
@@ -243,13 +257,52 @@ var AdminManager = AdminManager || {};
 							input.get()[0].files = files;
 						}
 						else if(event.params.pos == 2){
-							/*this.params.selectedDataView.find('img:first').attr('src',reader.result);
+							var files = event.params.files;
+							var input  = $('#current-widget-data form input[type=file]');
+							var _token  = $('#current-widget-data form input[name=_token]').val();
+							input.get()[0].files = files;
+
 					    	this.params.selectedDataView.addClass('updating');
 
 					    	this.emit(new nsp.UploadEvent({
 								state:'start',
-								file:file
-							}));*/
+								file:files[0],
+								_token:_token,
+							}));
+
+							console.log(files)
+						}
+					}
+				}
+				else if(event instanceof nsp.UploadEvent){
+					if(~['end','fails'].indexOf(event.params.state)){
+						this.params.selectedDataView.removeClass('updating');
+
+						if(event.params.state == 'end'){
+							var data = event.params.data;
+
+							if(data && data.status){
+								if(event instanceof nsp.UploadEvent){
+									var src = $("#data-container .data-item[data-id="+data.data.id+"] .data-item-image img");
+
+									src.attr("src","/upload/public/"+data.data.image);
+								}
+							}
+
+							var alertShow = ()=>{
+								if(data.hasOwnProperty('message')){
+									$('#modal-info .modal-body h4').html(data.message);
+									$('#modal-info').modal('show');
+								}
+								else if(data.hasOwnProperty('errors')){
+									var tpl = this.render(this.params.$tpl.errors,data);
+									$('#modal-info .modal-body h4').html(tpl);
+									$('#modal-info').modal('show');
+								}
+								$('#myModal').off('hidden.bs.modal');
+							};
+
+							alertShow();
 						}
 					}
 				}
@@ -295,7 +348,8 @@ var AdminManager = AdminManager || {};
 
 						this.emit(new nsp.InfiniteScrollEvent({
 							state:'start',
-							data:event.params
+							data:event.params,
+							dataType:"text",
 						}));
 					}
 				}
@@ -308,7 +362,7 @@ var AdminManager = AdminManager || {};
 
 		TrailerView.prototype.renderSelectedData = function(view){
 			$("#selected-data").html(view);
-			this.params.selectedDataView = $(view);
+			this.params.selectedDataView = $("#selected-data #current-widget-data");
 			this.eventsToSelectedDataView();
 		}
 
@@ -318,7 +372,13 @@ var AdminManager = AdminManager || {};
 			var reader = new FileReader();
 
 		    reader.addEventListener('load', ()=> {
-		    	var img = $('#data-secondary-box #thumbnail-trailer');
+		    	var img;
+		    	if(pos == 1){
+		    		img = $('#data-secondary-box .thumbnail-trailer');
+		    	}
+		    	else if(pos == 2){
+		    		img = $('#current-widget-data .thumbnail-trailer');
+		    	}
 		    	img.attr('src',reader.result);
 		    	this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files}));
 		    });
@@ -348,31 +408,26 @@ var AdminManager = AdminManager || {};
 
 		TrailerView.prototype.eventsToSelectedDataView = function(){
 
-			this.params.selectedDataView.find('#area-persist button[type=reset]').on({
+			this.params.selectedDataView.find('button[type=reset]').on({
 				click:e=>{
 					e.preventDefault();
-					$(e.target).parents(".box").removeClass('action-update-active');
-				}
-			});
-
-			this.params.selectedDataView.find('#area-action button[type=button]:first').on({
-				click:e=>{
 					this.params.rightSection.removeClass('data-active');
 				}
 			});
 
-			this.params.selectedDataView.find('form .box-footer #area-action button.update').on({
+			this.params.selectedDataView.find('button.trigger-file').on({
 				click:e=>{
-					$(e.target).parents(".box").addClass('action-update-active');
+					this.params.renderAs = 2;
+					$('#data-secondary-box form input[type=file]').click();
 				}
 			});
+
 
 			this.params.selectedDataView.find('form').on({
 				submit:e=>{
 					e.preventDefault();
 					this.params.selectedDataView.addClass('updating');
 					var data = $(e.target).serialize();
-
 					this.emit(new nsp.TrailerUpdatingEvent({
 						state:'start',
 						model:data
@@ -383,7 +438,7 @@ var AdminManager = AdminManager || {};
 			var dropper = document.getElementById("current-widget-data");
 			dropper.addEventListener("drop",e=>{
 				e.preventDefault();
-				this.params.selectedDataView.removeClass('dragenter');
+				$(document.body).removeClass('dragenter');
 				this.previewImage(e.dataTransfer.files,2);
 			});
 

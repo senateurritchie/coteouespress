@@ -7,6 +7,9 @@
 {% block stylesheets %}
 	{{ parent() }}
 
+
+    <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+
 	<style>
 
 		
@@ -97,17 +100,26 @@
 
 		.prs_upcom_video_img_cont_over{
 			position:absolute;
-			bottom: 5%;
-		    left: 15%;
-		    right: 15%;
+			bottom: 0%;
+		    left: 0%;
+		    right: 0%;
 			z-index:1;
-			text-align:left;
+			text-align:center;
+	
+		    background: -webkit-linear-gradient(rgba(255,255,255,0) 0%, rgba(212,212,212,0) 17%, rgba(3,3,3,1) 99%, rgba(0,0,0,1) 100%);
+
+		    background: -o-linear-gradient(rgba(255,255,255,0) 0%, rgba(212,212,212,0) 17%, rgba(3,3,3,1) 99%, rgba(0,0,0,1) 100%);
+
+		    background: linear-gradient(rgba(255,255,255,0) 0%, rgba(212,212,212,0) 17%, rgba(3,3,3,1) 99%, rgba(0,0,0,1) 100%);
+
+		    padding: 10px 20px 20px 20px;
+		
 		}
 
 		.prs_upcom_video_img_cont_over h2{
 			font-size:22px;
 			font-weight:bold;
-			color:#a5a5a5;
+			color:#ffffff;
 			text-transform:uppercase;
 			padding-top:10px;
 			padding-bottom:10px;
@@ -236,11 +248,13 @@
 							
 							<div style="display:inline-block;position:relative">
 
-								<img width="270" height="360" id="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" alt="...">
+								<img width="270" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" alt="...">
 
 								<div class="prs_upcom_video_img_cont_over">
-									<h2>Image à charger</h2>
-									<button class="btn btn-info btn-block">Annuler</button>
+        							<h2>Image à charger 270<small>x</small>360</h2>
+									<button class="btn btn-info trigger-file">Choisir...</button>
+
+									<button class="btn btn-info">Annuler</button>
 								</div>
 							</div>
 
@@ -273,6 +287,8 @@
 
 {% block javascripts %}
 	{{ parent() }}
+    
+    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
 
 	<script src="{{ asset('js/admin/manager.js') }}"></script>
 	<script src="{{ asset('js/admin/trailer/manager.js') }}"></script>

@@ -51,7 +51,10 @@ $(document).ready(function($){
 
 			var limit = event.params.data.limit;
 			var offset = event.params.data.offset;
-			repository.findBy({},{},limit,offset)
+			repository.findBy({
+				headers:{accept:"text/html"},
+				dataType:'text'
+			},{},limit,offset)
 			.then(data=>{
 
 				view.emit(new nsp.InfiniteScrollEvent({

@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -51,6 +52,10 @@ class AdminTrailerController extends Controller
     	}
 
         if($request->isXmlHttpRequest()){
+
+            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+            
+
             if(intval(@$params['id'])){
                 if(empty($data)){
                     throw $this->createNotFoundException("Element introuvable");
@@ -82,8 +87,12 @@ class AdminTrailerController extends Controller
                     "form"=>$form2->createView(),
                 ));
             }
+
+            if ($acceptHeader->has('text/html')) {
+                $item = $acceptHeader->get('text/html');
+                return $view;
+            }
             
-           
 
             $result['view'] = $view->getContent();
 
@@ -116,7 +125,12 @@ class AdminTrailerController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(MovieTrailerType::class,$item,array('csrf_protection' => false));
+        $form = $this->createForm(MovieTrailerType::class,$item,
+            array(
+                //'csrf_protection' => false,
+                'upload_dir' => $this->getParameter('public_upload_directory'),
+            )
+        );
         $form->submit($request->request->all());
 
         foreach ($form->all() as $child) {
@@ -175,7 +189,6 @@ class AdminTrailerController extends Controller
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(MovieTrailer::class);
-        $rep_c = $em->getRepository(Country::class);
         $result = ["status"=>false];
 
 
@@ -183,11 +196,16 @@ class AdminTrailerController extends Controller
             throw $this->createNotFoundException();
         }
 
+        $oldName = $item->getImage();
+
         $form = $this->createForm(MovieTrailerType::class,$item,array(
-            'csrf_protection' => false,
+            //'csrf_protection' => false,
             'upload_dir' => $this->getParameter('public_upload_directory'),
+            "use_for"=>"upload",
         ));
-        $form->submit($request->files->all());
+        //$form->submit($request->files->all());
+        $form->handleRequest($request);
+
 
         foreach ($form->all() as $child) {
             if (!$child->isValid()) {
@@ -198,6 +216,12 @@ class AdminTrailerController extends Controller
         if($form->isSubmitted() && $form->isValid()){
             $em->merge($item);
             $em->flush();
+
+            if($oldName && $oldName != $item->getImage()){
+                $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                unlink($path);
+            }
+
             $result['status'] = true;
             $result['message'] = "modification effectuée avec succès";
             $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);

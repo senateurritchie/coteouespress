@@ -63,17 +63,17 @@ header #movie-profil.active.reduced{
 }
 
 .coa-player{
-	background: rgba(0,0,0,1);
 	overflow:hidden;
 }
 
 .coa-player .coa-player-thumbnail{
 	position: absolute;
-	bottom: -100%;
-	left: 0;
-	right: 0;
-	background: rgba(0,0,0,1);
-	padding: 5px;
+	top: 0;
+	right: -100%;
+	width: 250px;
+	bottom: 0;
+	background: rgba(0,0,0,.5);
+	padding: 10px;
 
 	-webkit-transition: all .35s linear;
 	-ms-transition: all .35s linear;
@@ -94,7 +94,7 @@ header #movie-profil.active.reduced{
 	-moz-transition: all .5s linear;
 	transition: all .5s linear;
 
-	bottom: 0
+	right: 0;
 }
 
 section{

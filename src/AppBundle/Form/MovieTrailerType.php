@@ -41,6 +41,11 @@ class MovieTrailerType extends AbstractType
                 return;
             }
 
+            if(@$options["use_for"] == "upload"){
+                $form->remove("title")
+                ->remove('fullUrl');
+            }
+
             if($trailer->getImage()){
                 $path = $options['upload_dir'].'/'.$trailer->getImage();
                 $trailer->setImage(new File($path));
@@ -55,7 +60,8 @@ class MovieTrailerType extends AbstractType
         $resolver->setRequired('upload_dir');
 
         $resolver->setDefaults(array(
-            'data_class' => MovieTrailer::class
+            'data_class' => MovieTrailer::class,
+            'use_for' => "normal",
         ));
     }
 

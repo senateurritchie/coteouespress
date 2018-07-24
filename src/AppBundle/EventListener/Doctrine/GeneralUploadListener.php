@@ -27,6 +27,7 @@ class GeneralUploadListener{
 
     public function preUpdate(PreUpdateEventArgs $args){
         $entity = $args->getEntity();
+        
         $this->uploadFile($entity);
     }
 
@@ -39,6 +40,18 @@ class GeneralUploadListener{
 
         if ($fileName = $entity->getImage()) {
             
+        }
+    }
+
+     public function postRemove(LifecycleEventArgs $args){
+        $entity = $args->getEntity();
+
+        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
+            return;
+        }
+
+        if ($fileName = $entity->getImage()) {
+            $this->uploader->remove($fileName);
         }
     }
 
