@@ -23,6 +23,7 @@ var AdminManager = AdminManager || {};
 			nsp.utilis.merge(this.params,params);
 
 			var player = new Vimeo.Player('coa-player-cover');
+            player.setVolume(1);
 			this.nativePlayer = player;
             player.on('play', () =>{
             	console.log('video courant',this.current)
@@ -44,9 +45,15 @@ var AdminManager = AdminManager || {};
             });
 
             player.on('loaded', ()=> {
+
             	if(this.isUserInteracted){
                 	this.nativePlayer.play();
             	}
+                else{
+                    if(this.current == 0){
+                        this.params.container.removeClass('d-none');
+                    }
+                }
             });
 
             this.params.container.find("button.btn").on({

@@ -1,0 +1,53 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+
+<div class="box box-danger" id="current-widget-data" data-id="{{ data.id }}">
+    <div class="box-header with-border bg-red">
+    	<h3 class="box-title">Modification</h3>
+
+        <div class="box-tools pull-right">     
+            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
+                <i class="fa fa-trash fa-2x" style="color:white"></i>
+            </button>
+        </div>
+    </div>
+
+    {{ form_start(form) }}
+
+        <div class="box-body">
+            {{ form_row(form.title) }}
+            {{ form_row(form.fullUrl) }}
+            {{ form_row(form.image) }}
+            
+            <div style="text-align:center;">
+                <div style="display:inline-block;position:relative">
+        	    	{% if data.image %}
+        				<img  width="270" height="360" class="thumbnail-trailer" src="{{ asset('upload/public/'~data.image) }}" alt="" />
+        			{% else %}
+        	    		<img width="270" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" />
+        			{% endif %}
+
+        			<div class="prs_upcom_video_img_cont_over">
+        				<h2>Image à charger 270<span style="font-size:14px">x</span>360</h2>
+        				<button type="button" class="btn btn-info trigger-file">Choisir...</button>
+                        <button type="button" class="btn btn-info reset" disabled="disabled">Annuler</button>
+        			</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+        	<button type="reset" class="btn btn-default" >
+      			Annuler
+      		</button>
+
+        	<button class="btn btn-danger pull-right">
+        		<i class="fa fa-save"></i> Enregistrer
+        	</button>
+        </div>
+    {{ form_end(form) }}
+
+    <div class="overlay" id="spinner">
+        <i class="fa fa-spinner fa-spin"></i>
+    </div>
+</div>

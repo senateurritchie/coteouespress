@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MovieResource
@@ -13,47 +15,50 @@ use Doctrine\ORM\Mapping as ORM;
 class MovieResource
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="cover", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920,maxWidth=1920, minHeight=1080,maxHeight=1080)
     */
     private $cover;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="landscape", type="string", length=255, nullable=true, options={"comment":"stock la vignette en paysage du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
-    private $profil;
+    private $landscape;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="portrait", type="string", length=255, nullable=true,options={"comment":"stock la vignette en portrait du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270,maxWidth=270, minHeight=360,maxHeight=360)
     */
-    private $vignette;
-
+    private $portrait;
 
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
+    private $createAt;
+
+
+    
 }
-

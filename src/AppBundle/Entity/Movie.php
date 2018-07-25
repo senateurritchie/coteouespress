@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Movie
@@ -34,30 +35,21 @@ class Movie
     private $category;
 
     /**
-    * @var AppBundle\Entity\MovieResource
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\MovieResource")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-    */
-    private $resource;
-
-    /**
-    * @var AppBundle\Entity\MovieTrailer
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\MovieTrailer")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-    */
-    private $trailer;
-
-    /**
     * @var string
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="name", type="string", length=50, unique=true)
     */
     private $name;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Slug(fields={"name"})
+    * @ORM\Column(name="slug", type="string", length=30, unique=true)
+    */
+    private $slug;
 
     /**
     * @var string
@@ -81,7 +73,23 @@ class Movie
     * @Groups({"group1","group2"})
     * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
     */
-    private $in_theather = 0;
+    private $inTheather = 0;
+
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
+    */
+    private $hasExclusivity = 0;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="format", type="string", options={"comment":"enregistre le format du film"}, nullable=true)
+    */
+    private $format;
 
     /**
     * @var \Datetime
@@ -100,30 +108,6 @@ class Movie
     private $yearEnd;
 
     /**
-    * @var integer
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="episode_num", type="integer", options={"comment":"le nombre d'épisodes du movie"}, nullable=true)
-    */
-    private $episodeNum;
-
-    /**
-    * @var integer
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="duration", type="integer", options={"comment":"enregistre la durée du film en minutes"}, nullable=true)
-    */
-    private $duration;
-
-    /**
-    * @var string
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="format", type="string", options={"comment":"enregistre le format du film"}, nullable=true)
-    */
-    private $format;
-
-    /**
     * @var string
     *
     * @Groups({"group1","group2"})
@@ -139,31 +123,76 @@ class Movie
     */
     private $originalLanguage;
 
-    /**
-    * @var boolean
+   /**
+    * @var string
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
+    * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920,maxWidth=1920, minHeight=1080,maxHeight=1080)
     */
-    private $hasExclusivity = 0;
+    private $coverImg;
 
     /**
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @Gedmo\Slug(fields={"name"})
-    * @ORM\Column(name="slug", type="string", length=30, unique=true)
+    * @ORM\Column(name="landscape_img", type="string", length=255, nullable=true, options={"comment":"stock la vignette en paysage du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
-    private $slug;
+    private $landscapeImg;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="portrait_img", type="string", length=255, nullable=true,options={"comment":"stock la vignette en portrait du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270,maxWidth=270, minHeight=360,maxHeight=360)
+    */
+    private $portraitImg;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="trailer", type="string", length=255, nullable=true, options={"comment":"le lien du trailer du programme"})
+    * @assert\Url
+    */
+    private $trailer;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="episode_1", type="string", length=255, nullable=true, options={"comment":"le lien de l'episode 1 du programme"})
+    * @assert\Url
+    */
+    private $episode1;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="episode_2", type="string", length=255, nullable=true, options={"comment":"le lien de l'episode 2 du programme"})
+    * @assert\Url
+    */
+    private $episode2;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="episode_3", type="string", length=255, nullable=true, options={"comment":"le lien de l'episode 3 du programme"})
+    * @assert\Url
+    */
+    private $episode3;
 
     /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="create_at", type="datetime")
+    * @ORM\Column(name="create_at", type="datetime", nullable=true)
     */
     private $createAt;
-
 
     /**
     * @Groups({"group2"})
@@ -180,11 +209,6 @@ class Movie
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieLanguage", mappedBy="movie")
     */
     private $languages;
-    /**
-    * @Groups({"group2"})
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieEpisode", mappedBy="movie")
-    */
-    private $episodes;
     /**
     * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieActor", mappedBy="movie")
@@ -223,7 +247,6 @@ class Movie
         $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
         $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
         $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
         $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
@@ -323,7 +346,7 @@ class Movie
      */
     public function setInTheather($inTheather)
     {
-        $this->in_theather = $inTheather;
+        $this->inTheather = $inTheather;
 
         return $this;
     }
@@ -335,7 +358,7 @@ class Movie
      */
     public function getInTheather()
     {
-        return $this->in_theather;
+        return $this->inTheather;
     }
 
     /**
@@ -384,54 +407,6 @@ class Movie
     public function getYearEnd()
     {
         return $this->yearEnd;
-    }
-
-    /**
-     * Set episodeNum
-     *
-     * @param integer $episodeNum
-     *
-     * @return Movie
-     */
-    public function setEpisodeNum($episodeNum)
-    {
-        $this->episodeNum = $episodeNum;
-
-        return $this;
-    }
-
-    /**
-     * Get episodeNum
-     *
-     * @return integer
-     */
-    public function getEpisodeNum()
-    {
-        return $this->episodeNum;
-    }
-
-    /**
-     * Set duration
-     *
-     * @param integer $duration
-     *
-     * @return Movie
-     */
-    public function setDuration($duration)
-    {
-        $this->duration = $duration;
-
-        return $this;
-    }
-
-    /**
-     * Get duration
-     *
-     * @return integer
-     */
-    public function getDuration()
-    {
-        return $this->duration;
     }
 
     /**
@@ -531,6 +506,174 @@ class Movie
     }
 
     /**
+     * Set coverImg
+     *
+     * @param string $coverImg
+     *
+     * @return Movie
+     */
+    public function setCoverImg($coverImg)
+    {
+        $this->coverImg = $coverImg;
+
+        return $this;
+    }
+
+    /**
+     * Get coverImg
+     *
+     * @return string
+     */
+    public function getCoverImg()
+    {
+        return $this->coverImg;
+    }
+
+    /**
+     * Set landscapeImg
+     *
+     * @param string $landscapeImg
+     *
+     * @return Movie
+     */
+    public function setLandscapeImg($landscapeImg)
+    {
+        $this->landscapeImg = $landscapeImg;
+
+        return $this;
+    }
+
+    /**
+     * Get landscapeImg
+     *
+     * @return string
+     */
+    public function getLandscapeImg()
+    {
+        return $this->landscapeImg;
+    }
+
+    /**
+     * Set portraitImg
+     *
+     * @param string $portraitImg
+     *
+     * @return Movie
+     */
+    public function setPortraitImg($portraitImg)
+    {
+        $this->portraitImg = $portraitImg;
+
+        return $this;
+    }
+
+    /**
+     * Get portraitImg
+     *
+     * @return string
+     */
+    public function getPortraitImg()
+    {
+        return $this->portraitImg;
+    }
+
+    /**
+     * Set trailer
+     *
+     * @param string $trailer
+     *
+     * @return Movie
+     */
+    public function setTrailer($trailer)
+    {
+        $this->trailer = $trailer;
+
+        return $this;
+    }
+
+    /**
+     * Get trailer
+     *
+     * @return string
+     */
+    public function getTrailer()
+    {
+        return $this->trailer;
+    }
+
+    /**
+     * Set episode1
+     *
+     * @param string $episode1
+     *
+     * @return Movie
+     */
+    public function setEpisode1($episode1)
+    {
+        $this->episode1 = $episode1;
+
+        return $this;
+    }
+
+    /**
+     * Get episode1
+     *
+     * @return string
+     */
+    public function getEpisode1()
+    {
+        return $this->episode1;
+    }
+
+    /**
+     * Set episode2
+     *
+     * @param string $episode2
+     *
+     * @return Movie
+     */
+    public function setEpisode2($episode2)
+    {
+        $this->episode2 = $episode2;
+
+        return $this;
+    }
+
+    /**
+     * Get episode2
+     *
+     * @return string
+     */
+    public function getEpisode2()
+    {
+        return $this->episode2;
+    }
+
+    /**
+     * Set episode3
+     *
+     * @param string $episode3
+     *
+     * @return Movie
+     */
+    public function setEpisode3($episode3)
+    {
+        $this->episode3 = $episode3;
+
+        return $this;
+    }
+
+    /**
+     * Get episode3
+     *
+     * @return string
+     */
+    public function getEpisode3()
+    {
+        return $this->episode3;
+    }
+
+    /**
      * Set slug
      *
      * @param string $slug
@@ -600,54 +743,6 @@ class Movie
     public function getCategory()
     {
         return $this->category;
-    }
-
-    /**
-     * Set resource
-     *
-     * @param \AppBundle\Entity\MovieResource $resource
-     *
-     * @return Movie
-     */
-    public function setResource(\AppBundle\Entity\MovieResource $resource = null)
-    {
-        $this->resource = $resource;
-
-        return $this;
-    }
-
-    /**
-     * Get resource
-     *
-     * @return \AppBundle\Entity\MovieResource
-     */
-    public function getResource()
-    {
-        return $this->resource;
-    }
-
-    /**
-     * Set trailer
-     *
-     * @param \AppBundle\Entity\MovieTrailer $trailer
-     *
-     * @return Movie
-     */
-    public function setTrailer(\AppBundle\Entity\MovieTrailer $trailer = null)
-    {
-        $this->trailer = $trailer;
-
-        return $this;
-    }
-
-    /**
-     * Get trailer
-     *
-     * @return \AppBundle\Entity\MovieTrailer
-     */
-    public function getTrailer()
-    {
-        return $this->trailer;
     }
 
     /**
@@ -750,40 +845,6 @@ class Movie
     public function getLanguages()
     {
         return $this->languages;
-    }
-
-    /**
-     * Add episode
-     *
-     * @param \AppBundle\Entity\MovieEpisode $episode
-     *
-     * @return Movie
-     */
-    public function addEpisode(\AppBundle\Entity\MovieEpisode $episode)
-    {
-        $this->episodes[] = $episode;
-
-        return $this;
-    }
-
-    /**
-     * Remove episode
-     *
-     * @param \AppBundle\Entity\MovieEpisode $episode
-     */
-    public function removeEpisode(\AppBundle\Entity\MovieEpisode $episode)
-    {
-        $this->episodes->removeElement($episode);
-    }
-
-    /**
-     * Get episodes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getEpisodes()
-    {
-        return $this->episodes;
     }
 
     /**

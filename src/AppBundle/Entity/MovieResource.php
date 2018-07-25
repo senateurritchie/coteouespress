@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MovieResource
@@ -13,43 +15,54 @@ use Doctrine\ORM\Mapping as ORM;
 class MovieResource
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="cover", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920,maxWidth=1920, minHeight=1080,maxHeight=1080)
     */
     private $cover;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="landscape", type="string", length=255, nullable=true, options={"comment":"stock la vignette en paysage du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
-    private $profil;
+    private $landscape;
 
     /**
-    * @var AppBundle\Entity\Image
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="portrait", type="string", length=255, nullable=true,options={"comment":"stock la vignette en portrait du programme"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270,maxWidth=270, minHeight=360,maxHeight=360)
     */
-    private $vignette;
+    private $portrait;
 
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
+    private $createAt;
 
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -59,11 +72,11 @@ class MovieResource
     /**
      * Set cover
      *
-     * @param \AppBundle\Entity\Image $cover
+     * @param string $cover
      *
      * @return MovieResource
      */
-    public function setCover(\AppBundle\Entity\Image $cover = null)
+    public function setCover($cover)
     {
         $this->cover = $cover;
 
@@ -73,7 +86,7 @@ class MovieResource
     /**
      * Get cover
      *
-     * @return \AppBundle\Entity\Image
+     * @return string
      */
     public function getCover()
     {
@@ -81,50 +94,74 @@ class MovieResource
     }
 
     /**
-     * Set profil
+     * Set landscape
      *
-     * @param \AppBundle\Entity\Image $profil
+     * @param string $landscape
      *
      * @return MovieResource
      */
-    public function setProfil(\AppBundle\Entity\Image $profil = null)
+    public function setLandscape($landscape)
     {
-        $this->profil = $profil;
+        $this->landscape = $landscape;
 
         return $this;
     }
 
     /**
-     * Get profil
+     * Get landscape
      *
-     * @return \AppBundle\Entity\Image
+     * @return string
      */
-    public function getProfil()
+    public function getLandscape()
     {
-        return $this->profil;
+        return $this->landscape;
     }
 
     /**
-     * Set vignette
+     * Set portrait
      *
-     * @param \AppBundle\Entity\Image $vignette
+     * @param string $portrait
      *
      * @return MovieResource
      */
-    public function setVignette(\AppBundle\Entity\Image $vignette = null)
+    public function setPortrait($portrait)
     {
-        $this->vignette = $vignette;
+        $this->portrait = $portrait;
 
         return $this;
     }
 
     /**
-     * Get vignette
+     * Get portrait
      *
-     * @return \AppBundle\Entity\Image
+     * @return string
      */
-    public function getVignette()
+    public function getPortrait()
     {
-        return $this->vignette;
+        return $this->portrait;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return MovieResource
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
     }
 }
