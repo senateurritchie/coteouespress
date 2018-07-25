@@ -72,18 +72,18 @@ header #movie-profil.active.reduced{
 	top: 0;
 	right: -100%;
 	width: 250px;
-	bottom: 10%;
+	bottom: 5px;
 	background: rgba(0,0,0,.5);
 	padding: 10px;
 
-	-webkit-transition: all .35s linear;
-	-ms-transition: all .35s linear;
-	-o-transition: all .35s linear;
-	-moz-transition: all .35s linear;
-	transition: all .35s linear;
+	-webkit-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	-moz-transition: all .5s linear;
+	transition: all .5s linear;
 }
 .coa-player .coa-player-thumbnail.fix{
-	right: 0%;
+	right: 5px;
 }
 
 .coa-player .coa-player-thumbnail button{
@@ -97,15 +97,17 @@ header #movie-profil.active.reduced{
 	box-shadow: 0 5px 35px rgba(255,255,255,0.3);
 }
 
-.coa-player:hover .coa-player-thumbnail:not(.fix){
+.coa-player:hover .coa-player-thumbnail{
 	
 	-webkit-transition: all .5s linear;
 	-ms-transition: all .5s linear;
 	-o-transition: all .5s linear;
 	-moz-transition: all .5s linear;
 	transition: all .5s linear;
-	right: 5px;
+	bottom: 10%;
+	right: 8%;
 }
+
 
 .coa-player:hover .coa-player-thumbnail.fix-rem{
 	
