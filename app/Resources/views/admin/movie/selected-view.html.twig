@@ -77,14 +77,11 @@
                     </div>
 
                     
-                    
-                    
-                   
-
                     {{ form_row(form.inTheather) }}
                     {{ form_row(form.hasExclusivity) }}
 
                     <hr>
+
 
                     {{ form_row(form.portraitImg) }}
 
@@ -105,6 +102,21 @@
                     <hr>
 
                     {{ form_row(form.landscapeImg) }}
+
+                    <div style="text-align:center" >
+                        <div style="display:inline-block;position:relative">
+
+                            <img width="640" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette-landscape.png') }}" alt="...">
+
+                            <div class="prs_upcom_video_img_cont_over">
+                                <h2>Image à charger 270<small>x</small>360</h2>
+                                <br>
+                                <button class="btn btn-info trigger-file">Choisir...</button>
+
+                                <button class="btn btn-info">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
 
                     <hr>
 
