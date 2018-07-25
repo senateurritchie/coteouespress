@@ -118,8 +118,12 @@ var AdminManager = AdminManager || {};
                 spinColor: '#007bff',
                 autoplay:true
             });
+
+            $('#modal-update').on('shown.bs.modal', (e)=> {
+  				//this.eventsToSelectedDataView();
+			});
 			
-			$('#myModal').on('shown.bs.modal', function () {
+			/*$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
 			});
 
@@ -154,7 +158,7 @@ var AdminManager = AdminManager || {};
 			$('#data-secondary-box #thumbnail-trailer-container button').on('click',(e)=> {
   				e.preventDefault();
   				img.attr('src',this.copyDefaultImage);
-			});
+			});*/
 
 			
 
@@ -327,13 +331,13 @@ var AdminManager = AdminManager || {};
 				$(document.body).removeClass('dragenter');
 			});
 
-			var dropper_1 = document.getElementById("thumbnail-trailer-container");
+			/*var dropper_1 = document.getElementById("thumbnail-trailer-container");
 
 			dropper_1.addEventListener("drop",e=>{
 				e.preventDefault();
 				$(document.body).removeClass('dragenter');
 				this.previewImage(e.dataTransfer.files);
-			});
+			});*/
 
 			
 
@@ -361,9 +365,10 @@ var AdminManager = AdminManager || {};
 		}
 
 		MovieView.prototype.renderSelectedData = function(view){
-			$("#selected-data").html(view);
-			this.params.selectedDataView = $("#selected-data #current-widget-data");
-			this.eventsToSelectedDataView();
+
+			var ref = $("#modal-update-area").html(view);
+			var modal = ref.find('#modal-update');
+			modal.modal('show');
 		}
 
 		MovieView.prototype.previewImage = function(files,pos=1){

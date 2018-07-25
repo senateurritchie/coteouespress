@@ -1,9 +1,135 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 
-<div class="box box-danger" id="current-widget-data" data-id="{{ data.id }}">
-    <div class="box-header with-border bg-red">
-    	<h3 class="box-title">Modification</h3>
+<div class="modal fade" id="modal-update" data-id="{{ data.id }}">
+    <div class="modal-dialog">
+        <div class="modal-content" >
+            <div class="modal-header bg-red">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                <h4 class="modal-title">Modification...</h4>
+
+                <div class="box-tools pull-right">     
+                    <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
+                        <i class="fa fa-trash fa-2x" style="color:white"></i>
+                    </button>
+                </div>
+
+            </div>
+            
+            {{ form_start(form) }}
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.name) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.originalName) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.category) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.originalLanguage) }}
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.format) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.mention) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            {{ form_row(form.year_start) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.year_end) }}
+                        </div>
+                    </div>
+
+                    {{ form_row(form.synopsis) }}
+
+                    <div class="row">
+                        <div class="col-md-6">
+                           {{ form_row(form.trailer) }}
+                        </div>
+                        <div class="col-md-6">
+                           {{ form_row(form.episode1) }}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                           {{ form_row(form.episode2) }}
+                        </div>
+                        <div class="col-md-6">
+                            {{ form_row(form.episode3) }}
+                        </div>
+                    </div>
+
+                    
+                    
+                    
+                   
+
+                    {{ form_row(form.inTheather) }}
+                    {{ form_row(form.hasExclusivity) }}
+
+                    <hr>
+
+                    {{ form_row(form.portraitImg) }}
+
+                    <div style="text-align:center" id="thumbnail-trailer-container">
+                        <div style="display:inline-block;position:relative">
+
+                            <img width="270" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" alt="...">
+
+                            <div class="prs_upcom_video_img_cont_over">
+                                <h2>Image à charger 270<small>x</small>360</h2>
+                                <button class="btn btn-info trigger-file">Choisir...</button>
+
+                                <button class="btn btn-info">Annuler</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    {{ form_row(form.landscapeImg) }}
+
+                    <hr>
+
+                    {{ form_row(form.coverImg) }}
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="reset" class="btn btn-default" >
+                        Annuler
+                    </button>
+
+                    <button class="btn btn-danger pull-right">
+                        <i class="fa fa-save"></i> Enregistrer
+                    </button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{#
+<div class="box box-danger"  data-id="{{ data.id }}">
+    <div class="box-header with-border">
+        <h3 class="box-title">Modification</h3>
 
         <div class="box-tools pull-right">     
             <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
@@ -11,43 +137,95 @@
             </button>
         </div>
     </div>
-
+    
     {{ form_start(form) }}
-
         <div class="box-body">
-            {{ form_row(form.title) }}
-            {{ form_row(form.fullUrl) }}
-            {{ form_row(form.image) }}
             
-            <div style="text-align:center;">
-                <div style="display:inline-block;position:relative">
-        	    	{% if data.image %}
-        				<img  width="270" height="360" class="thumbnail-trailer" src="{{ asset('upload/public/'~data.image) }}" alt="" />
-        			{% else %}
-        	    		<img width="270" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" />
-        			{% endif %}
-
-        			<div class="prs_upcom_video_img_cont_over">
-        				<h2>Image à charger 270<span style="font-size:14px">x</span>360</h2>
-        				<button type="button" class="btn btn-info trigger-file">Choisir...</button>
-                        <button type="button" class="btn btn-info reset" disabled="disabled">Annuler</button>
-        			</div>
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.name) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.originalName) }}
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.category) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.originalLanguage) }}
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.format) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.mention) }}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    {{ form_row(form.year_start) }}
+                </div>
+                <div class="col-md-6">
+                    {{ form_row(form.year_end) }}
+                </div>
+            </div>
+
+            {{ form_row(form.synopsis) }}
+            {{ form_row(form.trailer) }}
+            {{ form_row(form.episode1) }}
+            {{ form_row(form.episode2) }}
+            {{ form_row(form.episode3) }}
+
+            {{ form_row(form.inTheather) }}
+            {{ form_row(form.hasExclusivity) }}
+
+            <hr>
+
+            {{ form_row(form.portraitImg) }}
+
+            <div style="text-align:center" id="thumbnail-trailer-container">
+                <div style="display:inline-block;position:relative">
+
+                    <img width="270" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette.png') }}" alt="...">
+
+                    <div class="prs_upcom_video_img_cont_over">
+                        <h2>Image à charger 270<small>x</small>360</h2>
+                        <button class="btn btn-info trigger-file">Choisir...</button>
+
+                        <button class="btn btn-info">Annuler</button>
+                    </div>
+                </div>
+            </div>
+
+            <hr>
+
+            {{ form_row(form.landscapeImg) }}
+
+            <hr>
+
+            {{ form_row(form.coverImg) }}
+
         </div>
 
         <div class="box-footer">
-        	<button type="reset" class="btn btn-default" >
-      			Annuler
-      		</button>
+            <button type="reset" class="btn btn-default" >
+                Annuler
+            </button>
 
-        	<button class="btn btn-danger pull-right">
-        		<i class="fa fa-save"></i> Enregistrer
-        	</button>
+            <button class="btn btn-danger pull-right">
+                <i class="fa fa-save"></i> Enregistrer
+            </button>
         </div>
     {{ form_end(form) }}
 
-    <div class="overlay" id="spinner">
+    <!-- <div class="overlay" id="spinner">
         <i class="fa fa-spinner fa-spin"></i>
-    </div>
-</div>
+    </div> -->
+</div>#}

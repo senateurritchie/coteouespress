@@ -70,13 +70,14 @@ $(document).ready(function($){
 		}
 	});
 
-	$("#data-container .data-item .data-item-tools .edit").on({
+	$("#data-container .data-item .edit").on({
 		click:function(e){
 			e.preventDefault();
 
 			var self = $(this);
 			self.addClass('disabled');
-			var id = self.data('id');
+			var id = self.parents("tr").data('id');
+
 			rightSection.addClass('data-loading');
 
 			repository.find(id)

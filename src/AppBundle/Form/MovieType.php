@@ -48,7 +48,7 @@ class MovieType extends AbstractType
             "attr"=>["placeholder"=>"Nom original du programme","class"=>"input-sm"]
         ))
         ->add('synopsis',TextareaType::class,array(
-            "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
         ))
         ->add('inTheather',CheckboxType::class,array(
             "label"=>"Programme à l'affiche",
