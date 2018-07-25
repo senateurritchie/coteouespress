@@ -35,9 +35,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		$qb->select("m")
 		->from(Movie::class,"m")
 		->leftJoin("m.category","category")
-		->addSelect("category")
-		->leftJoin("m.resource","r")
-		->addSelect("r");
+		->addSelect("category");
 
 
 		// recherche par terms
@@ -105,7 +103,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		if(@$params['order_year']){
 			$order = strtoupper(trim($params['order_year'])) == "ASC" ? "ASC" : "DESC";
 			$qb->orderBy("m.yearStart",$order);
-		}	    
+		}
 
 	    // limit et offset
 	    $qb->setFirstResult( $offset )

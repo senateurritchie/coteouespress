@@ -38,6 +38,8 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Assert\NotBlank
+    * @Assert\Length(min=3, max=50)
     * @ORM\Column(name="name", type="string", length=50, unique=true)
     */
     private $name;
@@ -71,6 +73,7 @@ class Movie
     * @var boolean
     *
     * @Groups({"group1","group2"})
+    * @Assert\Type(type="bool")
     * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
     */
     private $inTheather = 0;
@@ -78,6 +81,7 @@ class Movie
     /**
     * @var boolean
     *
+    * @Assert\Type(type="bool")
     * @Groups({"group1","group2"})
     * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
     */
@@ -185,6 +189,17 @@ class Movie
     * @assert\Url
     */
     private $episode3;
+
+
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @Assert\Type(type="bool")
+    * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
+    */
+    private $isPublished = 0;
+
 
     /**
     * @var \DateTime
@@ -1049,5 +1064,29 @@ class Movie
     public function getScenes()
     {
         return $this->scenes;
+    }
+
+    /**
+     * Set isPublished
+     *
+     * @param boolean $isPublished
+     *
+     * @return Movie
+     */
+    public function setIsPublished($isPublished)
+    {
+        $this->isPublished = $isPublished;
+
+        return $this;
+    }
+
+    /**
+     * Get isPublished
+     *
+     * @return boolean
+     */
+    public function getIsPublished()
+    {
+        return $this->isPublished;
     }
 }

@@ -1,29 +1,128 @@
 {% for item in data %}
 	<tr class="data-item" data-id="{{ item.id }}">
 		<td class="data-item-image">
-			{% if item.image %}
-				<img  src="{{ asset('upload/public/'~item.image) }}" alt="" />
+			{% if item.portraitImg %}
+				<img  src="{{ asset('upload/public/'~item.portraitImg) }}" alt="" />
 			{% else %}
 				<img  src="{{ asset('admin/dist/img/default-50x50.gif') }}">
 			{% endif %}
 		</td>
 
-		<td class="data-item-title" style="vertical-align:middle">
-			{{ item.title|lower|title }}
-		</td>
-
-		<td class="data-item-url" style="vertical-align:middle">
-			<a data-vbtype="video" numeratio="false" data-autoplay="true" href="{{ item.fullUrl }}" class="venobox" >{{ item.fullUrl }}</a> 
-		</td>
-
-		<td style="vertical-align:middle">
-			{{ item.createAt|date() }}
-		</td>
-
-		<td class="data-item-tools" style="vertical-align:middle">
-			<a data-id="{{ item.id }}" href="" class="edit btn">
-				<i class="fa fa-edit"></i> modifier
+		<td class="data-item-name" style="vertical-align:middle;">
+			<a data-id="{{ item.id }}" href="" class="edit">
+				{{ item.name|lower|title }}
 			</a>
 		</td>
+
+		<td class="data-item-originalname" style="vertical-align:middle;text-align:center">
+			{{ item.originalName|lower|title }}
+		</td>
+
+		<td class="data-item-category" style="vertical-align:middle;text-align:center" >
+			{% if item.category %}
+				{{ item.category.name|lower|title }}
+			{% else %}
+				-
+			{% endif %}
+		</td>
+
+		<td class="data-item-originalLanguage" style="vertical-align:middle;text-align:center">
+			{% if item.originalLanguage %}
+				{{ item.originalLanguage|lower|title }}
+			{% else %}
+				-
+			{% endif %}
+		</td>
+
+		<td class="data-item-format" style="vertical-align:middle;text-align:center" >
+			{% if item.format %}
+				{{ item.format|lower|title }}
+			{% else %}
+				-
+			{% endif %}
+		</td>
+
+		<td class="data-item-mention" style="vertical-align:middle;text-align:center">
+			{% if item.mention %}
+				{{ item.mention|lower|title }}
+			{% else %}
+				-
+			{% endif %}
+		</td>
+
+		<td class="data-item-year" style="vertical-align:middle;text-align:center">
+			{% if item.yearEnd %}
+				{% if item.yearEnd == item.yearStart %}
+					<span class="label bg-blue">
+						{{ item.yearStart|date("d/m/Y") }}
+					</span>
+				{% else %}
+					<span class="label bg-blue">
+						{{ item.yearStart|date("d-m-Y") }}
+					</span> - 
+
+					<span class="label bg-blue">
+						{{ item.yearEnd|date("d-m-Y") }}
+					</span> 
+				{% endif %}
+				
+			{% else %}
+				<span class="label bg-blue">
+					{{ item.yearStart|date("d/m/Y") }}
+				</span>
+			{% endif %}
+		</td>
+
+		<td class="data-item-theather" style="vertical-align:middle;text-align:center">
+			{% if item.inTheather %}
+				<span class="label bg-green">
+					Oui
+				</span> 
+			{% else %}
+				<span class="label bg-red">
+					Non
+				</span> 
+			{% endif %}
+		</td>
+
+		<td class="data-item-exclusivity" style="vertical-align:middle;text-align:center">
+			{% if item.hasExclusivity %}
+				<span class="label bg-green">
+					Oui
+				</span> 
+			{% else %}
+				<span class="label bg-red">
+					Non
+				</span> 
+			{% endif %}
+		</td>
+
+		<td class="data-item-movies" style="vertical-align:middle;text-align:center">
+			
+			{% if item.trailer %}
+				<a data-vbtype="video" numeratio="false" data-autoplay="true" href="{{ item.trailer }}" class="venobox" >Trailer</a> 
+			{% endif %}
+
+			{% if item.episode1 %}
+				. <a data-vbtype="video" numeratio="false" data-autoplay="true" href="{{ item.episode1 }}" class="venobox" >Episode 1</a> 
+			{% endif %}
+
+			{% if item.episode2 %}
+				. <a data-vbtype="video" numeratio="false" data-autoplay="true" href="{{ item.episode2 }}" class="venobox" >Episode 2</a> 
+			{% endif %}
+
+			{% if item.episode3 %}
+				<a data-vbtype="video" numeratio="false" data-autoplay="true" href="{{ item.episode3 }}" class="venobox" >Episode 3</a> 
+			{% endif %}
+
+			{% if not item.episode1 and not item.episode2 and not item.episode3  %}
+				-
+			{% endif %}
+
+		</td>
+
+		{#<td style="vertical-align:middle">
+			{{ item.createAt|date("d/m/Y à H:i") }}
+		</td>#}
 	</tr>
 {% endfor %}

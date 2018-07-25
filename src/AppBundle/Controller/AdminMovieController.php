@@ -49,7 +49,7 @@ class AdminMovieController extends Controller
     		$em->persist($item);
     		$em->flush();
     		$this->addFlash('notice-success',1);
-    		return $this->redirectToRoute("admin_trailer_index");
+    		return $this->redirectToRoute("admin_movie_index");
     	}
 
         if($request->isXmlHttpRequest()){
@@ -70,7 +70,7 @@ class AdminMovieController extends Controller
             $view;
 
             if(is_array($data)){
-                $view = $this->render('admin/trailer/item-render.html.twig',array(
+                $view = $this->render('admin/movie/item-render.html.twig',array(
                     "data"=>$data,
                 ));
 
@@ -82,7 +82,7 @@ class AdminMovieController extends Controller
                 ]);
 
                 $em->refresh($data);
-                $view = $this->render('admin/trailer/selected-view.html.twig',array(
+                $view = $this->render('admin/movie/selected-view.html.twig',array(
                     "data"=>$data,
                     "form"=>$form2->createView(),
                 ));
