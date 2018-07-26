@@ -368,7 +368,10 @@ var AdminManager = AdminManager || {};
 
 			var ref = $("#modal-update-area").html(view);
 			var modal = ref.find('#modal-update');
-			modal.modal('show');
+			modal.modal({
+				backdrop:'static',
+				show:true
+			});
 		}
 
 		MovieView.prototype.previewImage = function(files,pos=1){

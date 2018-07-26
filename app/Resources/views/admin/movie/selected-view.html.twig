@@ -1,8 +1,8 @@
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
 
-<div class="modal fade" id="modal-update" data-id="{{ data.id }}">
-    <div class="modal-dialog">
+<div class="modal fade" id="modal-update" data-id="{{ data.id }}" role="dialog" aria-labelledby="modification du programme" aria-describedby="">
+    <div class="modal-dialog modal-lg"  role="document">
         <div class="modal-content" >
             <div class="modal-header bg-red">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -21,60 +21,58 @@
             {{ form_start(form) }}
                 <div class="modal-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ form_row(form.name) }}
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ form_row(form.originalName) }}
+                        </div>
+
+                         <div class="col-md-4">
+                            {{ form_row(form.category) }}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(form.category) }}
-                        </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             {{ form_row(form.originalLanguage) }}
+                        </div>
+                        <div class="col-md-4">
+                            {{ form_row(form.format) }}
+                        </div>
+                         <div class="col-md-4">
+                            {{ form_row(form.mention) }}
                         </div>
                     </div>
                     
                     <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(form.format) }}
+                        <div class="col-md-4">
+                            {{ form_row(form.year_start) }}
                         </div>
-                        <div class="col-md-6">
-                            {{ form_row(form.mention) }}
+                        <div class="col-md-4">
+                            {{ form_row(form.year_end) }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ form_row(form.trailer) }}
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-md-6">
-                            {{ form_row(form.year_start) }}
+                        <div class="col-md-4">
+                           {{ form_row(form.episode1) }}
                         </div>
-                        <div class="col-md-6">
-                            {{ form_row(form.year_end) }}
+
+                        <div class="col-md-4">
+                           {{ form_row(form.episode2) }}
+                        </div>
+
+                        <div class="col-md-4">
+                            {{ form_row(form.episode3) }}
                         </div>
                     </div>
 
                     {{ form_row(form.synopsis) }}
-
-                    <div class="row">
-                        <div class="col-md-6">
-                           {{ form_row(form.trailer) }}
-                        </div>
-                        <div class="col-md-6">
-                           {{ form_row(form.episode1) }}
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                           {{ form_row(form.episode2) }}
-                        </div>
-                        <div class="col-md-6">
-                            {{ form_row(form.episode3) }}
-                        </div>
-                    </div>
 
                     
                     {{ form_row(form.inTheather) }}
@@ -109,7 +107,7 @@
                             <img width="640" height="360" class="thumbnail-trailer"  src="{{ asset('/img/vignette-landscape.png') }}" alt="...">
 
                             <div class="prs_upcom_video_img_cont_over">
-                                <h2>Image à charger 270<small>x</small>360</h2>
+                                <h2>Image à charger 640<small>x</small>360</h2>
                                 <br>
                                 <button class="btn btn-info trigger-file">Choisir...</button>
 
