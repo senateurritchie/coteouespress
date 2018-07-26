@@ -10,12 +10,7 @@
                 </button>
                 <h4 class="modal-title">Modification...</h4>
 
-                <div class="box-tools pull-right">     
-                    <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
-                        <i class="fa fa-trash fa-2x" style="color:white"></i>
-                    </button>
-                </div>
-
+               
             </div>
             
             {{ form_start(form) }}
@@ -123,9 +118,17 @@
                 </div>
 
                 <div class="modal-footer">
-                    <button type="reset" class="btn btn-default" >
-                        Annuler
-                    </button>
+
+                    <div class="pull-left">
+                        <button type="reset" class="btn btn-default" >
+                            Annuler
+                        </button>
+
+                        <button data-title="supprimer" type="button" class="btn btn-danger" data-toggle="modal" data-target="#myModal">
+                            <i class="fa fa-trash"></i> Supprimer
+                        </button>
+                    </div>
+                    
 
                     <button class="btn btn-danger pull-right">
                         <i class="fa fa-save"></i> Enregistrer
