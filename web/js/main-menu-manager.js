@@ -8,7 +8,7 @@ $(document).ready(function($){
 		$("html, body").animate({ scrollTop: $("#contacts").offset().top }, 1000);
 	});*/
 
-	$("header#header #search input").on({
+	/*$("header#header #search input").on({
 		focus:function(e){
 			$(this).parent().prev().removeClass('d-md-block');
 			//$(this).parent().next().hide();
@@ -20,5 +20,5 @@ $(document).ready(function($){
 			//$(this).parent().next().show();
 			//$(this).animate({width:'100px'},200);
 		}
-	});
+	});*/
 });

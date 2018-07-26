@@ -70,6 +70,29 @@ class Movie
     private $synopsis;
 
     /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="reward", type="text", nullable=true,options={"comment":"enregistre les recompenses obtenues du movie"})
+    */
+    private $reward;
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="award", type="text", nullable=true,options={"comment":"enregistre les prix et les nominations du movie"})
+    */
+    private $award;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="audience", type="text", nullable=true,options={"comment":"enregistre les audiences du movie"})
+    */
+    private $audience;
+
+    /**
     * @var boolean
     *
     * @Groups({"group1","group2"})
@@ -231,16 +254,6 @@ class Movie
     private $actors;
     /**
     * @Groups({"group2"})
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieSeason", mappedBy="movie")
-    */
-    private $seasons;
-    /**
-    * @Groups({"group2"})
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieReward", mappedBy="movie")
-    */
-    private $rewards;
-    /**
-    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieProducer", mappedBy="movie")
     */
     private $producers;
@@ -263,8 +276,6 @@ class Movie
         $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
         $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
         $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->seasons = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->rewards = new \Doctrine\Common\Collections\ArrayCollection();
         $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->scenes = new \Doctrine\Common\Collections\ArrayCollection();
@@ -896,73 +907,8 @@ class Movie
         return $this->actors;
     }
 
-    /**
-     * Add season
-     *
-     * @param \AppBundle\Entity\MovieSeason $season
-     *
-     * @return Movie
-     */
-    public function addSeason(\AppBundle\Entity\MovieSeason $season)
-    {
-        $this->seasons[] = $season;
+    
 
-        return $this;
-    }
-
-    /**
-     * Remove season
-     *
-     * @param \AppBundle\Entity\MovieSeason $season
-     */
-    public function removeSeason(\AppBundle\Entity\MovieSeason $season)
-    {
-        $this->seasons->removeElement($season);
-    }
-
-    /**
-     * Get seasons
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getSeasons()
-    {
-        return $this->seasons;
-    }
-
-    /**
-     * Add reward
-     *
-     * @param \AppBundle\Entity\MovieReward $reward
-     *
-     * @return Movie
-     */
-    public function addReward(\AppBundle\Entity\MovieReward $reward)
-    {
-        $this->rewards[] = $reward;
-
-        return $this;
-    }
-
-    /**
-     * Remove reward
-     *
-     * @param \AppBundle\Entity\MovieReward $reward
-     */
-    public function removeReward(\AppBundle\Entity\MovieReward $reward)
-    {
-        $this->rewards->removeElement($reward);
-    }
-
-    /**
-     * Get rewards
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRewards()
-    {
-        return $this->rewards;
-    }
 
     /**
      * Add producer
@@ -1088,5 +1034,77 @@ class Movie
     public function getIsPublished()
     {
         return $this->isPublished;
+    }
+
+    /**
+     * Set reward
+     *
+     * @param string $reward
+     *
+     * @return Movie
+     */
+    public function setReward($reward)
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    /**
+     * Get reward
+     *
+     * @return string
+     */
+    public function getReward()
+    {
+        return $this->reward;
+    }
+
+    /**
+     * Set award
+     *
+     * @param string $award
+     *
+     * @return Movie
+     */
+    public function setAward($award)
+    {
+        $this->award = $award;
+
+        return $this;
+    }
+
+    /**
+     * Get award
+     *
+     * @return string
+     */
+    public function getAward()
+    {
+        return $this->award;
+    }
+
+    /**
+     * Set audience
+     *
+     * @param string $audience
+     *
+     * @return Movie
+     */
+    public function setAudience($audience)
+    {
+        $this->audience = $audience;
+
+        return $this;
+    }
+
+    /**
+     * Get audience
+     *
+     * @return string
+     */
+    public function getAudience()
+    {
+        return $this->audience;
     }
 }

@@ -181,7 +181,7 @@ var AdminManager = AdminManager || {};
                         movieProfil.removeClass('active');
                     }
 
-                    if(otherMovies.offset().top <= (pos+700)){
+                    if(otherMovies.offset().top <= (pos+500)){
                         movieProfil.addClass('reduced');
                     }
                     else{

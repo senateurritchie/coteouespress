@@ -119,11 +119,11 @@ var AdminManager = AdminManager || {};
                 autoplay:true
             });
 
-            $('#modal-update').on('shown.bs.modal', (e)=> {
-  				//this.eventsToSelectedDataView();
+            $('#modal-update','#modal-insert').on('shown.bs.modal', (e)=> {
+  				
 			});
-			
-			/*$('#myModal').on('shown.bs.modal', function () {
+
+			$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
 			});
 
@@ -131,10 +131,9 @@ var AdminManager = AdminManager || {};
 				click:e=>{
 					e.preventDefault();
 					$('#myModal button').attr('disabled','disabled');
+					$(".modal.form-views").addClass('updating');
 
-					this.params.selectedDataView.addClass('updating');
 					var data = $(e.target).serialize();
-
 					this.emit(new nsp.MovieDeletingEvent({
 						state:'start',
 						model:data
@@ -142,25 +141,23 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
-			$('#data-secondary-box form input[type=file]').on('change',(e)=> {
-  				this.previewImage(e.target.files,this.params.renderAs);
+			$('.dropper input[type=file]').on('change',(e)=> {
+  				this.previewImage(e.target.files,this.params.renderAs,e);
   				this.params.renderAs = 1;
 			});
 
-			$('#data-secondary-box form .trigger-file').on('click',(e)=> {
-  				$('#data-secondary-box form input[type=file]').click();
+			$('.dropper .trigger-file').on('click',(e)=> {
+				alert(222)
+  				$(e.target).parents(".dropper").find('input[type=file]').click();
 			});
 
+			var img = $('.dropper .dropper-target');
+		    this.copyDefaultImage = img.css('background');
 
-			var img = $('#data-secondary-box .thumbnail-trailer');
-		    this.copyDefaultImage = img.attr('src');
-
-			$('#data-secondary-box #thumbnail-trailer-container button').on('click',(e)=> {
+		    $('.dropper button:last').on('click',(e)=> {
   				e.preventDefault();
-  				img.attr('src',this.copyDefaultImage);
-			});*/
-
-			
+  				img.attr('background',this.copyDefaultImage);
+			});
 
 			// on ecoute les evenements
 			this.subscribe(event=>{
@@ -312,8 +309,6 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
-
-
 			document.addEventListener("dragenter",e=>{
 				$(document.body).addClass('dragenter');
 				e.preventDefault();
@@ -331,15 +326,11 @@ var AdminManager = AdminManager || {};
 				$(document.body).removeClass('dragenter');
 			});
 
-			/*var dropper_1 = document.getElementById("thumbnail-trailer-container");
-
-			dropper_1.addEventListener("drop",e=>{
-				e.preventDefault();
-				$(document.body).removeClass('dragenter');
-				this.previewImage(e.dataTransfer.files);
-			});*/
-
-			
+			var droppers = document.getElementsByClassName("dropper");
+			for (let i = 0,c = droppers.length; i < c; i++) {
+				let el = droppers[i];
+				this.applyDropEvent(el);
+			}
 
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{
@@ -365,7 +356,6 @@ var AdminManager = AdminManager || {};
 		}
 
 		MovieView.prototype.renderSelectedData = function(view){
-
 			var ref = $("#modal-update-area").html(view);
 			var modal = ref.find('#modal-update');
 			modal.modal({
@@ -374,21 +364,15 @@ var AdminManager = AdminManager || {};
 			});
 		}
 
-		MovieView.prototype.previewImage = function(files,pos=1){
+		MovieView.prototype.previewImage = function(files, pos = 1, event){
 			var file = files[0];
 			var filenames = file.name;
 			var reader = new FileReader();
 
 		    reader.addEventListener('load', ()=> {
-		    	var img;
-		    	if(pos == 1){
-		    		img = $('#data-secondary-box .thumbnail-trailer');
-		    	}
-		    	else if(pos == 2){
-		    		img = $('#current-widget-data .thumbnail-trailer');
-		    	}
-		    	img.attr('src',reader.result);
-		    	this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files}));
+		    	var img = $(event.target).parents('.dropper').find('.dropper-target');
+		    	img.css('background-image',`url(${reader.result})`);
+		    	//this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files}));
 		    });
 
 		    reader.addEventListener('error', ()=> {
@@ -412,45 +396,14 @@ var AdminManager = AdminManager || {};
 		    reader.readAsDataURL(file);
 		}
 
-		
 
-		MovieView.prototype.eventsToSelectedDataView = function(){
-
-			this.params.selectedDataView.find('button[type=reset]').on({
-				click:e=>{
-					e.preventDefault();
-					this.params.rightSection.removeClass('data-active');
-				}
-			});
-
-			this.params.selectedDataView.find('button.trigger-file').on({
-				click:e=>{
-					this.params.renderAs = 2;
-					$('#data-secondary-box form input[type=file]').click();
-				}
-			});
-
-
-			this.params.selectedDataView.find('form').on({
-				submit:e=>{
-					e.preventDefault();
-					this.params.selectedDataView.addClass('updating');
-					var data = $(e.target).serialize();
-					this.emit(new nsp.MovieUpdatingEvent({
-						state:'start',
-						model:data
-					}));
-				}
-			});
-
-			var dropper = document.getElementById("current-widget-data");
+		MovieView.prototype.applyDropEvent = function(dropper){
 			dropper.addEventListener("drop",e=>{
 				e.preventDefault();
 				$(document.body).removeClass('dragenter');
-				this.previewImage(e.dataTransfer.files,2);
+				this.previewImage(e.dataTransfer.files,2,e);
 			});
-
-		}
+		};
 
 		return MovieView;
 	})();

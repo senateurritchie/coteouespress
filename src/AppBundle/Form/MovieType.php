@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
@@ -17,12 +18,19 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\LanguageType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use AppBundle\Entity\Movie;
+use AppBundle\Entity\Actor;
+use AppBundle\Entity\Director;
+use AppBundle\Entity\Producer;
 use AppBundle\Entity\Category;
+use AppBundle\Entity\Language;
+use AppBundle\Entity\Genre;
+use AppBundle\Entity\Country;
 use AppBundle\Form\ResourceType;
 
 class MovieType extends AbstractType
@@ -38,7 +46,7 @@ class MovieType extends AbstractType
         ))
         ->add('category',EntityType::class,array(
             "placeholder"=>"Catégorie",
-            "label"=>"Catégorie du programme",
+            "label"=>"Catégorie",
             "class"=>Category::class,
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
@@ -49,6 +57,18 @@ class MovieType extends AbstractType
         ))
         ->add('synopsis',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
+        ))
+        ->add('reward',TextareaType::class,array(
+            "attr"=>["placeholder"=>"A propos ds recompences...","class"=>"input-sm","rows"=>5],
+            "label"=>"Les recompences du programme"
+        ))
+        ->add('award',TextareaType::class,array(
+            "attr"=>["placeholder"=>"A propos des prix et nominations...","class"=>"input-sm","rows"=>5],
+            "label"=>"Les Prix et le Nominations"
+        ))
+        ->add('audience',TextareaType::class,array(
+            "attr"=>["placeholder"=>"A propos des audiences...","class"=>"input-sm","rows"=>5],
+            "label"=>"Les Audiences du programme"
         ))
         ->add('inTheather',CheckboxType::class,array(
             "label"=>"Programme à l'affiche",
@@ -129,9 +149,138 @@ class MovieType extends AbstractType
             "attr"=>["placeholder"=>"Lien de visionnage episode 2","class"=>"input-sm"],
             "label"=>"Episode 2"
         ))
-         ->add('episode3',TextType::class,array(
+        ->add('episode3',TextType::class,array(
             "attr"=>["placeholder"=>"Lien de visionnage episode 3","class"=>"input-sm"],
             "label"=>"Episode 3"
+        ))
+        ->add('producers',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Producer::class,
+                "placeholder"=>"Producteur",
+                "choice_label"=>"name",
+                'group_by' => function($value, $key, $value) {
+                    return strtoupper($value[0]);
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Producteurs",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('actors',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Actor::class,
+                "placeholder"=>"Acteur",
+                "choice_label"=>"name",
+                'group_by' => function($value, $key, $value) {
+                    return strtoupper($value[0]);
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+             "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Acteurs",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('directors',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Director::class,
+                "placeholder"=>"Réalisateur",
+                "choice_label"=>"name",
+                'group_by' => function($value, $key, $value) {
+                    return strtoupper($value[0]);
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+             "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Réalisateurs",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('languages',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Language::class,
+                "placeholder"=>"Langue",
+                "choice_label"=>"name",
+                'group_by' => function($value, $key, $value) {
+                    return strtoupper($value[0]);
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Versions disponibles",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+         ->add('countries',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Country::class,
+                "placeholder"=>"Langue",
+                "choice_label"=>"name",
+                "choice_value"=>"slug",
+                'group_by' => function($value, $key, $value) {
+                    return strtoupper($value[0]);
+                },
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Pays",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('genres',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>Genre::class,
+                "placeholder"=>"Genre",
+                "choice_label"=>"name",
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Genres",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('gallery',CollectionType::class,array(
+            'entry_type' => FileType::class,
+            'entry_options' => array(
+                "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"]
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Galerie photo",
+            "required"=>false,
+            "mapped"=>false,
         ))
         ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options){
             $movie = $event->getData();
