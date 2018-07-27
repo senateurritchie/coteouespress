@@ -367,7 +367,7 @@ var AdminManager = AdminManager || {};
 					var reader = new FileReader();
 
 				    reader.addEventListener('load', ()=> {
-				    	var image = $('<img>');
+				    	var image = $('<img width="211" height="180">');
 				    	image.on({
 				    		load:()=>{
 				    			dropper.append(image);
