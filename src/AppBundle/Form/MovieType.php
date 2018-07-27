@@ -266,7 +266,7 @@ class MovieType extends AbstractType
             ),
             "allow_add"=>true,
             "allow_delete"=>true,
-            "label"=>"Pays",
+            "label"=>"Origine de production",
             "required"=>false,
             "mapped"=>false,
         ))

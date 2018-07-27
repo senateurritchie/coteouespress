@@ -370,9 +370,20 @@ var AdminManager = AdminManager || {};
 
 				    reader.addEventListener('load', ()=> {
 				    	var image = $('<img width="211" height="180" draggable="false">');
+				    	var div = $('<div class="scene-thumbnail"><a href=""><i class="fa fa-times"></i></a></div>');
+
+				    	div.find('a').on({
+				    		click:e=>{
+				    			e.preventDefault();
+				    			div.remove();
+				    		}
+				    	})
+
 				    	image.on({
 				    		load:()=>{
-				    			dropper.append(image);
+				    			
+				    			div.append(image);
+				    			dropper.append(div);
 				    		}
 				    	});
 				    	image.attr('src',reader.result);

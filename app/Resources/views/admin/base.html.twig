@@ -55,7 +55,12 @@
     |               | sidebar-mini                            |
     |---------------------------------------------------------|
     -->
-    <body class="hold-transition skin-blue sidebar-mini">
+    <body class="hold-transition skin-blue sidebar-mini 
+    
+        {% if route == 'admin_movie_index' %}
+            sidebar-collapse
+        {% endif %}
+    ">
         <div class="wrapper">
             <!-- Main Header -->
             <header class="main-header">
