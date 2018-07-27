@@ -67,3 +67,8 @@ services:
             - { name: doctrine.event_listener, event: preUpdate }
             - { name: doctrine.event_listener, event: postLoad }
             - { name: doctrine.event_listener, event: postRemove }
+    
+    app.general_doctrine_listener:
+        class: AppBundle\EventListener\Doctrine\GeneralListener
+        tags:
+            - { name: doctrine.event_listener, event: prePersist }

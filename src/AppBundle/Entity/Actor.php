@@ -8,11 +8,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Actor
- *
- * @ORM\Table(name="actor", options={"comment":"enregistre tout les acteurs"})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ActorRepository")
- */
+* Actor
+*
+* @ORM\Table(name="actor", options={"comment":"enregistre tout les acteurs"})
+* @ORM\Entity(repositoryClass="AppBundle\Repository\ActorRepository")
+*/
 class Actor
 {
     /**

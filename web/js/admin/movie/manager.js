@@ -37,7 +37,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/Movies/${event.type}/${this.current.id}`,
+	  				url:`/admin/movies/${event.type}/${this.current.id}`,
 	  				method:"POST",
 	  				data:event.params.model
 		  		})
@@ -147,7 +147,6 @@ var AdminManager = AdminManager || {};
 			});
 
 			$('.dropper .trigger-file').on('click',(e)=> {
-				alert(222)
   				$(e.target).parents(".dropper").find('input[type=file]').click();
 			});
 
@@ -164,11 +163,14 @@ var AdminManager = AdminManager || {};
 					e.preventDefault();
 					var parent = $(e.target).parent();
 					var tpl = parent.find('[data-prototype]').data('prototype');
-					var index = parent.children(" > div ").length;
+					var index = parent.children(" .input-group ").length;
+
 					tpl = tpl.replace(/__name__/g,index);
+
 					var a = $('<span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></span>');
 					var li = $('<div class="input-group input-group-sm">').append(a).append(tpl);
 					li.find('label').remove();
+
 					li.insertBefore(parent.find('a'));
 					a.find('button').on({
 						click:e=>{
@@ -367,7 +369,7 @@ var AdminManager = AdminManager || {};
 					var reader = new FileReader();
 
 				    reader.addEventListener('load', ()=> {
-				    	var image = $('<img width="211" height="180">');
+				    	var image = $('<img width="211" height="180" draggable="false">');
 				    	image.on({
 				    		load:()=>{
 				    			dropper.append(image);
@@ -417,6 +419,8 @@ var AdminManager = AdminManager || {};
 		}
 
 		MovieView.prototype.previewImage = function(files, pos = 1, event){
+			if(!files.length) return;
+
 			var file = files[0];
 			var filenames = file.name;
 			var reader = new FileReader();

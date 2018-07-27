@@ -88,7 +88,13 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 			$this->whereYear($qb,@$params["year"]);
 		}
 
-		if(!@$params["order_name"]){
+        // ordre d'affichage par id
+        if(@$params['order_id']){
+            $order = strtoupper(trim($params['order_id'])) == "ASC" ? "ASC" : "DESC";
+            $qb->orderBy("m.id",$order);
+        }
+
+		if(!@$params['order_id'] && !@$params["order_name"]){
     		$params["order_name"] = "asc";
     	}
 

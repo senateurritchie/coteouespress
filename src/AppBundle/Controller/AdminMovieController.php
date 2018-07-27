@@ -13,6 +13,14 @@ use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\Movie;
 use AppBundle\Form\MovieType;
 
+use AppBundle\Entity\MovieGenre;
+use AppBundle\Entity\MovieLanguage;
+use AppBundle\Entity\MovieCountry;
+use AppBundle\Entity\MovieActor;
+use AppBundle\Entity\MovieProducer;
+use AppBundle\Entity\MovieDirector;
+
+
 
 /**
 * @Route("/admin/movies", name="admin_movie_")
@@ -25,6 +33,7 @@ class AdminMovieController extends Controller
     public function indexAction(Request $request,$movie_id=null){
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Movie::class);
+        $date = new \Datetime();
 
     	$limit = intval($request->query->get('limit',20));
     	$offset = intval($request->query->get('offset',0));
@@ -36,6 +45,8 @@ class AdminMovieController extends Controller
             $request->query->set('id',intval($movie_id));
         }
         $params = $request->query->all();
+        $params['order_id'] = "DESC";
+
         $data = $rep->search($params,$limit,$offset);
 
     	$item = new Movie();
@@ -44,14 +55,109 @@ class AdminMovieController extends Controller
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ]);
 
+       /* var_dump($request->files->all());
+        var_dump($request->request->all());
+
+        */
+
     	$form->handleRequest($request);
+
     	if($form->isSubmitted() && $form->isValid()){
-    		$em->persist($item);
+
+            $em->persist($item);
+
+            // gestion des genres
+            $genres = $form->get('genres')->getData();
+            $db = [];
+            foreach ($genres as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieGenre();
+                $e->setMovie($item);
+                $e->setGenre($el);
+                $e->setCreateAt($date);
+                $db[] = $el->getId();
+                $em->persist($e);
+            }
+
+            // gestion des langues disponible
+            $languages = $form->get('languages')->getData();
+            $db = [];
+            foreach ($languages as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieLanguage();
+                $e->setMovie($item);
+                $e->setLanguage($el);
+                $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
+            // gestion des pays
+            $countries = $form->get('countries')->getData();
+            $db = [];
+            foreach ($countries as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieCountry();
+                $e->setMovie($item);
+                $e->setCountry($el);
+                $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
+            // gestion des acteurs
+            $actors = $form->get('actors')->getData();
+            $db = [];
+            foreach ($actors as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieActor();
+                $e->setMovie($item);
+                $e->setActor($el);
+                $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
+            // gestion des producers
+            $producers = $form->get('producers')->getData();
+            $db = [];
+            foreach ($producers as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieProducer();
+                $e->setMovie($item);
+                $e->setProducer($el);
+                $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
+            // gestion des directors
+            $directors = $form->get('directors')->getData();
+            $db = [];
+            foreach ($directors as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieDirector();
+                $e->setMovie($item);
+                $e->setDirector($el);
+                $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
     		$em->flush();
-    		$this->addFlash('notice-success',1);
+    		$this->addFlash('notice-success',"Votre programme a été ajouté avec succes");
     		return $this->redirectToRoute("admin_movie_index");
     	}
-
+        else{
+            foreach ($form->all() as $child) {
+                if (!$child->isValid() && count($child->getErrors())) {
+                    $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                    $this->addFlash('notice-error',$formatted);
+                }
+            }
+        }
+        
         if($request->isXmlHttpRequest()){
 
             $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));

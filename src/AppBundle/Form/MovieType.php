@@ -40,12 +40,14 @@ class MovieType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $languages = \Symfony\Component\Intl\Intl::getLanguageBundle()->getLanguageNames();
+
         $builder
         ->add('name',TextType::class,array(
             "attr"=>["placeholder"=>"Nom du programme","class"=>"input-sm"]
         ))
         ->add('category',EntityType::class,array(
-            "placeholder"=>"Catégorie",
+            "placeholder"=>"Catégorie...",
             "label"=>"Catégorie",
             "class"=>Category::class,
             "choice_label"=>function($item,$key,$index){
@@ -53,30 +55,35 @@ class MovieType extends AbstractType
             }
         ))
         ->add('originalName',TextType::class,array(
-            "attr"=>["placeholder"=>"Nom original du programme","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"Nom original du programme","class"=>"input-sm"],
         ))
         ->add('synopsis',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
         ))
         ->add('reward',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos ds recompences...","class"=>"input-sm","rows"=>5],
-            "label"=>"Les recompences du programme"
+            "label"=>"Les recompences du programme",
+            "required"=>false,
         ))
         ->add('award',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos des prix et nominations...","class"=>"input-sm","rows"=>5],
-            "label"=>"Les Prix et le Nominations"
+            "label"=>"Les Prix et le Nominations",
+            "required"=>false,
         ))
         ->add('audience',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos des audiences...","class"=>"input-sm","rows"=>5],
-            "label"=>"Les Audiences du programme"
+            "label"=>"Les Audiences du programme",
+            "required"=>false,
         ))
         ->add('inTheather',CheckboxType::class,array(
             "label"=>"Programme à l'affiche",
-            "mapped"=>false,
+            "required"=>false,
+            "data"=>false
         ))
         ->add('hasExclusivity',CheckboxType::class,array(
             "label"=>"Production à blébiciter",
-            "mapped"=>false,
+            "required"=>false,
+            "data"=>false,
         ))
         ->add('format',TextType::class,array(
             "attr"=>["placeholder"=>"Format","class"=>"input-sm"]
@@ -94,20 +101,25 @@ class MovieType extends AbstractType
         ))
         ->add('mention',ChoiceType::class,array(
             "attr"=>["class"=>"input-sm"],
+            "placeholder"=>"Resolution...",
             "choices"=>[
                 "HD"=>"HD",
                 "SD"=>"SD",
                 "4k"=>"4k",
                 "2k"=>"2k",
-            ]
+            ],
+            "required"=>false,
         ))
         ->add('originalLanguage',LanguageType::class,array(
-            "placeholder"=>"version original",
+            "placeholder"=>"version original...",
             "choice_value"=>function($value){
+
                 return $value;
             },
             "group_by"=>function($value,$input,$index){
                 $sep = "-";
+
+
                 $input = transliterator_transliterate('Any-Latin;NFD;[:Nonspacing Mark:] Remove; Lower();',$input);
 
                 $a = array('À','Á','Â','Ã','Ä','Å','Æ','Ç','È','É','Ê','Ë','Ì','Í','Î','Ï','Ð','Ñ','Ò','Ó','Ô','Õ','Ö','Ø','Ù','Ú','Û','Ü','Ý','ß','à','á','â','ã','ä','å','æ','ç','è','é','ê','ë','ì','í','î','ï','ñ','ò','ó','ô','õ','ö','ø','ù','ú','û','ü','ý','ÿ','Ā','ā','Ă','ă','Ą','ą','Ć','ć','Ĉ','ĉ','Ċ','ċ','Č','č','Ď','ď','Đ','đ','Ē','ē','Ĕ','ĕ','Ė','ė','Ę','ę','Ě','ě','Ĝ','ĝ','Ğ','ğ','Ġ','ġ','Ģ','ģ','Ĥ','ĥ','Ħ','ħ','Ĩ','ĩ','Ī','ī','Ĭ','ĭ','Į','į','İ','ı','Ĳ','ĳ','Ĵ','ĵ','Ķ','ķ','Ĺ','ĺ','Ļ','ļ','Ľ','ľ','Ŀ','ŀ','Ł','ł','Ń','ń','Ņ','ņ','Ň','ň','ŉ','Ō','ō','Ŏ','ŏ','Ő','ő','Œ','œ','Ŕ','ŕ','Ŗ','ŗ','Ř','ř','Ś','ś','Ŝ','ŝ','Ş','ş','Š','š','Ţ','ţ','Ť','ť','Ŧ','ŧ','Ũ','ũ','Ū','ū','Ŭ','ŭ','Ů','ů','Ű','ű','Ų','ų','Ŵ','ŵ','Ŷ','ŷ','Ÿ','Ź','ź','Ż','ż','Ž','ž','ſ','ƒ','Ơ','ơ','Ư','ư','Ǎ','ǎ','Ǐ','ǐ','Ǒ','ǒ','Ǔ','ǔ','Ǖ','ǖ','Ǘ','ǘ','Ǚ','ǚ','Ǜ','ǜ','Ǻ','ǻ','Ǽ','ǽ','Ǿ','ǿ');
@@ -157,7 +169,7 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Producer::class,
-                "placeholder"=>"Producteur",
+                "placeholder"=>"Producteur...",
                 "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
                 'group_by' => function($value, $key, $index) {
@@ -178,7 +190,7 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Actor::class,
-                "placeholder"=>"Acteur",
+                "placeholder"=>"Acteur...",
                 "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
                 "choice_value"=>"slug",
@@ -200,7 +212,7 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Director::class,
-                "placeholder"=>"Réalisateur",
+                "placeholder"=>"Réalisateur...",
                 "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
                 "choice_value"=>"slug",
@@ -222,7 +234,7 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Language::class,
-                "placeholder"=>"Langue",
+                "placeholder"=>"Langue...",
                 "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
                 'query_builder' => function (EntityRepository $er) {
@@ -236,12 +248,12 @@ class MovieType extends AbstractType
             "required"=>false,
             "mapped"=>false,
         ))
-         ->add('countries',CollectionType::class,array(
+        ->add('countries',CollectionType::class,array(
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Country::class,
                 "attr"=>array("class"=>"input-sm"),
-                "placeholder"=>"Pays",
+                "placeholder"=>"Pays...",
                 "choice_label"=>"name",
                 "choice_value"=>"slug",
                 'group_by' => function($value, $key, $value) {
@@ -262,7 +274,7 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Genre::class,
-                "placeholder"=>"Genre",
+                "placeholder"=>"Genre...",
                 "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
                 "attr"=>array("class"=>"input-sm"),
@@ -291,6 +303,7 @@ class MovieType extends AbstractType
         ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options){
             $movie = $event->getData();
             $form = $event->getForm();
+
 
             if (!$movie) {
                 return;
@@ -333,7 +346,19 @@ class MovieType extends AbstractType
                 $path = $options['upload_dir'].'/'.$movie->getPortraitImg();
                 $movie->setPortraitImg(new File($path));
             }
+        })
+        ->addEventListener(FormEvents::SUBMIT,function(FormEvent $event)use(&$options,$languages){
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if(($key = $data->getOriginalLanguage())){
+                $value = $languages[$key];
+                $data->setOriginalLanguage($value);
+            }
+           
+            $event->setData($data);
         });
+
     }
     /**
      * {@inheritdoc}

@@ -5,6 +5,7 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\Translatable\Translatable;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
@@ -16,17 +17,19 @@ use Gedmo\Translatable\Translatable;
 class Language implements Translatable
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
     * @Gedmo\Translatable
     * @ORM\Column(name="name", type="string", length=30, unique=true)
     */
@@ -35,6 +38,7 @@ class Language implements Translatable
     /**
     * @var string
     *
+    * @Groups({"group1","group2"})
     * @Gedmo\Translatable
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=30, unique=true)
@@ -42,10 +46,19 @@ class Language implements Translatable
     private $slug;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var integer
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="movie_nbr", type="integer")
+    */
+    private $movieNbr = 0;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
      /**
@@ -56,6 +69,7 @@ class Language implements Translatable
     private $locale;
 
     /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieLanguage", mappedBy="language")
     */
     private $movies;
@@ -189,5 +203,29 @@ class Language implements Translatable
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Language
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 }

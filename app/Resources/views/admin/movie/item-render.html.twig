@@ -53,21 +53,25 @@
 		<td class="data-item-year" style="vertical-align:middle;text-align:center">
 			{% if item.yearEnd %}
 				{% if item.yearEnd == item.yearStart %}
-					<span class="label bg-blue">
+					<span class="label label-default">
 						{{ item.yearStart|date("d/m/Y") }}
 					</span>
 				{% else %}
-					<span class="label bg-blue">
+					<span class="label label-default">
 						{{ item.yearStart|date("d-m-Y") }}
-					</span> - 
+					</span>
+					
+					<div>
+						<i class="fa fa-arrow-down text-muted"></i>
+					</div>
 
-					<span class="label bg-blue">
+					<span class="label label-default">
 						{{ item.yearEnd|date("d-m-Y") }}
 					</span> 
 				{% endif %}
 				
 			{% else %}
-				<span class="label bg-blue">
+				<span class="label label-default">
 					{{ item.yearStart|date("d/m/Y") }}
 				</span>
 			{% endif %}
@@ -79,7 +83,7 @@
 					Oui
 				</span> 
 			{% else %}
-				<span class="label bg-red">
+				<span class="label label-default">
 					Non
 				</span> 
 			{% endif %}
@@ -91,7 +95,7 @@
 					Oui
 				</span> 
 			{% else %}
-				<span class="label bg-red">
+				<span class="label label-default">
 					Non
 				</span> 
 			{% endif %}

@@ -167,10 +167,10 @@
 		                		<tr class="data-item" data-id="{{ item.id }}">
 		                			<td class="data-item-image">
 		                  				{% if item.image %}
-		                  					<img  class="img-circle" src="{{ asset('upload/public/'~item.image) }}" alt="" />
+		                  					<img  width="50" height="50" class="img-circle" src="{{ asset('upload/public/'~item.image) }}" alt="" />
 		                  					
 		                  				{% else %}
-		                  					<img  class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}">
+		                  					<img  width="50" height="50" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}">
 		                  				{% endif %}
 		                  			</td>
 
@@ -211,7 +211,7 @@
 	            <div class="widget-user-header bg-aqua-active">
 	            	<div class="widget-user-image">
 	            		<input id="upload-folder" type="hidden" value="{{ asset('upload/public/') }}" />
-	                	<img  class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
+	                	<img  style="width:65px;height:65px" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
 	              	</div>
 	              	<h3 class="widget-user-username">
 	              		Nadia Carmichael

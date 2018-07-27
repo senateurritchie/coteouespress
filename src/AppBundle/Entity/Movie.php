@@ -96,7 +96,6 @@ class Movie
     * @var boolean
     *
     * @Groups({"group1","group2"})
-    * @Assert\Type(type="bool")
     * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
     */
     private $inTheather = 0;
@@ -104,7 +103,6 @@ class Movie
     /**
     * @var boolean
     *
-    * @Assert\Type(type="bool")
     * @Groups({"group1","group2"})
     * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
     */
@@ -218,7 +216,6 @@ class Movie
     * @var boolean
     *
     * @Groups({"group1","group2"})
-    * @Assert\Type(type="bool")
     * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
     */
     private $isPublished = 0;

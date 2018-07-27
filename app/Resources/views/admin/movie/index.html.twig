@@ -208,6 +208,22 @@
       	</div>
     </div>
 
+    {% for notice in app.flashes('notice-success') %}
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+            {{ notice }}
+        </div>
+    {% endfor %}
+
+    {% for notice in app.flashes('notice-error') %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Attention!</h4>
+            {{ notice }}
+        </div>
+    {% endfor %}
+
 	<div class="row">
     	<div class="col-xs-12 col-md-12">
         	<div class="box box-primary">
