@@ -174,7 +174,7 @@ var AdminManager = AdminManager || {};
 		    	$(el).on('click',(e)=> {
 	  				e.preventDefault();
 	  				
-	  				var img = $(el).parents('.dropper .dropper-target');
+	  				var img = $(el).parents('.dropper').find('.dropper-target');
 	  				alert(img.length)
 	  				img.css('background-image',this.copyDefaultImage[i]);
 				})
