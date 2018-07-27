@@ -81,7 +81,7 @@ class MovieType extends AbstractType
             "data"=>false
         ))
         ->add('hasExclusivity',CheckboxType::class,array(
-            "label"=>"Production à blébiciter",
+            "label"=>"Production à plébiciter",
             "required"=>false,
             "data"=>false,
         ))

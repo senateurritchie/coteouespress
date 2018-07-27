@@ -150,13 +150,37 @@ var AdminManager = AdminManager || {};
   				$(e.target).parents(".dropper").find('input[type=file]').click();
 			});
 
-			var img = $('.dropper .dropper-target');
-		    this.copyDefaultImage = img.css('background');
+			var img270x360;
+			var img640x360;
+			var img1920x360;
 
-		    $('.dropper button:last').on('click',(e)=> {
-  				e.preventDefault();
-  				img.attr('background',this.copyDefaultImage);
+			$('.dropper .dropper-target').each((i,el)=>{
+				if(i == 0){
+					img270x360 = $(el).css('background-image');
+				}
+				else if(i == 1){
+					img640x360 = $(el).css('background-image');
+				}
+				else if(i == 2){
+					img1920x360 = $(el).css('background-image');
+				}
+		    	
+		    	this.copyDefaultImage = [img270x360,img640x360,img1920x360];
+
 			});
+		    
+
+		    $('.dropper .reset-file').each((i,el)=>{
+		    	$(el).on('click',(e)=> {
+	  				e.preventDefault();
+	  				
+	  				var img = $(el).parents('.dropper .dropper-target');
+	  				alert(img.length)
+	  				img.css('background-image',this.copyDefaultImage[i]);
+				})
+		    });
+
+		    
 
 			$('body').on("click",".modal-form .has-collection .collection-add",
 				e=>{
