@@ -158,9 +158,10 @@ class MovieType extends AbstractType
             'entry_options' => array(
                 "class"=>Producer::class,
                 "placeholder"=>"Producteur",
+                "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
-                'group_by' => function($value, $key, $value) {
-                    return strtoupper($value[0]);
+                'group_by' => function($value, $key, $index) {
+                    return strtoupper($value->getSlug()[0]);
                 },
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -178,9 +179,11 @@ class MovieType extends AbstractType
             'entry_options' => array(
                 "class"=>Actor::class,
                 "placeholder"=>"Acteur",
+                "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
-                'group_by' => function($value, $key, $value) {
-                    return strtoupper($value[0]);
+                "choice_value"=>"slug",
+                'group_by' => function($value, $key, $index) {
+                    return strtoupper($value->getSlug()[0]);
                 },
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -198,9 +201,11 @@ class MovieType extends AbstractType
             'entry_options' => array(
                 "class"=>Director::class,
                 "placeholder"=>"Réalisateur",
+                "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
-                'group_by' => function($value, $key, $value) {
-                    return strtoupper($value[0]);
+                "choice_value"=>"slug",
+                'group_by' => function($value, $key, $index) {
+                    return strtoupper($value->getSlug()[0]);
                 },
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
@@ -218,10 +223,8 @@ class MovieType extends AbstractType
             'entry_options' => array(
                 "class"=>Language::class,
                 "placeholder"=>"Langue",
+                "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
-                'group_by' => function($value, $key, $value) {
-                    return strtoupper($value[0]);
-                },
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                     ->orderBy('u.name', 'ASC');
@@ -237,7 +240,8 @@ class MovieType extends AbstractType
             'entry_type' => EntityType::class,
             'entry_options' => array(
                 "class"=>Country::class,
-                "placeholder"=>"Langue",
+                "attr"=>array("class"=>"input-sm"),
+                "placeholder"=>"Pays",
                 "choice_label"=>"name",
                 "choice_value"=>"slug",
                 'group_by' => function($value, $key, $value) {
@@ -259,7 +263,9 @@ class MovieType extends AbstractType
             'entry_options' => array(
                 "class"=>Genre::class,
                 "placeholder"=>"Genre",
+                "attr"=>array("class"=>"input-sm"),
                 "choice_label"=>"name",
+                "attr"=>array("class"=>"input-sm"),
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('u')
                     ->orderBy('u.name', 'ASC');

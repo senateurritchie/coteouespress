@@ -159,6 +159,24 @@ var AdminManager = AdminManager || {};
   				img.attr('background',this.copyDefaultImage);
 			});
 
+			$('body').on("click",".modal-form .has-collection .collection-add",
+				e=>{
+					e.preventDefault();
+					var parent = $(e.target).parent();
+					var tpl = parent.find('[data-prototype]').data('prototype');
+					var index = parent.children(" > div ").length;
+					tpl = tpl.replace(/__name__/g,index);
+					var a = $('<span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></span>');
+					var li = $('<div class="input-group input-group-sm">').append(a).append(tpl);
+					li.find('label').remove();
+					li.insertBefore(parent.find('a'));
+					a.find('button').on({
+						click:e=>{
+							li.remove();
+						}
+					})
+			})
+
 			// on ecoute les evenements
 			this.subscribe(event=>{
 				if(event instanceof nsp.MovieUpdatingEvent){
@@ -331,6 +349,40 @@ var AdminManager = AdminManager || {};
 				let el = droppers[i];
 				this.applyDropEvent(el);
 			}
+
+			// galerie photo
+			var gallery_dropper = document.getElementById("scene-dropper");
+
+			gallery_dropper.addEventListener("drop",e=>{
+				e.preventDefault();
+				$(document.body).removeClass('dragenter');				
+				var files = e.dataTransfer.files;
+				if(!files.length) return;
+
+				var dropper = $(gallery_dropper);
+				dropper.addClass('dropped');
+
+
+				function render(file){
+					var reader = new FileReader();
+
+				    reader.addEventListener('load', ()=> {
+				    	var image = $('<img>');
+				    	image.on({
+				    		load:()=>{
+				    			dropper.append(image);
+				    		}
+				    	});
+				    	image.attr('src',reader.result);
+				    });
+				    reader.readAsDataURL(file);
+				}
+
+				for(let file of files){
+					render(file);
+				}
+
+			});
 
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{
