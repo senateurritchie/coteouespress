@@ -703,7 +703,7 @@
                                 <div >
                                     <div class="position-relative has-media-detail d-block vid-hover">
                                         {% if item.portraitImg %}
-                                            <img  src="{{ asset('upload/public/'~programme.portraitImg) }}"  alt="{{ item.name|lower|title }}">
+                                            <img  src="{{ asset('upload/public/'~item.portraitImg) }}"  alt="{{ item.name|lower|title }}">
                                         {% else %}
                                             <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}"  alt="">
                                         {% endif %}
