@@ -268,7 +268,9 @@ header #master-menu .dropdown-menu {
 
 header #master-menu nav{
 	margin-right: 16px;
+	font-size: .9569rem;
 }
+
 
 header #master-menu nav ul li{
 	padding: 0 5px 0 5px;

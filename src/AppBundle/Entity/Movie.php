@@ -153,7 +153,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920,maxWidth=1920, minHeight=1080,maxHeight=1080)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=1080)
     */
     private $coverImg;
 
@@ -162,7 +162,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="landscape_img", type="string", length=255, nullable=true, options={"comment":"stock la vignette en paysage du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640, minHeight=360)
     */
     private $landscapeImg;
 

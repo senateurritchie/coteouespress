@@ -55,11 +55,6 @@ class AdminMovieController extends Controller
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ]);
 
-       /* var_dump($request->files->all());
-        var_dump($request->request->all());
-
-        */
-
     	$form->handleRequest($request);
 
     	if($form->isSubmitted() && $form->isValid()){

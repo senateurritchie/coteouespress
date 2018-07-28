@@ -33,39 +33,75 @@ class GeneralUploadListener{
 
     public function postLoad(LifecycleEventArgs $args){
         $entity = $args->getEntity();
+        $fileName = null;
 
-        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
-            return;
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer)) {
+
         }
+        else if($entity instanceof Movie){
 
-        if ($fileName = $entity->getImage()) {
-            
         }
     }
 
-     public function postRemove(LifecycleEventArgs $args){
+    public function postRemove(LifecycleEventArgs $args){
         $entity = $args->getEntity();
 
-        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
-            return;
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer)) {
+            
+            if(($fileName = $entity->getImage())){
+                $this->uploader->remove($fileName);
+            }
         }
-
-        if ($fileName = $entity->getImage()) {
-            $this->uploader->remove($fileName);
+        else if($entity instanceof Movie){
+            if(($fileName = $movie->getCoverImg())) {
+                $this->uploader->remove($fileName);
+            }
+            if(($fileName = $movie->getLandscapeImg())) {
+                $this->uploader->remove($fileName);
+            }
+            if(($fileName = $movie->getPortraitImg())) {
+                $this->uploader->remove($fileName);
+            }
         }
     }
 
     private function uploadFile($entity){
-        if (!$entity instanceof Director && (!$entity instanceof Producer) && (!$entity instanceof Actor) &&  (!$entity instanceof MovieTrailer)) {
-            return;
+        
+        if ($entity instanceof Director || $entity instanceof Producer || $entity instanceof Actor ||  $entity instanceof MovieTrailer) {
+
+            $file = $entity->getImage();
+
+            // only upload new files
+            if ($file instanceof UploadedFile) {
+                $fileName = $this->uploader->upload($file);
+                $entity->setImage($fileName);
+            }
         }
+        else if($entity instanceof Movie){
 
-        $file = $entity->getImage();
+            if(($file = $entity->getCoverImg())) {
+                // only upload new files
+                if ($file instanceof UploadedFile) {
+                    $fileName = $this->uploader->upload($file);
+                    $entity->setCoverImg($fileName);
+                }
+            }
 
-        // only upload new files
-        if ($file instanceof UploadedFile) {
-            $fileName = $this->uploader->upload($file);
-            $entity->setImage($fileName);
+            if(($file = $entity->getLandscapeImg())){
+                // only upload new files
+                if ($file instanceof UploadedFile) {
+                    $fileName = $this->uploader->upload($file);
+                    $entity->setLandscapeImg($fileName);
+                }
+            }
+
+            if(($file = $entity->getPortraitImg())){
+                // only upload new files
+                if ($file instanceof UploadedFile) {
+                    $fileName = $this->uploader->upload($file);
+                    $entity->setPortraitImg($fileName);
+                }
+            }
         }
     }
 }

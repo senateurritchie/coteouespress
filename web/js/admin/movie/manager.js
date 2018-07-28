@@ -166,7 +166,6 @@ var AdminManager = AdminManager || {};
 				}
 		    	
 		    	this.copyDefaultImage = [img270x360,img640x360,img1920x360];
-
 			});
 		    
 
@@ -174,9 +173,12 @@ var AdminManager = AdminManager || {};
 		    	$(el).on('click',(e)=> {
 	  				e.preventDefault();
 	  				
-	  				var img = $(el).parents('.dropper').find('.dropper-target');
-	  				alert(img.length)
+	  				var parent = $(el).parents('.dropper');
+	  				var img = parent.find('.dropper-target');
 	  				img.css('background-image',this.copyDefaultImage[i]);
+
+					var input  = parent.find('input[type=file]');
+					input.get()[0].files.splice(0);
 				})
 		    });
 
@@ -296,13 +298,17 @@ var AdminManager = AdminManager || {};
 
 					if(event.params.state == "load"){
 
+						var files = event.params.files;
+						var target = event.params.target;
+						var input  = target.parents('.dropper:first').find('input[type=file]');
+						input.get()[0].files = files;
+						alert(input.length)
+
 						if(event.params.pos == 1){
-							var files = event.params.files;
-							var input  = $('#data-secondary-box form input[type=file]');
-							input.get()[0].files = files;
+							
 						}
 						else if(event.params.pos == 2){
-							var files = event.params.files;
+							/*var files = event.params.files;
 							var input  = $('#current-widget-data form input[type=file]');
 							var _token  = $('#current-widget-data form input[name=_token]').val();
 							input.get()[0].files = files;
@@ -313,9 +319,8 @@ var AdminManager = AdminManager || {};
 								state:'start',
 								file:files[0],
 								_token:_token,
-							}));
+							}));*/
 
-							console.log(files)
 						}
 					}
 				}
@@ -463,7 +468,7 @@ var AdminManager = AdminManager || {};
 		    reader.addEventListener('load', ()=> {
 		    	var img = $(event.target).parents('.dropper').find('.dropper-target');
 		    	img.css('background-image',`url(${reader.result})`);
-		    	//this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files}));
+		    	this.emit(new nsp.FileReaderEvent({state:"load",pos:pos,files:files,target:img}));
 		    });
 
 		    reader.addEventListener('error', ()=> {

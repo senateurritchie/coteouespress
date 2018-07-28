@@ -85,6 +85,11 @@ class MovieType extends AbstractType
             "required"=>false,
             "data"=>false,
         ))
+        ->add('isPublished',CheckboxType::class,array(
+            "label"=>"Publier directement",
+            "required"=>false,
+            "data"=>false,
+        ))
         ->add('format',TextType::class,array(
             "attr"=>["placeholder"=>"Format","class"=>"input-sm"]
         ))
