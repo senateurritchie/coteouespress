@@ -61,7 +61,6 @@
             top: 50%;
         }
         
-        
 
     </style>
 
@@ -71,14 +70,28 @@
    
     <header id="header">
         {{ include('main-menu.html.twig') }}
-
-        <div id="master-cover"></div>
         
-        <div id="movie-profil" class="d-none d-md-block">
-            <div class="card text-left">
+        {% if programme.coverImg %}
+            <div id="master-cover" style="background-image:url({{ asset('upload/public/'~programme.coverImg) }})"></div>
+        {% else %}
+            <div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>
+        {% endif %}
+        
+        
+        <div id="movie-profil" class="d-none d-md-block shadow-effect2">
+            <div class="card text-left border-0" >
 
                 <div style="overflow: hidden;height: 250px">
-                    <img alt="{{ programme.name|lower|title }}" class="card-img-top" src="{{ asset('img/movie-cover.jpg')}}" alt="Card image cap">
+
+                    {% if programme.coverImg %}
+                        <img height="360" width="270" alt="{{ programme.name|lower|title }}" class="card-img-top" src="{{ asset('upload/public/'~programme.portraitImg)}}">
+
+                    {% else %}
+                        <img alt="{{ programme.name|lower|title }}" class="card-img-top" src="{{ asset('img/vignette.png')}}">
+                    {% endif %}
+
+
+
                 </div>
 
 
@@ -313,7 +326,13 @@
                             {% for item in actors %}
                                 <div class="card">
                                     <a href="{{ path('actor_index',{'slug':item.slug}) }}" class="d-block  has-detail text-white">
-                                        <img class="card-img-top" src="{{ asset('img/actor-'~loop.index~'.jpg')}}"  alt="{{ item.name|lower|title }}">
+
+                                        {% if item.image %}
+                                            <img class="card-img-top" src="{{ asset('upload/public/'~item.image)}}"  alt="{{ item.name|lower|title }}">
+                                        {% else %}
+                                            <img class="card-img-top" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.name|lower|title }}">
+                                        {% endif %}
+                                       
 
                                         <div class="card-body d-none d-md-block media-info" >
                                             <h6 class="card-title">
@@ -322,7 +341,11 @@
 
                                             <p class="card-text">
                                                 <small >
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                                                    {% if item.description %}
+                                                        {{ item.description }}
+                                                    {% else %}
+                                                        Description indisponible
+                                                    {% endif %}
                                                 </small>
                                             </p>
                                         </div>
@@ -364,129 +387,66 @@
                             <div class="tab-content" id="nav-tabContent">
                                 
                                 <div class="tab-pane fade show active pt-3" id="nav-rewards" role="tabpanel" aria-labelledby="nav-rewards-tab">
-                                    <div class="list-group list-group-flush">
-                                        <div class="list-group-item flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Golden Globe
-                                                </h5>
-
-                                                <small>il ya 3 jours</small>
-                                            </div>
-                                        
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                    {% if programme.reward %}
+                                        {{ programme.reward }}
+                                    {% else %}
+                                       <div class="alert alert-light" role="alert">
+                                            <h4 class="alert-heading">Oops</h4>
+                                          
+                                            <p>
+                                                Faites une requete de modification pour cette section.
                                             </p>
-                                            
-                                            <small>
-                                                Donec id elit non mi porta.
-                                            </small>
-                                        </div>
-
-                                        <div class="list-group-item flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Cesar
-                                                </h5>
-                                                <small class="text-muted">
-                                                    il ya 3 ans
-                                                </small>
-                                            </div>
-
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                          
+                                            <hr>
+                                            <p class="mb-0">
+                                                <a href=""  class="btn btn-sm btn-light text-secondary">
+                                                    Cliquez ici.
+                                                </a>
                                             </p>
-                                        
-                                            <small class="text-muted">
-                                                Donec id elit non mi porta.
-                                            </small>
                                         </div>
-
-                                        <div  class="list-group-item  flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Fespaco
-                                                </h5>
-
-                                                <small class="text-muted">
-                                                    il ya 3 semaines
-                                                </small>
-                                            </div>
-                                        
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                                            </p>
-                                        
-                                            <small class="text-muted">
-                                                Donec id elit non mi porta.
-                                            </small>
-                                        </div>
-                                    </div>
+                                    {% endif %}
                                 </div>
                               
                                 <div class="tab-pane fade pt-3" id="nav-awards" role="tabpanel" aria-labelledby="nav-awards-tab">
-                                    <div class="list-group list-group-flush">
-                                        <div class="list-group-item  flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Prix 1 
-                                                </h5>
-
-                                                <small>il ya 3 jours</small>
-                                            </div>
-                                        
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                    {% if programme.award %}
+                                        {{ programme.award }}
+                                    {% else %}
+                                        <div class="alert alert-light" role="alert">
+                                            <h4 class="alert-heading">Oops</h4>
+                                          
+                                            <p>
+                                                Faites une requete de modification pour cette section.
                                             </p>
-                                            
-                                            <small>
-                                                Donec id elit non mi porta.
-                                            </small>
-                                        </div>
-
-                                        <div  class="list-group-item  flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Prix 2
-                                                </h5>
-                                                <small class="text-muted">
-                                                    il ya 3 ans
-                                                </small>
-                                            </div>
-
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
+                                          
+                                            <hr>
+                                            <p class="mb-0">
+                                                <a href=""  class="btn btn-sm btn-light text-secondary">
+                                                    Cliquez ici.
+                                                </a>
                                             </p>
-                                        
-                                            <small class="text-muted">
-                                                Donec id elit non mi porta.
-                                            </small>
                                         </div>
-
-                                        <div  class="list-group-item  flex-column align-items-start">
-                                            <div class="d-flex w-100 justify-content-between">
-                                                <h5 class="mb-1">
-                                                    Prix 3
-                                                </h5>
-
-                                                <small class="text-muted">
-                                                    il ya 3 semaines
-                                                </small>
-                                            </div>
-                                        
-                                            <p class="mb-1">
-                                                Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.
-                                            </p>
-                                        
-                                            <small class="text-muted">
-                                                Donec id elit non mi porta.
-                                            </small>
-                                        </div>
-                                    </div>
+                                    {% endif %}
                                 </div>
 
                                 <div class="tab-pane fade pt-3" id="nav-audience" role="tabpanel" aria-labelledby="nav-audience-tab">
-                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Obcaecati consequuntur ipsum cumque voluptate maxime, a asperiores similique nisi non. Harum earum, quod voluptatem culpa autem facilis laudantium ipsum facere perferendis.
+                                    {% if programme.audience %}
+                                        {{ programme.audience }}
+                                    {% else %}
+                                       <div class="alert alert-light" role="alert">
+                                            <h4 class="alert-heading">Oops</h4>
+                                          
+                                            <p>
+                                                Faites une requete de modification pour cette section.
+                                            </p>
+                                          
+                                            <hr>
+                                            <p class="mb-0">
+                                                <a href=""  class="btn btn-sm btn-light text-secondary">
+                                                    Cliquez ici.
+                                                </a>
+                                            </p>
+                                        </div>
+                                    {% endif %}
                                 </div>
                             </div>
                         </div>

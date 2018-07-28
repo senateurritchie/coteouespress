@@ -10,6 +10,7 @@ use AppBundle\Entity\Director;
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\Actor;
 use AppBundle\Entity\MovieTrailer;
+use AppBundle\Entity\Movie;
 use AppBundle\Services\FileUploader;
 
 class GeneralUploadListener{

@@ -153,7 +153,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=1080)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1024)
     */
     private $coverImg;
 
@@ -171,7 +171,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="portrait_img", type="string", length=255, nullable=true,options={"comment":"stock la vignette en portrait du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270,maxWidth=270, minHeight=360,maxHeight=360)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=270, minHeight=360)
     */
     private $portraitImg;
 

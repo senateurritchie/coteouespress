@@ -302,7 +302,6 @@ var AdminManager = AdminManager || {};
 						var target = event.params.target;
 						var input  = target.parents('.dropper:first').find('input[type=file]');
 						input.get()[0].files = files;
-						alert(input.length)
 
 						if(event.params.pos == 1){
 							
