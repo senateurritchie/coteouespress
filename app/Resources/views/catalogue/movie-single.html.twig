@@ -350,25 +350,25 @@
                     <div class="block-content" >
                         <div class="card-group owl-carousel">
 
-                            {% for item in actors %}
+                            {% for item in programme.actors %}
                                 <div class="card">
-                                    <a href="{{ path('actor_index',{'slug':item.slug}) }}" class="d-block  has-detail text-white">
+                                    <a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">
 
-                                        {% if item.image %}
-                                            <img class="card-img-top" src="{{ asset('upload/public/'~item.image)}}"  alt="{{ item.name|lower|title }}">
+                                        {% if item.actor.image %}
+                                            <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
                                         {% else %}
-                                            <img class="card-img-top" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.name|lower|title }}">
+                                            <img class="card-img-top" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.actor.name|lower|title }}">
                                         {% endif %}
 
                                         <div class="card-body d-none d-md-block media-info" >
                                             <h6 class="card-title">
-                                                {{item.name|lower|title}}
+                                                {{item.actor.name|lower|title}}
                                             </h6>
 
                                             <p class="card-text">
                                                 <small >
-                                                    {% if item.description %}
-                                                        {{ item.description }}
+                                                    {% if item.actor.description %}
+                                                        {{ item.actor.description }}
                                                     {% else %}
                                                         Description indisponible
                                                     {% endif %}
@@ -376,6 +376,21 @@
                                             </p>
                                         </div>
                                     </a>
+                                </div>
+                            {% else %}
+                                <div class="alert alert-light" role="alert">
+                                    <h5 class="alert-heading">Information indisponible</h5>
+                                  
+                                    <p>
+                                        Faites une requete de modification pour cette section.
+                                    </p>
+                                  
+                                    <hr>
+                                    <p class="mb-0">
+                                        <a href=""  class="btn btn-sm btn-light text-secondary">
+                                            Cliquez ici.
+                                        </a>
+                                    </p>
                                 </div>
                             {% endfor %}
                         </div>
@@ -684,23 +699,27 @@
                     <div class="block-content" >
                         <div class="text-left owl-carousel">
                             
-                            {% for item in 0..5 %}
+                            {% for item in otherMovies %}
                                 <div >
                                     <div class="position-relative has-media-detail d-block vid-hover">
-                                        <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}"  alt="">
+                                        {% if item.portraitImg %}
+                                            <img  src="{{ asset('upload/public/'~programme.portraitImg) }}"  alt="{{ item.name|lower|title }}">
+                                        {% else %}
+                                            <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}"  alt="">
+                                        {% endif %}
 
                                         <div class="media-overlay"></div>
 
                                         <div class="media-btn-wrapper">
                                             <ul class="d-block">
                                                 <li>
-                                                    <a href="" class="to-overlay">
+                                                    <a data-vbtype="video" href="{{ item.trailer }}" class="venobox movie-trailer-link" >
                                                         {{ 'Bande annonce'|trans({},'movies') }}
                                                     </a>
                                                 </li>
 
                                                 <li>
-                                                    <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                    <a href="{{ path('catalogue_index',{'slug':item.slug})}}" class="movie-link">
                                                         {{ 'Details'|trans({},'movies') }}
                                                     </a>
                                                 </li>
@@ -708,6 +727,14 @@
                                         </div>
                                     
                                     </div>
+                                </div>
+                            {% else %}
+                                 <div class="alert alert-light" role="alert">
+                                    <h5 class="alert-heading">Information indisponible</h5>
+                                  
+                                    <p>
+                                        Aucun autre programme pour cette catégorie.
+                                    </p>
                                 </div>
                             {% endfor %}
                         </div>

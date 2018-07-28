@@ -38,13 +38,12 @@ class CatalogueController extends Controller{
     			throw $this->createNotFoundException("Le programme recherché est introuvable");
     		}
 
-             //  on charge les acteurs
-            $rep = $em->getRepository(Actor::class);
-            $actors = $rep->findBy([],["id"=>"desc"],6);
+            $category = $programme->getCategory();
+            $otherMovies = $rep->findBy(array("category"=>$category),['id'=>"DESC"],12);
 
     		return $this->render('catalogue/movie-single.html.twig',array(
                 "programme"=>$programme,
-                "actors"=>$actors,
+                "otherMovies"=>$otherMovies,
     		));
     	}
 
