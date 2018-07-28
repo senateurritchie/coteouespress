@@ -56,6 +56,7 @@ class Category
     /**
     * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Movie", mappedBy="category")
+    * @ORM\OrderBy({"createdAt" = "DESC"})
     */
     private $movies;
 

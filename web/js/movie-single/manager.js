@@ -224,6 +224,8 @@ var AdminManager = AdminManager || {};
                 if(obj.attr('id') == "block-acteurs"){
                     opts.items = 4;
                     opts.margin = 4;
+                    opts.autoplay = true;
+                    opts.autoplayTimeout = 2000;
                 }
                 else if(obj.attr('id') == "other-movies"){
                     opts.items = 6;
