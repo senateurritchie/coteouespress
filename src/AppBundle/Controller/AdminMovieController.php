@@ -230,10 +230,8 @@ class AdminMovieController extends Controller
         // protection par role
         if($this->isGranted('ROLE_CATALOG_INSERT'));
         else{
-            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
         }
-
-
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Movie::class);
@@ -262,7 +260,7 @@ class AdminMovieController extends Controller
         }
         
         if($form->isSubmitted() && $form->isValid()){
-
+            $date = new \Datetime();
             $em->merge($item);
 
             if(!$item->getCoverImg() && $oldCoverImg){
@@ -286,6 +284,142 @@ class AdminMovieController extends Controller
                 $nbr = intval($el->getMovieNbr())+1;
                 $el->setMovieNbr($nbr);
             }
+
+            
+            // gestion des genres
+            $genres = $form->get('genres')->getData();
+            if(count($genres)){
+                $db = [];
+
+                $rep = $em->getRepository(MovieGenre::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getGenre()->getId();
+                    }, $old);
+                }
+                foreach ($genres as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieGenre();
+                    $e->setMovie($item);
+                    $e->setGenre($el);
+                    $e->setCreateAt($date);
+                    $db[] = $el->getId();
+                    $em->persist($e);
+                }
+            }
+
+            // gestion des langues disponible
+            $languages = $form->get('languages')->getData();
+            if(count($languages)){
+                $db = [];
+
+                $rep = $em->getRepository(MovieLanguage::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getLanguage()->getId();
+                    }, $old);
+                }
+                foreach ($languages as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieLanguage();
+                    $e->setMovie($item);
+                    $e->setLanguage($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                }
+            }
+
+            // gestion des pays
+            $countries = $form->get('countries')->getData();
+            if(count($countries)){
+                $db = [];
+                $rep = $em->getRepository(MovieCountry::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getCountry()->getId();
+                    }, $old);
+                }
+                foreach ($countries as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieCountry();
+                    $e->setMovie($item);
+                    $e->setCountry($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                }
+            }
+
+            // gestion des acteurs
+            $actors = $form->get('actors')->getData();
+            if(count($actors)){
+                $db = [];
+
+                $rep = $em->getRepository(MovieActor::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getActor()->getId();
+                    }, $old);
+                }
+                foreach ($actors as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieActor();
+                    $e->setMovie($item);
+                    $e->setActor($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                }
+            }
+
+            // gestion des producers
+            $producers = $form->get('producers')->getData();
+            if(count($producers)){
+                $db = [];
+
+                $rep = $em->getRepository(MovieProducer::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getProducer()->getId();
+                    }, $old);
+                }
+
+                foreach ($producers as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieProducer();
+                    $e->setMovie($item);
+                    $e->setProducer($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                }
+            }
+
+            // gestion des directors
+            $directors = $form->get('directors')->getData();
+            if(count($directors)){
+                $db = [];
+
+                $rep = $em->getRepository(MovieDirector::class);
+                if(($old = $rep->findBy(["movie"=>$item]))){
+                    $db = array_map(function($el){
+                        return $el->getDirector()->getId();
+                    }, $old);
+                }
+
+                foreach ($directors as $key => $el) {
+                    if(in_array($el->getId(), $db)) continue;
+
+                    $e = new MovieDirector();
+                    $e->setMovie($item);
+                    $e->setDirector($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                }
+            }
+
 
             $em->flush();
             $this->addFlash('notice-success',"Votre programme a été mise à jour avec succes");
@@ -323,20 +457,20 @@ class AdminMovieController extends Controller
 
 
     /**
-    * @Route("/{movie_id}/image/upload", requirements={"movie_id":"\d+"}, name="upload_cover")
+    * @Route("/{movie_id}/image/upload", requirements={"movie_id":"\d+"}, name="upload")
     * @Method("POST")
     */
     public function imageUploadAction(Request $request,$movie_id){
 
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Movie::class);
         $result = ["status"=>false];
 
 
-        if(!($item = $rep->find($movie_id))){
+        /*if(!($item = $rep->find($movie_id))){
             throw $this->createNotFoundException();
         }
 
@@ -369,7 +503,7 @@ class AdminMovieController extends Controller
             $result['status'] = true;
             $result['message'] = "modification effectuée avec succès";
             $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);
-        }
+        }*/
 
         return $this->json($result);
     }

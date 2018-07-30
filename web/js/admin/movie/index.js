@@ -6,30 +6,17 @@ $(document).ready(function($){
 
 	var rightSection = $("#right-section");
 
+	repository.subscribe(event=>{
+
+		if(event instanceof nsp.UploadEvent){
+			if(event.params.state != "progress") return;
+			view.emit(event);
+		}
+	});
+
 	view.subscribe(event=>{
 
-		if((event instanceof nsp.MovieUpdatingEvent) || (event instanceof nsp.MovieDeletingEvent)) {
-			if(event.params.state != "start") return;
-			
-			repository.customRequest(event)
-			.then(data=>{
-
-				if(event instanceof nsp.MovieUpdatingEvent){
-					view.emit(new nsp.MovieUpdatingEvent({state:'end',data:data}));
-				}
-				else if(event instanceof nsp.MovieDeletingEvent){
-					view.emit(new nsp.MovieDeletingEvent({state:'end',data:data}));
-				}
-			},msg=>{
-				if(event instanceof nsp.MovieUpdatingEvent){
-					view.emit(new nsp.MovieUpdatingEvent({state:'fails'}));
-				}
-				else if(event instanceof nsp.MovieDeletingEvent){
-					view.emit(new nsp.MovieDeletingEvent({state:'fails'}));
-				}
-			});
-		}
-		else if(event instanceof nsp.UploadEvent){
+		if(event instanceof nsp.UploadEvent){
 			if(event.params.state != "start") return;
 
 			repository.uploadImage(event)

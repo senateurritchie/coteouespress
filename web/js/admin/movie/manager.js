@@ -53,10 +53,11 @@ var AdminManager = AdminManager || {};
 
 		MovieRepository.prototype.uploadImage = function(event){
 			var file = event.params.file;
-			var _token = event.params._token;
+			var _target = event.params._target;
 			var formData = new FormData();
 			formData.append('image',file);
-			formData.append('_token',_token);
+			formData.append('_target',_target);
+
 
 			return new Promise((resolve,reject)=>{
 
@@ -68,6 +69,29 @@ var AdminManager = AdminManager || {};
 	  				processData: false,
 	  				cache: false,
             		contentType: false,
+            		xhr: () =>{
+			            var myXhr = $.ajaxSettings.xhr();
+		                if(myXhr.upload){
+		                    myXhr.upload.addEventListener('progress',e=>{
+				            	if (e.lengthComputable) {
+								    var percent = (e.loaded / e.total)*100;
+								    
+								    this.emit(new nsp.UploadEvent({
+										state:'progress',
+										total:e.total,
+										loaded:e.loaded,
+										percent:percent,
+										file:file
+									}));
+
+								  } else {
+								    // Impossible de calculer la progression puisque la taille totale est inconnue
+								  }
+				            })
+		                }
+		                return myXhr;
+			        },
+            		
 		  		})
 		  		.done(data=>{
 		  			resolve(data);
@@ -313,38 +337,6 @@ var AdminManager = AdminManager || {};
 						}
 					}
 				}
-				else if(event instanceof nsp.UploadEvent){
-					if(~['end','fails'].indexOf(event.params.state)){
-						this.params.selectedDataView.removeClass('updating');
-
-						if(event.params.state == 'end'){
-							var data = event.params.data;
-
-							if(data && data.status){
-								if(event instanceof nsp.UploadEvent){
-									var src = $("#data-container .data-item[data-id="+data.data.id+"] .data-item-image img");
-
-									src.attr("src","/upload/public/"+data.data.image);
-								}
-							}
-
-							var alertShow = ()=>{
-								if(data.hasOwnProperty('message')){
-									$('#modal-info .modal-body h4').html(data.message);
-									$('#modal-info').modal('show');
-								}
-								else if(data.hasOwnProperty('errors')){
-									var tpl = this.render(this.params.$tpl.errors,data);
-									$('#modal-info .modal-body h4').html(tpl);
-									$('#modal-info').modal('show');
-								}
-								$('#myModal').off('hidden.bs.modal');
-							};
-
-							alertShow();
-						}
-					}
-				}
 			});
 
 			document.addEventListener("dragenter",e=>{
@@ -371,24 +363,35 @@ var AdminManager = AdminManager || {};
 			}
 
 			// galerie photo
-			var gallery_dropper = document.getElementById("scene-dropper");
+			$("body").on('drop','.modal .scene-dropper',e=>{
 
-			gallery_dropper.addEventListener("drop",e=>{
 				e.preventDefault();
 				$(document.body).removeClass('dragenter');				
-				var files = e.dataTransfer.files;
+				var files = e.originalEvent.dataTransfer.files;
 				if(!files.length) return;
 
-				var dropper = $(gallery_dropper);
+				var dropper = $(e.currentTarget);
 				dropper.addClass('dropped');
 
+				var parentModal = dropper.parents('div[data-id]:first');
 
-				function render(file){
+				var render = (file)=>{
 					var reader = new FileReader();
 
 				    reader.addEventListener('load', ()=> {
 				    	var image = $('<img width="211" height="180" draggable="false">');
-				    	var div = $('<div class="scene-thumbnail"><a href=""><i class="fa fa-times"></i></a></div>');
+				    	var div = $(`
+				    		<div class="scene-thumbnail">
+				    			<a href="">
+				    				<i class="fa fa-times"></i>
+				    			</a>
+
+				    			<div class="progress progress-sm active">
+					            	<div class="progress-bar progress-bar-primary progress-bar-striped" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%">
+					                	<span class="sr-only">0% Complete</span>
+					                </div>
+					            </div>
+				    		</div>`);
 
 				    	div.find('a').on({
 				    		click:e=>{
@@ -399,9 +402,38 @@ var AdminManager = AdminManager || {};
 
 				    	image.on({
 				    		load:()=>{
-				    			
 				    			div.append(image);
 				    			dropper.append(div);
+
+				    			if(parentModal.length){
+
+				    				var progressBar = div.find('.progress .progress-bar');
+
+				    				var ref = this.subscribe(event=>{
+										if(event instanceof nsp.UploadEvent){
+											if(event.params.state != "progress") return;
+
+											if(event.params.file === file){
+												progressBar.css('width',`${event.params.percent}%`);
+
+												if(event.params.percent == 100){
+													ref.unsubscribe();
+													setTimeout(function(){
+														progressBar.parent().remove();
+													},5000);
+												}
+											}
+										}
+									});
+
+
+									this.emit(new nsp.UploadEvent({
+										state:'start',
+										file:file,
+										_target:"scene",
+									}));
+								}
+
 				    		}
 				    	});
 				    	image.attr('src',reader.result);
@@ -412,9 +444,9 @@ var AdminManager = AdminManager || {};
 				for(let file of files){
 					render(file);
 				}
-
 			});
 
+			
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{
 				if(event instanceof nsp.ScrollerEvent && event.params.percent <= 20 && event.params.dir == "ttb"){
