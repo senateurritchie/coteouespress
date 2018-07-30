@@ -371,6 +371,7 @@ var AdminManager = AdminManager || {};
 				if(!files.length) return;
 
 				var dropper = $(e.currentTarget);
+				var divProto = dropper.parent().find('div[data-prototype]');
 				dropper.addClass('dropped');
 
 				var parentModal = dropper.parents('div[data-id]:first');
@@ -379,6 +380,8 @@ var AdminManager = AdminManager || {};
 					var reader = new FileReader();
 
 				    reader.addEventListener('load', ()=> {
+				    	var counter = dropper.find(".scene-thumbnail").length;
+
 				    	var image = $('<img width="211" height="180" draggable="false">');
 				    	var div = $(`
 				    		<div class="scene-thumbnail">
@@ -392,6 +395,13 @@ var AdminManager = AdminManager || {};
 					                </div>
 					            </div>
 				    		</div>`);
+
+				    	var tpl = divProto.data('prototype');
+						tpl = $(tpl.replace(/__name__/g,"")).hide();
+						tpl.find('label').remove();
+						tpl.find('input').removeAttr('id');
+
+						div.append(tpl);
 
 				    	div.find('a').on({
 				    		click:e=>{

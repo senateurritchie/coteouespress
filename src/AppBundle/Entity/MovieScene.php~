@@ -3,11 +3,12 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MovieScene
  *
- * @ORM\Table(name="movie_scene", options={"comment":"enregistre les scenes ou photo du tournage"})
+ * @ORM\Table(name="movie_scene", options={"comment":"enregistre les scenes ou photo du tournage d'un movie"})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieSceneRepository")
  */
 class MovieScene
@@ -29,11 +30,11 @@ class MovieScene
     */
     private $movie;
 
-    /**
-    * @var AppBundle\Entity\Image
+   /**
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(onDelete="CASCADE")
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
 
@@ -44,5 +45,6 @@ class MovieScene
      */
     private $createAt;
 
-}
 
+    
+}

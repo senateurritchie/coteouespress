@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * MovieScene
@@ -29,11 +30,11 @@ class MovieScene
     */
     private $movie;
 
-    /**
-    * @var AppBundle\Entity\Image
+   /**
+    * @var string
     *
-    * @ORM\OneToOne(targetEntity="AppBundle\Entity\Image")
-    * @ORM\JoinColumn(onDelete="CASCADE")
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
 
@@ -45,6 +46,8 @@ class MovieScene
     private $createAt;
 
 
+    
+
     /**
      * Get id
      *
@@ -53,6 +56,30 @@ class MovieScene
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return MovieScene
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 
     /**
@@ -101,29 +128,5 @@ class MovieScene
     public function getMovie()
     {
         return $this->movie;
-    }
-
-    /**
-     * Set image
-     *
-     * @param \AppBundle\Entity\Image $image
-     *
-     * @return MovieScene
-     */
-    public function setImage(\AppBundle\Entity\Image $image = null)
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    /**
-     * Get image
-     *
-     * @return \AppBundle\Entity\Image
-     */
-    public function getImage()
-    {
-        return $this->image;
     }
 }
