@@ -44,11 +44,66 @@ class AdminMovieController extends Controller
         if($movie_id){
             $request->query->set('id',intval($movie_id));
         }
+
         $params = $request->query->all();
         $params['order_id'] = "DESC";
 
         $data = $rep->search($params,$limit,$offset);
 
+        // requete ajax
+        if($request->isXmlHttpRequest()){
+
+            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+            
+            if(intval(@$params['id'])){
+                if(empty($data)){
+                    throw $this->createNotFoundException("Element introuvable");
+                }
+                $data = $data[0];
+            }
+
+
+            $result = array();
+            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
+            $result['model'] = $json;
+            $result['view'] = "";
+            $view;
+
+            if(is_array($data)){
+                $view = $this->render('admin/movie/item-render.html.twig',array(
+                    "data"=>$data,
+                ));
+            }
+            else{
+
+                $form2 = $this->createForm(MovieType::class,$data,[
+                    'upload_dir' => $this->getParameter('public_upload_directory'),
+                    "action"=>$this->generateUrl("admin_movie_update",["movie_id"=>$data->getId()])
+                ]);
+
+                $em->refresh($data);
+
+                $view = $this->render('admin/movie/selected-view.html.twig',array(
+                    "data"=>$data,
+                    "form"=>$form2->createView(),
+                ));
+            }
+
+            if ($acceptHeader->has('text/html')) {
+                $item = $acceptHeader->get('text/html');
+                return $view;
+            }
+            
+            $result['view'] = $view->getContent();
+
+            $json = json_encode($result);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
+
+        // soumissio de formulaire
     	$item = new Movie();
     	$item->setCreateAt(new \Datetime());
     	$form = $this->createForm(MovieType::class,$item,[
@@ -153,54 +208,7 @@ class AdminMovieController extends Controller
             }
         }
         
-        if($request->isXmlHttpRequest()){
-
-            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
-            
-            if(intval(@$params['id'])){
-                if(empty($data)){
-                    throw $this->createNotFoundException("Element introuvable");
-                }
-                $data = $data[0];
-            }
-
-            $result = array();
-            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
-            $result['model'] = $json;
-            $result['view'] = "";
-            $view;
-
-            if(is_array($data)){
-                $view = $this->render('admin/movie/item-render.html.twig',array(
-                    "data"=>$data,
-                ));
-
-            }
-            else{
-               
-                $form2 = $this->createForm(MovieType::class,$data,[
-                    'upload_dir' => $this->getParameter('public_upload_directory'),
-                ]);
-
-                $em->refresh($data);
-                $view = $this->render('admin/movie/selected-view.html.twig',array(
-                    "data"=>$data,
-                    "form"=>$form2->createView(),
-                ));
-            }
-
-            if ($acceptHeader->has('text/html')) {
-                $item = $acceptHeader->get('text/html');
-                return $view;
-            }
-            
-            $result['view'] = $view->getContent();
-
-            $json = json_encode($result);
-            $response = new Response($json);
-            $response->headers->set('Content-Type', 'application/json');
-            return $response;
-        }
+        
 
     	return $this->render('admin/movie/index.html.twig',array(
     		"data"=>$data,
@@ -225,16 +233,20 @@ class AdminMovieController extends Controller
             throw $this->createNotFoundException();
         }
 
-        $form = $this->createForm(MovieType::class,$item,
-            array(
-                //'csrf_protection' => false,
-                'upload_dir' => $this->getParameter('public_upload_directory'),
-            )
-        );
-        $form->submit($request->request->all());
+        $cloned = clone($item);
 
+        $oldCoverImg = $item->getCoverImg();
+        $oldLandscapeImg = $item->getLandscapeImg();
+        $oldPortraitImg = $item->getPortraitImg();
+
+        $form = $this->createForm(MovieType::class,$item,[
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ]);
+
+        $form->handleRequest($request);
+        
         foreach ($form->all() as $child) {
-            if (!$child->isValid()) {
+            if (!$child->isValid() && count($child->getErrors())) {
                 $result['errors'][] = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
             }
         }
@@ -242,13 +254,35 @@ class AdminMovieController extends Controller
         if($form->isSubmitted() && $form->isValid()){
 
             $em->merge($item);
+
+            if(!$item->getCoverImg() && $oldCoverImg){
+                $item->setCoverImg($oldCoverImg);
+            }
+
+            if(!$item->getLandscapeImg() && $oldLandscapeImg){
+                $item->setLandscapeImg($oldLandscapeImg);
+            }
+
+            if(!$item->getPortraitImg() && $oldPortraitImg){
+                $item->setPortraitImg($oldPortraitImg);
+            }
+
+            if($cloned->getCategory()->getId() != $item->getCategory()->getId()){
+                $el = $cloned->getCategory();
+                $nbr = intval($el->getMovieNbr())-1;
+                $el->setMovieNbr($nbr);
+
+                $el = $item->getCategory();
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+
             $em->flush();
-            $result['status'] = true;
-            $result['message'] = "modification effectuée avec succès";
-            $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);
+            $this->addFlash('notice-success',"Votre programme a été mise à jour avec succes");
+            return $this->redirectToRoute('admin_movie_index');
         }
-        
-        return $this->json($result);
+
+        return $this->redirectToRoute('admin_movie_index',["movie_id"=>$item->getId(),"modal"=>1]);
     }
 
     /**

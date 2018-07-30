@@ -91,6 +91,7 @@ var AdminManager = AdminManager || {};
 				rightSection:$("#right-section"),
 				renderAs:1,
 				copyDefaultImage:null,
+				copyDefaultImageUpdate:null,
 				model:null,
 				$tpl:{
 					errors:`
@@ -119,9 +120,6 @@ var AdminManager = AdminManager || {};
                 autoplay:true
             });
 
-            $('#modal-update','#modal-insert').on('shown.bs.modal', (e)=> {
-  				
-			});
 
 			$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
@@ -141,48 +139,40 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
-			$('.dropper input[type=file]').on('change',(e)=> {
+			$('body').on('change','.dropper input[type=file]',(e)=> {
   				this.previewImage(e.target.files,this.params.renderAs,e);
   				this.params.renderAs = 1;
 			});
 
-			$('.dropper .trigger-file').on('click',(e)=> {
+			$('body').on('click','.dropper .trigger-file',(e)=> {
   				$(e.target).parents(".dropper").find('input[type=file]').click();
 			});
 
-			var img270x360;
-			var img640x360;
-			var img1920x360;
+			this.saveDefaultImgs($("#modal-insert"));
 
-			$('.dropper .dropper-target').each((i,el)=>{
-				if(i == 0){
-					img270x360 = $(el).css('background-image');
+		    $("body").on("click",".dropper .reset-file",(e)=> {
+  				e.preventDefault();
+  				var parentModal = $(e.target).parents('.modal:first');
+  				var parent = $(e.target).parents('.dropper');
+  				var img = parent.find('.dropper-target');
+				var input  = parent.find('input[type=file]');
+				var files = input.get()[0].files;
+				if(files.length){
+					input.val('');
 				}
-				else if(i == 1){
-					img640x360 = $(el).css('background-image');
-				}
-				else if(i == 2){
-					img1920x360 = $(el).css('background-image');
-				}
-		    	
-		    	this.copyDefaultImage = [img270x360,img640x360,img1920x360];
-			});
-		    
 
-		    $('.dropper .reset-file').each((i,el)=>{
-		    	$(el).on('click',(e)=> {
-	  				e.preventDefault();
-	  				
-	  				var parent = $(el).parents('.dropper');
-	  				var img = parent.find('.dropper-target');
-	  				img.css('background-image',this.copyDefaultImage[i]);
-
-					var input  = parent.find('input[type=file]');
-					input.get()[0].files.splice(0);
-				})
+  				parentModal.find('.dropper .reset-file').each((i,el)=>{
+  					if(el === e.target){
+  						if(parentModal.data('id')){
+  							img.css('background-image',this.copyDefaultImageUpdate[i]);
+  						}
+  						else{
+  							img.css('background-image',this.copyDefaultImage[i]);
+  						}
+  					  	return true;
+  					}
+  				});
 		    });
-
-		    
 
 			$('body').on("click",".modal-form .has-collection .collection-add",
 				e=>{
@@ -448,6 +438,31 @@ var AdminManager = AdminManager || {};
 			return this;
 		}
 
+		MovieView.prototype.saveDefaultImgs = function(modal){
+			var img270x360;
+			var img640x360;
+			var img1920x360;
+
+			modal.find('.dropper .dropper-target').each((i,el)=>{
+				if(i == 0){
+					img270x360 = $(el).css('background-image');
+				}
+				else if(i == 1){
+					img640x360 = $(el).css('background-image');
+				}
+				else if(i == 2){
+					img1920x360 = $(el).css('background-image');
+				}
+
+				if(modal.data('id')){
+					this.copyDefaultImageUpdate = [img270x360,img640x360,img1920x360];
+				}
+				else{
+					this.copyDefaultImage = [img270x360,img640x360,img1920x360];
+				}
+			});
+		}
+
 		MovieView.prototype.renderSelectedData = function(view){
 			var ref = $("#modal-update-area").html(view);
 			var modal = ref.find('#modal-update');
@@ -455,6 +470,7 @@ var AdminManager = AdminManager || {};
 				backdrop:'static',
 				show:true
 			});
+			this.saveDefaultImgs(modal);
 		}
 
 		MovieView.prototype.previewImage = function(files, pos = 1, event){

@@ -20,7 +20,8 @@ header #movie-profil{
 	text-align: center;
 	position: absolute;
 	z-index: 1;
-	left: 100px;
+	/*left: 100px;*/
+	left: 7.4%;
 	background: white;
 	/*box-shadow: 0 8px 6px -6px rgba(0,0,0,.125);*/
 	/*border: 1px solid #f1f0f0;*/

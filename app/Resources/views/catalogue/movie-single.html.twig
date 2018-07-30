@@ -263,12 +263,22 @@
                 <section id="movie-title">
                     <h2>{{programme.name|lower|title}}</h2>
 
+                    <span class="position-relative voting-plug text-info">
+                        {% for item in 1..5 %}
+                            <i class="far fa-star"></i>
+                        {% endfor %}
+                    </span>
+
                     <div class="movie-vote text-info">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="far fa-star"></i>
-                        <i class="far fa-star"></i>
+                        
+                        <div class="row">
+                            <div class="col-md-8 pr-2">
+                                {{ include('catalogue/chart.html.twig') }}
+                            </div>
+                            <div class="col-md-4">
+                                
+                            </div>
+                        </div>
                     </div>
                 </section>
 
@@ -347,53 +357,58 @@
                         </div>
                     </div>
 
-                    <div class="block-content" >
-                        <div class="card-group owl-carousel">
+                    <div class="block-content d-block" >
 
-                            {% for item in programme.actors %}
-                                <div class="card">
-                                    <a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">
+                        {% if programme.actors|length %}
 
-                                        {% if item.actor.image %}
-                                            <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
-                                        {% else %}
-                                            <img class="card-img-top" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.actor.name|lower|title }}">
-                                        {% endif %}
+                            <div class="card-group owl-carousel">
+                                {% for item in programme.actors %}
+                                    <div class="card">
+                                        <a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">
 
-                                        <div class="card-body d-none d-md-block media-info" >
-                                            <h6 class="card-title">
-                                                {{item.actor.name|lower|title}}
-                                            </h6>
+                                            {% if item.actor.image %}
+                                                <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
+                                            {% else %}
+                                                <img class="card-img-top" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.actor.name|lower|title }}">
+                                            {% endif %}
 
-                                            <p class="card-text">
-                                                <small >
-                                                    {% if item.actor.description %}
-                                                        {{ item.actor.description }}
-                                                    {% else %}
-                                                        Description indisponible
-                                                    {% endif %}
-                                                </small>
-                                            </p>
-                                        </div>
-                                    </a>
-                                </div>
-                            {% else %}
-                                <div class="alert alert-light" role="alert">
-                                    <h5 class="alert-heading">Information indisponible</h5>
-                                  
-                                    <p>
-                                        Faites une requete de modification pour cette section.
-                                    </p>
-                                  
-                                    <hr>
-                                    <p class="mb-0">
-                                        <a href=""  class="btn btn-sm btn-light text-secondary">
-                                            Cliquez ici.
+                                            <div class="card-body d-none d-md-block media-info" >
+                                                <h6 class="card-title">
+                                                    {{item.actor.name|lower|title}}
+                                                </h6>
+
+                                                <p class="card-text">
+                                                    <small >
+                                                        {% if item.actor.description %}
+                                                            {{ item.actor.description }}
+                                                        {% else %}
+                                                            Description indisponible
+                                                        {% endif %}
+                                                    </small>
+                                                </p>
+                                            </div>
                                         </a>
-                                    </p>
-                                </div>
-                            {% endfor %}
-                        </div>
+                                    </div>                                
+                                {% endfor %}
+                            </div>
+
+                        {% else %}
+
+                            <div class="alert alert-light" role="alert">
+                                <h5 class="alert-heading">Information indisponible</h5>
+                              
+                                <p>
+                                    Faites une requete de modification pour cette section.
+                                </p>
+                              
+                                <hr>
+                                <p class="mb-0">
+                                    <a href=""  class="btn btn-sm btn-light text-secondary">
+                                        Cliquez ici.
+                                    </a>
+                                </p>
+                            </div>
+                        {% endif %}
                     </div>
                 </section>
 
@@ -429,7 +444,7 @@
                                 
                                 <div class="tab-pane fade show active pt-3" id="nav-rewards" role="tabpanel" aria-labelledby="nav-rewards-tab">
                                     {% if programme.reward %}
-                                        {{ programme.reward }}
+                                        {{ programme.reward|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
                                             <h4 class="alert-heading">Oops</h4>
@@ -450,7 +465,7 @@
                               
                                 <div class="tab-pane fade pt-3" id="nav-awards" role="tabpanel" aria-labelledby="nav-awards-tab">
                                     {% if programme.award %}
-                                        {{ programme.award }}
+                                        {{ programme.award|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
                                             <h4 class="alert-heading">Oops</h4>
@@ -471,7 +486,7 @@
 
                                 <div class="tab-pane fade pt-3" id="nav-audience" role="tabpanel" aria-labelledby="nav-audience-tab">
                                     {% if programme.audience %}
-                                        {{ programme.audience }}
+                                        {{ programme.audience|nl2br }}
                                     {% else %}
                                        <div class="alert alert-light" role="alert">
                                             <h4 class="alert-heading">Oops</h4>
@@ -583,7 +598,7 @@
                             <div class="col-md-8 owl-carousel vp_center_slider prs_vp_slidebar_wrapper" style="width:540px">
 
                                 <div class="has-media-detail ">
-                                    <img  class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                    <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                     <div class="media-overlay"></div>
 
                                     <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
@@ -592,7 +607,7 @@
                                 </div>
 
                                 <div class="has-media-detail ">
-                                    <img  class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                    <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                     <div class="media-overlay"></div>
 
                                     <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
@@ -601,7 +616,7 @@
                                 </div>
 
                                 <div class="has-media-detail ">
-                                    <img class="img-fluid"  src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                    <img  class="img-fluid"  src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                     <div class="media-overlay"></div>
 
                                     <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
@@ -815,6 +830,7 @@
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/admin/manager.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/movie-single/manager.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/plugins/Voting.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/movie-single/index.js') }}"></script>
 
 {% endblock %}

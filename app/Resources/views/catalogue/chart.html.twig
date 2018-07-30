@@ -1,0 +1,81 @@
+{% set votes = random(560..50) %}
+{% set data = [] %}
+{% set rest = votes %}
+{% set sum = 0 %}
+
+{% for key in 5..1 %}
+	{% if loop.last %}
+		{% set l_voters =  rest %}
+	{% else %}
+		{% set l_voters =  random(0..rest) %}
+	{% endif %}
+
+	{% set l_percent = ((l_voters / votes) * 100)|round(1,'floor') %}
+
+	{% set 
+		data = data|merge([{
+			label: key,
+			votes: l_voters, 
+			percent: l_percent
+		}])
+	%}
+	
+	{% set rest = rest -  l_voters %}
+	{% set sum = sum + (key * l_voters) %}
+	
+{% endfor %}
+
+{% set avg = (sum / votes)|round(1) %}
+{% set percent = ((avg * 100) / 5 )|round(10) %}
+
+{#{{  data|json_encode }}
+
+<div>
+	Votes => {{ votes }}
+</div>
+
+<div>
+	Avg => {{ avg }}
+</div>
+
+<div>
+	Percent => {{ percent }}
+</div> #} 
+
+<table style="font-size:12px;" width="100%" class="chart-plug">
+	<tr>
+		<td valign="top"  width="20%">
+			<div class="chart_jlj">
+				
+				<div class="chart_jlj_2">
+					{{ avg }} 
+				</div>
+
+				<div class="chart_jlj_2_n" >
+					<div class="chart_jlj_2_n_2" style="width:{{ percent }}px"></div>
+					<img class="chart_jlj_2_n_3 img-fluid" src="{{ asset('img/rating.png') }}" alt="">
+				</div>
+				
+				<div  class="badge badge-pill chart_jlj_3 text-white">
+					<i class="fas fa-user"></i> {{ votes }} Votes
+				</div>
+			</div>
+		</td>
+		<td valign="middle" width="80%" style="border-left:1px solid #E9EAED;padding:5px;color:#575757;text-align:left;">
+
+			{% for item in data %}
+				<table class="chart_jlj_4" width="100%">
+					<tr title="{{ item.votes }} votes">
+						<td width="30" valign="top">
+							{{ item.label }}&nbsp;<i  class="fa fa-star text-info" style="font-size:11px;"></i>
+						</td>
+
+						<td valign="top" align="left">
+							<div  class="chart_jlj_6 bg-info" style="width:{{ item.percent }}%;"></div> <span style="vertical-align:top">{{ item.votes }}</span>
+						</td>
+					</tr>
+				</table>
+			{% endfor %}
+		</td>
+	</tr>
+</table>

@@ -430,7 +430,15 @@
 
                             <div style="display:inline-block;position:relative;" class="dropper">
                                 {{ form_widget(form.portraitImg) }}
-                                <div class="dropper-target" id="vignette-portrait"></div>
+
+
+                                <div class="dropper-target" id="vignette-portrait" 
+                                
+                                    {% if form.vars.value.portraitImg %}
+                                        style="background-image:url({{ asset('upload/public/'~form.vars.value.portraitImg) }})" 
+                                    {% endif %}
+
+                                ></div>
 
                                 <div class="prs_upcom_video_img_cont_over">
                                     <h2>Image à charger 270x360</h2>
@@ -448,7 +456,13 @@
                             <div style="display:inline-block;position:relative;" class="dropper">
                                 {{ form_widget(form.landscapeImg) }}
 
-                                <div class="dropper-target" id="vignette-landscape"></div>
+                                <div class="dropper-target" id="vignette-landscape" 
+                                
+                                    {% if form.vars.value.landscapeImg %}
+                                        style="background-image:url({{ asset('upload/public/'~form.vars.value.landscapeImg) }})" 
+                                    {% endif %}
+
+                                ></div>
 
                                 <div class="prs_upcom_video_img_cont_over">
                                     <h2>Image à charger 640x360</h2>
@@ -471,7 +485,13 @@
                         <div style="display:inline-block;position:relative;text-align:center" class="dropper">
                             {{ form_widget(form.coverImg) }}
                             
-                            <div class="dropper-target" id="vignette-cover"></div>
+                            <div class="dropper-target" id="vignette-cover" 
+                            
+                                {% if form.vars.value.coverImg %}
+                                    style="background-image:url({{ asset('upload/public/'~form.vars.value.coverImg) }})" 
+                                {% endif %}
+
+                            ></div>
 
                             <div class="prs_upcom_video_img_cont_over">
                                 <h2>Image à charger 1920x1080</h2>

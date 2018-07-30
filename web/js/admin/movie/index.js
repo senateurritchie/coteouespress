@@ -69,6 +69,7 @@ $(document).ready(function($){
 			});
 		}
 	});
+	var modal = $("#modal-loading");
 
 	$("#data-container .data-item .edit").on({
 		click:function(e){
@@ -78,18 +79,23 @@ $(document).ready(function($){
 			self.addClass('disabled');
 			var id = self.parents("tr").data('id');
 
-			rightSection.addClass('data-loading');
+			modal.modal({backdrop:'static',show:true});
 
 			repository.find(id)
 			.then(data=>{
-				rightSection.addClass('data-active');
-				rightSection.removeClass('data-loading');
 				self.removeClass('disabled');
 				repository.setCurrent(data.model);
-				view.renderSelectedData(data.view);
+				var fn = (e)=> {
+					$('#modal-loading').off('hidden.bs.modal',fn);
+	  				view.renderSelectedData(data.view);
+				};
+
+				$('#modal-loading').on('hidden.bs.modal',fn);
+
+				modal.modal('hide');
+				
 			},msg=>{
-				rightSection.removeClass('data-active');
-				rightSection.removeClass('data-loading');
+				modal.modal('hide');
 				self.removeClass('disabled');
 			})
 		}

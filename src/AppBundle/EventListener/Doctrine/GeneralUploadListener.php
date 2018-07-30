@@ -22,17 +22,21 @@ class GeneralUploadListener{
 
     public function prePersist(LifecycleEventArgs $args){
         $entity = $args->getEntity();
+                var_dump("on rentre ");
 
         $this->uploadFile($entity);
     }
 
     public function preUpdate(PreUpdateEventArgs $args){
         $entity = $args->getEntity();
-        
+                var_dump("on rentre 2 ");
+
+
         $this->uploadFile($entity);
     }
 
     public function postLoad(LifecycleEventArgs $args){
+
         $entity = $args->getEntity();
         $fileName = null;
 

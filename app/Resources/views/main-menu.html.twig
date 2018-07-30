@@ -5,136 +5,142 @@
 </style>
 
 <div id="master-menu" >
-	<div class="row">
-		<div class="col-md-2 offset-2">
-			<a href="{{ path('homepage') }}" id="header-logo">
-				<img width="133" height="42" src="{{ asset('img/logo.png')}}" alt="logo">
-			</a>
-		</div>
-
-		<div class="col-md-6 d-flex align-items-center">
-			<nav>
-				<ul class="d-flex align-items-center mb-0">
-					
-					<li>
-						<a href="{{ path("catalogue_index") }}">
-							{{'Programmes'|trans({},'main-menu')}}
-						</a>
-					</li>
-
-					<li>
-						<a href="{{ path("presentation") }}">
-							{{'presentation'|trans({},'main-menu')}}
-						</a>
-					</li>
-
-					<li class="nav-contacts">
-						<a href="{{ path("contact_index") }}">
-							{{'contacts'|trans({},'main-menu')}}
-						</a>
-					</li>
-				</ul>
-			</nav>
-
-			<div id="langs" class="d-none d-md-block">
-				<a href="{{ path('switch_lang',{'lang_dest':'fr'}) }}"><i class="flag flag-fr {{ app.request.getLocale() == 'fr'?'active':''}}"></i></a>
-				&nbsp;&nbsp;
-				<a href="{{ path('switch_lang',{'lang_dest':'en'}) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2 text-right">
+				<a href="{{ path('homepage') }}" id="header-logo">
+					<img width="133" height="42" src="{{ asset('img/logo.png')}}" alt="logo">
+				</a>
 			</div>
 
-			<form  method="GET" action="{{ path('catalogue_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
-				<input  name="name" type="search" placeholder="Rechercher" value="{{ app.request.query.get('name') }}">
-			</form>
+			<div class="col-md-9 d-flex align-items-center">
+				<nav>
+					<ul class="d-flex align-items-center mb-0">
+						
+						<li>
+							<a href="{{ path("catalogue_index") }}">
+								{{'Programmes'|trans({},'main-menu')}}
+							</a>
+						</li>
 
+						<li>
+							<a href="{{ path("presentation") }}">
+								{{'presentation'|trans({},'main-menu')}}
+							</a>
+						</li>
 
-			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
-				<div class="btn-group homepage-user-info ml-auto">
-					<a  href="" class="d-none d-md-block rounded-circle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img style="height:40px;width40px;"  class="rounded-circle" src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user">
-					</a>
+						<li class="nav-contacts">
+							<a href="{{ path("contact_index") }}">
+								{{'contacts'|trans({},'main-menu')}}
+							</a>
+						</li>
+					</ul>
+				</nav>
 
-					<div class="dropdown-menu dropdown-user animated dropdown-menu-right">
-		                <div class="dropdown-item">
-		                    <div class="dw-user-box">
-		                        <div class="u-img"><img src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user"></div>
-		                        <div class="u-text">
-		                            <h4>{{app.user.username|title}}</h4>
-		                            <p class="text-muted">
-		                            	
-		                            	{% if is_granted('ROLE_SUPER_ADMIN') %}
-		                                    <small>Super administrateur</small>
-		                                {% elseif is_granted('ROLE_ADMIN') %}
-		                                    <small>Administrateur</small>
-		                                {% elseif is_granted('ROLE_TRANSLATOR') %}
-		                                    <small>Traducteur</small>
-		                                {% elseif is_granted('ROLE_SALER') %}
-		                                    <small>Commercial</small>
-		                                {% elseif is_granted('ROLE_CATALOG') %}
-		                                    <small>Catalogue</small>
-		                                {% elseif is_granted('ROLE_PRODUCER') %}
-		                                     <small>Producteur</small>
-		                                {% elseif is_granted('ROLE_ACTOR') %}
-		                                    <small>Acteur</small>
-		                                {% elseif is_granted('ROLE_CREATOR') %}
-		                                    <small>Créateur</small>
-		                                {% elseif is_granted('ROLE_DIRECTOR') %}
-		                                    <small>Réalisateur</small>
-		                                {% elseif is_granted('ROLE_SUBSCRIBER') %}
-		                                    <small>Abonné</small>
-		                                {% else %}
-		                            		<small>Anonyme</small>
-		                            	{% endif %}
-		                            </p>
-
-		                           
-		                    		<a href="{{ path('account_index')}}" class="btn btn-danger btn-primary btn-sm">
-		                        		Mon compte
-		                        	</a>
-
-		                           
-		                        </div>
-		                    </div>
-		                </div>
-
-		               
-
-		                <div role="separator" class="dropdown-divider"></div>
-
-		                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_TRANSLATOR') or is_granted('ROLE_CATALOG') %}
-		            		<a class="dropdown-item" href="{{ path('admin_index')}}">
-		               			<!--i class="fas fa-envelope"--></i> Espace d'administration
-		               		</a>
-		            	
-		            	{% endif %}
-
-
-		               	<a class="dropdown-item" href="{{ path('account_inbox')}}">
-		               		<!--i class="fas fa-envelope"--></i> Boite de reception
-		               	</a>
-		                
-		                <a class="dropdown-item" href="{{ path('account_profile')}}">
-		                	<!--i class="fas fa-cogs"></i--> Modifier mon profil
-		                </a>
-
-		                <a class="dropdown-item" href="{{ path('account_settings')}}">
-		                	<!--i class="fas fa-atlas"></i--> Générer le catalogue
-		                </a>
-
-		                <div role="separator" class="dropdown-divider"></div>
-
-		                <a class="dropdown-item" href="{{ logout_path() }}">
-		                	<i class="fa fa-power-off"></i> Se deconnecter
-		                </a>
-		            </div>
+				<div id="langs" class="d-none d-md-block">
+					<a href="{{ path('switch_lang',{'lang_dest':'fr'}) }}"><i class="flag flag-fr {{ app.request.getLocale() == 'fr'?'active':''}}"></i></a>
+					&nbsp;&nbsp;
+					<a href="{{ path('switch_lang',{'lang_dest':'en'}) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
 				</div>
-			{% else %}
-				<a href="{{ path('security_login') }}" class="badge badge-primary text-center d-none d-md-block rounded-circle" style="font-size: 14px;" >
-					<i class="fas fa-user text-white"></i>
-				</a>
-			{% endif %}
-		</div>
 
-		
+				<form  method="GET" action="{{ path('catalogue_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
+					<input  name="name" type="search" placeholder="Rechercher un programme..." value="{{ app.request.query.get('name') }}">
+				</form>
+
+
+				
+			</div>
+
+			<div class="col-md-1 text-left">
+				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+					<div class="btn-group homepage-user-info ml-auto">
+						<a  href="" class="d-none d-md-block rounded-circle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<img style="height:40px;width40px;"  class="rounded-circle" src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user">
+						</a>
+
+						<div class="dropdown-menu dropdown-user animated dropdown-menu-right">
+			                <div class="dropdown-item">
+			                    <div class="dw-user-box">
+			                        <div class="u-img"><img src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user"></div>
+			                        <div class="u-text">
+			                            <h4>{{app.user.username|title}}</h4>
+			                            <p class="text-muted">
+			                            	
+			                            	{% if is_granted('ROLE_SUPER_ADMIN') %}
+			                                    <small>Super administrateur</small>
+			                                {% elseif is_granted('ROLE_ADMIN') %}
+			                                    <small>Administrateur</small>
+			                                {% elseif is_granted('ROLE_TRANSLATOR') %}
+			                                    <small>Traducteur</small>
+			                                {% elseif is_granted('ROLE_SALER') %}
+			                                    <small>Commercial</small>
+			                                {% elseif is_granted('ROLE_CATALOG') %}
+			                                    <small>Catalogue</small>
+			                                {% elseif is_granted('ROLE_PRODUCER') %}
+			                                     <small>Producteur</small>
+			                                {% elseif is_granted('ROLE_ACTOR') %}
+			                                    <small>Acteur</small>
+			                                {% elseif is_granted('ROLE_CREATOR') %}
+			                                    <small>Créateur</small>
+			                                {% elseif is_granted('ROLE_DIRECTOR') %}
+			                                    <small>Réalisateur</small>
+			                                {% elseif is_granted('ROLE_SUBSCRIBER') %}
+			                                    <small>Abonné</small>
+			                                {% else %}
+			                            		<small>Anonyme</small>
+			                            	{% endif %}
+			                            </p>
+
+			                           
+			                    		<a href="{{ path('account_index')}}" class="btn btn-danger btn-primary btn-sm">
+			                        		Mon compte
+			                        	</a>
+
+			                           
+			                        </div>
+			                    </div>
+			                </div>
+
+			               
+
+			                <div role="separator" class="dropdown-divider"></div>
+
+			                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_TRANSLATOR') or is_granted('ROLE_CATALOG') %}
+			            		<a class="dropdown-item" href="{{ path('admin_index')}}">
+			               			<!--i class="fas fa-envelope"--></i> Espace d'administration
+			               		</a>
+			            	
+			            	{% endif %}
+
+
+			               	<a class="dropdown-item" href="{{ path('account_inbox')}}">
+			               		<!--i class="fas fa-envelope"--></i> Boite de reception
+			               	</a>
+			                
+			                <a class="dropdown-item" href="{{ path('account_profile')}}">
+			                	<!--i class="fas fa-cogs"></i--> Modifier mon profil
+			                </a>
+
+			                <a class="dropdown-item" href="{{ path('account_settings')}}">
+			                	<!--i class="fas fa-atlas"></i--> Générer le catalogue
+			                </a>
+
+			                <div role="separator" class="dropdown-divider"></div>
+
+			                <a class="dropdown-item" href="{{ logout_path() }}">
+			                	<i class="fa fa-power-off"></i> Se deconnecter
+			                </a>
+			            </div>
+					</div>
+				{% else %}
+					<a href="{{ path('security_login') }}" class="badge badge-primary text-center d-none d-md-block rounded-circle" style="font-size: 14px;" >
+						<i class="fas fa-user text-white"></i>
+					</a>
+				{% endif %}
+			</div>
+
+			
+		</div>
 	</div>
 </div>
 

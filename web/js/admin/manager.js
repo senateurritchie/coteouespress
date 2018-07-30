@@ -5,6 +5,7 @@ var AdminManager = AdminManager || {};
 	// namespace initial de l'espace d'administration
 	nsp.container;
 	nsp.fn = {};
+	nsp.plugins = {};
 	nsp.utilis = {
 	  	merge:function(target={},source={}){
 	   		for(let i in source){

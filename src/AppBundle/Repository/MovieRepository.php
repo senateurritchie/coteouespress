@@ -37,6 +37,10 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		->leftJoin("m.category","category")
 		->addSelect("category");
 
+        // recherche par id
+        if(@$params["id"]){
+            $this->whereId($qb,@$params["id"]);
+        }
 
 		// recherche par terms
 		if(@$params["name"]){
@@ -127,6 +131,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 	    return $query->getResult();
 	}
 
+    public function whereId(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("m.id",":id"))
+        ->setParameter("id",$value);
+    }
+
 	public function whereTerms(QueryBuilder $qb,$value){
 
 		$qb->andWhere($qb->expr()->orX(
@@ -165,7 +174,10 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
   	}
 
 	public function whereCategory(QueryBuilder $qb,$value){
-		$qb->andWhere("category.slug = :category")
+
+        /*$qb->leftJoin("m.category","category")
+        ->addSelect("category")*/
+        $qb->andWhere("category.slug = :category")
 		->setParameter("category",$value);
   	}
 

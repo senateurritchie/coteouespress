@@ -152,10 +152,10 @@
           		</div>
           
           		<div class="modal-body">
-          			<h4>Voulez-vous vraiment supprimer ce trailer ?</h4>
+          			<h4>Voulez-vous vraiment supprimer ce programme ?</h4>
 
             		<p>
-            			Une fois l'action éfféctuée tout les programmes possedant ce trailer ne seront plus referencés.
+            			Attention cette action est irreversible, vous perdrez definitivement les données liées a ce programme.
             		</p>
 
           		</div>
@@ -166,6 +166,16 @@
             		</button>
 
             		<button type="submit" class="btn btn-outline">Valider</button>
+          		</div>
+        	</div>
+      	</div>
+    </div>
+
+    <div class="modal fade" id="modal-loading">
+    	<div class="modal-dialog">
+        	<div class="modal-content" style="background:none;box-shadow:none">
+          		<div class="modal-body text-center" style="background:none;color:#ffffff">
+					<i  class="fa fa-spinner fa-spin fa-5x text-white"></i>
           		</div>
         	</div>
       	</div>
@@ -174,38 +184,7 @@
     <div id="modal-update-area"></div>
     
     <div id="modal-add-area">
-    	
 	    {{ include('admin/movie/selected-view.html.twig') }}
-    </div>
-
-    <div class="modal modal-danger fade" id="myModal">
-    	<div class="modal-dialog">
-        	<div class="modal-content">
-          		<div class="modal-header">
-            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              			<span aria-hidden="true">×</span>
-              		</button>
-            		<h4 class="modal-title">Confirmation...</h4>
-          		</div>
-          
-          		<div class="modal-body">
-          			<h4>Voulez-vous vraiment supprimer ce trailer ?</h4>
-
-            		<p>
-            			Une fois l'action éfféctuée tout les programmes possedant ce trailer ne seront plus referencés.
-            		</p>
-
-          		</div>
-          
-          		<div class="modal-footer">
-            		<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
-            			Annuler
-            		</button>
-
-            		<button type="submit" class="btn btn-outline">Valider</button>
-          		</div>
-        	</div>
-      	</div>
     </div>
 
     {% for notice in app.flashes('notice-success') %}
@@ -226,6 +205,24 @@
 
 	<div class="row">
     	<div class="col-xs-12 col-md-12">
+
+
+    		<div class="row">
+    			<div class="col-md-12">
+    				<button  data-toggle="modal" data-backdrop="static" data-target="#modal-insert" class="btn btn-sm btn-primary">
+		  				<i class="fa fa-plus"></i> Nouveau
+		  			</button>
+
+		  			<button  data-toggle="modal" data-backdrop="static" data-target="#modal-loading" class="btn btn-sm btn-primary">
+		  				<i class="fa fa-plus"></i> Metadonnées
+		  			</button>
+    			</div>
+    		</div>
+
+    		<br>
+
+    		
+
         	<div class="box box-primary">
             	<div class="box-header">
               		<h3 class="box-title">Toutles programmes</h3>
@@ -237,6 +234,8 @@
 								<button  data-toggle="modal" data-backdrop="static" data-target="#modal-insert" class="btn btn-sm btn-primary">
 		              				<i class="fa fa-plus"></i> Nouveau
 		              			</button>
+
+		              			
 							</div>
 							<div class="col-md-8">
 								<form class="has-feedback" style="display:inline-block">

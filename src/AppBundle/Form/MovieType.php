@@ -305,10 +305,9 @@ class MovieType extends AbstractType
             "required"=>false,
             "mapped"=>false,
         ))
-        ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options){
+        ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options,&$languages){
             $movie = $event->getData();
             $form = $event->getForm();
-
 
             if (!$movie) {
                 return;
@@ -337,6 +336,7 @@ class MovieType extends AbstractType
                 ->remove('episode3');
             }
 
+
             if($movie->getCoverImg()){
                 $path = $options['upload_dir'].'/'.$movie->getCoverImg();
                 $movie->setCoverImg(new File($path));
@@ -351,6 +351,12 @@ class MovieType extends AbstractType
                 $path = $options['upload_dir'].'/'.$movie->getPortraitImg();
                 $movie->setPortraitImg(new File($path));
             }
+
+            if(($value = $movie->getOriginalLanguage())){
+                if(($key = array_search($value, $languages)) !== false){
+                    $movie->setOriginalLanguage($key);
+                }
+            }
         })
         ->addEventListener(FormEvents::SUBMIT,function(FormEvent $event)use(&$options,$languages){
             $data = $event->getData();
@@ -360,7 +366,6 @@ class MovieType extends AbstractType
                 $value = $languages[$key];
                 $data->setOriginalLanguage($value);
             }
-           
             $event->setData($data);
         });
 

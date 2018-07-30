@@ -295,11 +295,19 @@ var AdminManager = AdminManager || {};
                 autoplay:true,
             });
 
-            var vimeo = AdminManager.container.get('VimeoPlayer');
-            vimeo.init({
-            	container:$(".coa-player-thumbnail"),
-            	list:$(".coa-player .coa-player-thumbnail div > a")
-            });
+            var votePlug = new nsp.plugins.Voting();
+            votePlug.init();
+
+            if(vimeo){
+                var vimeo = AdminManager.container.get('VimeoPlayer');
+                vimeo.init({
+                    container:$(".coa-player-thumbnail"),
+                    list:$(".coa-player .coa-player-thumbnail div > a")
+                });
+            }
+            
+
+           
 
 			return this;
 		}
