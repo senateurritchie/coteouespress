@@ -223,6 +223,8 @@
                                                     Commercial
                                                 {% elseif is_granted('ROLE_SALE') %}
                                                     Commerciale
+                                                {% elseif is_granted('ROLE_OBSERVER') %}
+                                                    Observateur
                                                 
                                                 {% endif %} 
                                             </small>
@@ -335,7 +337,7 @@
                         </li>
 
 
-                        {% if is_granted('ROLE_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') or is_granted('ROLE_OBSERVER') %}
                             <li class="header">Le site</li>
 
                             <li class="{{ route == 'admin_role_index' ? 'active': ''}}">
@@ -358,9 +360,7 @@
                                     <span>Informations</span>
                                 </a>
                             </li>#}
-                        {% endif %}
 
-                        {% if is_granted('ROLE_ADMIN') %}
 
                             <li class="header">L'entreprise</li>
                         
@@ -383,59 +383,56 @@
                         <!-- Optionally, you can add icons to the links -->
                         
                         
-                        {% if is_granted('ROLE_CATALOG_INSERT') or is_granted('ROLE_CATALOG_READ') %}
+                        {% if is_granted('ROLE_CATALOG_INSERT') or is_granted('ROLE_OBSERVER_CATALOG') or is_granted('ROLE_OBSERVER') %}
                             
-                            {% if is_granted('ROLE_CATALOG_INSERT') %}
+                            <li class="{{ route == 'admin_genre_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_genre_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Genres</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_genre_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_genre_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Genres</span>
-                                    </a>
-                                </li>
+                            <li class="{{ route == 'admin_category_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_category_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Catégories</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_category_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_category_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Catégories</span>
-                                    </a>
-                                </li>
+                            <li class="{{ route == 'admin_country_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_country_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Pays</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_country_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_country_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Pays</span>
-                                    </a>
-                                </li>
+                            <li class="{{ route == 'admin_producer_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_producer_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Les Producteurs</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_producer_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_producer_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Les Producteurs</span>
-                                    </a>
-                                </li>
+                            <li class="{{ route == 'admin_director_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_director_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Les Réalisateurs</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_director_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_director_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Les Réalisateurs</span>
-                                    </a>
-                                </li>
+                            <li class="{{ route == 'admin_actor_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_actor_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Les Acteurs</span>
+                                </a>
+                            </li>
 
-                                <li class="{{ route == 'admin_actor_index' ? 'active': ''}}">
-                                    <a href="{{ path('admin_actor_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Les Acteurs</span>
-                                    </a>
-                                </li>
-
-                                 <li class="{{ route == 'admin_trailer_index' ? 'active': ''}}">
-                                    <a  href="{{ path('admin_trailer_index') }}">
-                                        <i class="fa fa-folder"></i> 
-                                        <span>Trailers</span>
-                                    </a>
-                                </li>
-                            {% endif %}
+                             <li class="{{ route == 'admin_trailer_index' ? 'active': ''}}">
+                                <a  href="{{ path('admin_trailer_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Trailers</span>
+                                </a>
+                            </li>
                             
                             <li class="{{ route == 'admin_movie_index' ? 'active': ''}}">
                                 <a href="{{ path('admin_movie_index') }}">

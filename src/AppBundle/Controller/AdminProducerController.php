@@ -25,6 +25,11 @@ class AdminProducerController extends Controller
     * @Route("/{producer_id}", requirements={"producer_id":"(\d+)?"}, name="index")
     */
     public function indexAction(Request $request,$producer_id=null){
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Producer::class);
 
@@ -104,8 +109,10 @@ class AdminProducerController extends Controller
     */
     public function updateAction(Request $request,$producer_id){
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
-
+        if($this->isGranted('ROLE_CATALOG_INSERT'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
+        }
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Producer::class);
@@ -145,7 +152,7 @@ class AdminProducerController extends Controller
     public function deleteAction(Request $request,$producer_id){
 
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Producer::class);

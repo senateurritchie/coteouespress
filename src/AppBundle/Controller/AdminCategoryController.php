@@ -23,6 +23,11 @@ class AdminCategoryController extends Controller
     * @Route("/{category_id}", requirements={"category_id":"(\d+)?"}, name="index")
     */
     public function indexAction(Request $request,$category_id=null){
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Category::class);
 
@@ -75,7 +80,10 @@ class AdminCategoryController extends Controller
     */
     public function updateAction(Request $request,$category_id){
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        if($this->isGranted('ROLE_CATALOG_INSERT'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
+        }
 
 
         $em = $this->getDoctrine()->getManager();
@@ -113,7 +121,7 @@ class AdminCategoryController extends Controller
     public function deleteAction(Request $request,$category_id){
 
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Category::class);

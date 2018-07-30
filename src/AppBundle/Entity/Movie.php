@@ -108,6 +108,14 @@ class Movie
     */
     private $hasExclusivity = 0;
 
+     /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
+    */
+    private $isPublished = 0;
+
     /**
     * @var string
     *
@@ -212,13 +220,7 @@ class Movie
     private $episode3;
 
 
-    /**
-    * @var boolean
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
-    */
-    private $isPublished = 0;
+   
 
 
     /**

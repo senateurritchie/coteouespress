@@ -24,6 +24,11 @@ class AdminUserController extends Controller
     * @Route("/{user_id}", requirements={"user_id":"(\d+)?"}, name="index")
     */
     public function indexAction(Request $request,$user_id=null){
+        if($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+        
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(User::class);
         $rep_role = $em->getRepository(Role::class);
@@ -112,7 +117,7 @@ class AdminUserController extends Controller
     */
     public function grantAction(Request $request,$user_id){
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
 
         $em = $this->getDoctrine()->getManager();
@@ -154,7 +159,7 @@ class AdminUserController extends Controller
     */
     public function revokeAction(Request $request,$user_id){
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(User::class);

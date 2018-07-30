@@ -19,6 +19,12 @@ class AdminRoleController extends Controller
     * @Route("/{role_id}", requirements={"role_id":"(\d+)?"}, name="index")
     */
     public function indexAction(Request $request,$role_id=null){
+
+        if($this->isGranted('ROLE_ADMIN') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Role::class);
 
@@ -73,8 +79,7 @@ class AdminRoleController extends Controller
     */
     public function updateAction(Request $request,$role_id){
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access this page!');
-
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Role::class);
@@ -110,9 +115,8 @@ class AdminRoleController extends Controller
     * @Method("POST")
     */
     public function deleteAction(Request $request,$role_id){
-
         // protection par role
-        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, 'Unable to access this page!');
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Role::class);

@@ -104,6 +104,18 @@
 			{% endif %}
 		</td>
 
+		<td class="data-item-exclusivity" style="vertical-align:middle;text-align:center" width="100">
+			{% if item.isPublished %}
+				<span class="label bg-green">
+					Publié
+				</span> 
+			{% else %}
+				<span class="label label-default">
+					Pre-modération
+				</span> 
+			{% endif %}
+		</td>
+
 		<td class="data-item-movies" style="vertical-align:middle;text-align:center">
 			
 			{% if item.trailer %}

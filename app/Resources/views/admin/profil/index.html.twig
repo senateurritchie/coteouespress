@@ -41,6 +41,8 @@
 			                    Réalisateur
 			                {% elseif is_granted('ROLE_SUBSCRIBER') %}
 			                    Abonné
+                            {% elseif is_granted('ROLE_OBSERVER') %}
+                                Observateur
 			                {% endif %} 
 		              	</p>
             		</div>

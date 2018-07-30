@@ -78,17 +78,14 @@ class MovieType extends AbstractType
         ->add('inTheather',CheckboxType::class,array(
             "label"=>"Programme à l'affiche",
             "required"=>false,
-            "data"=>false
         ))
         ->add('hasExclusivity',CheckboxType::class,array(
             "label"=>"Production à plébiciter",
             "required"=>false,
-            "data"=>false,
         ))
         ->add('isPublished',CheckboxType::class,array(
             "label"=>"Publier directement",
             "required"=>false,
-            "data"=>false,
         ))
         ->add('format',TextType::class,array(
             "attr"=>["placeholder"=>"Format","class"=>"input-sm"]
@@ -357,6 +354,11 @@ class MovieType extends AbstractType
                     $movie->setOriginalLanguage($key);
                 }
             }
+
+
+            $movie->setInTheather($movie->getInTheather()?true:false);
+            $movie->setHasExclusivity($movie->getHasExclusivity()?true:false);
+            $movie->setIsPublished($movie->getIsPublished()?true:false);
         })
         ->addEventListener(FormEvents::SUBMIT,function(FormEvent $event)use(&$options,$languages){
             $data = $event->getData();
