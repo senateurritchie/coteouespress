@@ -19,6 +19,7 @@ use AppBundle\Entity\MovieCountry;
 use AppBundle\Entity\MovieActor;
 use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieDirector;
+use AppBundle\Entity\MovieScene;
 
 
 
@@ -223,7 +224,7 @@ class AdminMovieController extends Controller
     }
 
     /**
-    * @Route("/update/{movie_id}", requirements={"movie_id":"\d+"}, name="update")
+    * @Route("/{movie_id}/update", requirements={"movie_id":"\d+"}, name="update")
     * @Method("POST")
     */
     public function updateAction(Request $request,$movie_id){
@@ -255,10 +256,12 @@ class AdminMovieController extends Controller
         
         foreach ($form->all() as $child) {
             if (!$child->isValid() && count($child->getErrors())) {
-                $result['errors'][] = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                $this->addFlash('notice-error',$formatted);
             }
         }
-        
+
+
         if($form->isSubmitted() && $form->isValid()){
             $date = new \Datetime();
             $em->merge($item);
@@ -422,6 +425,23 @@ class AdminMovieController extends Controller
 
 
             $em->flush();
+
+            if($oldCoverImg && $item->getCoverImg() && $item->getCoverImg() != $oldCoverImg){
+                $path = $this->getParameter('public_upload_directory').'/'.$oldCoverImg;
+                unlink($path);
+            }
+
+            if($oldCoverImg && $item->getLandscapeImg() && $item->getLandscapeImg() != $oldLandscapeImg){
+                $path = $this->getParameter('public_upload_directory').'/'.$oldLandscapeImg;
+                unlink($path);
+            }
+
+            if($oldCoverImg && $item->getPortraitImg() && $item->getPortraitImg() != $oldPortraitImg){
+                $path = $this->getParameter('public_upload_directory').'/'.$oldPortraitImg;
+                unlink($path);
+            }
+
+
             $this->addFlash('notice-success',"Votre programme a été mise à jour avec succes");
             return $this->redirectToRoute('admin_movie_index');
         }
@@ -430,7 +450,7 @@ class AdminMovieController extends Controller
     }
 
     /**
-    * @Route("/delete/{movie_id}", requirements={"movie_id":"\d+"}, name="delete")
+    * @Route("/{movie_id}/delete", requirements={"movie_id":"\d+"}, name="delete")
     * @Method("POST")
     */
     public function deleteAction(Request $request,$movie_id){
@@ -469,12 +489,32 @@ class AdminMovieController extends Controller
         $rep = $em->getRepository(Movie::class);
         $result = ["status"=>false];
 
-
-        /*if(!($item = $rep->find($movie_id))){
+        if(!($item = $rep->find($movie_id))){
             throw $this->createNotFoundException();
         }
 
-        $oldName = $item->getImage();
+        $_target = $request->request->get('_target');
+        $oldName = null;
+        
+        switch($_target){
+        
+            case "portrait":
+                $oldName = $item->getPortraitImg();
+            break;
+
+            case "landscape":
+                $oldName = $item->getLandscapeImga();
+            break;
+
+            case "cover":
+                $oldName = $item->getCoverImg();
+            break;
+
+            default:
+                goto upload_end;
+            break;
+        }
+
 
         $form = $this->createForm(MovieType::class,$item,array(
             //'csrf_protection' => false,
@@ -483,7 +523,6 @@ class AdminMovieController extends Controller
         ));
         //$form->submit($request->files->all());
         $form->handleRequest($request);
-
 
         foreach ($form->all() as $child) {
             if (!$child->isValid()) {
@@ -495,16 +534,318 @@ class AdminMovieController extends Controller
             $em->merge($item);
             $em->flush();
 
-            if($oldName && $oldName != $item->getImage()){
-                $path = $this->getParameter('public_upload_directory').'/'.$oldName;
-                unlink($path);
+            switch($_target){
+        
+                case "portrait":
+                    if($oldName && $oldName != $item->getPortraitImg()){
+                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        unlink($path);
+                    }
+                break;
+
+                case "landscape":
+                    if($oldName && $oldName != $item->getLandscapeImga()){
+                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        unlink($path);
+                    }
+                break;
+
+                case "cover":
+                    if($oldName && $oldName != $item->getCoverImg()){
+                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        unlink($path);
+                    }
+                break;
             }
 
             $result['status'] = true;
             $result['message'] = "modification effectuée avec succès";
             $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);
-        }*/
+        }
 
+        upload_end:
+
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/gallery/upload", requirements={"movie_id":"\d+"}, name="upload")
+    * @Method("POST")
+    */
+    public function galleryUploadAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $result = ["status"=>false];
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException();
+        }
+
+        $form = $this->createForm(MovieType::class,$item,array(
+            'csrf_protection' => false,
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+            "use_for"=>"upload_gallery",
+        ));
+        $form->handleRequest($request);
+        //$form->submit($request->files->all(),false);
+
+
+        foreach ($form->all() as $child) {
+
+            if (!$child->isValid()) {
+                $result['errors'][] = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+            }
+        }
+
+        if($form->isSubmitted() && $form->get('gallery')->isValid()){
+
+            $galleries = $form->get("gallery")->getData();
+
+            if(count($galleries)){
+                $items;
+                $date = new \Datetime();
+
+                foreach ($galleries as $key => $el) {
+                    $e = new MovieScene();
+                    $e->setMovie($item);
+                    $e->setImage($el);
+                    $e->setCreateAt($date);
+                    $em->persist($e);
+                    $items = $e;
+                }
+
+                $result['status'] = true;
+                $result['message'] = "modification effectuée avec succès";
+
+                $em->flush();
+
+                $result["data"] = json_decode($this->get("serializer")->serialize($items,'json',array("groups"=>["group1"])),true);
+
+            }
+        }
+
+        return $this->json($result);
+    }
+
+
+    /**
+    * @Route("/{movie_id}/gallery/delete", requirements={"movie_id":"\d+"}, name="gallery_delete")
+    * @Method("POST")
+    */
+    public function galleryDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_gallery = $em->getRepository(MovieScene::class);
+        $result = ["status"=>false];
+        $scene_id = intval($request->request->get('scene_id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($scene = $rep_gallery->findOneBy(["movie"=>$item,"id"=>$scene_id]))){
+            throw $this->createNotFoundException("Photo de gallerie introuvable");
+        }
+
+        $em->remove($scene);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/language/delete", requirements={"movie_id":"\d+"}, name="language_delete")
+    * @Method("POST")
+    */
+    public function languageDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieLanguage::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Langue introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/actor/delete", requirements={"movie_id":"\d+"}, name="actor_delete")
+    * @Method("POST")
+    */
+    public function actorDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieActor::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Acteur introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/genre/delete", requirements={"movie_id":"\d+"}, name="genre_delete")
+    * @Method("POST")
+    */
+    public function genreDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieGenre::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Genre introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/producer/delete", requirements={"movie_id":"\d+"}, name="producer_delete")
+    * @Method("POST")
+    */
+    public function producerDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieProducer::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Producteur introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/country/delete", requirements={"movie_id":"\d+"}, name="country_delete")
+    * @Method("POST")
+    */
+    public function countryDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieCountry::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Pays introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/director/delete", requirements={"movie_id":"\d+"}, name="director_delete")
+    * @Method("POST")
+    */
+    public function directorDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieDirector::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Réalisateur introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
         return $this->json($result);
     }
 }

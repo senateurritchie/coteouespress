@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 /**
  * MovieScene
@@ -14,17 +15,19 @@ use Symfony\Component\Validator\Constraints as Assert;
 class MovieScene
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
 
     /**
     * @var AppBundle\Entity\Movie
     *
+    * @Groups({"group2"})
     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Movie", inversedBy="scenes")
     * @ORM\JoinColumn(onDelete="CASCADE")
     */
@@ -32,17 +35,19 @@ class MovieScene
 
    /**
     * @var string
-    *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
+    * @Assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"})
     */
     private $image;
+    // ,minWidth=640,maxWidth=640, minHeight=360,maxHeight=360
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
 

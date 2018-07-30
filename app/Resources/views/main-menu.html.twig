@@ -51,11 +51,11 @@
 				
 			</div>
 
-			<div class="col-md-1 text-left">
+			<div class="col-md-1 text-left align-self-center">
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<div class="btn-group homepage-user-info ml-auto">
 						<a  href="" class="d-none d-md-block rounded-circle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img style="height:40px;width40px;"  class="rounded-circle" src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user">
+							<img style="height:40px;width:40px;"  class="rounded-circle" src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user">
 						</a>
 
 						<div class="dropdown-menu dropdown-user animated dropdown-menu-right">
@@ -133,7 +133,7 @@
 			            </div>
 					</div>
 				{% else %}
-					<a href="{{ path('security_login') }}" class="badge badge-primary text-center d-none d-md-block rounded-circle" style="font-size: 14px;" >
+					<a href="{{ path('security_login') }}" class="badge badge-primary text-center d-none d-md-block rounded-circle" style="font-size: 18px;height:30px;width:30px" >
 						<i class="fas fa-user text-white"></i>
 					</a>
 				{% endif %}

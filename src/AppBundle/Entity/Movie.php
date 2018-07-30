@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"slug","synopsis"},flags={"fulltext"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Movie
 {
@@ -161,7 +162,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=500)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1024, minHeight=500)
     */
     private $coverImg;
 
@@ -1105,5 +1106,16 @@ class Movie
     public function getAudience()
     {
         return $this->audience;
+    }
+
+
+    /**
+     *
+     * @ORM\PreUpdate
+     */
+    public function preUpdate(){
+        $this->coverImg = basename($this->coverImg);
+        $this->portraitImg = basename($this->portraitImg);
+        $this->landscapeImg = basename($this->landscapeImg);
     }
 }

@@ -294,7 +294,7 @@ class MovieType extends AbstractType
         ->add('gallery',CollectionType::class,array(
             'entry_type' => FileType::class,
             'entry_options' => array(
-                "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"]
+                "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"],
             ),
             "allow_add"=>true,
             "allow_delete"=>true,
@@ -310,27 +310,44 @@ class MovieType extends AbstractType
                 return;
             }
 
-            if(@$options["use_for"] == "upload"){
+            if(in_array(@$options["use_for"], ["upload","upload_gallery"])) {
                 $form
+                ->remove('name')
                 ->remove('category')
-                ->remove("name")
                 ->remove('originalName')
                 ->remove('synopsis')
+                ->remove('reward')
+                ->remove('award')
+                ->remove('audience')
                 ->remove('inTheather')
                 ->remove('hasExclusivity')
+                ->remove('isPublished')
                 ->remove('format')
-                ->remove('trailer')
                 ->remove('year_start')
                 ->remove('year_end')
                 ->remove('mention')
                 ->remove('originalLanguage')
-                ->remove('coverImg')
-                ->remove('landscapeImg')
-                ->remove('portraitImg')
                 ->remove('trailer')
                 ->remove('episode1')
                 ->remove('episode2')
-                ->remove('episode3');
+                ->remove('episode3')
+                ->remove('producers')
+                ->remove('actors')
+                ->remove('directors')
+                ->remove('languages')
+                ->remove('countries')
+                ->remove('genres');
+            }
+
+            if($options["use_for"] == "upload_gallery") {
+                $form
+                ->remove('coverImg')
+                ->remove('landscapeImg')
+                ->remove('portraitImg');
+            }
+            else if($options["use_for"] == "upload") {
+                $form
+                ->remove('gallery');
             }
 
 

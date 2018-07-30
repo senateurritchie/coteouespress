@@ -15,8 +15,24 @@ $(document).ready(function($){
 	});
 
 	view.subscribe(event=>{
+		
+		if(event instanceof nsp.MovieSceneDeletingEvent){
+			if(event.params.state != "start") return;
+			repository.customRequest(event)
+			.then(data=>{
 
-		if(event instanceof nsp.UploadEvent){
+				view.emit(new nsp.MovieSceneDeletingEvent({
+					state:'end',
+					data:data
+				}));
+
+			},msg=>{
+				view.emit(new nsp.MovieSceneDeletingEvent({
+					state:'fails',
+				}));
+			});
+		}
+		else if(event instanceof nsp.UploadEvent){
 			if(event.params.state != "start") return;
 
 			repository.uploadImage(event)
@@ -24,7 +40,8 @@ $(document).ready(function($){
 
 	    		view.emit(new nsp.UploadEvent({
 					state:'end',
-					data:data
+					data:data,
+					file:event.params.file,
 				}));
 
 	    	},msg=>{

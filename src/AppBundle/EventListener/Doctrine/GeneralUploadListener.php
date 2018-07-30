@@ -11,6 +11,7 @@ use AppBundle\Entity\Producer;
 use AppBundle\Entity\Actor;
 use AppBundle\Entity\MovieTrailer;
 use AppBundle\Entity\Movie;
+use AppBundle\Entity\MovieScene;
 use AppBundle\Services\FileUploader;
 
 class GeneralUploadListener{
@@ -22,15 +23,11 @@ class GeneralUploadListener{
 
     public function prePersist(LifecycleEventArgs $args){
         $entity = $args->getEntity();
-                var_dump("on rentre ");
-
         $this->uploadFile($entity);
     }
 
     public function preUpdate(PreUpdateEventArgs $args){
         $entity = $args->getEntity();
-                var_dump("on rentre 2 ");
-
 
         $this->uploadFile($entity);
     }
@@ -40,10 +37,13 @@ class GeneralUploadListener{
         $entity = $args->getEntity();
         $fileName = null;
 
-        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer)) {
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
 
         }
         else if($entity instanceof Movie){
+
+        }
+        else if($entity instanceof MovieScene){
 
         }
     }
@@ -51,7 +51,7 @@ class GeneralUploadListener{
     public function postRemove(LifecycleEventArgs $args){
         $entity = $args->getEntity();
 
-        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer)) {
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
             
             if(($fileName = $entity->getImage())){
                 $this->uploader->remove($fileName);
@@ -72,7 +72,7 @@ class GeneralUploadListener{
 
     private function uploadFile($entity){
         
-        if ($entity instanceof Director || $entity instanceof Producer || $entity instanceof Actor ||  $entity instanceof MovieTrailer) {
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
 
             $file = $entity->getImage();
 
