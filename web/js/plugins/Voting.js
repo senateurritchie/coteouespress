@@ -21,7 +21,7 @@ var AdminManager = AdminManager || {};
         }
 
 		Voting.prototype.controller = function(){
-            var stars = $(this.params.selector+' > i');
+            var stars = $(this.params.selector+' > a > i');
             this.stars = stars;
             stars.each((i,el)=>{
                 $(el).on({
@@ -33,8 +33,6 @@ var AdminManager = AdminManager || {};
                     }
                 });
             });
-
-           
 
 			return this;
 		}

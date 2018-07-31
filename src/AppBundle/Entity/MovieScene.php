@@ -37,10 +37,9 @@ class MovieScene
     * @var string
     * @Groups({"group1","group2"})
     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-    * @Assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"})
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
-    // ,minWidth=640,maxWidth=640, minHeight=360,maxHeight=360
 
     /**
     * @var \DateTime

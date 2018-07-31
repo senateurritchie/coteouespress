@@ -295,6 +295,8 @@ var AdminManager = AdminManager || {};
                 autoplay:true,
             });
 
+            $('[data-toggle=tooltip]').tooltip();
+
             var votePlug = new nsp.plugins.Voting();
             votePlug.init();
 

@@ -262,9 +262,9 @@
                             {{ form_label(form.languages) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.languages %}
-                                        <div class="label label-info old-value">
+                                        <div class="label label-info old-value" data-id="{{ item.id }}">
                                             {{ item.language.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;
@@ -293,9 +293,9 @@
                             {{ form_label(form.genres) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.genres %}
-                                        <div class="badge label-info old-value">
+                                        <div class="badge label-info old-value" data-id="{{ item.id }}">
                                             {{ item.genre.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;
@@ -322,9 +322,9 @@
                             {{ form_label(form.countries) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.countries %}
-                                        <div class="badge label-info old-value">
+                                        <div class="badge label-info old-value" data-id="{{ item.id }}">
                                             {{ item.country.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;
@@ -355,9 +355,9 @@
                             {{ form_label(form.actors) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.actors %}
-                                        <div class="badge label-info old-value">
+                                        <div class="badge label-info old-value" data-id="{{ item.id }}">
                                             {{ item.actor.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;
@@ -385,9 +385,9 @@
                             {{ form_label(form.producers) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.producers %}
-                                        <span class="badge label-info old-value">
+                                        <span class="badge label-info old-value" data-id="{{ item.id }}">
                                             {{ item.producer.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;
@@ -416,9 +416,9 @@
                             {{ form_label(form.directors) }}
 
                             {% if use_modal is not defined %}
-                                <div class="form-group">
+                                <div class="form-group collection-badge">
                                     {% for item in data.directors %}
-                                        <span class="badge label-info old-value">
+                                        <span class="badge label-info old-value" data-id="{{ item.id }}">
                                             {{ item.director.name|lower|title }} 
                                             
                                             &nbsp;&nbsp;

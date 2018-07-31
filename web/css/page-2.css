@@ -16,7 +16,8 @@ header #master-cover{
 
 header #movie-profil{
 	top: 300px;
-	width: 20%;
+	/*width: 20%;*/
+	width: 270px;
 	text-align: center;
 	position: absolute;
 	z-index: 1;
@@ -143,7 +144,6 @@ section{
 
 .block#other-movies{
 	padding-left: 65px !important; 
-	padding-right: 50px !important; 
 	margin-top: 0px;
 	margin-bottom: 10px;
 }

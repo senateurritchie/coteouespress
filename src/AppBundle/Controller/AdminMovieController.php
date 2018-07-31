@@ -603,6 +603,8 @@ class AdminMovieController extends Controller
 
         if($form->isSubmitted() && $form->get('gallery')->isValid()){
 
+            $item->preUpdate();
+
             $galleries = $form->get("gallery")->getData();
 
             if(count($galleries)){

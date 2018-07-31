@@ -582,6 +582,82 @@ var AdminManager = AdminManager || {};
     			}
     		});
 
+    		$("body").on("click","#modal-update .has-collection .collection-badge .old-value a",e=>{
+    			e.preventDefault();
+
+    			var obj = $(e.target);
+    			var parentModal = obj.parents("#modal-update");
+    			var collectionModal = $("#modal-update-collection");
+    			var oldValue = obj.parents(".old-value:first");
+    			var parentOldvalue = oldValue.parent();
+    			var dataEvent = obj.data('event');
+    			var dataId = oldValue.data('id');
+
+    			var removeCbk = function(){
+    				oldValue.remove();
+	    			var counter = dropper.find(".scene-thumbnail").length;
+	    			if(counter == 0){
+	    				dropper.removeClass('dropped');
+	    			}
+    			};
+
+				parentModal.off('shown.bs.modal');
+
+    			var _shownFn = (ee)=>{
+					parentModal.animate({ scrollTop: dropper.offset().top }, 1000);
+				};
+
+				parentModal.on('shown.bs.modal', _shownFn);
+
+    			if(oldValue.length && dataId){
+    				collectionModal.attr('data-id',dataId);
+
+    				var fn = (e)=>{
+
+    					var shownFn = (ee)=>{
+    						var submitBtn = collectionModal.find('button[type=submit]');
+    						submitBtn.on({
+    							click:ee=>{
+    								ee.preventDefault();
+
+    								removeCbk();
+    								submitBtn.off();
+
+    								this.emit(new nsp[dataEvent]({
+										state:'start',
+										model:{
+											scene_id:dataId
+										},
+									}));
+
+    								collectionModal.modal("hide");
+    							}
+    						});
+    					};
+
+    					collectionModal.on('shown.bs.modal', shownFn);
+    					collectionModal.modal("show");
+
+    					parentModal.off('hidden.bs.modal', fn);
+
+    					var fn2 = (ee)=>{
+    						collectionModal.off('hidden.bs.modal', fn2);
+    						collectionModal.off('shown.bs.modal', shownFn);
+    						collectionModal.modal("show");
+    						collectionModal.attr('data-id',null);
+    					};
+
+    					collectionModal.on('hidden.bs.modal', fn2);
+    				};
+
+    				parentModal.on('hidden.bs.modal', fn);
+    				parentModal.modal("hide");
+    			}
+    			else{
+    				removeCbk();
+    			}
+    		});
+
 			
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{

@@ -23,7 +23,7 @@
             box-shadow: none !important;
         }
 
-        .prs_vp_slidebar_wrapper .has-media-detail a{
+        .prs_vp_slidebar_wrapper .has-media-detail a,.movie-gallery a{
             float:left;
             width:30px;
             height:30px;
@@ -47,7 +47,7 @@
             transition:all 0.45s linear;
             outline: none;
         }
-        .prs_vp_slidebar_wrapper .has-media-detail:hover  a{
+        .prs_vp_slidebar_wrapper .has-media-detail:hover  a,.movie-gallery:hover a{
             opacity:1;
             z-index:100;
             -webkit-transition:all 0.45s linear;
@@ -57,7 +57,7 @@
             transition:all 0.45s linear;
         }
 
-        .vp_center_slider .has-media-detail a{
+        .vp_center_slider .has-media-detail a,.movie-gallery a{
             top: 50%;
         }
         
@@ -72,7 +72,7 @@
         {{ include('main-menu.html.twig') }}
         
         {% if programme.coverImg %}
-            <div id="master-cover" style="background-image:url({{ asset('upload/public/'~programme.coverImg) }})"></div>
+            <div id="master-cover" style="background-image:url({{ asset('upload/public/'~programme.coverImg) }});background-position:left -100px;"></div>
         {% else %}
             <div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>
         {% endif %}
@@ -81,13 +81,13 @@
         <div id="movie-profil" class="d-none d-md-block shadow-effect2">
             <div class="card text-left border-0" >
 
-                <div style="overflow: hidden;height: 250px">
+                <div style="overflow: hidden;height: 250px;box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12),0 2px 4px 0 rgba(0,0,0,0.08);">
 
-                    {% if programme.coverImg %}
-                        <img  alt="{{ programme.name|lower|title }}" class="card-img-top" src="{{ asset('upload/public/'~programme.portraitImg)}}">
+                    {% if programme.portraitImg %}
+                        <img  alt="{{ programme.name|lower|title }}" class="img-fluid" src="{{ asset('upload/public/'~programme.portraitImg)}}">
 
                     {% else %}
-                        <img alt="{{ programme.name|lower|title }}" class="card-img-top" src="{{ asset('img/vignette.png')}}">
+                        <img alt="{{ programme.name|lower|title }}" style="margin-top:-50px" src="{{ asset('img/vignette.png')}}">
                     {% endif %}
 
                 </div>
@@ -261,16 +261,31 @@
             <div class="col-md-9 col-sm-12">
 
                 <section id="movie-title">
-                    <h2>{{programme.name|lower|title}}</h2>
+                    <h2>{{ programme.name|lower|title }}</h2>
 
                     <span class="position-relative voting-plug text-info">
                         {% for item in 1..5 %}
-                            <i class="far fa-star"></i>
+                            <a href="" data-toggle="tooltip" class="text-info" 
+
+                            {% if loop.index == 1 %}
+                                data-title="Mauvais" 
+                            {% elseif loop.index == 2 %}
+                                data-title="Acceptable" 
+                            {% elseif loop.index == 3 %}
+                                data-title="Correct" 
+                            {% elseif loop.index == 4 %}
+                                data-title="Tres-bien" 
+                            {% elseif loop.index == 5 %}
+                                data-title="Excellent" 
+                            {% endif %}
+
+                            style="text-decoration:none">
+                                <i class="far fa-star"></i>
+                            </a>
                         {% endfor %}
                     </span>
 
-                    <div class="movie-vote text-info">
-                        
+                    {#<div class="movie-vote text-info">
                         <div class="row">
                             <div class="col-md-8 pr-2">
                                 {{ include('catalogue/chart.html.twig') }}
@@ -279,7 +294,7 @@
                                 
                             </div>
                         </div>
-                    </div>
+                    </div>#}
                 </section>
 
                 <section style="padding: 15px" id="movie-player">
@@ -294,7 +309,7 @@
                                 <div class="list-group">
                                     
                                     <a data-id="205265379" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center active">
-                                        <img   src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }} vvbsjvksjvkjsbvksbfvksfbvkjsfvbksjvbkjsv<br><small>Trailer</small></span>
+                                        <img   src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }}<br><small>Trailer</small></span>
                                     </a>
 
                                     <a data-id="253644176" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center">
@@ -447,7 +462,7 @@
                                         {{ programme.reward|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Oops</h4>
+                                            <h4 class="alert-heading">Information indisponible</h4>
                                           
                                             <p>
                                                 Faites une requete de modification pour cette section.
@@ -468,7 +483,7 @@
                                         {{ programme.award|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Oops</h4>
+                                            <h4 class="alert-heading">Information indisponible</h4>
                                           
                                             <p>
                                                 Faites une requete de modification pour cette section.
@@ -489,7 +504,7 @@
                                         {{ programme.audience|nl2br }}
                                     {% else %}
                                        <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Oops</h4>
+                                            <h4 class="alert-heading">Information indisponible</h4>
                                           
                                             <p>
                                                 Faites une requete de modification pour cette section.
@@ -512,7 +527,7 @@
                     
                 </section>
 
-                <section class="block has-carousel" id="movie-pictures">
+                <section class="block" id="movie-pictures">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
                            {{'Dans les coulisses'|trans({},'catalogue')}}
@@ -520,7 +535,7 @@
                         <br>
                         <br>
 
-                        <div style="margin-left: auto;" class="d-flex">
+                        <!--div style="margin-left: auto;" class="d-flex">
                             <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
@@ -528,19 +543,95 @@
                             <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
-                        </div>
+                        </div-->
                     </div>
 
                     <div class="block-content" >
 
+                        {% set gallery = programme.scenes %}
+                        {% set galleryLength =  gallery|length %}
+                        
+                        {% if galleryLength %}
 
-                        <div class="row">
-                            <div class="d-none d-md-block col-md-2 prs_vp_slidebar_wrapper prs_vp_left_slidebar_wrapper">
+                            <div class="row">
                                 
-                                <div class="prs_vp_left_slider">
+                                {% for item in gallery %}
+                                    <div class="col-md-4 mb-2 movie-gallery">
 
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                        <img width="320" height="180" class="rounded img-fluid" src="{{ asset('upload/public/'~item.image)}}"  alt="{{ programme.name|lower|title }}">
+
+                                        <a href="{{ asset('upload/public/'~item.image)}}" class="venobox" data-gall="myGallery">
+                                            <i class="fas fa-search"></i>
+                                        </a>
+                                       
+                                    </div>
+                                {% endfor %}
+
+
+                                {#<div class="d-none d-md-block col-md-2 prs_vp_slidebar_wrapper prs_vp_left_slidebar_wrapper">
+                                    
+                                    <div class="prs_vp_left_slider">
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                         <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid1.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid1.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-8 owl-carousel vp_center_slider prs_vp_slidebar_wrapper" style="width:540px">
+
+                                    <div class="has-media-detail ">
+                                        <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                         <div class="media-overlay"></div>
 
                                         <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
@@ -548,90 +639,8 @@
                                         </a>
                                     </div>
 
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                     <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid1.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid1.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-8 owl-carousel vp_center_slider prs_vp_slidebar_wrapper" style="width:540px">
-
-                                <div class="has-media-detail ">
-                                    <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                    <div class="media-overlay"></div>
-
-                                    <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-
-                                <div class="has-media-detail ">
-                                    <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                    <div class="media-overlay"></div>
-
-                                    <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-
-                                <div class="has-media-detail ">
-                                    <img  class="img-fluid"  src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                    <div class="media-overlay"></div>
-
-                                    <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                               
-                            </div>
-
-                           <div class="d-none d-md-block col-md-2 prs_vp_slidebar_wrapper prs_vp_right_slidebar_wrapper">
-
-                                <div class="prs_vp_right_slider">
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                    <div class="has-media-detail ">
+                                        <img   class="img-fluid" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                         <div class="media-overlay"></div>
 
                                         <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
@@ -639,53 +648,95 @@
                                         </a>
                                     </div>
 
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                    <div class="has-media-detail ">
+                                        <img  class="img-fluid"  src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
                                         <div class="media-overlay"></div>
 
-                                        <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
+                                        <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
                                             <i class="fas fa-search"></i>
                                         </a>
                                     </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                     <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid1.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid1.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
-
-                                    <div class="has-media-detail">
-                                        <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
-                                        <div class="media-overlay"></div>
-
-                                        <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
-                                            <i class="fas fa-search"></i>
-                                        </a>
-                                    </div>
+                                   
                                 </div>
+
+                               <div class="d-none d-md-block col-md-2 prs_vp_slidebar_wrapper prs_vp_right_slidebar_wrapper">
+
+                                    <div class="prs_vp_right_slider">
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/scene_cover.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/scene_cover.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                         <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid1.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid1.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid2.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid2.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+
+                                        <div class="has-media-detail">
+                                            <img class="rounded" src="{{ asset('img/vid3.jpg')}}"  alt="{{ programme.name|lower|title }}">
+                                            <div class="media-overlay"></div>
+
+                                            <a href="{{ asset('img/vid3.jpg')}}" class="venobox" data-gall="myGallery">
+                                                <i class="fas fa-search"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>#}
                             </div>
-                        </div>
+                        {% else %}
+
+                            <div class="alert alert-light" role="alert">
+                                <h4 class="alert-heading">Information indisponible</h4>
+                              
+                                <p>
+                                    Faites une requete de modification pour cette section.
+                                </p>
+                              
+                                <hr>
+                                <p class="mb-0">
+                                    <a href=""  class="btn btn-sm btn-light text-secondary">
+                                        Cliquez ici.
+                                    </a>
+                                </p>
+                            </div>
+
+                        {% endif %}
                     </div>
                 </section>
             </div>

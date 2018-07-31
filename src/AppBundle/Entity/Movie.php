@@ -162,7 +162,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1024, minHeight=500)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=1080)
     */
     private $coverImg;
 
@@ -1109,10 +1109,6 @@ class Movie
     }
 
 
-    /**
-     *
-     * @ORM\PreUpdate
-     */
     public function preUpdate(){
         $this->coverImg = basename($this->coverImg);
         $this->portraitImg = basename($this->portraitImg);
