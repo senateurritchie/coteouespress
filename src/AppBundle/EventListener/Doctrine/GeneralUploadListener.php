@@ -53,18 +53,18 @@ class GeneralUploadListener{
 
         if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
             
-            if(($fileName = $entity->getImage())){
+            if(($fileName = trim($entity->getImage()))){
                 $this->uploader->remove($fileName);
             }
         }
         else if($entity instanceof Movie){
-            if(($fileName = $movie->getCoverImg())) {
+            if(($fileName = trim($movie->getCoverImg()))) {
                 $this->uploader->remove($fileName);
             }
-            if(($fileName = $movie->getLandscapeImg())) {
+            if(($fileName = trim($movie->getLandscapeImg()))) {
                 $this->uploader->remove($fileName);
             }
-            if(($fileName = $movie->getPortraitImg())) {
+            if(($fileName = trim($movie->getPortraitImg()))) {
                 $this->uploader->remove($fileName);
             }
         }

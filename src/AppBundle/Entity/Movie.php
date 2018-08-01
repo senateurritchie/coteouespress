@@ -74,6 +74,22 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @ORM\Column(name="tagline", type="text", nullable=true)
+    */
+    private $tagline;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="logline", type="text", nullable=true)
+    */
+    private $logline;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="reward", type="text", nullable=true,options={"comment":"enregistre les recompenses obtenues du movie"})
     */
     private $reward;
@@ -1113,5 +1129,53 @@ class Movie
         $this->coverImg = basename($this->coverImg);
         $this->portraitImg = basename($this->portraitImg);
         $this->landscapeImg = basename($this->landscapeImg);
+    }
+
+    /**
+     * Set tagline
+     *
+     * @param string $tagline
+     *
+     * @return Movie
+     */
+    public function setTagline($tagline)
+    {
+        $this->tagline = $tagline;
+
+        return $this;
+    }
+
+    /**
+     * Get tagline
+     *
+     * @return string
+     */
+    public function getTagline()
+    {
+        return $this->tagline;
+    }
+
+    /**
+     * Set logline
+     *
+     * @param string $logline
+     *
+     * @return Movie
+     */
+    public function setLogline($logline)
+    {
+        $this->logline = $logline;
+
+        return $this;
+    }
+
+    /**
+     * Get logline
+     *
+     * @return string
+     */
+    public function getLogline()
+    {
+        return $this->logline;
     }
 }

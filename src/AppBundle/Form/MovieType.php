@@ -60,6 +60,12 @@ class MovieType extends AbstractType
         ->add('synopsis',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
         ))
+        ->add('tagline',TextareaType::class,array(
+            "attr"=>["placeholder"=>"Tagline du programme","class"=>"input-sm","rows"=>3]
+        ))
+        ->add('logline',TextareaType::class,array(
+            "attr"=>["placeholder"=>"Logline du programme","class"=>"input-sm","rows"=>3]
+        ))
         ->add('reward',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos ds recompences...","class"=>"input-sm","rows"=>5],
             "label"=>"Les recompences du programme",
@@ -302,6 +308,7 @@ class MovieType extends AbstractType
             "required"=>false,
             "mapped"=>false,
         ))
+        
         ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options,&$languages){
             $movie = $event->getData();
             $form = $event->getForm();
@@ -316,6 +323,8 @@ class MovieType extends AbstractType
                 ->remove('category')
                 ->remove('originalName')
                 ->remove('synopsis')
+                ->remove('tagline')
+                ->remove('logline')
                 ->remove('reward')
                 ->remove('award')
                 ->remove('audience')
@@ -376,6 +385,20 @@ class MovieType extends AbstractType
             $movie->setInTheather($movie->getInTheather()?true:false);
             $movie->setHasExclusivity($movie->getHasExclusivity()?true:false);
             $movie->setIsPublished($movie->getIsPublished()?true:false);
+
+
+            // transformation des <br> en \n 
+            $synopsis = $movie->getSynopsis();
+            $synopsis = preg_replace("#(<br>)#i", "\n", $synopsis);
+            $movie->setSynopsis($synopsis);
+
+            $tagline = $movie->getTagline();
+            $tagline = preg_replace("#(<br>)#i", "\n", $tagline);
+            $movie->setTagline($tagline);
+
+            $logline = $movie->getLogline();
+            $logline = preg_replace("#(<br>)#i", "\n", $logline);
+            $movie->setLogline($logline);
         })
         ->addEventListener(FormEvents::SUBMIT,function(FormEvent $event)use(&$options,$languages){
             $data = $event->getData();
@@ -385,6 +408,20 @@ class MovieType extends AbstractType
                 $value = $languages[$key];
                 $data->setOriginalLanguage($value);
             }
+            // transformation des \n en <br>
+            $synopsis = $data->getSynopsis();
+            $synopsis = preg_replace("#([\n\r]+)#i", "<br>", $synopsis);
+            $data->setSynopsis($synopsis);
+
+            $tagline = $data->getTagline();
+            $tagline = preg_replace("#([\n\r]+)#i", "<br>", $tagline);
+            $data->setTagline($tagline);
+
+            $logline = $data->getLogline();
+            $logline = preg_replace("#([\n\r]+)#i", "<br>", $logline);
+            $data->setLogline($logline);
+
+
             $event->setData($data);
         });
 

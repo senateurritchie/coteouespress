@@ -147,6 +147,34 @@ var AdminManager = AdminManager || {};
 							{{/errors}}
 						</ul>
 					`,
+					translation:`
+						<fieldset>
+							<div class="form-group locale">
+                                <label>Langue</label>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Tagline</label>
+                                <input name="translation[__locale__][tagline]" class="form-control"  placeholder="Saisir la traduction..." type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Logline</label>
+                                <input name="translation[__locale__][logline]" class="form-control"  placeholder="Saisir la traduction..." type="text">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Synopsis</label>
+                                <textarea name="translation[__locale__][synopsis]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <button type="button" class="btn btn-danger btn-sm">
+                                    <i class="fa fa-trash"></i> Retirer cette traduction
+                                </button>
+                            </div>
+                        </fieldset>
+					`
 				}
 			});
 		};
@@ -585,26 +613,28 @@ var AdminManager = AdminManager || {};
     		$("body").on("click","#modal-update .has-collection .collection-badge .old-value a",e=>{
     			e.preventDefault();
 
-    			var obj = $(e.target);
+    			var obj = $(e.currentTarget);
     			var parentModal = obj.parents("#modal-update");
-    			var collectionModal = $("#modal-update-collection");
-    			var oldValue = obj.parents(".old-value:first");
-    			var parentOldvalue = oldValue.parent();
-    			var dataEvent = obj.data('event');
+    			var collectionModal = $("#modal-update-gallery");
+    			
+    			var oldValue = obj.parent();
+    			var collectionBadge = oldValue.parent();
+    			var route = collectionBadge.data('route');
     			var dataId = oldValue.data('id');
+
+    			collectionModal.find('.collection-alert-msg').html(collectionBadge.data('alert'));
 
     			var removeCbk = function(){
     				oldValue.remove();
-	    			var counter = dropper.find(".scene-thumbnail").length;
-	    			if(counter == 0){
-	    				dropper.removeClass('dropped');
-	    			}
+    				if(!collectionBadge.find('.old-value').length){
+    					collectionBadge.remove();
+    				}
     			};
 
 				parentModal.off('shown.bs.modal');
 
     			var _shownFn = (ee)=>{
-					parentModal.animate({ scrollTop: dropper.offset().top }, 1000);
+					parentModal.animate({ scrollTop: collectionBadge.offset().top - 200 }, 1000);
 				};
 
 				parentModal.on('shown.bs.modal', _shownFn);
@@ -623,12 +653,15 @@ var AdminManager = AdminManager || {};
     								removeCbk();
     								submitBtn.off();
 
-    								this.emit(new nsp[dataEvent]({
+    								var evt = new nsp.MovieSceneDeletingEvent({
 										state:'start',
 										model:{
-											scene_id:dataId
+											id:dataId
 										},
-									}));
+									});
+
+									evt.type = route;
+    								this.emit(evt);
 
     								collectionModal.modal("hide");
     							}
@@ -643,7 +676,7 @@ var AdminManager = AdminManager || {};
     					var fn2 = (ee)=>{
     						collectionModal.off('hidden.bs.modal', fn2);
     						collectionModal.off('shown.bs.modal', shownFn);
-    						collectionModal.modal("show");
+    						parentModal.modal("show");
     						collectionModal.attr('data-id',null);
     					};
 
@@ -657,6 +690,58 @@ var AdminManager = AdminManager || {};
     				removeCbk();
     			}
     		});
+
+
+    		var translatablesProxy = function(el){
+				var obj = $(el);
+				var target = $('[data-translatable-target='+obj.data('translatable')+']');
+				var text = obj.val();
+				text = text.replace(/<(.+?)>/ig,'$1');
+				text = text.replace(/\n/ig,'<br>');
+				target.html(text);
+    		}
+
+    		$('body').on('keyup','[data-translatable]',e=>{
+    			translatablesProxy(e.target);
+    		});
+
+    		var languagesClone = $("#originalLanguage").clone();
+    		languagesClone.removeAttr('name').addClass('translation-btn-add');
+    		languagesClone.find('option:first').html("Ajouter une langue...");
+    		languagesClone.val("");
+
+    		$('body').on('shown.bs.modal','.modal-form',(e)=> {
+    			var obj = $(e.target);
+    			var tranlationsDiv = obj.find('#translate-area-data');
+  				var translatables = obj.find('[data-translatable]');
+
+    			translatables.each((i,el)=>{
+    				translatablesProxy(el);
+    			});
+
+    			var btnAdd = obj.find("#translate-area-tools button");
+    			btnAdd.off();
+
+    			btnAdd.on({
+    				click:e=>{
+
+    					var tpl = $(this.render(this.params.$tpl.translation,{}));
+    					var locale = languagesClone.clone();
+    					tpl.find('.locale').append(locale);
+    					tpl.append('<hr>');
+    					tpl.find('button:first').on({
+    						click:ee=>{
+    							ee.preventDefault();
+    							tpl.remove();
+    						}
+    					})
+    					tranlationsDiv.append(tpl);
+    				}
+    			});
+
+			});
+
+			
 
 			
 			var scroller = nsp.container.get('Scroller');

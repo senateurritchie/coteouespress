@@ -499,15 +499,15 @@ class AdminMovieController extends Controller
         switch($_target){
         
             case "portrait":
-                $oldName = $item->getPortraitImg();
+                $oldName = trim($item->getPortraitImg());
             break;
 
             case "landscape":
-                $oldName = $item->getLandscapeImga();
+                $oldName = trim($item->getLandscapeImga());
             break;
 
             case "cover":
-                $oldName = $item->getCoverImg();
+                $oldName = trim($item->getCoverImg());
             break;
 
             default:

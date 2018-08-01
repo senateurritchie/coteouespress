@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *
  * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"slug","synopsis"},flags={"fulltext"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Movie
 {
@@ -73,6 +74,22 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @ORM\Column(name="tagline", type="text", nullable=true)
+    */
+    private $tagline;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="logline", type="text", nullable=true)
+    */
+    private $logline;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="reward", type="text", nullable=true,options={"comment":"enregistre les recompenses obtenues du movie"})
     */
     private $reward;
@@ -96,7 +113,6 @@ class Movie
     * @var boolean
     *
     * @Groups({"group1","group2"})
-    * @Assert\Type(type="bool")
     * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un programme est à l'affiche ou non"}, nullable=true)
     */
     private $inTheather = 0;
@@ -104,11 +120,18 @@ class Movie
     /**
     * @var boolean
     *
-    * @Assert\Type(type="bool")
     * @Groups({"group1","group2"})
     * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un movie comme etant à la une"},nullable=true)
     */
     private $hasExclusivity = 0;
+
+     /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
+    */
+    private $isPublished = 0;
 
     /**
     * @var string
@@ -155,7 +178,7 @@ class Movie
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920,maxWidth=1920, minHeight=1080,maxHeight=1080)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=1080)
     */
     private $coverImg;
 
@@ -214,14 +237,7 @@ class Movie
     private $episode3;
 
 
-    /**
-    * @var boolean
-    *
-    * @Groups({"group1","group2"})
-    * @Assert\Type(type="bool")
-    * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
-    */
-    private $isPublished = 0;
+   
 
 
     /**
@@ -1034,5 +1050,132 @@ class Movie
     public function getIsPublished()
     {
         return $this->isPublished;
+    }
+
+    /**
+     * Set reward
+     *
+     * @param string $reward
+     *
+     * @return Movie
+     */
+    public function setReward($reward)
+    {
+        $this->reward = $reward;
+
+        return $this;
+    }
+
+    /**
+     * Get reward
+     *
+     * @return string
+     */
+    public function getReward()
+    {
+        return $this->reward;
+    }
+
+    /**
+     * Set award
+     *
+     * @param string $award
+     *
+     * @return Movie
+     */
+    public function setAward($award)
+    {
+        $this->award = $award;
+
+        return $this;
+    }
+
+    /**
+     * Get award
+     *
+     * @return string
+     */
+    public function getAward()
+    {
+        return $this->award;
+    }
+
+    /**
+     * Set audience
+     *
+     * @param string $audience
+     *
+     * @return Movie
+     */
+    public function setAudience($audience)
+    {
+        $this->audience = $audience;
+
+        return $this;
+    }
+
+    /**
+     * Get audience
+     *
+     * @return string
+     */
+    public function getAudience()
+    {
+        return $this->audience;
+    }
+
+
+    public function preUpdate(){
+        $this->coverImg = basename($this->coverImg);
+        $this->portraitImg = basename($this->portraitImg);
+        $this->landscapeImg = basename($this->landscapeImg);
+    }
+
+    /**
+     * Set tagline
+     *
+     * @param string $tagline
+     *
+     * @return Movie
+     */
+    public function setTagline($tagline)
+    {
+        $this->tagline = $tagline;
+
+        return $this;
+    }
+
+    /**
+     * Get tagline
+     *
+     * @return string
+     */
+    public function getTagline()
+    {
+        return $this->tagline;
+    }
+
+    /**
+     * Set logline
+     *
+     * @param string $logline
+     *
+     * @return Movie
+     */
+    public function setLogline($logline)
+    {
+        $this->logline = $logline;
+
+        return $this;
+    }
+
+    /**
+     * Get logline
+     *
+     * @return string
+     */
+    public function getLogline()
+    {
+        return $this->logline;
     }
 }
