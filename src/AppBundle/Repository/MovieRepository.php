@@ -121,12 +121,18 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
    		$query = $qb->getQuery();
 
-   		if(@$params["language"]){
+        $query->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+
+   		/*if(@$params["language"]){
 			$query->setHint(
     			\Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
     			'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
 			);
-		}
+		}*/
 
 	    return $query->getResult();
 	}

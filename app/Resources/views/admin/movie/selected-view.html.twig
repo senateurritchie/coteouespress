@@ -139,7 +139,25 @@
         display: none;
     }
 
+    .modal-form .translation-item .overlay, .modal-form .translation-item .response-area{
+        display: none;
+    }
 
+    .modal-form .translation-item.updating .overlay,.modal-form .translation-item.updated .response-area{
+        display: block;
+    }
+
+    .modal-form #translation-info{
+        display: none;
+    }
+
+    .modal-form.fetching-translation #translation-info{
+        display: block;
+    }
+
+    .modal-form.fetching-translation #m-translate-body{
+        display: none;
+    }
 </style>
 
 {% if use_modal is defined %}
@@ -173,7 +191,7 @@
                         <ul class="nav nav-tabs">
                             <li class="active">
                                 <a href="#m-home{{ complement }}" data-toggle="tab" aria-expanded="false">
-                                    Accueil
+                                    Accueil 
                                 </a>
                             </li>
 
@@ -199,11 +217,29 @@
                         <div class="tab-content" style="min-height:800px">
 
                             <div class="tab-pane active" id="m-home{{ complement }}">
+
                                 {{ include('admin/movie/selected-view-tab-1.html.twig') }}
                             </div>
 
                             <div class="tab-pane" id="m-translate{{ complement }}" >
-                                <div class="row">
+                                
+
+
+                                <div class="alert"  id="translation-info">
+
+                                    <div class="pull-right">
+                                        <i class="fa fa-spinner fa-spin fa-3x"></i>
+                                    </div>
+
+                                    <h4>
+                                        <i class="icon fa fa-info"></i> Traductions!
+                                    </h4>
+                                    Chargement des langues en cours veuillez patienter svp.
+
+                                    
+                                </div>
+
+                                <div class="row" id="m-translate-body">
                                     <div class="col-md-6">
                                         <h2>A traduire</h2>
 
@@ -231,15 +267,6 @@
 
                                     <div class="col-md-6" id="translate-area">
                                         <h2>Traduction</h2>
-
-                                        
-
-                                        <div class="alert alert-info alert-dismissible">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-
-                                            <h4><i class="icon fa fa-info"></i> A savoir</h4>
-                                            Cliquez sur le bouton <strong>ajouter une langue</strong> pour demarrer la traduction
-                                          </div>
                                         
                                         <div id="translate-area-data"></div>
                                                                             
@@ -280,6 +307,10 @@
                 </div>
             {{ form_end(form,{'producer':false}) }}
         </div>
+
+        
     </div>
+
+
 </div>
 

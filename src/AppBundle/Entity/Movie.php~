@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Translatable\Translatable;
 
 /**
  * Movie
@@ -14,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
  * @ORM\HasLifecycleCallbacks()
  */
-class Movie
+class Movie implements Translatable
 {
     /**
     * @var int
@@ -66,6 +67,7 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @ORM\Column(name="synopsis", type="text", nullable=true)
     */
     private $synopsis;
@@ -74,6 +76,7 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @ORM\Column(name="tagline", type="text", nullable=true)
     */
     private $tagline;
@@ -82,6 +85,7 @@ class Movie
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @ORM\Column(name="logline", type="text", nullable=true)
     */
     private $logline;
@@ -236,10 +240,6 @@ class Movie
     */
     private $episode3;
 
-
-   
-
-
     /**
     * @var \DateTime
     *
@@ -283,6 +283,14 @@ class Movie
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;
+    /**
+    * @Gedmo\Locale
+    * Used locale to override Translation listener`s locale
+    * this is not a mapped field of entity metadata, just a simple property
+    */
+    private $locale = 'fr';
+
+
     /**
      * Constructor
      */
@@ -1177,5 +1185,9 @@ class Movie
     public function getLogline()
     {
         return $this->logline;
+    }
+
+    public function setTranslatableLocale($locale){
+        $this->locale = $locale;
     }
 }

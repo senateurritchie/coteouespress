@@ -61,10 +61,12 @@ class MovieType extends AbstractType
             "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
         ))
         ->add('tagline',TextareaType::class,array(
-            "attr"=>["placeholder"=>"Tagline du programme","class"=>"input-sm","rows"=>3]
+            "attr"=>["placeholder"=>"Tagline du programme","class"=>"input-sm","rows"=>3],
+            "required"=>false,
         ))
         ->add('logline',TextareaType::class,array(
-            "attr"=>["placeholder"=>"Logline du programme","class"=>"input-sm","rows"=>3]
+            "attr"=>["placeholder"=>"Logline du programme","class"=>"input-sm","rows"=>3],
+            "required"=>false,
         ))
         ->add('reward',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos ds recompences...","class"=>"input-sm","rows"=>5],
@@ -387,7 +389,7 @@ class MovieType extends AbstractType
             $movie->setIsPublished($movie->getIsPublished()?true:false);
 
 
-            // transformation des <br> en \n 
+           /* // transformation des <br> en \n 
             $synopsis = $movie->getSynopsis();
             $synopsis = preg_replace("#(<br>)#i", "\n", $synopsis);
             $movie->setSynopsis($synopsis);
@@ -398,7 +400,7 @@ class MovieType extends AbstractType
 
             $logline = $movie->getLogline();
             $logline = preg_replace("#(<br>)#i", "\n", $logline);
-            $movie->setLogline($logline);
+            $movie->setLogline($logline);*/
         })
         ->addEventListener(FormEvents::SUBMIT,function(FormEvent $event)use(&$options,$languages){
             $data = $event->getData();
@@ -408,7 +410,7 @@ class MovieType extends AbstractType
                 $value = $languages[$key];
                 $data->setOriginalLanguage($value);
             }
-            // transformation des \n en <br>
+            /*// transformation des \n en <br>
             $synopsis = $data->getSynopsis();
             $synopsis = preg_replace("#([\n\r]+)#i", "<br>", $synopsis);
             $data->setSynopsis($synopsis);
@@ -419,7 +421,7 @@ class MovieType extends AbstractType
 
             $logline = $data->getLogline();
             $logline = preg_replace("#([\n\r]+)#i", "<br>", $logline);
-            $data->setLogline($logline);
+            $data->setLogline($logline);*/
 
 
             $event->setData($data);

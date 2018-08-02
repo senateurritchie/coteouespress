@@ -32,6 +32,25 @@ $(document).ready(function($){
 				}));
 			});
 		}
+		if(event instanceof nsp.TranslationEvent){
+
+			if(~['update','load'].indexOf(event.params.state)){
+				var METHOD = event.params.state == "update"?"POST":"GET";
+				repository.customRequest(event,METHOD)
+				.then(data=>{
+
+					view.emit(new nsp.TranslationEvent({
+						state:'end',
+						data:data
+					}));
+
+				},msg=>{
+					view.emit(new nsp.TranslationEvent({
+						state:'fails',
+					}));
+				});
+			}
+		}
 		else if(event instanceof nsp.UploadEvent){
 			if(event.params.state != "start") return;
 

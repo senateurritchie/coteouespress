@@ -44,12 +44,12 @@ var AdminManager = AdminManager || {};
 
 		Object.assign(MovieRepository.prototype, nsp.Repository.prototype);
 
-		MovieRepository.prototype.customRequest = function(event){
+		MovieRepository.prototype.customRequest = function(event,METHOD = 'POST'){
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
 	  				url:`/admin/movies/${this.current.id}/${event.type}`,
-	  				method:"POST",
+	  				method:METHOD,
 	  				data:event.params.model
 		  		})
 		  		.done(data=>{
@@ -131,6 +131,8 @@ var AdminManager = AdminManager || {};
 		function MovieView(params){
 			nsp.View.call(this,params);
 
+			this.translations;
+
 			this.vars({
 				selectedDataView:$("#current-widget-data"),
 				rightSection:$("#right-section"),
@@ -148,36 +150,51 @@ var AdminManager = AdminManager || {};
 						</ul>
 					`,
 					translation:`
-						<fieldset>
-							<div class="form-group locale">
-                                <label>Langue</label>
-                            </div>
+						<div class="box box-danger translation-item">
+                            <div class="box-body"> 
+								<div class="form-group locale">
+	                                <label>Langue</label>
+	                            </div>
 
-                            <div class="form-group">
-                                <label>Tagline</label>
-                                <textarea name="translation[__locale__][tagline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
-                            </div>
+	                            <div class="form-group">
+	                                <label>Tagline</label>
+	                                <textarea name="translation[__locale__][tagline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
+	                            </div>
 
-                            <div class="form-group">
-                                <label>Logline</label>
-                                <textarea name="translation[__locale__][logline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
-                            </div>
+	                            <div class="form-group">
+	                                <label>Logline</label>
+	                                <textarea name="translation[__locale__][logline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
+	                            </div>
 
-                            <div class="form-group">
-                                <label>Synopsis</label>
-                                <textarea name="translation[__locale__][synopsis]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
-                            </div>
+	                            <div class="form-group">
+	                                <label>Synopsis</label>
+	                                <textarea name="translation[__locale__][synopsis]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
+	                            </div>
+		                    </div>
 
-                            <div class="form-group">
-                                <button type="button" class="btn btn-primary btn-sm remove">
+		                    <div class="box-footer response-area"> 
+		                    	<div class="alert alert-info alert-dismissible">
+                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+
+                                    <p class="response-msg"></p>
+                                </div>
+		                    </div>
+
+		                    <div class="box-footer"> 
+		                    	<button type="button" class="btn btn-primary remove">
                                     <i class="fa fa-trash"></i> Retirer cette traduction
                                 </button>
 
-                                <button type="button" class="btn btn-primary btn-sm pull-right save">
+                                <button type="button" class="btn btn-primary pull-right save">
                                     <i class="fa fa-save"></i> Enregistrer cette traduction
                                 </button>
-                            </div>
-                        </fieldset>
+		                    </div>
+
+		                    <div class="overlay">
+								<i class="fa fa-spinner fa-spin fa-3x"></i>
+							</div>
+
+                        </div>
 					`
 				}
 			});
@@ -712,14 +729,9 @@ var AdminManager = AdminManager || {};
     			translatablesProxy(e.target);
     		});
 
-    		var languagesClone = $("#originalLanguage").clone();
-    		languagesClone.attr('name','locale[]').addClass('translation-btn-add');
-    		languagesClone.find('option:first').html("Ajouter une langue...");
-    		languagesClone.val("");
 
     		$('body').on('shown.bs.modal','.modal-form',(e)=> {
     			var obj = $(e.target);
-    			var tranlationsDiv = obj.find('#translate-area-data');
   				var translatables = obj.find('[data-translatable]');
 
     			translatables.each((i,el)=>{
@@ -731,49 +743,53 @@ var AdminManager = AdminManager || {};
 
     			btnAdd.on({
     				click:e=>{
-
-    					var tpl = $(this.render(this.params.$tpl.translation,{}));
-    					var locale = languagesClone.clone();
-    					locale.on({
-    						change:ee=>{
-    							tpl.find('textarea').each((i,el)=>{
-    								var name = $(el).attr('name');
-    								var reg = /(\w+)\[.+?\](\[.+?\])/ig;
-    								name = name.replace(reg,`$1[${ee.target.value}]$2`);
-    								$(el).attr('name',name);
-    							});
-    						}
-    					});
-
-    					tpl.find('.locale').append(locale);
-    					tpl.append('<hr>');
-    					tpl.find('button:first').on({
-    						click:ee=>{
-    							ee.preventDefault();
-    							tpl.remove();
-    						}
-    					});
-
-    					var btnSave = tpl.find('button:last');
-
-    					if(obj.attr('id') == "modal-update"){
-    						btnSave.on({
-	    						click:ee=>{
-	    							ee.preventDefault();
-	    						}
-	    					});
-    					}
-    					else{
-    						btnSave.remove();
-    					}
-    					
-    					tranlationsDiv.append(tpl);
+    					this.insertNewTranslation('',obj);
     				}
     			});
 
 			});
 
-			
+			// recuperation de traduction en base de donnée
+			$("body").on('shown.bs.tab','a[data-toggle="tab"]', (e)=> {
+				var obj = $(e.target);
+				var modal = obj.parents('.modal:first');
+
+				if(modal.attr('id') == 'modal-update'){
+
+					if(obj.attr('href') == "#m-translate-up"){
+
+						var ref = this.subscribe(event=>{
+							if(event instanceof nsp.TranslationEvent){
+
+								if(event instanceof nsp.TranslationEvent){
+									if(~['end','fails'].indexOf(event.params.state)){
+										ref.unsubscribe();
+										modal.removeClass('fetching-translation');
+										var data = event.params.data;
+
+										if(data && data.data){
+											for(var lang in data.data){
+												this.insertNewTranslation(lang,modal,data.data[lang]);
+											}
+											console.log(data)
+										}
+									}
+								}
+							}
+						});
+
+						// lance la demande des traductions
+						var evt = new nsp.TranslationEvent({
+							state:'load',
+							model:{},
+						});
+
+						evt.type = "translations";
+						modal.addClass('fetching-translation');
+						this.emit(evt);
+					}
+				}
+			});
 
 			
 			var scroller = nsp.container.get('Scroller');
@@ -875,6 +891,105 @@ var AdminManager = AdminManager || {};
 		    this.emit(new nsp.FileReaderEvent({state:"start",files:files}));
 
 		    reader.readAsDataURL(file);
+		}
+
+		MovieView.prototype.insertNewTranslation = function(lang,modal,data){
+
+			var tranlationsDiv = modal.find('#translate-area-data');
+
+			var languagesClone = $("#originalLanguage").clone();
+    		languagesClone
+    		.attr('name','locale[]')
+    		.addClass('translation-btn-add')
+    		.removeAttr('required');
+
+    		languagesClone.find('option:first').html("Ajouter une langue...");
+    		languagesClone.val("");
+
+
+			var tpl = $(this.render(this.params.$tpl.translation,{}));
+
+			var locale = languagesClone.clone();
+			var taglineInput = tpl.find("[name*=tagline]");
+			var loglineInput = tpl.find("[name*=logline]");
+			var synopsisInput = tpl.find("[name*=synopsis]");
+			var responseMsg = tpl.find(".response-msg");
+			locale.val(lang);
+
+			if(typeof data != "undefined"){
+				taglineInput.val(data.tagline);
+				loglineInput.val(data.logline);
+				synopsisInput.val(data.synopsis);
+			}
+			
+			locale.on({
+				change:ee=>{
+					tpl.find('textarea').each((i,el)=>{
+						var name = $(el).attr('name');
+						var reg = /(\w+)\[.+?\](\[.+?\])/ig;
+						name = name.replace(reg,`$1[${ee.target.value}]$2`);
+						$(el).attr('name',name);
+					});
+				}
+			});
+
+			tpl.find('.locale').append(locale);
+			tpl.find('button.remove').on({
+				click:ee=>{
+					ee.preventDefault();
+					tpl.remove();
+				}
+			});
+
+			var btnSave = tpl.find('button.save');
+
+			if(modal.attr('id') == "modal-update"){
+				btnSave.on({
+					click:ee=>{
+						ee.preventDefault();
+
+						tpl.addClass('updating');
+
+						var ref = this.subscribe(event=>{
+							if(event instanceof nsp.TranslationEvent){
+
+								if(event instanceof nsp.TranslationEvent){
+									if(~['end','fails'].indexOf(event.params.state)){
+										ref.unsubscribe();
+										tpl.removeClass('updating');
+										tpl.addClass('updated');
+										var data = event.params.data;
+
+										if(data && data.message){
+											responseMsg.html(data.message);
+										}
+
+										setTimeout(()=>{
+											tpl.removeClass('updated');
+										},5000);
+									}
+								}
+							}
+						});
+
+						var evt = new nsp.TranslationEvent({
+							state:'update',
+							model:{
+								locale:locale.val(),
+								tagline:taglineInput.val(),
+								logline:loglineInput.val(),
+								synopsis:synopsisInput.val()
+							},
+						});
+						this.emit(evt);
+					}
+				});
+			}
+			else{
+				btnSave.remove();
+			}
+			
+			tranlationsDiv.append(tpl);
 		}
 
 

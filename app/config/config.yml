@@ -92,6 +92,8 @@ swiftmailer:
 
 
 stof_doctrine_extensions:
+    default_locale: '%locale%'
+    translation_fallback: true
     orm:
         default:
             sluggable: true

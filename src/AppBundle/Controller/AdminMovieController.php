@@ -850,4 +850,100 @@ class AdminMovieController extends Controller
     
         return $this->json($result);
     }
+
+
+    /**
+    * @Route("/{movie_id}/translate", requirements={"movie_id":"\d+"}, name="translate")
+    * @Method("POST")
+    */
+    public function translateAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_CATALOG_TRANSLATE'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $result = ["status"=>false];
+        
+
+        $locale = strip_tags(trim($request->request->get('locale')));
+        $tagline = strip_tags(trim($request->request->get('tagline')));
+        $logline = strip_tags(trim($request->request->get('logline')));
+        $synopsis = strip_tags(trim($request->request->get('synopsis')));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
+        $isValid = false;
+       
+        if($locale){
+            if($tagline){
+                $repository->translate($item, 'tagline', $locale,$tagline);
+                $isValid = true;
+            }
+
+            if($logline){
+                $repository->translate($item, 'logline', $locale,$logline);
+                $isValid = true;
+            }
+
+            if($synopsis){
+                $repository->translate($item, 'synopsis', $locale,$synopsis);
+                $isValid = true;
+            }
+
+            $result['status'] = true;
+            $result['message'] = "modification effectuée avec succès";
+
+            if($isValid){
+                $em->flush();
+            }
+        }
+        else{
+            $result['message'] = "veuillez saisir la langue.";
+        }
+
+        
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/translations", requirements={"movie_id":"\d+"}, name="translations")
+    * @Method("GET")
+    */
+    public function translationsAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_CATALOG_TRANSLATE'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $result = ["status"=>false];
+        
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
+        $translations = $repository->findTranslations($item);
+        
+        $result['data'] = $translations;
+        $result['status'] = true;
+         
+        return $this->json($result);
+    }
 }

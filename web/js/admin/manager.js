@@ -366,6 +366,17 @@ var AdminManager = AdminManager || {};
 	})();
 
 	/**
+	* evenement de traduction
+	*/
+	nsp.TranslationEvent = (function(){
+		function TranslationEvent(params){
+			nsp.Event.call(this,'translate',params);
+		};
+		Object.assign(TranslationEvent.prototype, nsp.Event.prototype);
+		return TranslationEvent;
+	})();
+
+	/**
 	* evenement de upload
 	*/
 	nsp.UploadEvent = (function(){

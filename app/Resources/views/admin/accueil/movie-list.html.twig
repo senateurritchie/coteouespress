@@ -24,11 +24,15 @@
             {% for item in movies %}
                 <li class="item">
                     <div class="product-img">
-                        <img src="dist/img/default-50x50.gif" alt="Product Image">
+                        {% if item.portraitImg %}
+                            <img  src="{{ asset('upload/public/'~item.portraitImg) }}" alt="" />
+                        {% else %}
+                            <img  src="{{ asset('admin/dist/img/default-50x50.gif') }}">
+                        {% endif %}
                     </div>
                     
                     <div class="product-info">
-                        <a href="javascript:void(0)" class="product-title">
+                        <a href="{{ path('admin_movie_index',{'movie_id':item.id}) }}" class="product-title">
                             {{ item.name|lower|title }}
 
                             {% set hours =  item.createAt|dateDiff(date("now"))|date("%H") %}
@@ -60,7 +64,12 @@
                         </a>
                         
                         <span class="product-description">
-                            {{ item.synopsis ? item.synopsis : '- synopsis manquant'}}
+                            {% if item.synopsis %}
+                                {{ item.synopsis }}
+                            {% else %}
+                                - synopsis manquant
+                            {% endif %}
+                            
                         </span>
                     </div>
                 </li>
