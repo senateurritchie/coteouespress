@@ -327,7 +327,7 @@ class MovieType extends AbstractType
 
             if (!$movie) {
                 return;
-            }
+            }   //
 
             if(in_array(@$options["use_for"], ["upload","upload_gallery"])) {
                 $form
