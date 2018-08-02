@@ -155,12 +155,12 @@ var AdminManager = AdminManager || {};
 
                             <div class="form-group">
                                 <label>Tagline</label>
-                                <input name="translation[__locale__][tagline]" class="form-control"  placeholder="Saisir la traduction..." type="text">
+                                <textarea name="translation[__locale__][tagline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label>Logline</label>
-                                <input name="translation[__locale__][logline]" class="form-control"  placeholder="Saisir la traduction..." type="text">
+                                <textarea name="translation[__locale__][logline]" class="form-control" rows="3" placeholder="Saisir la traduction..."></textarea>
                             </div>
 
                             <div class="form-group">
@@ -183,6 +183,8 @@ var AdminManager = AdminManager || {};
 
 
 		MovieView.prototype.controller = function(){
+
+			var markdown  = new showdown.Converter();
 
 			/* 09. VENOBOX JS */
             $('.venobox').venobox({
@@ -697,8 +699,9 @@ var AdminManager = AdminManager || {};
 				var target = $('[data-translatable-target='+obj.data('translatable')+']');
 				var text = obj.val();
 				text = text.replace(/<(.+?)>/ig,'$1');
-				text = text.replace(/\n/ig,'<br>');
-				target.html(text);
+				//text = text.replace(/\n/ig,'<br>');
+    			html      = markdown.makeHtml(text);
+				target.html(html);
     		}
 
     		$('body').on('keyup','[data-translatable]',e=>{
