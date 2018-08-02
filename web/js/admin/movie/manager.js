@@ -169,8 +169,12 @@ var AdminManager = AdminManager || {};
                             </div>
 
                             <div class="form-group">
-                                <button type="button" class="btn btn-danger btn-sm">
+                                <button type="button" class="btn btn-primary btn-sm remove">
                                     <i class="fa fa-trash"></i> Retirer cette traduction
+                                </button>
+
+                                <button type="button" class="btn btn-primary btn-sm pull-right save">
+                                    <i class="fa fa-save"></i> Enregistrer cette traduction
                                 </button>
                             </div>
                         </fieldset>
@@ -709,7 +713,7 @@ var AdminManager = AdminManager || {};
     		});
 
     		var languagesClone = $("#originalLanguage").clone();
-    		languagesClone.removeAttr('name').addClass('translation-btn-add');
+    		languagesClone.attr('name','locale[]').addClass('translation-btn-add');
     		languagesClone.find('option:first').html("Ajouter une langue...");
     		languagesClone.val("");
 
@@ -730,6 +734,17 @@ var AdminManager = AdminManager || {};
 
     					var tpl = $(this.render(this.params.$tpl.translation,{}));
     					var locale = languagesClone.clone();
+    					locale.on({
+    						change:ee=>{
+    							tpl.find('textarea').each((i,el)=>{
+    								var name = $(el).attr('name');
+    								var reg = /(\w+)\[.+?\](\[.+?\])/ig;
+    								name = name.replace(reg,`$1[${ee.target.value}]$2`);
+    								$(el).attr('name',name);
+    							});
+    						}
+    					});
+
     					tpl.find('.locale').append(locale);
     					tpl.append('<hr>');
     					tpl.find('button:first').on({
@@ -737,7 +752,21 @@ var AdminManager = AdminManager || {};
     							ee.preventDefault();
     							tpl.remove();
     						}
-    					})
+    					});
+
+    					var btnSave = tpl.find('button:last');
+
+    					if(obj.attr('id') == "modal-update"){
+    						btnSave.on({
+	    						click:ee=>{
+	    							ee.preventDefault();
+	    						}
+	    					});
+    					}
+    					else{
+    						btnSave.remove();
+    					}
+    					
     					tranlationsDiv.append(tpl);
     				}
     			});
