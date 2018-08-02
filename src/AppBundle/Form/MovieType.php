@@ -56,9 +56,11 @@ class MovieType extends AbstractType
         ))
         ->add('originalName',TextType::class,array(
             "attr"=>["placeholder"=>"Nom original du programme","class"=>"input-sm"],
+            "required"=>false,
         ))
         ->add('synopsis',TextareaType::class,array(
-            "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10]
+            "attr"=>["placeholder"=>"A propos du programme","class"=>"input-sm","rows"=>10],
+            "required"=>false,
         ))
         ->add('tagline',TextareaType::class,array(
             "attr"=>["placeholder"=>"Tagline du programme","class"=>"input-sm","rows"=>3],
@@ -96,18 +98,21 @@ class MovieType extends AbstractType
             "required"=>false,
         ))
         ->add('format',TextType::class,array(
-            "attr"=>["placeholder"=>"Format","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"Format","class"=>"input-sm"],
+            "required"=>false,
         ))
         ->add('year_start',DateType::class,array(
             "attr"=>["class"=>"input-sm"],
             "widget"=>"single_text",
             "widget"=>"single_text",
             "label"=>"Debut de production",
+            "required"=>false,
         ))
         ->add('year_end',DateType::class,array(
             "attr"=>["class"=>"input-sm"],
             "widget"=>"single_text",
             "label"=>"Fin de production",
+            "required"=>false,
         ))
         ->add('mention',ChoiceType::class,array(
             "attr"=>["class"=>"input-sm"],
@@ -122,6 +127,7 @@ class MovieType extends AbstractType
         ))
         ->add('originalLanguage',LanguageType::class,array(
             "placeholder"=>"version original...",
+            "required"=>false,
             "choice_value"=>function($value){
 
                 return $value;
@@ -161,19 +167,23 @@ class MovieType extends AbstractType
             "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"]
         ))
         ->add('trailer',TextType::class,array(
-            "attr"=>["placeholder"=>"Lien de visionnage du trailer","class"=>"input-sm"]
+            "attr"=>["placeholder"=>"Lien de visionnage du trailer","class"=>"input-sm"],
+            "required"=>false,
         ))
         ->add('episode1',TextType::class,array(
             "attr"=>["placeholder"=>"Lien de visionnage episode 1","class"=>"input-sm"],
-            "label"=>"Episode 1"
+            "label"=>"Episode 1",
+            "required"=>false,
         ))
         ->add('episode2',TextType::class,array(
             "attr"=>["placeholder"=>"Lien de visionnage episode 2","class"=>"input-sm"],
-            "label"=>"Episode 2"
+            "label"=>"Episode 2",
+            "required"=>false,
         ))
         ->add('episode3',TextType::class,array(
             "attr"=>["placeholder"=>"Lien de visionnage episode 3","class"=>"input-sm"],
-            "label"=>"Episode 3"
+            "label"=>"Episode 3",
+            "required"=>false,
         ))
         ->add('producers',CollectionType::class,array(
             'entry_type' => EntityType::class,
