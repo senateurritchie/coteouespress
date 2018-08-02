@@ -3,14 +3,26 @@ namespace AppBundle\Extensions\Twig;
 
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
+
+use AppBundle\Utils\Markdown;
 
 class AppExtension extends AbstractExtension{
+
+    private $parser;
+
+    public function __construct(Markdown $parser){
+        $this->parser = $parser;
+    }
     
     public function getFilters(){
         return array(
             new TwigFilter('generateToken', array($this, 'generateTokenFilter')),
             new TwigFilter('dateDiff', array($this, 'dateDiffFilter')),
+            new TwigFilter(
+                'md2html',
+                array($this, 'markdownToHtml'),
+                array('is_safe' => array('html'), 'pre_escape' => 'html')
+            ),
         );
     }
 
@@ -22,5 +34,9 @@ class AppExtension extends AbstractExtension{
 
     public function dateDiffFilter($start,$end){
         return $start->diff($end);
+    }
+
+    public function markdownToHtml($content){
+        return $this->parser->toHtml($content);
     }
 }

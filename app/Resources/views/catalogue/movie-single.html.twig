@@ -347,7 +347,31 @@
                     <div class="block-content" >
                         
                         <div class="border-0 bg-light p-3">
-                            {{programme.synopsis?programme.synopsis:"-"}}
+
+                            
+
+                            {% if programme.synopsis %}
+                                {{ programme.synopsis|md2html }}
+                            {% else %}
+                                <div class="alert alert-light" role="alert">
+                                    <h5 class="alert-heading">Information indisponible</h5>
+                                  
+                                    <p>
+                                        Faites une requete de modification pour cette section.
+                                    </p>
+                                  
+                                    <hr>
+                                    <p class="mb-0">
+                                        <a href=""  class="btn btn-sm btn-light text-secondary">
+                                            Cliquez ici.
+                                        </a>
+                                    </p>
+                                </div>
+                            {% endif %}
+
+                            
+
+
                         </div>
                     </div>
 
