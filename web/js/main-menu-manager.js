@@ -1,6 +1,12 @@
 $(document).ready(function($){
 
 	let mainMenu = $("#master-menu");
+	let timerId;
+	let menuHook = function(){
+		setTimeout(function(){
+
+		},)
+	}
 
 	/*$('.nav-contacts').click(function(e){
 		e.preventDefault();

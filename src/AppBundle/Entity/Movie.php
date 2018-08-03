@@ -244,6 +244,25 @@ class Movie implements Translatable
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="update")
+    * @ORM\Column(name="update_at", type="datetime", nullable=true)
+    */
+    private $updateAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="isPublished", value="1")    
+    * @ORM\Column(name="published_at", type="datetime", nullable=true)
+    */
+    private $publishedAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime", nullable=true)
     */
     private $createAt;
@@ -1189,5 +1208,53 @@ class Movie implements Translatable
 
     public function setTranslatableLocale($locale){
         $this->locale = $locale;
+    }
+
+    /**
+     * Set updateAt
+     *
+     * @param \DateTime $updateAt
+     *
+     * @return Movie
+     */
+    public function setUpdateAt($updateAt)
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updateAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     *
+     * @return Movie
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
     }
 }

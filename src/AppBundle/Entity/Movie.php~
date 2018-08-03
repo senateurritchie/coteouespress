@@ -244,6 +244,25 @@ class Movie implements Translatable
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="update")
+    * @ORM\Column(name="update_at", type="datetime", nullable=true)
+    */
+    private $updateAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="isPublished", value="1")    
+    * @ORM\Column(name="published_at", type="datetime", nullable=true)
+    */
+    private $publishedAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime", nullable=true)
     */
     private $createAt;
@@ -288,7 +307,7 @@ class Movie implements Translatable
     * Used locale to override Translation listener`s locale
     * this is not a mapped field of entity metadata, just a simple property
     */
-    private $locale = 'fr';
+    private $locale;
 
 
     /**

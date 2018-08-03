@@ -208,14 +208,20 @@
                 {% for movie in four_movie %}
                     <li class="ml-2">
                         <div class="position-relative has-media-detail d-block">
-                            <img width="150px" src="{{ asset('img/'~random(['other-movie-8','other-movie-9','other-movie-10','other-movie-7'])~'.jpg') }}" alt="">
+
+                            {% if movie.portraitImg %}
+                                <img width="150px" src="{{ asset('upload/public/'~movie.portraitImg) }}" alt="{{ movie.name|lower|title}}">
+                            {% else %}
+                                <img width="150px" src="{{ asset('img/'~random(['other-movie-8','other-movie-9','other-movie-10','other-movie-7'])~'.jpg') }}" alt="{{ movie.name|lower|title}}">
+                            {% endif %}
+                           
 
                             <div class="media-overlay"></div>
 
                             <div class="media-btn-wrapper">
                                 <ul>
                                     <li>
-                                        <a data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox">
+                                        <a data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="{{movie.trailer}}" class="venobox">
                                            {{ 'Bande annonce'|trans({},'movies') }}
                                         </a>
                                     </li>
@@ -290,8 +296,14 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <a class="vid-hover position-relative venobox" data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
-                                    <img class="img-fluid"  src="{{ asset('img/trailer1.jpg')}}" alt="">
+                                <a class="vid-hover position-relative venobox" data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="{{original_cover.trailer}}" >
+
+                                    {% if original_cover.landscapeImg %}
+                                        <img class="img-fluid" src="{{ asset('upload/public/'~original_cover.landscapeImg) }}" alt="{{ original_cover.name|lower|title}}">
+                                    {% else %}
+                                        <img class="img-fluid"  src="{{ asset('img/trailer1.jpg')}}" alt="{{ movie.name|lower|title}}" >
+                                    {% endif %}
+
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
                             </div>
@@ -302,14 +314,20 @@
                                     {% for movie in four_movie_2%}
                                         <div class="col-6 mb-3">
                                             <div class="position-relative d-block has-media-detail">
-                                                <img  class="img-fluid" src="{{ asset('img/trailer'~(loop.index+1)~'.jpg')}}" alt="">
+
+                                                {% if movie.landscapeImg %}
+                                                    <img class="img-fluid" src="{{ asset('upload/public/'~movie.landscapeImg) }}" alt="{{ movie.name|lower|title}}">
+                                                {% else %}
+                                                    <img class="img-fluid"  src="{{ asset('img/vignette-landscape.png')}}" alt="{{ movie.name|lower|title}}" >
+                                                {% endif %}
+
 
                                                 <div class="media-overlay"></div>
 
                                                 <div class="media-btn-wrapper">
                                                     <ul class="d-block">
                                                         <li>
-                                                            <a class="venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="https://www.youtube.com/embed/V_aDojXG8cM">
+                                                            <a class="venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="{{movie.trailer}}">
                                                                {{ 'Bande annonce'|trans({},'movies') }}
                                                             </a>
                                                         </li>
@@ -370,7 +388,18 @@
 
                                <a class="venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
                                     
-                                    <div style="background:url({{ asset('img/'~random(['trailer-new.jpg','trailer-new-2.jpg']))}}) 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;padding-bottom:100px;"></div>
+
+                                    {% if inTheather %}
+
+                                        {% if inTheather.coverImg %}
+                                            <div class="in-theather-cover" style="background-image:url( {{ asset('upload/public/'~inTheather.coverImg)}})" ></div>
+                                        {% else %}
+                                            <div class="in-theather-cover" style="background-image:url( {{ asset('upload/public/vignette-cover')}})" ></div>
+                                        {% endif %}
+                                       
+                                    {% else %}
+                                       <div class="in-theather-cover"></div>
+                                    {% endif %}
 
                                     <i class="video-icon video-popup-control"></i>
 
@@ -390,33 +419,63 @@
                                                 
                                             </li>
                                         </ul>
-                                        <h2>{{ random(['the visit','the wild'])}}</h2>
+                                        <h2>
+                                            {% if inTheather %}
+                                                {{ inTheather.name|lower|title }}
+                                            {% else %}
+                                                {{ random(['the visit','the wild'])}}
+                                            {% endif %}
+                                            
+                                            
+                                        </h2>
                                         <p>Sortie en salle le, 25 decembre 2018</p>
                                     </div>
                                 </a>
                             </div>
 
                             <div class="col-md-5 shadow-effect2 bg-white">
-                                {#<h3 class="mblock-title mblock-title-info" style="line-height:0px;font-size:12px">
-                                    {{ 'Synopsis'|trans({},'homepage') }}
-                                </h3>
-                                <br>#}
-                                <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Laborum quos nam, autem velit dolores, eos et sunt neque ab animi natus veritatis eum beatae minus saepe rerum, illo odio aliquam... <a href=""><small>lire la suite</small></a></div>
+                                
+                                <div>
+                                    {% if inTheather %}
+                                        {{ inTheather.synopsis|truncate(187,'...')|md2html }}
+                                    {% else %}
+                                        -
+                                    {% endif %}
+
+                                   <a href=""><small>lire la suite</small></a>
+                                </div>
 
                                 <br>
                                 
-                                <h3 class="mblock-title mblock-title-info" style="line-height:0px;font-size:12px">
-                                    {{ 'Equipe de production'|trans({},'homepage') }}
-                                </h3>
-                                <br>
+                               
 
                                 <div class="row">
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid" src="{{ asset('img/director-1.jpg') }}" alt="">
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <img class="img-fluid" src="{{ asset('img/director-2.jpg')}}" alt="">
-                                    </div>
+                                    {% if inTheather %}
+                                        {% set scenes = inTheather.scenes|slice(0,2) %}
+                                        
+                                        {% if scenes|length %}
+                                            {% for img in scenes %}
+                                                <div class="col-sm-6">
+                                                    <img class="img-fluid" src="{{ asset('upload/public/'~img.image) }}" alt="{{ inTheather.name|lower|title }}">
+                                                </div>
+                                            {% endfor %}
+                                        {% else %}
+                
+                                        {% endif %}
+                                    {% else %}
+                                        <h3 class="mblock-title mblock-title-info" style="line-height:0px;font-size:12px">
+                                            {{ 'Equipe de production'|trans({},'homepage') }}
+                                        </h3>
+                                        <br>
+
+                                       <div class="col-sm-6">
+                                            <img class="img-fluid" src="{{ asset('img/director-1.jpg') }}" alt="">
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <img class="img-fluid" src="{{ asset('img/director-2.jpg')}}" alt="">
+                                        </div>
+                                    {% endif %}
+                                    
                                 </div>
 
                                 <a class="btn btn-sm btn-info venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" title="false">

@@ -22,10 +22,14 @@ class DefaultController extends Controller{
     public function indexAction(Request $request){
 
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Movie::class);
+        $rep_movie = $em->getRepository(Movie::class);
        
         //  on charge les programmes
-        $programmes = $rep->findBy([],["id"=>"desc"],9);
+        $ev = array(
+            //"isPublished"=>1,
+            "inTheather"=>1,
+        );
+        $programmes = $rep_movie->findBy($ev,["id"=>"desc"],9);
 
         //  on charge les acteurs
         $rep = $em->getRepository(Actor::class);
@@ -41,6 +45,7 @@ class DefaultController extends Controller{
 
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,
+            "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
             "actors"=>$actors,
             "directors"=>$directors,
             "producer"=>$producer,

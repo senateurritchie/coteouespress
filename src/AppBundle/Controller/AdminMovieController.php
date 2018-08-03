@@ -112,7 +112,6 @@ class AdminMovieController extends Controller
 
         // soumissio de formulaire
     	$item = new Movie();
-    	$item->setCreateAt(new \Datetime());
     	$form = $this->createForm(MovieType::class,$item,[
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ]);

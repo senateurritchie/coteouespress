@@ -18,6 +18,7 @@ class AppExtension extends AbstractExtension{
         return array(
             new TwigFilter('generateToken', array($this, 'generateTokenFilter')),
             new TwigFilter('dateDiff', array($this, 'dateDiffFilter')),
+            new TwigFilter('truncate', array($this, 'truncateFilter')),
             new TwigFilter(
                 'md2html',
                 array($this, 'markdownToHtml'),
@@ -36,7 +37,15 @@ class AppExtension extends AbstractExtension{
         return $start->diff($end);
     }
 
+    public function truncateFilter($value,$length,$overflow="..."){
+        $text = substr($value,0,$length);
+
+        return strlen($text) > $length ? $text.$overflow : $text;
+    }
+
     public function markdownToHtml($content){
         return $this->parser->toHtml($content);
     }
+
+
 }

@@ -47,6 +47,16 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 			$this->whereTerms($qb,@$params["name"]);
 		}
 
+        // recherche par inTheather
+        if(@$params["inTheather"]){
+            $this->whereInTheater($qb,@$params["inTheather"]);
+        }
+
+        // recherche par published
+        if(@$params["published"]){
+            $this->whereIsPublished($qb,@$params["inTheather"]);
+        }
+
 		// recherche par mention
 		if(@$params["mention"]){
 			$this->whereMention($qb,@$params["mention"]);
@@ -151,6 +161,16 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 	    ->setParameter("terms_1",$value)
 	    ->setParameter("terms_2","%$value%");
 	}
+
+    public function whereInTheater(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("m.inTheather",":inTheather"))
+        ->setParameter("inTheather",$value);
+    }
+
+    public function whereIsPublished(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("m.isPublished",":isPublished"))
+        ->setParameter("isPublished",$value);
+    }
 
 	public function whereYear(QueryBuilder $qb,$value,$end=null){
 

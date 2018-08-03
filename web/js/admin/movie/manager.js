@@ -768,10 +768,12 @@ var AdminManager = AdminManager || {};
 										var data = event.params.data;
 
 										if(data && data.data){
+
+											modal.find('#translate-area-data').html('');
+
 											for(var lang in data.data){
 												this.insertNewTranslation(lang,modal,data.data[lang]);
 											}
-											console.log(data)
 										}
 									}
 								}
