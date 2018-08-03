@@ -53,7 +53,7 @@ class CatalogType extends AbstractType
                 return $item->getName();
             },
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("genre") == $value){
@@ -72,7 +72,7 @@ class CatalogType extends AbstractType
                 "4k"=>"4k",
                 "2k"=>"2k",
             ],
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("mention") == $value){
@@ -88,7 +88,7 @@ class CatalogType extends AbstractType
             /*"class"=>Country::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("country") == $value){
@@ -128,7 +128,7 @@ class CatalogType extends AbstractType
             },
             "choice_value"=>"slug",
             "mapped"=>false,
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("category") == $value){
@@ -144,7 +144,7 @@ class CatalogType extends AbstractType
             "class"=>Language::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("language") == $value){
@@ -160,7 +160,7 @@ class CatalogType extends AbstractType
             "class"=>Producer::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("producer") == $value){
@@ -168,8 +168,8 @@ class CatalogType extends AbstractType
                 }
                 return $attrs;
             },
-            'group_by' => function($value, $key, $value) {
-                return strtoupper($value[0]);
+            'group_by' => function($value, $key, $index) {
+                return strtoupper($value->getSlug()[0]);
             },
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
@@ -183,7 +183,7 @@ class CatalogType extends AbstractType
             "class"=>Director::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
                 if($request->query->get("director") == $value){
@@ -191,8 +191,8 @@ class CatalogType extends AbstractType
                 }
                 return $attrs;
             },
-            'group_by' => function($value, $key, $value) {
-                return strtoupper($value[0]);
+            'group_by' => function($value, $key, $index) {
+                return strtoupper($value->getSlug()[0]);
             },
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')

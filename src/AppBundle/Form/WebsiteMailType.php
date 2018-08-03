@@ -80,7 +80,7 @@ class WebsiteMailType extends AbstractType
             "choice_label"=>function($department,$key,$index){
                 return ucwords($department->getName());
             },
-            'group_by' => function($value, $key, $value) {
+            'group_by' => function($value, $key, $index) {
                 return strtoupper($value[0]);
             },
             "choice_value"=>"slug",
@@ -97,7 +97,7 @@ class WebsiteMailType extends AbstractType
                 return ucfirst($referer->getName());
             },
             "label"=>$this->translator->trans("referer.message",array(),"contact"),
-            'choice_attr' => function($value, $key, $value) {
+            'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
                 if($value == 6){
                     $attrs["checked"] = "checked";
