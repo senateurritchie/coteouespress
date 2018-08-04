@@ -3,7 +3,9 @@
 namespace AppBundle\Entity;
 
 class Catalog{
-    private $category;
+    protected $category;
+    protected $name;
+    protected $year;
 
 
     public function getCategory(){
@@ -12,6 +14,24 @@ class Catalog{
 
     public function setCategory($category){
         $this->category = $category;
+        return $this;
+    }
+
+    public function getName(){
+        return $this->name;
+    }
+
+    public function setName($name){
+        $this->name = $name;
+        return $this;
+    }
+
+    public function getYear(){
+        return $this->year;
+    }
+
+    public function setYear($year){
+        $this->year = $year;
         return $this;
     }
 }

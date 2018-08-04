@@ -208,11 +208,6 @@ class CatalogType extends AbstractType
                 "placeholder"=>$this->translator->trans("Nom du programme",array(),"catalogue")
             )
         ))
-        ->add('in_theatres',CheckboxType::class,array(
-            "required"=>false,
-            "mapped"=>false,
-            "data"=>$request->query->get("in_theatres")?true:false
-        ))
         ->add('year',IntegerType::class,array(
             "required"=>false,
             "mapped"=>false,
@@ -221,7 +216,7 @@ class CatalogType extends AbstractType
                 "placeholder"=>$this->translator->trans("Année",array(),"catalogue")
             )
         ))
-        ->add('search', SubmitType::class, array("label"=>"Recherche"))
+        ->add('bntSearch', SubmitType::class, array("label"=>"Recherche"))
         ->addEventListener(FormEvents::PRE_SET_DATA ,function(FormEvent $event){
 
             $category = $event->getData();

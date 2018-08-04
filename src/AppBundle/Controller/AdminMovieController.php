@@ -21,6 +21,8 @@ use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieScene;
 
+use AppBundle\Form\CatalogAdminSearchType;
+use AppBundle\Entity\Catalog;
 
 
 /**
@@ -214,11 +216,13 @@ class AdminMovieController extends Controller
             }
         }
         
-        
+        $catalogue = new Catalog();
+        $form_search = $this->createForm(CatalogAdminSearchType::class,$catalogue);
 
     	return $this->render('admin/movie/index.html.twig',array(
     		"data"=>$data,
-    		"form"=>$form->createView(),
+            "form"=>$form->createView(),
+            "form_search"=>$form_search->createView(),
     	));
     }
 
