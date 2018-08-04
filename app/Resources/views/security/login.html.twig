@@ -30,13 +30,26 @@
 
                 <div class="block-header">
                     <h3 class="block-title">
-                        Video à la une
+                        Production à la une
                     </h3>
                 </div>
 
-                <a class="venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
+                <a class="venobox" data-vbtype="video" data-autoplay="true" href="{{ inTheather.trailer }}" >
 
-                    <div class="self-vid-hover" style="background:url({{ asset('img/'~random(['trailer-new.jpg','trailer-new-2.jpg'])) }}) 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;padding-bottom:100px;"></div>
+                    {% if inTheather %}
+
+                        {% if inTheather.coverImg %}
+                            <div class="in-theather-cover self-vid-hover" style="background-image:url( {{ asset('upload/public/'~inTheather.coverImg)}})" ></div>
+                        {% else %}
+                            <div class="in-theather-cover self-vid-hover" style="background-image:url( {{ asset('upload/public/vignette-cover')}})" ></div>
+                        {% endif %}
+                       
+                    {% else %}
+                       <div class="in-theather-cover"></div>
+                    {% endif %}
+
+
+                    {#<div class="self-vid-hover" style="background:url({{ asset('img/'~random(['trailer-new.jpg','trailer-new-2.jpg'])) }}) 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;padding-bottom:100px;"></div>#}
 
                     <i class="video-icon video-popup-control"></i>
 
@@ -44,7 +57,11 @@
 
                     <div class="prs_upcom_video_img_cont_over">
                         <ul>
-                            <li>Drama,Action</li>
+                            <li>
+                                {% for i in inTheather.genres|slice(0,2) %}
+                                    {{ i.genre.name|lower|title }}{{ loop.last ? '' : ','}}
+                                {% endfor %}
+                            </li>
                             <li>Note :&nbsp;&nbsp;
                                 <span class="text-info">
                                     <i class="fas fa-star"></i>
@@ -56,7 +73,13 @@
                                 
                             </li>
                         </ul>
-                        <h2>{{ random(['the visit','the wild'])}}</h2>
+                        <h2>
+                            {% if inTheather %}
+                                {{ inTheather.name|lower|title }}
+                            {% else %}
+                                {{ random(['the visit','the wild'])}}
+                            {% endif %}
+                        </h2>
                         <p>Sortie en salle le, 25 decembre 2018</p>
                     </div>
                 </a>

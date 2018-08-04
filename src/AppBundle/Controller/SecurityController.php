@@ -15,6 +15,7 @@ use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use AppBundle\Entity\User;
+use AppBundle\Entity\Movie;
 
 
 /**
@@ -25,6 +26,9 @@ class SecurityController extends Controller{
     * @Route("/login", name="login")
     */
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils,$_locale = 'fr'){
+        
+        $em = $this->getDoctrine()->getManager();
+        $rep_movie = $em->getRepository(Movie::class);
 
     	if($this->isGranted('IS_AUTHENTICATED_FULLY')){
     		return $this->redirectToRoute('homepage');
@@ -39,6 +43,7 @@ class SecurityController extends Controller{
 	    return $this->render('security/login.html.twig', array(
 	        'last_username' => $lastUsername,
 	        'error'         => $error,
+            "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
 	    ));
     }
 

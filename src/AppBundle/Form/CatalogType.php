@@ -53,10 +53,9 @@ class CatalogType extends AbstractType
                 return $item->getName();
             },
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index) {
+            'choice_attr' => function($value, $key, $index)use(&$request) {
                 $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("genre") == $value){
+                if($request->query->get("genre") == $value->getSlug()){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
@@ -116,6 +115,13 @@ class CatalogType extends AbstractType
 
                 return strtoupper($slug[0]);
             },
+            'choice_attr' => function($value, $key, $index)use(&$request) {
+                $attrs = [];
+                if($request->query->get("country") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
 
             "mapped"=>false,
         ))
@@ -128,10 +134,9 @@ class CatalogType extends AbstractType
             },
             "choice_value"=>"slug",
             "mapped"=>false,
-            'choice_attr' => function($value, $key, $index) {
+            'choice_attr' => function($value, $key, $index)use(&$request) {
                 $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("category") == $value){
+                if($request->query->get("category") == $value->getSlug()){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
@@ -144,10 +149,9 @@ class CatalogType extends AbstractType
             "class"=>Language::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index) {
+            'choice_attr' => function($value, $key, $index)use(&$request) {
                 $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("language") == $value){
+                if($request->query->get("language") == $value->getSlug()){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
@@ -160,10 +164,9 @@ class CatalogType extends AbstractType
             "class"=>Producer::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index) {
+            'choice_attr' => function($value, $key, $index)use(&$request) {
                 $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("producer") == $value){
+                if($request->query->get("producer") == $value->getSlug()){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
@@ -183,10 +186,9 @@ class CatalogType extends AbstractType
             "class"=>Director::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index) {
+            'choice_attr' => function($value, $key, $index)use(&$request) {
                 $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("director") == $value){
+                if($request->query->get("director") == $value->getSlug()){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;

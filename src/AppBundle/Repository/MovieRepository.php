@@ -99,7 +99,12 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
 		// recherche par année
 		if(@$params["year"]){
-			$this->whereYear($qb,@$params["year"]);
+            if(@$params["year_end"]){
+                $this->whereYear($qb,@$params["year"],@$params["year_end"]);
+            }
+            else{
+                $this->whereYear($qb,@$params["year"]);
+            }
 		}
 
         // ordre d'affichage par id
@@ -143,6 +148,8 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
     			'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
 			);
 		}*/
+
+        echo $query->getSQL();
 
 	    return $query->getResult();
 	}

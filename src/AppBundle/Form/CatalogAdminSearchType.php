@@ -59,10 +59,10 @@ class CatalogAdminSearchType extends AbstractType
         ))
         ->remove("year")
 
-        ->add('year_start',IntegerType::class,array(
+        ->add('year',IntegerType::class,array(
             "required"=>false,
             "mapped"=>false,
-            "data"=>$request->query->get("year_start")?intval($request->query->get("year_start")):null,
+            "data"=>$request->query->get("year")?intval($request->query->get("year")):null,
             "attr"=>array(
                 "placeholder"=>"debut de production",
             )
@@ -113,6 +113,14 @@ class CatalogAdminSearchType extends AbstractType
     public function getParent()
     {
         return CatalogType::class;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getBlockPrefix()
+    {
+        return null;
     }
 
 

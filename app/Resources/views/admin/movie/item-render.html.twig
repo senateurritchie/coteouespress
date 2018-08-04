@@ -144,4 +144,19 @@
 			{{ item.createAt|date("d/m/Y à H:i") }}
 		</td>#}
 	</tr>
+{% else %}
+	{% if use_modal is defined %}
+		<tr>
+			<td colspan="12">
+				<div class="alert alert-dismissible">
+		        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		        	<h4><i class="icon fa fa-warning"></i> Oops!</h4>
+		        	Aucun resultat ne correspont à votre recherche.
+		        	<br>
+		        	Veuillez réessayer
+		      	</div>
+			</td>
+		</tr>
+		
+	{% endif %}
 {% endfor %}

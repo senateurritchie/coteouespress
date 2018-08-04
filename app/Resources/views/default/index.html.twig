@@ -386,7 +386,7 @@
                         <div class="row">
                             <div class="col-md-7 p-0">
 
-                               <a class="venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" >
+                               <a class="venobox" data-vbtype="video" data-autoplay="true" href="{{ inTheather.trailer }}" >
                                     
 
                                     {% if inTheather %}
@@ -407,7 +407,11 @@
 
                                     <div class="prs_upcom_video_img_cont_over">
                                         <ul>
-                                            <li>Drama,Action</li>
+                                            <li>
+                                                {% for i in inTheather.genres %}
+                                                    {{ i.genre.name|lower|title }}{{ loop.last ? '' : ','}}
+                                                {% endfor %}
+                                            </li>
                                             <li>Note :&nbsp;&nbsp;
                                                 <span class="text-info">
                                                     <i class="fas fa-star"></i>
@@ -442,7 +446,9 @@
                                         -
                                     {% endif %}
 
-                                   <a href=""><small>lire la suite</small></a>
+                                    <a href="{{ path('catalogue_index',{'slug':inTheather.slug}) }}">
+                                        <small>lire la suite</small>
+                                    </a>
                                 </div>
 
                                 <br>
@@ -451,12 +457,29 @@
 
                                 <div class="row">
                                     {% if inTheather %}
-                                        {% set scenes = inTheather.scenes|slice(0,2) %}
+                                        {% set scenes = inTheather.scenes %}
                                         
                                         {% if scenes|length %}
                                             {% for img in scenes %}
+                                                
                                                 <div class="col-sm-6">
-                                                    <img class="img-fluid" src="{{ asset('upload/public/'~img.image) }}" alt="{{ inTheather.name|lower|title }}">
+                                                    <div class="position-relative" style="display:inline-block">
+
+                                                        {% if loop.index <= 2 %}
+                                                            <img class="img-fluid" src="{{ asset('upload/public/'~img.image) }}" alt="{{ inTheather.name|lower|title }}">
+
+                                                            <div class="custom_overlay"></div>
+
+                                                        {% endif %}
+
+
+                                                        <a href="{{ asset('upload/public/'~img.image) }}" class="venobox  text-white" data-gall="myGallery" data-title="{{ inTheather.name|lower|title }}"style="position:absolute;top:45%;left:45%;">
+                                                            {% if loop.index <= 2 %}
+                                                                <i  class="fas fa-search"></i>
+                                                            {% endif %}
+                                                        </a>
+                                                    </div>
+
                                                 </div>
                                             {% endfor %}
                                         {% else %}
@@ -478,11 +501,11 @@
                                     
                                 </div>
 
-                                <a class="btn btn-sm btn-info venobox" data-vbtype="video" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM" title="false">
-                                    <i class="fas fa-angle-left"></i> &nbsp; bande annonce 
+                                <a class="btn btn-sm btn-primary venobox" data-vbtype="video" data-autoplay="true" href="{{inTheather.trailer}}" title="false">
+                                    <i class="far fa-eye"></i> &nbsp; bande annonce 
                                 </a>
 
-                                <a class="btn btn-sm btn-info" href="{{ path('catalogue_index',{'slug':'a-favorita'}) }}">
+                                <a class="btn btn-sm btn-primary" href="{{ path('catalogue_index',{'slug':inTheather.slug}) }}">
                                     voir la fiche &nbsp;<i class="fas fa-angle-right"></i>
                                 </a>
                             </div>
@@ -547,7 +570,7 @@
 
                         <div class="row">
                             <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
-                                <a class="venobox"  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
+                                <a class="venobox"  data-vbtype="video" data-title="" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
                                     <img  class="img-fluid" src="{{ asset('img/vid1.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
