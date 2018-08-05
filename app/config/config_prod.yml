@@ -20,3 +20,16 @@ monolog:
         console:
             type: console
             process_psr_3_messages: false
+
+parameters:
+    admin:
+        department: 'webmaster'
+        email: 'webmaster@coteouest.ci'
+    app.site: 
+        name:   'Côte Ouest Audiovisuel'
+        email:  'webmaster@coteouest.ci'
+        url:    'http://coteouest.tv/'
+    app.vimeo:
+        access_token: '1198091448fb8d24a0b332ab28b7e0cf'
+        client_id: '7ec68730b75234b0808db6a3a1f473f1424af34e'
+        client_secret: '/lP+99w7SP7JKIxW3WydJLuzX5+AK9mkK4mkAfbRZOc9gAvGNEqlK0swUbYPBK+AeonvHddAHGmKh+5ZMnujQBPkPJOIJw6J4M/dz22LndFSt21vl1mW9zBHhkcnrkTV'

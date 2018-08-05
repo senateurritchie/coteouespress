@@ -47,15 +47,22 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 			$this->whereTerms($qb,@$params["name"]);
 		}
 
-        // recherche par inTheather
-        if(@$params["inTheather"]){
-            $this->whereInTheater($qb,@$params["inTheather"]);
+        // recherche par in_theather
+        if(@$params["in_theather"]){
+            $this->whereInTheater($qb,@$params["in_theather"]);
         }
 
         // recherche par published
         if(@$params["published"]){
-            $this->whereIsPublished($qb,@$params["inTheather"]);
+            $this->whereIsPublished($qb,@$params["published"]);
         }
+
+        // recherche par has_exclusivity
+        if(@$params["has_exclusivity"]){
+            $this->whereHasExclusivity($qb,@$params["has_exclusivity"]);
+        }
+
+        
 
 		// recherche par mention
 		if(@$params["mention"]){
@@ -98,14 +105,16 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		}
 
 		// recherche par année
-		if(@$params["year"]){
-            if(@$params["year_end"]){
-                $this->whereYear($qb,@$params["year"],@$params["year_end"]);
-            }
-            else{
-                $this->whereYear($qb,@$params["year"]);
-            }
+		if(@$params["year"] && @$params["year_end"]){
+            $this->whereYearRange($qb,$params["year"],$params["year_end"]);
 		}
+        else if(@$params["year"]){
+            $this->whereYearStart($qb,$params["year"]);
+        }
+        else if(@$params["year_end"]){
+            $this->whereYearEnd($qb,$params["year_end"]);
+        }
+
 
         // ordre d'affichage par id
         if(@$params['order_id']){
@@ -149,8 +158,6 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 			);
 		}*/
 
-        echo $query->getSQL();
-
 	    return $query->getResult();
 	}
 
@@ -179,26 +186,47 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         ->setParameter("isPublished",$value);
     }
 
-	public function whereYear(QueryBuilder $qb,$value,$end=null){
+    public function whereHasExclusivity(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("m.hasExclusivity",":has_exclusivity"))
+        ->setParameter("has_exclusivity",$value);
+    }
 
-		if($end){
-			$qb->andWhere(
-				$qb->expr()->orX(
-					$qb->expr()->eq("m.yearStart",":year"),
-					$qb->expr()->between("m.yearStart",":year",":yearEnd")
-				)
-			)
-			->setParameter("yearEnd",$end);
-		}
-		else{
-			$qb->andWhere(
-				$qb->expr()->eq("m.yearStart",":year")
-			);
-		}
+    public function whereYearStart(QueryBuilder $qb,$value){
+        $value = substr($value,0,4)."-01-01";
+        $value = new \Datetime($value);
 
-		$value = substr($value,0,4)."-01-01";
-		$value = new \Datetime($value);
-		$qb->setParameter("year",$value->format("Y-m-d H:i:s"));
+        $qb->andWhere(
+            $qb->expr()->orX(
+                $qb->expr()->eq("DATE_FORMAT(m.yearStart,'%Y')",":year_start"),
+                $qb->expr()->between(":year_start","DATE_FORMAT(m.yearStart,'%Y')","DATE_FORMAT(m.yearEnd,'%Y')")
+            )
+        )
+        ->setParameter("year_start",$value->format("Y"));
+    }
+
+    public function whereYearEnd(QueryBuilder $qb,$value){
+        $value = substr($value,0,4)."-01-01";
+        $value = new \Datetime($value);
+
+        $qb->andWhere(
+            $qb->expr()->eq("DATE_FORMAT(m.yearEnd,'%Y')",":year_end")
+        )
+        ->setParameter("year_end",$value->format("Y"));
+    }
+
+	public function whereYearRange(QueryBuilder $qb,$start,$end){
+
+        $start = substr($start,0,4)."-01-01";
+        $start = new \Datetime($start);
+
+        $end = substr($end,0,4)."-01-01";
+        $end = new \Datetime($end);
+
+		$qb->andWhere(
+			$qb->expr()->between("DATE_FORMAT(m.yearStart,'%Y')",":year_start",":year_end")
+		)
+        ->setParameter("year_start",$start->format("Y"))
+        ->setParameter("year_end",$end->format("Y"));
   	}
 
   	public function whereMention(QueryBuilder $qb,$value){

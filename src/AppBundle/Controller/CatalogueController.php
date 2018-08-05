@@ -41,8 +41,90 @@ class CatalogueController extends Controller{
             $category = $programme->getCategory();
             $otherMovies = $rep->findBy(array("category"=>$category),['id'=>"DESC"],12);
 
+            $vimeo_p = $this->getParameter('app.vimeo');
+            
+            $client_id = $vimeo_p['client_id'];
+            $client_secret = $vimeo_p['client_secret'];
+            $token = $vimeo_p['access_token'];
+
+            $lib = new \Vimeo\Vimeo($client_id, $client_secret);
+            /*$token = $lib->clientCredentials(["public","video_files"]);
+            var_dump($token['body']['access_token']);
+            // accepted scopes
+            var_dump($token['body']['scope']);*/
+
+            // use the token
+            $lib->setToken($token);
+            
+            $vimeoRsrc = array();
+           
+
+            $requestVimeo = function ($url,callable $fn)use(&$lib){
+                $code = array_slice(explode("/", $url),-1)[0];
+                $endpointTpl = '/videos/__video_id__/pictures';
+                $endpoint = preg_replace("#__video_id__#",$code, $endpointTpl);
+
+                if(($response = $lib->request($endpoint, [], 'GET'))){
+                    if(@$response['status'] == 200){
+                        $cover = $response['body']['data'][0]['sizes'][0]['link'];
+                        $cover = preg_replace("#(\d+x\d+)#", "1920x1080", $cover);
+                        $thumbnail = preg_replace("#(\d+x\d+)#", "100x100", $cover);
+
+                        if($fn){
+                            $ret = call_user_func($fn,$code,$cover,$thumbnail);
+                        }
+                    }
+                }
+            };
+
+            if(($url = $programme->getTrailer())){
+                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
+
+                    $vimeoRsrc["trailer"] = array(
+                        "code"=>$code,
+                        "cover"=>$cover,
+                        "thumbnail"=>$thumbnail,
+                    );
+                });
+            }
+
+            if(($url = $programme->getEpisode1())){
+                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
+
+                    $vimeoRsrc["episode 1"] = array(
+                        "code"=>$code,
+                        "cover"=>$cover,
+                        "thumbnail"=>$thumbnail,
+                    );
+                });
+            }
+
+            if(($url = $programme->getEpisode2())){
+                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
+
+                    $vimeoRsrc["episode 2"] = array(
+                        "code"=>$code,
+                        "cover"=>$cover,
+                        "thumbnail"=>$thumbnail,
+                    );
+                });
+            }
+
+            if(($url = $programme->getEpisode3())){
+                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
+
+                    $vimeoRsrc["episode 3"] = array(
+                        "code"=>$code,
+                        "cover"=>$cover,
+                        "thumbnail"=>$thumbnail,
+                    );
+                });
+            }
+
+
     		return $this->render('catalogue/movie-single.html.twig',array(
                 "programme"=>$programme,
+                "vimeoRsrc"=>$vimeoRsrc,
                 "otherMovies"=>$otherMovies,
     		));
     	}

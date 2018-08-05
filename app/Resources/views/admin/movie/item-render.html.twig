@@ -54,14 +54,18 @@
 		</td>
 
 		<td class="data-item-year" style="vertical-align:middle;text-align:center" width="100">
+			{% set yearStart = item.yearStart|date("Y") %}
+
 			{% if item.yearEnd %}
-				{% if item.yearEnd == item.yearStart %}
+				{% set yearEnd = item.yearEnd|date("Y") %}
+
+				{% if yearEnd == yearStart %}
 					<span class="label label-default">
-						{{ item.yearStart|date("d/m/Y") }}
+						{{ yearStart }}
 					</span>
 				{% else %}
 					<span class="label label-default">
-						{{ item.yearStart|date("d-m-Y") }}
+						{{ yearStart }}
 					</span>
 					
 					<div>
@@ -69,13 +73,13 @@
 					</div>
 
 					<span class="label label-default">
-						{{ item.yearEnd|date("d-m-Y") }}
+						{{ yearEnd }}
 					</span> 
 				{% endif %}
 				
 			{% else %}
 				<span class="label label-default">
-					{{ item.yearStart|date("d/m/Y") }}
+					{{ yearStart }}
 				</span>
 			{% endif %}
 		</td>

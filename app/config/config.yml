@@ -7,13 +7,6 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
-    admin:
-        department: 'webmaster'
-        email: 'webmaster@coteouest.ci'
-    app.site: 
-        name:   'Côte Ouest Audiovisuel'
-        email:  'webmaster@coteouest.ci'
-        url:    'http://coteouest.tv/'
 
 framework:
     #esi: ~
@@ -45,6 +38,7 @@ twig:
     strict_variables: '%kernel.debug%'
     globals:
         site: '%app.site%'
+        vimeo: '%app.vimeo%'
 
 # Doctrine Configuration
 doctrine:
@@ -80,6 +74,8 @@ doctrine:
         dql:
             string_functions:
                 MATCH_AGAINST: AppBundle\Extensions\Doctrine\MatchAgainst
+                DATE_FORMAT: AppBundle\Extensions\Doctrine\DateFormatFunction
+
 
 
 # Swiftmailer Configuration

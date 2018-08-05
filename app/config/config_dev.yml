@@ -41,7 +41,14 @@ monolog:
 #    delivery_addresses: ['me@example.com']
 
 parameters:
+    admin:
+        department: 'webmaster'
+        email: 'zakeszako@yahoo.fr'
     app.site: 
         name:   'Côte Ouest Audiovisuel'
         email:  'webmaster@coteouest.ci'
         url:    'http://coteouesttv.local'
+    app.vimeo:
+        access_token: '95e6651dbfaf32ff95b86f047afa645b'
+        client_id: '7ec68730b75234b0808db6a3a1f473f1424af34e'
+        client_secret: '/lP+99w7SP7JKIxW3WydJLuzX5+AK9mkK4mkAfbRZOc9gAvGNEqlK0swUbYPBK+AeonvHddAHGmKh+5ZMnujQBPkPJOIJw6J4M/dz22LndFSt21vl1mW9zBHhkcnrkTV'

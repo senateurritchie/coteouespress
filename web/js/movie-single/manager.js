@@ -65,7 +65,7 @@ var AdminManager = AdminManager || {};
 
                     setTimeout(()=>{
                         this.params.container.removeClass('fix-rem');
-                    },5000)
+                    },500)
                 }
             });
 
@@ -300,17 +300,14 @@ var AdminManager = AdminManager || {};
             var votePlug = new nsp.plugins.Voting();
             votePlug.init();
 
-            if(vimeo){
-                var vimeo = AdminManager.container.get('VimeoPlayer');
-                vimeo.init({
+            if( Vimeo && $("#movie-player").length ){
+                var player = AdminManager.container.get('VimeoPlayer');
+                player.init({
                     container:$(".coa-player-thumbnail"),
                     list:$(".coa-player .coa-player-thumbnail div > a")
                 });
             }
             
-
-           
-
 			return this;
 		}
 		return MovieSingleView;

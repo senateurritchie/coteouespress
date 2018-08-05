@@ -74,7 +74,13 @@
         {% if programme.coverImg %}
             <div id="master-cover" style="background-image:url({{ asset('upload/public/'~programme.coverImg) }});background-position:left -100px;"></div>
         {% else %}
-            <div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>
+
+            {% if vimeoRsrc.trailer is defined %}
+                <div id="master-cover" style="background-image:url({{ vimeoRsrc.trailer.cover }});background-position:left -100px;"></div>
+            {% else %}
+                <div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>
+            {% endif %}
+
         {% endif %}
         
         
@@ -296,44 +302,37 @@
                         </div>
                     </div>#}
                 </section>
+                
+                {% if programme.trailer %}
+                    <section style="padding: 15px" id="movie-player">
+                        <div class="row">
+                            <div class="col-md-12 coa-player p-0">
+                                <div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-background="false"></div>
+        
+                                <div class="coa-player-thumbnail fix d-none">
+                                    <div class="list-group">
+                                        
+                                        {% for key,rsrc in vimeoRsrc %}
+                                            <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
 
-                <section style="padding: 15px" id="movie-player">
-                    <div class="row">
-                        <div class="col-md-12 coa-player p-0">
-                            <div data-vimeo-url="https://vimeo.com/205265379" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-background="false"></div>
+                                                <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
+                                                
+                                                &nbsp; 
+                                                <span class="thumbnail-desc">{{ programme.name|lower|title }}<br><small>{{ key|title }}</small></span>
+                                            </a>
+                                        {% endfor %}
+                                    </div>
 
-                           
-                            
-                            <div class="coa-player-thumbnail fix d-none">
-                                
-                                <div class="list-group">
-                                    
-                                    <a data-id="205265379" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center active">
-                                        <img   src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }}<br><small>Trailer</small></span>
-                                    </a>
-
-                                    <a data-id="253644176" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center">
-                                        <img src="{{ asset('img/vid1.jpg')}}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }} <br> <small>Episode 01</small></span>
-                                    </a>
-
-                                    <a data-id="204188760" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center">
-                                        <img  src="{{ asset('img/vid2.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }} <br><small>Episode 02</small></span>
-                                    </a>
-
-                                    <a data-id="204195114" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center">
-                                        <img  src="{{ asset('img/vid3.jpg')}}" class="img-fluid"  alt="{{ programme.name|lower|title }}"> &nbsp; <span class="thumbnail-desc">{{ programme.name|lower|title }} <br><small>Episode 03</small></span>
-                                    </a>
-                                </div>
-
-                                <div class="mt-4">
-                                    <button class="btn btn-info btn-sm btn-block">
-                                        <i class="fas fa-times"></i> Fermer la playlist 
-                                    </button>
+                                    <div class="mt-4">
+                                        <button class="btn btn-info btn-sm btn-block">
+                                            <i class="fas fa-times"></i> Fermer la playlist 
+                                        </button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </section>
+                    </section>
+                {% endif %}
 
                 <section class="block animation-top"  id="movie-description">
                     <div class="block-header">
