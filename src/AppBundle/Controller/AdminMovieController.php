@@ -24,6 +24,9 @@ use AppBundle\Entity\MovieScene;
 use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
 
+use AppBundle\Utils\CatalogMetadata;
+
+
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
@@ -960,24 +963,39 @@ class AdminMovieController extends Controller
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Movie::class);
 
+        $zip_path = __DIR__."/../../../web/upload/private/test.zip";
+        $reader = new CatalogMetadata($zip_path);
+
+        echo "<table cellspacing='0'>";
+
+        $reader
+        ->on("header",function($event){
+            echo "<tr>";
+            foreach ($event->getValue() as $el) {
+                echo "<td> $el </td>";
+            }
+            echo "</tr>";
+        })
+        ->on("sheetnames",function($event){
+            
+        })
+        ->on("worksheetData",function($event){
+
+        })
+        ->on("data",function($event){
+
+            echo "<tr style='border-top:1px solid #ff0000;'>";
+            foreach ($event->getValue() as $el) {
+                echo "<td style='text-align:center;border:1px solid #333;padding:10px'> $el </td>";
+            }
+            echo "</tr>";
+        })
+        
+        ->process();
+        echo "</table>";
+
         /*$spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();*/
-
-        $inputFileName = __DIR__."/../../../web/upload/private/test.xlsx";
-        $inputFileType = 'Xlsx';
-        $sheetname = "Version numérique";
-
-        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
-        $reader->setReadDataOnly(TRUE);
-        $reader->setLoadSheetsOnly($sheetname);
-        $spreadsheet = $reader->load($inputFileName);
-        $sheet = $spreadsheet->getActiveSheet();
-
-        ob_clean();
-        ob_start();
-        echo '<table>';
-        $data = $sheet->toArray();
-        $header = array_shift($data);
 
        /* foreach ($sheet->getRowIterator() as $key=>$row) {
 
@@ -988,7 +1006,7 @@ class AdminMovieController extends Controller
                 if($key == 1){
                     $headers[] = $cell->getValue();
                 }
-                echo '<td>' .
+                echo '<td>' .  
                      $cell->getValue() .
                      '</td>';
             }
@@ -997,7 +1015,9 @@ class AdminMovieController extends Controller
         echo '</table>';
 
         $content = ob_get_clean();*/
-        var_dump($header);
+        //var_dump($header);
+        //
+        
 
         return new Response("");
     }
