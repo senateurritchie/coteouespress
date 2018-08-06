@@ -1,7 +1,7 @@
 <?php	
 namespace AppBundle\Utils;
 
-use AppBundle\Utils\Event;
+use AppBundle\Utils\Event\Event;
 
 /**
 * gestionnaire d'evenements
@@ -62,23 +62,31 @@ class EventDispatcher{
 
 
 	/**
-	* @param string $event
+	* @param string|Event $event
 	* @param mixed $value
 	*/
 	public function emit($event,$value = null){
 
-		if(!is_string($event)){
+		if(is_string($event) || $event instanceof Event);
+		else{
 			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
 		}
 
-		if(!isset($this->data[$event])) return;
+		$evt_name = null;
 
-		$observers = $this->data[$event];
+		if(is_string($event)) {
+			$evt_name = $event;
 
-		$name = $event;
-		$event = new Event();
-		$event->setName($name);
-		$event->setValue($value);
+			$event = new Event();
+			$event->setName($evt_name);
+			$event->setValue($value);
+		}
+		else{
+			$evt_name = $event->getName();
+		}
+
+		if(!isset($this->data[$evt_name])) return;
+		$observers = $this->data[$evt_name];
 
 		foreach ($observers as $observer) {
 			call_user_func($observer,$event);

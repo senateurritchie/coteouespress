@@ -25,6 +25,7 @@ use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
 
 use AppBundle\Utils\CatalogMetadata;
+use AppBundle\Utils\Validator\CatalogMetadataHeaderValidator;
 
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -965,6 +966,29 @@ class AdminMovieController extends Controller
 
         $zip_path = __DIR__."/../../../web/upload/private/test.zip";
         $reader = new CatalogMetadata($zip_path);
+        $reader->dvm
+        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name"))
+        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("episodeNbr"))
+        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration"))
+        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
+        ->add(new \AppBundle\Utils\Validator\DateFieldValidator("year"))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer")))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode1")))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode2")))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode3"]))
+
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",\AppBundle\Entity\Category::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",\AppBundle\Entity\Language::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",\AppBundle\Entity\Genre::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",\AppBundle\Entity\Country::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",\AppBundle\Entity\Actor::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",\AppBundle\Entity\Producer::class))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",\AppBundle\Entity\Director::class))
+
+        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@coverImg",["width"=>1920,"height"=>1080]))
+        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@landscapeImg",["width"=>640,"height"=>360]))
+        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@portraitImg",["width"=>270,"height"=>360]))
+        ->add(new \AppBundle\Utils\Validator\GalleryFieldValidator("gallery",["width"=>640,"height"=>360]));
 
         echo "<table cellspacing='0'>";
 
@@ -972,7 +996,7 @@ class AdminMovieController extends Controller
         ->on("header",function($event){
             echo "<tr>";
             foreach ($event->getValue() as $el) {
-                echo "<td> $el </td>";
+                echo "<td> ".strip_tags(trim($el))." </td>";
             }
             echo "</tr>";
         })
@@ -986,38 +1010,14 @@ class AdminMovieController extends Controller
 
             echo "<tr style='border-top:1px solid #ff0000;'>";
             foreach ($event->getValue() as $el) {
-                echo "<td style='text-align:center;border:1px solid #333;padding:10px'> $el </td>";
+                $text = strip_tags(trim($el));
+                echo "<td style='text-align:center;border:1px solid #333;padding:10px'> $text </td>";
             }
             echo "</tr>";
         })
         
         ->process();
         echo "</table>";
-
-        /*$spreadsheet = new Spreadsheet();
-        $sheet = $spreadsheet->getActiveSheet();*/
-
-       /* foreach ($sheet->getRowIterator() as $key=>$row) {
-
-            $cellIterator = $row->getCellIterator();
-            $cellIterator->setIterateOnlyExistingCells(FALSE); 
-
-            foreach ($cellIterator as $cell) {
-                if($key == 1){
-                    $headers[] = $cell->getValue();
-                }
-                echo '<td>' .  
-                     $cell->getValue() .
-                     '</td>';
-            }
-            echo '</tr>';
-        }
-        echo '</table>';
-
-        $content = ob_get_clean();*/
-        //var_dump($header);
-        //
-        
 
         return new Response("");
     }

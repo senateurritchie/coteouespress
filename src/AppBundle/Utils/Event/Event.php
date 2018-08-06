@@ -1,5 +1,5 @@
 <?php	
-namespace AppBundle\Utils;
+namespace AppBundle\Utils\Event;
 
 /**
 * evenement
