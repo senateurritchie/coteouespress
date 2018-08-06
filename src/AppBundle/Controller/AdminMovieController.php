@@ -24,6 +24,9 @@ use AppBundle\Entity\MovieScene;
 use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 /**
 * @Route("/admin/movies", name="admin_movie_")
@@ -861,9 +864,6 @@ class AdminMovieController extends Controller
     */
     public function translateAction(Request $request,$movie_id){
 
-        // protection par role
-        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
-
         if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_CATALOG_TRANSLATE'));
         else{
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
@@ -924,9 +924,6 @@ class AdminMovieController extends Controller
     */
     public function translationsAction(Request $request,$movie_id){
 
-        // protection par role
-        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
-
         if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_CATALOG_TRANSLATE'));
         else{
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
@@ -948,5 +945,60 @@ class AdminMovieController extends Controller
         $result['status'] = true;
          
         return $this->json($result);
+    }
+
+
+    /**
+    * @Route("/metadata/upload", name="metadata_upload")
+    * @Method("GET")
+    */
+    public function metadataUploadAction(Request $request){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+
+        /*$spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();*/
+
+        $inputFileName = __DIR__."/../../../web/upload/private/test.xlsx";
+        $inputFileType = 'Xlsx';
+        $sheetname = "Version numérique";
+
+        $reader = \PhpOffice\PhpSpreadsheet\IOFactory::createReader($inputFileType);
+        $reader->setReadDataOnly(TRUE);
+        $reader->setLoadSheetsOnly($sheetname);
+        $spreadsheet = $reader->load($inputFileName);
+        $sheet = $spreadsheet->getActiveSheet();
+
+        ob_clean();
+        ob_start();
+        echo '<table>';
+        $data = $sheet->toArray();
+        $header = array_shift($data);
+
+       /* foreach ($sheet->getRowIterator() as $key=>$row) {
+
+            $cellIterator = $row->getCellIterator();
+            $cellIterator->setIterateOnlyExistingCells(FALSE); 
+
+            foreach ($cellIterator as $cell) {
+                if($key == 1){
+                    $headers[] = $cell->getValue();
+                }
+                echo '<td>' .
+                     $cell->getValue() .
+                     '</td>';
+            }
+            echo '</tr>';
+        }
+        echo '</table>';
+
+        $content = ob_get_clean();*/
+        var_dump($header);
+
+        return new Response("");
     }
 }

@@ -36,13 +36,18 @@ services:
     #         $someArgument: 'some_value'
 
     # Mes listeners
+    app.markdown:
+        class: AppBundle\Utils\Markdown
+
     app.request_listener:
         class: AppBundle\EventListener\RequestListener
         tags:
             - { name: kernel.event_listener, event: kernel.request, priority: 17}
 
     app.twig_extention:
-        class: AppBundle\Extensions\Twig\AppExtension
+        class: AppBundle\Extensions\Twig\AppExtension 
+        arguments:
+            - '@app.markdown'
         tags:
             - {name: twig.extention}
 

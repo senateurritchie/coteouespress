@@ -63,18 +63,22 @@ class CatalogueController extends Controller{
                 $code = array_slice(explode("/", $url),-1)[0];
                 $endpointTpl = '/videos/__video_id__/pictures';
                 $endpoint = preg_replace("#__video_id__#",$code, $endpointTpl);
+                try {
+                    if(($response = $lib->request($endpoint, [], 'GET'))){
+                        if(@$response['status'] == 200){
+                            $cover = $response['body']['data'][0]['sizes'][0]['link'];
+                            $cover = preg_replace("#(\d+x\d+)#", "1920x1080", $cover);
+                            $thumbnail = preg_replace("#(\d+x\d+)#", "100x100", $cover);
 
-                if(($response = $lib->request($endpoint, [], 'GET'))){
-                    if(@$response['status'] == 200){
-                        $cover = $response['body']['data'][0]['sizes'][0]['link'];
-                        $cover = preg_replace("#(\d+x\d+)#", "1920x1080", $cover);
-                        $thumbnail = preg_replace("#(\d+x\d+)#", "100x100", $cover);
-
-                        if($fn){
-                            $ret = call_user_func($fn,$code,$cover,$thumbnail);
+                            if($fn){
+                                $ret = call_user_func($fn,$code,$cover,$thumbnail);
+                            }
                         }
                     }
+                } catch (Exception $e) {
+                    
                 }
+                
             };
 
             if(($url = $programme->getTrailer())){
