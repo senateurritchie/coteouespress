@@ -966,29 +966,33 @@ class AdminMovieController extends Controller
 
         $zip_path = __DIR__."/../../../web/upload/private/test.zip";
         $reader = new CatalogMetadata($zip_path);
-        $reader->dvm
-        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name"))
-        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("episodeNbr"))
-        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration"))
-        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
-        ->add(new \AppBundle\Utils\Validator\DateFieldValidator("year"))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer")))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode1")))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode2")))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode3"]))
 
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",\AppBundle\Entity\Category::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",\AppBundle\Entity\Language::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",\AppBundle\Entity\Genre::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",\AppBundle\Entity\Country::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",\AppBundle\Entity\Actor::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",\AppBundle\Entity\Producer::class))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",\AppBundle\Entity\Director::class))
+        $reader->hvm
+        ->add(new \AppBundle\Utils\Validator\HeaderValidator());
+
+        $reader->dvm
+        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name",["nullable"=>false]))
+        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("episodeNbr",["nullable"=>false]))
+        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration",["nullable"=>false]))
+        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
+        ->add(new \AppBundle\Utils\Validator\DateFieldValidator("year",["nullable"=>false]))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer"))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode1"))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode2"))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode3"))
+
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",["nullable"=>false,"class"=>\AppBundle\Entity\Category::class,"entity_manager"=>$em]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",["class"=>\AppBundle\Entity\Language::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class]))
 
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@coverImg",["width"=>1920,"height"=>1080]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@landscapeImg",["width"=>640,"height"=>360]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@portraitImg",["width"=>270,"height"=>360]))
-        ->add(new \AppBundle\Utils\Validator\GalleryFieldValidator("gallery",["width"=>640,"height"=>360]));
+        ->add(new  \AppBundle\Utils\Validator\GalleryImageFieldValidator("@gallery",["width"=>640,"height"=>360]));
 
         echo "<table cellspacing='0'>";
 

@@ -3,46 +3,50 @@ namespace AppBundle\Utils\Validator;
 use AppBundle\Utils\Validator\FieldValidator;
 
 class UrlFieldValidator extends FieldValidator{
-	/**
-	* le domain de l'url
-	* @var string
-	*/
-	protected $host;
-	/**
-	* le protocol de l'url
-	* @var string
-	*/
-	protected $scheme;
-	/**
-	* le port de l'url
-	* @var string
-	*/
-	protected $port;
+	
+	protected $default_options = array(
+		"scheme"=>null,
+		"host"=>null,
+		"port"=>null,
+	);
 
-	public function __construct($field,$host = null,$scheme = null,$port = null){
-		parent::__construct($field);
-		$this->host = $host;
-		$this->scheme = $scheme;
-		$this->port = $port;
+	public function __construct($field,array $options = array()){
+		parent::__construct($field,array_merge($this->default_options,$options));
 	}
 
 	public function validate($value){
+		$cell = $this->getOption('cellToProcess');
+
 		if(($var = filter_var($value,FILTER_VALIDATE_URL))) {
-			if($this->scheme){
-				if($var['scheme'] != $this->scheme) return false;
+
+			$var = parse_url($var);
+
+			
+
+			if(($data = $this->getOption('scheme'))){
+				if($var['scheme'] != $data){
+					$scheme = $var['scheme'];
+					return "[$this->mappedBy]: '$scheme' n'est pas un protocol valide. le protocol '$data' doit être utilisé. cellule $cell";
+				}
 			}
 
-			if($this->host){
-				if($var['host'] != $this->host) return false;
+			if(($data = $this->getOption('host'))){
+				if($var['host'] != $data){
+					$host = $var['host'];
+					return "[$this->mappedBy]: '$host' n'est pas un domaine valide. le domaine '$data' doit être utilisé. cellule $cell";
+				}
 			}
 
-			if($this->port){
-				if($var['port'] != $this->port) return false;
+			if(($data = $this->getOption('port'))){
+				if($var['port'] != $data){
+					$port = $var['port'];
+					return "[$this->mappedBy]: '$port' n'est pas un port valide. le port '$data' doit être utilisé. cellule $cell";
+				}
 			}
 
 			return true;
 		}
-		return false;
+		return "[$this->mappedBy]: '$value' n'est pas une url valide. cellule $cell";
 	}
 
 	public function getHost(){

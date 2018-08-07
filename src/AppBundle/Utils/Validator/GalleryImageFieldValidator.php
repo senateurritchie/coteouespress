@@ -8,7 +8,7 @@ class GalleryImageFieldValidator extends FieldValidator{
 	 * les options de l'image
 	 * @var array
 	 */
-	protected $options = array(
+	protected $default_options = array(
 		"width"=>null,
 		"minWidth"=>null,
 		"maxWidth"=>null,
@@ -22,8 +22,7 @@ class GalleryImageFieldValidator extends FieldValidator{
 	);
 
 	public function __construct($field,array $options){
-		parent::__construct($field);
-		$this->options = array_merge($this->$options,$options);
+		parent::__construct($field,array_merge($this->default_options,$options));
 	}
 
 	public function validate($value){

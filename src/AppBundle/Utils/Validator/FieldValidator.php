@@ -1,22 +1,35 @@
 <?php
 namespace AppBundle\Utils\Validator;
 
-use AppBundle\Utils\Constraint\ConstraintManager;
+use AppBundle\Utils\Validator\Constraints\ConstraintManager;
 
-class FieldValidator extends Validator{
+abstract class FieldValidator extends Validator{
 	protected $mappedBy;
 	protected $cms;
-	protected $archive;
+	/**
+	 * les options 
+	 * @var array
+	 */
+	protected $options = array(
+		"nullable"=>true,
+		"constraints"=>[],
+		"cellToProcess"=>"A1",
+		"fieldToProcess"=>null,
+	);
 
-	public function __construct($field,array $constraints=array(),\ZipArchive $archive = null){
+	public function __construct($field,array $options = array()){
 		parent::__construct();
-		$this->mappedBy = $field;
-		$this->archive = $archive;
+		$this->mappedBy = mb_strtolower($field);
 		$this->cms = new ConstraintManager();
 
-		foreach ($constraints as $el) {
-			$this->cms->add($el);
+		$this->options = array_merge($this->options,$options);
+
+		if(isset($this->options["constraints"])){
+			foreach ($this->options["constraints"] as $el) {
+				$this->cms->add($el);
+			}
 		}
+		
 	}
 
 	public function addConstraint($item){
@@ -30,4 +43,15 @@ class FieldValidator extends Validator{
 	public function getMappedBy(){
 		return $this->mappedBy;
 	}
+
+	public function setOption($key,$value){
+		$this->options[$key] = $value;
+		return $this;
+	}
+	public function getOption($key,$default=null){
+		return isset($this->options[$key]) ? $this->options[$key] : $default;
+	}
+
+	public function validate($value){}
+
 }

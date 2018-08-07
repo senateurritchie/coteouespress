@@ -1,4 +1,4 @@
-<?php
+<?php 
 namespace AppBundle\Utils\Validator\Constraints;
 
 use AppBundle\Utils\Validator\Validator;

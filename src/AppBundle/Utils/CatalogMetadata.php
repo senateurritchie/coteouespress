@@ -8,7 +8,6 @@ use AppBundle\Utils\Exception\ArchiveFileNotFoundException;
 use AppBundle\Utils\Validator\ValidatorManager;
 use AppBundle\Utils\Validator\FieldValidatorManager;
 
-
 class CatalogMetadata extends EventDispatcher{
 
 	const TARGET_SHEETNAME = "Version numérique";
@@ -68,7 +67,7 @@ class CatalogMetadata extends EventDispatcher{
 	 * 
 	 * @return null
 	 */
-	public function process($sheetname=null){
+	public function process($sheetname="Full Video"){
 		$za = new \ZipArchive();
         $za->open($this->path);
         $this->za = $za;
@@ -102,45 +101,51 @@ class CatalogMetadata extends EventDispatcher{
                 $spreadsheet = $reader->load($inputFileName);
                 $sheet = $spreadsheet->getActiveSheet();
 
-               
-                foreach ($sheet->getRowIterator() as $key=>$row) {
-		            $cellIterator = $row->getCellIterator();
-		            $cellIterator->setIterateOnlyExistingCells(FALSE); 
-		            $data = [];
-		            $curr_header;
-		            foreach ($cellIterator as $pos => $cell) {
-		            	$value = strip_tags(trim($cell->getValue()));
-		                $data[] = $value;
+            	try {
+               		foreach ($sheet->getRowIterator() as $key=>$row) {
+			            $cellIterator = $row->getCellIterator();
+			            $cellIterator->setIterateOnlyExistingCells(FALSE); 
+			            $data = [];
+			            $curr_header;
+			            foreach ($cellIterator as $pos => $cell) {
+			            	$value = strip_tags(trim($cell->getValue()));
+			                $data[] = $value;
+				            $this->dvm->setCellToProcess($pos.$key);
 
-		                if($key != 1){
-		                	$headers = $this->getSheetHeader();
-		                	$posIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($pos) -1;
+			                if($key != 1){
+			                	$headers = $this->getSheetHeader();
+			                	$posIndex = \PhpOffice\PhpSpreadsheet\Cell\Coordinate::columnIndexFromString($pos) -1;
 
-		                	$curr_header = $headers[$posIndex];
+			                	$curr_header = $headers[$posIndex];
 
-		                	if($curr_header[0] == "@" && $value){
-			                	if(($rscrStat = $za->statName($value)) === false){
-			                		unlink($tmpfname);
-			                		throw new ArchiveFileNotFoundException($value);
-			                	}
-			                	else{
-			                		$this->hvm->process($curr_header,$za->getFromName($value));
-			                	}
-			                }else{
-			                	$this->hvm->process($curr_header,$value);
+				            	$this->dvm->setFieldToProcess($curr_header);
+
+			                	if($curr_header[0] == "@" && $value){
+				                	if(($rscrStat = $za->statName($value)) === false){
+				                		throw new ArchiveFileNotFoundException($value);
+				                	}
+				                	else{
+				                		$this->dvm->process($za->getFromName($value));
+				                	}
+				                }else{
+				                	$this->dvm->process($value);
+				                }
 			                }
-		                }
-		            }
-		            if($key == 1){
-		            	$this->sheetHeader = $data;
-		            	$this->hvm->process($data);
-		           		$this->emit("header",$data);
-		            }
-		            else{
-		            	$this->emit(new CatalogDataEvent($za,$curr_header,$data));
-		            }
-		        }
-                unlink($tmpfname);
+			            }
+			            if($key == 1){
+			            	$this->sheetHeader = $data;
+			            	$this->hvm->process($data);
+			           		$this->emit("header",$data);
+			            }
+			            else{
+			            	$this->emit(new CatalogDataEvent($za,$curr_header,$data));
+			            }
+			        }
+               	} catch (\Exception $e) {
+               		throw $e;
+               	}finally{
+               		unlink($tmpfname);
+               	}
             }
         }
 
