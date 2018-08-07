@@ -29,6 +29,7 @@ class FieldValidatorManager extends ValidatorManager{
 		return $this->cellToProcess;
 	}
 
+
 	public function process($value){
 
 		$field = $this->getFieldToProcess();
@@ -42,7 +43,6 @@ class FieldValidatorManager extends ValidatorManager{
 				throw new ValidatorException($msg);
 			}
 
-
 			$item->setOption('cellToProcess',$this->cellToProcess);
 
 			$ret = $item->validate($value);
@@ -53,18 +53,32 @@ class FieldValidatorManager extends ValidatorManager{
 					$msg = $ret;
 				}
 				elseif (is_array($value)) {
-					$msg = json_encode($value).", n'est pas une valeur valide";
+					$msg = json_encode($value).", n'est pas une valeur valide dans la cellule $this->cellToProcess";
 				}
 				else{
-					$msg = "[$field], '$value' n'est pas une valeur valide";
+					$msg = "[$field], '$value' n'est pas une valeur valide dans la cellule $this->cellToProcess";
 				}
 				
 				throw new ValidatorException($msg);
 				break;
 			}
-			
 		}
 
 		return true;
+	}
+
+	public function processFilters($value){
+		$field = $this->getFieldToProcess();
+
+		foreach ($this->data as $key => $item) {
+			if($field != $item->getMappedBy()) continue;
+			if($item->getOption('nullable') && !$value) continue;
+			$value = $item->processFilters($value);
+		}
+		return $value;
+	}
+
+	public function processConstraints($value){
+
 	}
 }

@@ -51,7 +51,6 @@ class ValidatorManager extends EventDispatcher{
 			}
 			
 		}
-
 		return true;
 	}
 }

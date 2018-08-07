@@ -1,6 +1,7 @@
 <?php
 namespace AppBundle\Utils\Validator;
 use AppBundle\Utils\Validator\FieldValidator;
+use AppBundle\Utils\Exception\ImageFieldValidatorException;
 
 class ImageFieldValidator extends FieldValidator{
 	/**
@@ -17,7 +18,7 @@ class ImageFieldValidator extends FieldValidator{
 		"allowSquare"=>true,
 		"allowLandscape"=>true,
 		"allowPortrait"=>true,
-		"mimeType"=>null,
+		"mimeType"=>"image/*",
 	);
 
 	public function __construct($field,array $options){
@@ -25,78 +26,154 @@ class ImageFieldValidator extends FieldValidator{
 	}
 
 	public function validate($value){
+
+		list($value,$filename) = $value;
+
 		try {
 			$image = imagecreatefromstring($value);
 			list($width,$height,$mime,$attr) = getimagesizefromstring($value);
+			$mime = image_type_to_mime_type($mime);
 			imagedestroy($image);
 
 			if($this->options['width']){
 				if($this->options['width'] != $width){
-					return "cette image doit avoir une largeur de ".$this->options['minWidth']."px";
+					$msg = "l'image '{{ filename }}' doit avoir une largeur de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['width'],
+						"given"=>$width,
+						"filename"=>$filename,
+					]);
 				}
 			}
 
 			if($this->options['minWidth']){
 				if($width >= $this->options['minWidth']);
 				else{
-					return "cette image doit avoir une largeur minimum de ".$this->options['minWidth']."px";
+					$msg = "l'image '{{ filename }}' doit avoir une largeur minimum de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['minWidth'],
+						"given"=>$width,
+						"filename"=>$filename,
+					]);
 				}
 			}
 
 			if($this->options['maxWidth']){
 				if($width <= $this->options['maxWidth']);
 				else{
-					return "cette image doit avoir une largeur maximum de ".$this->options['maxWidth']."px";
+					$msg = "l'image '{{ filename }}' doit avoir une largeur maximum de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['maxWidth'],
+						"given"=>$width,
+						"filename"=>$filename,
+					]);
 				}
 			}
 
 			if($this->options['height']){
 				if($this->options['height'] != $height){
-					return "cette image doit avoir une hauteur de ".$this->options['height']."px";
+					$msg = "l'image '{{ filename }}' doit avoir une hauteur de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['height'],
+						"given"=>$height,
+						"filename"=>$filename,
+					]);
+
 				}
 			}
 
 			if($this->options['minHeight']){
 				if($height >= $this->options['minHeight']);
 				else{
-					return "cette image doit avoir une hauteur minimum de ".$this->options['minHeight']."px";
+					$msg = "l'image '{{ filename }}' doit avoir une hauteur minimum de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['minHeight'],
+						"given"=>$height,
+						"filename"=>$filename,
+					]);
+
 				}
 			}
 
 			if($this->options['maxHeight']){
 				if($height <= $this->options['maxHeight']);
 				else{
-					return "cette image doit avoir une hauteur maximum de ".$this->options['maxHeight']."px";
+					$msg =  "l'image '{{ filename }}' doit avoir une hauteur maximum de {{ expected }}px. une valeur de {{ given }}px à été trouvée";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>$this->options['maxHeight'],
+						"given"=>$height,
+						"filename"=>$filename,
+					]);
+
 				}
 			}
 
 			if($this->options['allowSquare'] === false){
 				if($width == $height){
-					return "les images carrés sont interdites";
+					$msg = "l'image '{{ filename }}' est {{ given }}, veuillez uploader une image {{ expected }}";
+
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>"portrait ou paysage",
+						"given"=>"carré",
+						"filename"=>$filename,
+					]);
+
 				}
 			}
 
 			if($this->options['allowPortrait'] === false){
 				if($width < $height){
-					return "les images en portrait sont interdites";
+					$msg = "l'image '{{ filename }}' est en {{ given }}, veuillez uploader une image {{ expected }}";
+					
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>"carré ou paysage",
+						"given"=>"portrait",
+						"filename"=>$filename,
+					]);
 				}
 			}
 
 			if($this->options['allowLandscape'] === false){
 				if($width > $height){
-					return "les images en paysage sont interdites";
+					$msg = "l'image '{{ filename }}' est en paysage, veuillez uploader une image {{ expected }}";
+					
+					throw new ImageFieldValidatorException($msg,[
+						"expected"=>"portrait ou carré",
+						"given"=>"paysage",
+						"filename"=>$filename,
+					]);
 				}
 			}
 
-			if($this->options['mime']){
-				if(is_string($this->options['mime'])) {
-					if(strtolower($this->options['mime']) != strtolower($mine)){
-						return "seul les images de type ".$this->options['mime']." sont acceptées";
+			if($this->options['mimeType']){
+				if(is_string($this->options['mimeType'])) {
+					if(strtolower($this->options['mimeType']) != "image/*"){
+						if(strtolower($this->options['mimeType']) != strtolower($mime)){
+							$msg = "l'image '{{ filename }}' est de type '{{ given }}', seul les images de type {{ expected }} sont acceptées";
+
+							throw new ImageFieldValidatorException($msg,[
+								"expected"=>$this->options['mimeType'],
+								"given"=>$mime,
+								"filename"=>$filename,
+							]);
+						}
 					}
 				}
-				else if(is_array($this->options['mime'])) {
-					if(!in_array(strtolower($mine), $this->options['mime'])) {
-						return "seul les images de types ".implode(", ", $this->options['mime'])." sont acceptées";
+				else if(is_array($this->options['mimeType'])) {
+					if(!in_array(strtolower($mime), $this->options['mimeType'])) {
+						$msg = "l'image '{{ filename }}' est de type '{{ given }}',seul les images de types {{ expected }} sont acceptées";
+
+						throw new ImageFieldValidatorException($msg,[
+							"expected"=>implode(", ", $this->options['mimeType']),
+							"given"=>$mime,
+							"filename"=>$filename,
+						]);
 					}
 				}
 			}
@@ -104,6 +181,12 @@ class ImageFieldValidator extends FieldValidator{
 			return true;
 		} catch (Exception $e) {
 			
+		}
+		catch(ImageFieldValidatorException $e){
+			$msg = $e->getMessage();
+			$cell = $this->getOption('cellToProcess');
+			$msg .= " dans la cellule $cell";
+			return $msg;
 		}
 		return false;
 	}

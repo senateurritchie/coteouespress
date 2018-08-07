@@ -108,8 +108,7 @@ class CatalogMetadata extends EventDispatcher{
 			            $data = [];
 			            $curr_header;
 			            foreach ($cellIterator as $pos => $cell) {
-			            	$value = strip_tags(trim($cell->getValue()));
-			                $data[] = $value;
+			            	$value = $cell->getValue();
 				            $this->dvm->setCellToProcess($pos.$key);
 
 			                if($key != 1){
@@ -125,12 +124,16 @@ class CatalogMetadata extends EventDispatcher{
 				                		throw new ArchiveFileNotFoundException($value);
 				                	}
 				                	else{
-				                		$this->dvm->process($za->getFromName($value));
+				                		$arg = array($za->getFromName($value),$value);
+				                		$this->dvm->process($arg);
 				                	}
 				                }else{
 				                	$this->dvm->process($value);
 				                }
 			                }
+
+				            $value = $this->dvm->processFilters($value);
+			               	$data[] = $value;
 			            }
 			            if($key == 1){
 			            	$this->sheetHeader = $data;

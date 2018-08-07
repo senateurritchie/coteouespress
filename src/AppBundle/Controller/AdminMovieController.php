@@ -971,7 +971,7 @@ class AdminMovieController extends Controller
         ->add(new \AppBundle\Utils\Validator\HeaderValidator());
 
         $reader->dvm
-        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name",["nullable"=>false]))
+        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name",["nullable"=>false,"filters"=>[new \AppBundle\Utils\Filter\TitleFilter()]]))
         ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("episodeNbr",["nullable"=>false]))
         ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration",["nullable"=>false]))
         ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
@@ -980,29 +980,40 @@ class AdminMovieController extends Controller
         ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode1"))
         ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode2"))
         ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode3"))
+       
+        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("synopsis",["filters"=>[new \AppBundle\Utils\Filter\TruncateFilter(10),new \AppBundle\Utils\Filter\TitleFilter()]]))
+
 
         ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",["nullable"=>false,"class"=>\AppBundle\Entity\Category::class,"entity_manager"=>$em]))
         ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",["class"=>\AppBundle\Entity\Language::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("In Theather",["yes","no"]))
+        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Exclusivity",["yes","no"]))
+        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Published",["yes","no"]))
 
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@coverImg",["width"=>1920,"height"=>1080]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@landscapeImg",["width"=>640,"height"=>360]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@portraitImg",["width"=>270,"height"=>360]))
         ->add(new  \AppBundle\Utils\Validator\GalleryImageFieldValidator("@gallery",["width"=>640,"height"=>360]));
 
-        echo "<table cellspacing='0'>";
+        echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">';
 
+
+        echo "<div class='table-responsive'>";
+        echo "<table cellspacing='0' class='table table-hover table-striped table-bordered'>";
+        echo "<caption><h3>Aaz Metadata Reader</h3></caption>";
         $reader
         ->on("header",function($event){
-            echo "<tr>";
+
+            echo "<thead><tr>";
             foreach ($event->getValue() as $el) {
-                echo "<td> ".strip_tags(trim($el))." </td>";
+                echo "<th scope='col'> ".$el." </th>";
             }
-            echo "</tr>";
+            echo "</tr></thead><tbody>";
         })
         ->on("sheetnames",function($event){
             
@@ -1014,14 +1025,14 @@ class AdminMovieController extends Controller
 
             echo "<tr style='border-top:1px solid #ff0000;'>";
             foreach ($event->getValue() as $el) {
-                $text = strip_tags(trim($el));
-                echo "<td style='text-align:center;border:1px solid #333;padding:10px'> $text </td>";
+                //style='text-align:center;border:1px solid #333;padding:10px'
+                echo "<td > $el </td>";
             }
             echo "</tr>";
         })
         
         ->process();
-        echo "</table>";
+        echo " </tbody></table></div>";
 
         return new Response("");
     }
