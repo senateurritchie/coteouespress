@@ -12,13 +12,25 @@ use AppBundle\Entity\Actor;
 use AppBundle\Entity\MovieTrailer;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\MovieScene;
+use AppBundle\Entity\Metadata;
+
 use AppBundle\Services\FileUploader;
+use AppBundle\Services\PrivateFileUploader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class GeneralUploadListener{
+    /**
+    * @var AppBundle\Services\FileUploader
+    */
     private $uploader;
+    /**
+    * @var AppBundle\Services\FileUploader
+    */
+    private $pvtUploader;
 
-    public function __construct(FileUploader $uploader){
-        $this->uploader = $uploader;
+    public function __construct(ContainerInterface $container){
+        $this->uploader = $container->get('app.uploader');
+        $this->pvtUploader = $container->get('app.prv_uploader');
     }
 
     public function prePersist(LifecycleEventArgs $args){
@@ -46,6 +58,9 @@ class GeneralUploadListener{
         else if($entity instanceof MovieScene){
 
         }
+        else if($entity instanceof Metadata){
+
+        }
     }
 
     public function postRemove(LifecycleEventArgs $args){
@@ -66,6 +81,11 @@ class GeneralUploadListener{
             }
             if(($fileName = trim($movie->getPortraitImg()))) {
                 $this->uploader->remove($fileName);
+            }
+        }
+        else if($entity instanceof Metadata){
+            if(($fileName = trim($entity->getFile()))){
+                $this->pvtUploader->remove($fileName);
             }
         }
     }
@@ -105,6 +125,16 @@ class GeneralUploadListener{
                 if ($file instanceof UploadedFile) {
                     $fileName = $this->uploader->upload($file);
                     $entity->setPortraitImg($fileName);
+                }
+            }
+        }
+        else if($entity instanceof Metadata){
+            if(($file = $entity->getFile())){
+                // only upload new files
+                if ($file instanceof UploadedFile) {
+                    $fileName = $this->pvtUploader->upload($file);
+                    $entity->setFile($fileName);
+                    $entity->setSize($file->getClientSize());
                 }
             }
         }

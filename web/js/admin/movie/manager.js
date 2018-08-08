@@ -34,6 +34,17 @@ var AdminManager = AdminManager || {};
 		Object.assign(MovieSceneDeletingEvent.prototype, nsp.Event.prototype);
 		return MovieSceneDeletingEvent;
 	})();
+
+	/**
+	* evenement lorsqu'on lance un upload de metadata
+	*/
+	nsp.UploadMetadataEvent = (function(){
+		function UploadMetadataEvent(params){
+			nsp.Event.call(this,'metadata/upload',params);
+		};
+		Object.assign(UploadMetadataEvent.prototype, nsp.Event.prototype);
+		return UploadMetadataEvent;
+	})();
 	
 
 	nsp.fn.MovieRepository = (function(){
@@ -43,6 +54,8 @@ var AdminManager = AdminManager || {};
 		};
 
 		Object.assign(MovieRepository.prototype, nsp.Repository.prototype);
+
+		
 
 		MovieRepository.prototype.customRequest = function(event,METHOD = 'POST'){
 
@@ -113,6 +126,59 @@ var AdminManager = AdminManager || {};
 		                return myXhr;
 			        },
             		
+		  		})
+		  		.done(data=>{
+		  			resolve(data);
+		  		})
+		  		.fail(msg=>{
+		  			reject(msg);
+		  		});
+	  		});
+		};
+
+		MovieRepository.prototype.uploadMetadata = function(event){
+
+			var file = event.params.file;
+			var _model = event.params._model;
+
+			var formData = new FormData();
+			formData.append('metadata',file);
+			formData.append('_model',_model);
+			var url = `/admin/movies/metadata/upload`;
+
+
+			return new Promise((resolve,reject)=>{
+
+	  			this.request({
+	  				enctype: 'multipart/form-data',
+	  				url:url,
+	  				method:"POST",
+	  				data:formData,
+	  				processData: false,
+	  				cache: false,
+            		contentType: false,
+            		xhr: () =>{
+			            var myXhr = $.ajaxSettings.xhr();
+		                if(myXhr.upload){
+		                    myXhr.upload.addEventListener('progress',e=>{
+				            	if (e.lengthComputable) {
+								    var percent = (e.loaded / e.total)*100;
+
+								    this.emit(new nsp.UploadMetadataEvent({
+										state:'progress',
+										total:e.total,
+										loaded:e.loaded,
+										percent:percent,
+										file:file
+									}));
+
+								} else {
+								    // Impossible de calculer la progression puisque la taille totale est inconnue
+								}
+				            });
+		                }
+		                return myXhr;
+			        },
 		  		})
 		  		.done(data=>{
 		  			resolve(data);
@@ -790,6 +856,76 @@ var AdminManager = AdminManager || {};
 						modal.addClass('fetching-translation');
 						this.emit(evt);
 					}
+				}
+			});
+
+
+
+			// upload par metadonnées
+			$("#modal-metadata .dropzone").on('drop',e=>{
+
+				e.preventDefault();
+				$(document.body).removeClass('dragenter');		
+				var dropper = $(e.currentTarget);
+
+				if(dropper.hasClass("uploading")) return;
+
+				dropper.removeClass("uploading");
+				dropper.removeClass("uploaded");
+
+				var progressBar = dropper.find('.progress .progress-bar');
+
+				var files = e.originalEvent.dataTransfer.files;
+				if(!files.length) return;
+				var file = files[0];
+
+
+				var ext = file.name.split('.');
+				ext = ext.slice(-1);
+				ext = ext[0];
+				ext = ext.toLowerCase();
+				if (ext.toLowerCase() == "zip"){
+
+					var ref = this.subscribe(event=>{
+						if(event instanceof nsp.UploadMetadataEvent){
+							if(event.params.state != "progress") return;
+
+							if(event.params.file === file){
+								progressBar.css('width',`${event.params.percent}%`);
+
+								if(event.params.percent == 100){
+									ref.unsubscribe();
+									dropper.removeClass("uploading");
+									dropper.find('button').removeAttr('disabled');
+									setTimeout(function(){
+										dropper.addClass("uploaded");
+										progressBar.css('width',`0%`);
+									},1000);
+								}
+							}
+						}
+					});
+
+					var ref2 = this.subscribe(event=>{
+						if(event instanceof nsp.UploadMetadataEvent){
+							if(event.params.state != "end") return;
+
+							if(event.params.file === file){
+								ref2.unsubscribe();
+							}
+						}
+					});
+
+					this.emit(new nsp.UploadMetadataEvent({
+						state:'start',
+						file:file,
+						_model:"webmaster",
+					}));
+
+					dropper.find('button').attr('disabled','disabled');
+
+					dropper.addClass('dropped');
+					dropper.addClass("uploading");
 				}
 			});
 

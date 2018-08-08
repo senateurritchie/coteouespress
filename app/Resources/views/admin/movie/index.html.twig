@@ -84,7 +84,7 @@
 			display: none;
 		}
 
-		body.dragenter .dropper, body.dragenter .scene-dropper{
+		body.dragenter .dropper, body.dragenter .scene-dropper, body.dragenter .dropzone{
 			border: 2px dashed #00a7d0;
 		}
 
@@ -216,6 +216,10 @@
       	</div>
     </div>
 
+
+    
+	{{ include('admin/movie/modal-metadata.html.twig') }}
+
     <div id="modal-update-area"></div>
     
     <div id="modal-add-area">
@@ -248,7 +252,7 @@
 		  				<i class="fa fa-plus"></i> Nouveau
 		  			</button>
 
-		  			<button  data-toggle="modal" data-backdrop="static" data-target="#modal-loading" class="btn btn-sm btn-primary">
+		  			<button  data-toggle="modal" data-backdrop="static" data-target="#modal-metadata" class="btn btn-sm btn-primary">
 		  				<i class="fa fa-plus"></i> Metadonnées
 		  			</button>
     			</div>

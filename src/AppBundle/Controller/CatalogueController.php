@@ -78,14 +78,14 @@ class CatalogueController extends Controller{
             }
 
 
-            $requestVimeo2 = function (array $links,callable $fn = null)use(&$lib){
+            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
                 $endpoint = '/videos';
-                $links = implode(",", $links);
+                $links = implode(",", $videos);
 
                 try {
                     if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
 
-                        $data = array_map(function($el){
+                        $e = array_map(function($el){
                             $code = array_slice(explode("/", $el['uri']),-1)[0];
                             return array(
                                 "code"=>$code,
@@ -108,6 +108,17 @@ class CatalogueController extends Controller{
 
                         },$response['body']['data']);
 
+                        $data = [];
+
+                        foreach ($videos as $el) {
+                            foreach ($e as $key => $el2) {
+                                if($el == $el2['link']){
+                                    $data[] = $el2;
+                                    break;
+                                }
+                            }
+                        }
+                        
                         if($fn){
                             $ret = call_user_func($fn,$data);
                         }
@@ -117,24 +128,6 @@ class CatalogueController extends Controller{
             };
 
             $requestVimeo2($links,function($data)use(&$vimeoRsrc){
-
-                /*uasort($data, function($a,$b)use(&$links){
-                    if($a['links'] == $links[0])
-                        return 1;
-                    else if($b['links'] == $links[1])
-                        return -1;
-                    else if($b['links'] == $links[2])
-                        return -1;
-
-                    if($a['links'] == $links[1])
-                        return 1;
-                    else if($b['links'] == $links[1])
-                        return -1;
-                    else if($b['links'] == $links[2])
-                        return -1;
-
-                    
-                });*/
 
                 foreach ($data as $i => $el) {
                     $label = "";

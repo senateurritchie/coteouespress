@@ -23,6 +23,8 @@ use AppBundle\Entity\MovieScene;
 
 use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
+use AppBundle\Entity\Metadata;
+use AppBundle\Form\MetadataType;
 
 use AppBundle\Utils\CatalogMetadata;
 use AppBundle\Utils\Validator\CatalogMetadataHeaderValidator;
@@ -226,10 +228,16 @@ class AdminMovieController extends Controller
         $catalogue = new Catalog();
         $form_search = $this->createForm(CatalogAdminSearchType::class,$catalogue);
 
+        $metadata = new Metadata();
+        $form_metadata = $this->createForm(MetadataType::class,$metadata,[
+            'upload_dir' => $this->getParameter('private_upload_directory'),
+        ]);
+
     	return $this->render('admin/movie/index.html.twig',array(
     		"data"=>$data,
             "form"=>$form->createView(),
             "form_search"=>$form_search->createView(),
+            "form_metadata"=>$form_metadata->createView(),
     	));
     }
 
@@ -954,16 +962,28 @@ class AdminMovieController extends Controller
 
     /**
     * @Route("/metadata/upload", name="metadata_upload")
-    * @Method("GET")
+    * @Method({"POST"})
     */
     public function metadataUploadAction(Request $request){
         // protection par role
         $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
         $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Movie::class);
 
-        $zip_path = __DIR__."/../../../web/upload/private/test.zip";
+        $metadata = new Metadata();
+
+        $form = $this->createForm(MetadataType::class,$metadata,[
+            'upload_dir' => $this->getParameter('private_upload_directory'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($metadata);
+            $em->flush();
+        }
+
+        /*$zip_path = __DIR__."/../../../web/upload/private/test.zip";
         $reader = new CatalogMetadata($zip_path);
 
         $reader->hvm
@@ -1066,7 +1086,7 @@ class AdminMovieController extends Controller
         })
         
         ->process();
-        echo " </tbody></table></div>";
+        echo " </tbody></table></div>";*/
 
         return new Response("");
     }

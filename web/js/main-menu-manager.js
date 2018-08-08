@@ -3,10 +3,17 @@ $(document).ready(function($){
 	let mainMenu = $("#master-menu");
 	let timerId;
 	let menuHook = function(){
-		setTimeout(function(){
+		$("body").removeClass('sleep');
 
-		},)
-	}
+		clearTimeout(timerId);
+		timerId = setTimeout(function(){
+			$("body").addClass('sleep');
+		},5000);
+	};
+
+	$("body").on('mousemove wheel',e=>{
+		menuHook();
+	});
 
 	/*$('.nav-contacts').click(function(e){
 		e.preventDefault();

@@ -3,6 +3,7 @@
 parameters:
     #parameter_name: value
     public_upload_directory: '%kernel.project_dir%/web/upload/public'
+    private_upload_directory: '%kernel.project_dir%/web/upload/private'
 
 services:
     # default configuration for services in *this* file
@@ -60,13 +61,22 @@ services:
 
     app.uploader:
         class: AppBundle\Services\FileUploader
+        public: true
         arguments:
             $targetDirectory: '%public_upload_directory%'
+
+    app.prv_uploader:
+        class: AppBundle\Services\FileUploader
+        public: true
+        arguments:
+            $targetDirectory: '%private_upload_directory%'
+
+    AppBundle\Services\FileUploader: '@app.uploader'
 
     app.general_uploader_listener:
         class: AppBundle\EventListener\Doctrine\GeneralUploadListener
         arguments:
-            - '@app.uploader'
+            - '@service_container'
         tags:
             - { name: doctrine.event_listener, event: prePersist }
             - { name: doctrine.event_listener, event: preUpdate }

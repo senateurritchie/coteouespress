@@ -12,6 +12,10 @@ $(document).ready(function($){
 			if(event.params.state != "progress") return;
 			view.emit(event);
 		}
+		else if(event instanceof nsp.UploadMetadataEvent){
+			if(event.params.state != "progress") return;
+			view.emit(event);
+		}
 	});
 
 	view.subscribe(event=>{
@@ -65,6 +69,24 @@ $(document).ready(function($){
 
 	    	},msg=>{
 	    		view.emit(new nsp.UploadEvent({
+					state:'fails',
+				}));
+	    	});
+		}
+		else if(event instanceof nsp.UploadMetadataEvent){
+			if(event.params.state != "start") return;
+
+			repository.uploadMetadata(event)
+	    	.then(data=>{
+
+	    		view.emit(new nsp.UploadMetadataEvent({
+					state:'end',
+					data:data,
+					file:event.params.file,
+				}));
+
+	    	},msg=>{
+	    		view.emit(new nsp.UploadMetadataEvent({
 					state:'fails',
 				}));
 	    	});

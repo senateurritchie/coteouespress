@@ -181,6 +181,11 @@ header #master-menu{
 	opacity: 0.8;
 	z-index: 100;
 	padding: 10px;
+
+	-webkit-transition:.2s linear all;
+	-moz-transition:.2s linear all;
+	-o-transition:.2s linear all;
+	transition:.2s linear all;
 }
 
 header #master-menu.active{
@@ -363,6 +368,20 @@ header #master-menu #search input{
 
 #master-menu #login{
 	background: #006699;
+}
+
+body.sleep{
+	cursor: none !important;
+}
+
+body.sleep .sleep-target{
+	-webkit-transition:.2s linear all;
+	-moz-transition:.2s linear all;
+	-o-transition:.2s linear all;
+	transition:.2s linear all;
+
+	opacity: 0;
+	cursor: none !important;
 }
 
 
