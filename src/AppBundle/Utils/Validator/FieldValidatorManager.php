@@ -29,12 +29,19 @@ class FieldValidatorManager extends ValidatorManager{
 		return $this->cellToProcess;
 	}
 
+	
 
 	public function process($value){
+
+		$onValidated = function($event){
+			$this->propagate($event);
+		};
 
 		$field = $this->getFieldToProcess();
 
 		foreach ($this->data as $key => $item) {
+			$msg = null;
+
 			if($this->getFieldToProcess() != $item->getMappedBy()) continue;
 			if($item->getOption('nullable') && !$value) continue;
 
@@ -45,8 +52,10 @@ class FieldValidatorManager extends ValidatorManager{
 
 			$item->setOption('cellToProcess',$this->cellToProcess);
 
+			$item->on("validated",$onValidated);
 			$ret = $item->validate($value);
-			$msg;
+			$item->off("validated",$onValidated);
+
 			if($ret !== true){
 
 				if(is_string($ret)){
@@ -69,7 +78,7 @@ class FieldValidatorManager extends ValidatorManager{
 
 	public function processFilters($value){
 		$field = $this->getFieldToProcess();
-
+		
 		foreach ($this->data as $key => $item) {
 			if($field != $item->getMappedBy()) continue;
 			if($item->getOption('nullable') && !$value) continue;

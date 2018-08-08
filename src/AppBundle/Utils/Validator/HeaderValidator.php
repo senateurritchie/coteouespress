@@ -8,7 +8,7 @@ class HeaderValidator extends Validator{
 	* @var array
 	*/
 	protected $fields = [
-		"Name","Category","EpisodeNbr","Duration","Mention","Trailer","Episode1","Episode2","Episode3","Synopsis","Tagline","Logline","Rewards","Awards","Audiences","Languages","Genres","Countries","Casting","Producers","Directors","In Theather","Exclusivity","Published","@CoverImg","@LandscapeImg","@PortraitImg","@Gallery"];
+		"Name","Category","EpisodeNbr","Duration","Mention","Trailer","Episodes","Synopsis","Tagline","Logline","Rewards","Awards","Audiences","Languages","Genres","Countries","Casting","Producers","Directors","In Theather","Exclusivity","Published","@CoverImg","@LandscapeImg","@PortraitImg","@Gallery"];
 
 
 	public function __construct(array $fields = []){

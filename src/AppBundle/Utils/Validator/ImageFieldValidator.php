@@ -28,12 +28,11 @@ class ImageFieldValidator extends FieldValidator{
 	public function validate($value){
 
 		list($value,$filename) = $value;
-
+		$image = null;
 		try {
 			$image = imagecreatefromstring($value);
 			list($width,$height,$mime,$attr) = getimagesizefromstring($value);
 			$mime = image_type_to_mime_type($mime);
-			imagedestroy($image);
 
 			if($this->options['width']){
 				if($this->options['width'] != $width){
@@ -187,6 +186,11 @@ class ImageFieldValidator extends FieldValidator{
 			$cell = $this->getOption('cellToProcess');
 			$msg .= " dans la cellule $cell";
 			return $msg;
+		}
+		finally{
+			if($image){
+				imagedestroy($image);
+			}
 		}
 		return false;
 	}

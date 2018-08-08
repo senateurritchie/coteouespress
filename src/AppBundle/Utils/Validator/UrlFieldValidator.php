@@ -15,13 +15,65 @@ class UrlFieldValidator extends FieldValidator{
 	}
 
 	public function validate($value){
+
+		if($this->getOption("multiple")){
+			$urls = explode(";", $value);
+
+			$urls = array_map(function($el){
+				return strip_tags(trim($el));
+			}, $urls);
+
+			$urls = array_filter($urls,function($el){
+				return trim($el);
+			});
+
+			foreach ($urls as $key => $url) {
+				if(true !== ($ret = $this->check($url))) {
+					return $ret;
+				}
+			}
+
+			$urls = array_map(function($el){
+				return $this->processFilters($el);
+			}, $urls);
+
+			$this->emit('validated',$urls);
+		}
+		else{
+			if(true !== ($ret = $this->check($value))) {
+				return $ret;
+			}
+
+			$this->emit('validated',$value);
+		}
+		return true;
+	}
+
+	public function getHost(){
+		return $this->host;
+	}
+
+	public function getScheme(){
+		return $this->scheme;
+	}
+
+	public function getPort(){
+		return $this->port;
+	}
+
+	/**
+	 * test si l'élement en parametre est un url valide
+	 * qui reponds à certains craitères
+	 * 
+	 * @param  string $value l'url à tester
+	 * @return mixed
+	 */
+	public function check($value){
 		$cell = $this->getOption('cellToProcess');
 
 		if(($var = filter_var($value,FILTER_VALIDATE_URL))) {
 
 			$var = parse_url($var);
-
-			
 
 			if(($data = $this->getOption('scheme'))){
 				if($var['scheme'] != $data){
@@ -47,17 +99,5 @@ class UrlFieldValidator extends FieldValidator{
 			return true;
 		}
 		return "[$this->mappedBy]: '$value' n'est pas une url valide. cellule $cell";
-	}
-
-	public function getHost(){
-		return $this->host;
-	}
-
-	public function getScheme(){
-		return $this->scheme;
-	}
-
-	public function getPort(){
-		return $this->port;
 	}
 }

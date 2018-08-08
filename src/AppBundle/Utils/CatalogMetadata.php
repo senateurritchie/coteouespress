@@ -5,8 +5,17 @@ use \PhpOffice\PhpSpreadsheet\IOFactory;
 use AppBundle\Utils\Event\CatalogDataEvent;
 use AppBundle\Utils\EventDispatcher;
 use AppBundle\Utils\Exception\ArchiveFileNotFoundException;
+
 use AppBundle\Utils\Validator\ValidatorManager;
 use AppBundle\Utils\Validator\FieldValidatorManager;
+use AppBundle\Utils\Validator\EntityFieldValidator;
+use AppBundle\Utils\Validator\UrlFieldValidator;
+
+use AppBundle\Utils\MetadataEntry\MetadataPlainTextEntry;
+use AppBundle\Utils\MetadataEntry\MetadataResourceEntry;
+use AppBundle\Utils\MetadataEntry\MetadataChoiceEntry;
+use AppBundle\Utils\MetadataEntry\MetadataEntityEntry;
+
 
 class CatalogMetadata extends EventDispatcher{
 
@@ -106,10 +115,30 @@ class CatalogMetadata extends EventDispatcher{
 			            $cellIterator = $row->getCellIterator();
 			            $cellIterator->setIterateOnlyExistingCells(FALSE); 
 			            $data = [];
+			            $rawData = [];
 			            $curr_header;
 			            foreach ($cellIterator as $pos => $cell) {
 			            	$value = $cell->getValue();
+			            	$entry = new MetadataPlainTextEntry();
 				            $this->dvm->setCellToProcess($pos.$key);
+
+				            $cbkValidated = function($evt)use(&$entry){
+				            	$related = $evt->getRelatedTarget();
+				            	if($related){
+				            		if($related instanceof EntityFieldValidator){
+				            			$entry = new MetadataEntityEntry();
+				            			$entry->addChoice($evt->getValue());
+				            		}
+				            		else if($related instanceof UrlFieldValidator){
+				            			if($related->getOption("multiple")){
+				            				$entry = new MetadataChoiceEntry();
+				            				$entry->addChoice($evt->getValue());
+				            			}
+				            		}
+				            	}
+				            };
+
+				            $this->dvm->on("validated",$cbkValidated);
 
 			                if($key != 1){
 			                	$headers = $this->getSheetHeader();
@@ -120,30 +149,64 @@ class CatalogMetadata extends EventDispatcher{
 				            	$this->dvm->setFieldToProcess($curr_header);
 
 			                	if($curr_header[0] == "@" && $value){
-				                	if(($rscrStat = $za->statName($value)) === false){
-				                		throw new ArchiveFileNotFoundException($value);
-				                	}
-				                	else{
-				                		$arg = array($za->getFromName($value),$value);
-				                		$this->dvm->process($arg);
-				                	}
+
+			                		if($entry instanceof MetadataPlainTextEntry){
+			                			$entry = new MetadataResourceEntry();
+			                		}
+
+			                		$multiples = explode(";", $value);
+
+			                		
+			                		// il s'agit d'un champs a valeur unique
+			                		if(count($multiples) == 1){
+
+			                			if(($rscrStat = $za->statName($value)) === false){
+					                		throw new ArchiveFileNotFoundException($value);
+					                	}
+					                	else{
+					          				$rawRsrc = $za->getFromName($value);
+					                		$this->dvm->process(array($rawRsrc,$value));
+					                		$entry->addResource($rawRsrc,$value);
+					                	}
+			                		}
+			                		// il s'agit d'un champs a valeur multiple
+			                		else{
+			                			$args = [];
+			                			foreach ($multiples as $e) {
+			                				if(($ov = $za->statName($e)) === false){
+						                		throw new ArchiveFileNotFoundException($value);
+						                	}
+						                	else{
+						                		$rawRsrc = $za->getFromName($e);
+						                		$this->dvm->process(array($rawRsrc,$e));
+						                		$entry->addResource($rawRsrc,$e);
+						                	}
+			                			}
+			                		}
 				                }else{
 				                	$this->dvm->process($value);
 				                }
 			                }
 
-				            $value = $this->dvm->processFilters($value);
-			               	$data[] = $value;
+				            $f_value = $this->dvm->processFilters($value);
+				            $entry->setFiltered($f_value);
+				            $entry->setValue($value);
+			               	$data[] = $entry;
+			               	$rawData[] = $value;
+
+			               	$this->dvm->off("validated",$cbkValidated);
+
 			            }
 			            if($key == 1){
-			            	$this->sheetHeader = $data;
-			            	$this->hvm->process($data);
+			            	$this->sheetHeader = $rawData;
+			            	$this->hvm->process($rawData);
 			           		$this->emit("header",$data);
 			            }
 			            else{
-			            	$this->emit(new CatalogDataEvent($za,$curr_header,$data));
+			            	$this->emit(new CatalogDataEvent($curr_header,$data));
 			            }
 			        }
+
                	} catch (\Exception $e) {
                		throw $e;
                	}finally{

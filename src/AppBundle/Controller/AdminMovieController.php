@@ -957,7 +957,6 @@ class AdminMovieController extends Controller
     * @Method("GET")
     */
     public function metadataUploadAction(Request $request){
-
         // protection par role
         $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
@@ -976,21 +975,19 @@ class AdminMovieController extends Controller
         ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration",["nullable"=>false]))
         ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
         ->add(new \AppBundle\Utils\Validator\DateFieldValidator("year",["nullable"=>false]))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer"))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode1"))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode2"))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episode3"))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer",["filters"=>[new \AppBundle\Utils\Filter\LinkyfyFilter(["attributes"=>["target"=>"_blank"]])]]))
+        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episodes",["multiple"=>true,"filters"=>[new \AppBundle\Utils\Filter\LinkyfyFilter(["attributes"=>["target"=>"_blank"]])]]))
        
         ->add(new \AppBundle\Utils\Validator\TextFieldValidator("synopsis",["filters"=>[new \AppBundle\Utils\Filter\TruncateFilter(10),new \AppBundle\Utils\Filter\TitleFilter()]]))
 
 
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",["nullable"=>false,"class"=>\AppBundle\Entity\Category::class,"entity_manager"=>$em]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",["class"=>\AppBundle\Entity\Language::class]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class,"multiple"=>true]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class,"multiple"=>true]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class,"multiple"=>true]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class,"multiple"=>true]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class,"multiple"=>true]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",["nullable"=>false,"class"=>\AppBundle\Entity\Category::class,"entity_manager"=>$em,"table_name"=>"Catégories"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",["class"=>\AppBundle\Entity\Language::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Langues"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Genres"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Pays"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Casting"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Producteurs"]))
+        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Réalisateurs"]))
         ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("In Theather",["yes","no"]))
         ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Exclusivity",["yes","no"]))
         ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Published",["yes","no"]))
@@ -998,7 +995,7 @@ class AdminMovieController extends Controller
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@coverImg",["width"=>1920,"height"=>1080]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@landscapeImg",["width"=>640,"height"=>360]))
         ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@portraitImg",["width"=>270,"height"=>360]))
-        ->add(new  \AppBundle\Utils\Validator\GalleryImageFieldValidator("@gallery",["width"=>640,"height"=>360]));
+        ->add(new  \AppBundle\Utils\Validator\ImageFieldValidator("@gallery",["width"=>640,"height"=>360]));
 
         echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">';
 
@@ -1011,7 +1008,7 @@ class AdminMovieController extends Controller
 
             echo "<thead><tr>";
             foreach ($event->getValue() as $el) {
-                echo "<th scope='col'> ".$el." </th>";
+                echo "<th scope='col'> ".$el->getFiltered()." </th>";
             }
             echo "</tr></thead><tbody>";
         })
@@ -1026,7 +1023,44 @@ class AdminMovieController extends Controller
             echo "<tr style='border-top:1px solid #ff0000;'>";
             foreach ($event->getValue() as $el) {
                 //style='text-align:center;border:1px solid #333;padding:10px'
-                echo "<td > $el </td>";
+                if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataResourceEntry){
+                    echo "<td valign='top'>";
+
+                    $resources = $el->getResources();
+                    foreach ($resources as $i=>$resource) {
+                        list($im,$filename) = $resource;
+                        echo "<img style='margin:0px 5px 5px 0px;' alt='$filename' width='100' height='50'  src='data:image/jpeg;base64,".base64_encode($im)."'>";
+
+                        if($i && $i % 2 == 0) echo "<br>";
+                    }
+                   
+                    echo "</td>";
+                }
+                else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataEntityEntry){
+                    echo "<td valign='top'><ol>";
+
+                    $choices = $el->getChoices();
+
+                    foreach ($choices as $i=>$choice) {
+                        echo "<li><a style='text-decoration:none' href='#'>".$choice->getName()."</a></li>";
+                    }
+                   
+                    echo "</ol></td>";
+                }
+                else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataChoiceEntry){
+                    echo "<td valign='top'><ol>";
+
+                    $choices = $el->getChoices();
+
+                    foreach ($choices as $i=>$choice) {
+                        echo "<li>".$choice."</li>";
+                    }
+                   
+                    echo "</ol></td>";
+                }
+                else{
+                    echo "<td valign='top'>".$el->getFiltered()."</td>";
+                }
             }
             echo "</tr>";
         })

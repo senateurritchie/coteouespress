@@ -11,7 +11,7 @@ use AppBundle\Utils\Event\Event;
 * @version 1.0
 */
 class EventDispatcher{
-	protected $data = array();
+	private $__data__ = array();
 
 	function __construct(){
 		$p = new \ReflectionClass($this);
@@ -29,10 +29,38 @@ class EventDispatcher{
 	}
 
 	/**
+	* Retourne les listeners liés à un evenement
+	* 
+	* @param string $event
+	*/
+	public function getEventListeners($event){
+		if(!is_string($event)){
+			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
+		}
+
+		return isset($this->__data__[$event]) ? $this->__data__[$event] : [];
+	}
+	/**
+	* Remplace les listeners existants par une nouvelle liste
+	* 
+	* @param string $event
+	* @param array $listeners
+	*/
+	public function setEventListeners($event,&$listeners){
+		if(!is_string($event)){
+			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
+		}
+
+		$this->__data__[$event] = $listeners;
+		return $this;
+	}
+	
+
+	/**
 	* @param callable $listener
 	*/
 	public function hasListerner(callable $listener){
-		foreach ($this->data as $key=>$observers) {
+		foreach ($this->__data__ as $key=>$observers) {
 			foreach ($observers as $observer) {
 				if ($observer === $listener){
 					return true;
@@ -45,7 +73,10 @@ class EventDispatcher{
 	* @param string $event
 	*/
 	public function hasEvent($event){
-		return isset($this->data[$event]);
+		if(!is_string($event)){
+			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
+		}
+		return isset($this->__data__[$event]);
 	}
 
 	/**
@@ -56,7 +87,41 @@ class EventDispatcher{
 		if(!is_string($event)){
 			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
 		}
-		$this->data[$event] = [$observer];
+
+		if(count($this->getEventListeners($event))) {
+			$this->__data__[$event][] = $observer;
+		}
+		else{
+			$this->__data__[$event] = [$observer];
+		}
+		return $this;
+	}
+
+	/**
+	* Supprime tout evenement du nom '$event'
+	* Si $observer est fourni alors seul ce listener sera supprimé
+	* 
+	* @param string $event
+	* @param callable $observer
+	*/
+	public function off($event,callable $observer = null){
+		if(!is_string($event)){
+			throw new InvalidArgumentException("'event' argument type must be 'string', '".gettype($event)."' was given");
+		}
+
+		// suppresion de tout les listeners de cet evenement
+		if($observer == null){
+			$this->setEventListeners($event,[]);
+		}
+		// suppresion d'un listener specifique
+		else{
+			$listeners = $this->getEventListeners($event);
+			$listeners = array_filter($listeners,function($el)use(&$observer){
+				return ($el !== $observer);
+			});
+			$this->setEventListeners($event,$listeners);
+		}
+
 		return $this;
 	}
 
@@ -85,13 +150,34 @@ class EventDispatcher{
 			$evt_name = $event->getName();
 		}
 
-		if(!isset($this->data[$evt_name])) return;
-		$observers = $this->data[$evt_name];
+		if(!isset($this->__data__[$evt_name])) return;
+		$observers = $this->__data__[$evt_name];
+
+		$event->setTarget($this);
 
 		foreach ($observers as $observer) {
+
 			call_user_func($observer,$event);
 			if($event->isPropagationStopped()) break;
 		}
+		return $this;
+	}
+
+	/**
+	* Propage un événement sans affecter
+	* en gardant une trace emeteur à l'origine.
+	* 
+	* @param Event $event
+	*/
+	public function propagate($event){
+		if(!($event instanceof Event)){
+			throw new InvalidArgumentException("'event' argument instance must be 'AppBundle\Utils\Event\Event', '".gettype($event)."' type was given");
+		}
+
+		$dispatcher = $event->getTarget();
+		$event->setRelatedTarget($dispatcher);
+
+		$this->emit($event);
 		return $this;
 	}
 }
