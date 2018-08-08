@@ -57,75 +57,102 @@ class CatalogueController extends Controller{
             $lib->setToken($token);
             
             $vimeoRsrc = array();
-           
 
-            $requestVimeo = function ($url,callable $fn)use(&$lib){
-                $code = array_slice(explode("/", $url),-1)[0];
-                $endpointTpl = '/videos/__video_id__/pictures';
-                $endpoint = preg_replace("#__video_id__#",$code, $endpointTpl);
-                try {
-                    if(($response = $lib->request($endpoint, [], 'GET'))){
-                        if(@$response['status'] == 200){
-                            $cover = $response['body']['data'][0]['sizes'][0]['link'];
-                            $cover = preg_replace("#(\d+x\d+)#", "1920x1080", $cover);
-                            $thumbnail = preg_replace("#(\d+x\d+)#", "100x100", $cover);
 
-                            if($fn){
-                                $ret = call_user_func($fn,$code,$cover,$thumbnail);
-                            }
-                        }
-                    }
-                } catch (Exception $e) {
-                    
-                }
-                
-            };
+            $links = [];
 
             if(($url = $programme->getTrailer())){
-                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
-
-                    $vimeoRsrc["trailer"] = array(
-                        "code"=>$code,
-                        "cover"=>$cover,
-                        "thumbnail"=>$thumbnail,
-                    );
-                });
+                $links[] = $url;
             }
 
             if(($url = $programme->getEpisode1())){
-                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
-
-                    $vimeoRsrc["episode 1"] = array(
-                        "code"=>$code,
-                        "cover"=>$cover,
-                        "thumbnail"=>$thumbnail,
-                    );
-                });
+                $links[] = $url;
             }
 
             if(($url = $programme->getEpisode2())){
-                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
-
-                    $vimeoRsrc["episode 2"] = array(
-                        "code"=>$code,
-                        "cover"=>$cover,
-                        "thumbnail"=>$thumbnail,
-                    );
-                });
+                $links[] = $url;
             }
 
             if(($url = $programme->getEpisode3())){
-                $requestVimeo($url,function($code,$cover,$thumbnail)use(&$vimeoRsrc){
-
-                    $vimeoRsrc["episode 3"] = array(
-                        "code"=>$code,
-                        "cover"=>$cover,
-                        "thumbnail"=>$thumbnail,
-                    );
-                });
+                $links[] = $url;
             }
 
 
+            $requestVimeo2 = function (array $links,callable $fn = null)use(&$lib){
+                $endpoint = '/videos';
+                $links = implode(",", $links);
+
+                try {
+                    if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
+
+                        $data = array_map(function($el){
+                            $code = array_slice(explode("/", $el['uri']),-1)[0];
+                            return array(
+                                "code"=>$code,
+                                "name"=>$el['name'],
+                                "uri"=>$el['uri'],
+                                "description"=>$el['description'],
+                                "description"=>$el['description'],
+                                "link"=>$el['link'],
+                                "duration"=>$el['duration'],
+                                "width"=>$el['width'],
+                                "height"=>$el['height'],
+                                "created_time"=>$el['created_time'],
+                                "modified_time"=>$el['modified_time'],
+                                "content_rating"=>$el['content_rating'],
+                                "license"=>$el['license'],
+                                "privacy"=>$el['privacy'],
+                                "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
+                                "thumbnail"=>$el['pictures']["sizes"][0]['link'],
+                            );
+
+                        },$response['body']['data']);
+
+                        if($fn){
+                            $ret = call_user_func($fn,$data);
+                        }
+                    }
+
+                } catch (Exception $e) { }
+            };
+
+            $requestVimeo2($links,function($data)use(&$vimeoRsrc){
+
+                /*uasort($data, function($a,$b)use(&$links){
+                    if($a['links'] == $links[0])
+                        return 1;
+                    else if($b['links'] == $links[1])
+                        return -1;
+                    else if($b['links'] == $links[2])
+                        return -1;
+
+                    if($a['links'] == $links[1])
+                        return 1;
+                    else if($b['links'] == $links[1])
+                        return -1;
+                    else if($b['links'] == $links[2])
+                        return -1;
+
+                    
+                });*/
+
+                foreach ($data as $i => $el) {
+                    $label = "";
+                    switch ($i) {
+                        case 0:
+                            $label = 'trailer';
+                        break;
+                        
+                        default:
+                            $label = 'episode '.$i;
+                        break;
+                    }
+
+                    $vimeoRsrc[$label] = $el;
+                }
+                
+            });
+           
     		return $this->render('catalogue/movie-single.html.twig',array(
                 "programme"=>$programme,
                 "vimeoRsrc"=>$vimeoRsrc,

@@ -267,6 +267,7 @@
             <div class="col-md-9 col-sm-12">
 
                 <section id="movie-title">
+
                     <h2>{{ programme.name|lower|title }}</h2>
 
                     <span class="position-relative voting-plug text-info">
@@ -318,7 +319,7 @@
                                                 <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
                                                 
                                                 &nbsp; 
-                                                <span class="thumbnail-desc">{{ programme.name|lower|title }}<br><small>{{ key|title }}</small></span>
+                                                <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
                                             </a>
                                         {% endfor %}
                                     </div>
