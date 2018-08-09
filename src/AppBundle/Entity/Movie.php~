@@ -169,13 +169,15 @@ class Movie implements Translatable
     */
     private $mention = "HD";
 
+
     /**
-    * @var string
+    * @var AppBundle\Entity\OriginalLanguage
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="original_language", type="string", options={"comment":"la langue original du movie"},nullable=true)
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OriginalLanguage", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
-    private $originalLanguage;
+    private $language;
 
    /**
     * @var string
@@ -311,8 +313,8 @@ class Movie implements Translatable
 
 
     /**
-     * Constructor
-     */
+    * Constructor
+    */
     public function __construct()
     {
         $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
@@ -526,29 +528,7 @@ class Movie implements Translatable
         return $this->mention;
     }
 
-    /**
-     * Set originalLanguage
-     *
-     * @param string $originalLanguage
-     *
-     * @return Movie
-     */
-    public function setOriginalLanguage($originalLanguage)
-    {
-        $this->originalLanguage = $originalLanguage;
 
-        return $this;
-    }
-
-    /**
-     * Get originalLanguage
-     *
-     * @return string
-     */
-    public function getOriginalLanguage()
-    {
-        return $this->originalLanguage;
-    }
 
     /**
      * Set hasExclusivity
@@ -1206,7 +1186,58 @@ class Movie implements Translatable
         return $this->logline;
     }
 
+   
+
+    /**
+     * Set updateAt
+     *
+     * @param \DateTime $updateAt
+     *
+     * @return Movie
+     */
+    public function setUpdateAt($updateAt)
+    {
+        $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    /**
+     * Get updateAt
+     *
+     * @return \DateTime
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
+    }
+
+    /**
+     * Set publishedAt
+     *
+     * @param \DateTime $publishedAt
+     *
+     * @return Movie
+     */
+    public function setPublishedAt($publishedAt)
+    {
+        $this->publishedAt = $publishedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get publishedAt
+     *
+     * @return \DateTime
+     */
+    public function getPublishedAt()
+    {
+        return $this->publishedAt;
+    }
+
     public function setTranslatableLocale($locale){
         $this->locale = $locale;
     }
+
 }

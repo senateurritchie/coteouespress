@@ -47,110 +47,104 @@ class CatalogueController extends Controller{
             $client_secret = $vimeo_p['client_secret'];
             $token = $vimeo_p['access_token'];
             $vimeoRsrc = array();
-
-            try {
                 
-                $lib = new \Vimeo\Vimeo($client_id, $client_secret);
-                //$token = $lib->clientCredentials(["public","video_files"]);
-                //var_dump($token['body']['access_token']);
-                // accepted scopes
-                //var_dump($token['body']['scope']);*/
+            $lib = new \Vimeo\Vimeo($client_id, $client_secret);
+            //$token = $lib->clientCredentials(["public","video_files"]);
+            //var_dump($token['body']['access_token']);
+            // accepted scopes
+            //var_dump($token['body']['scope']);*/
 
-                // use the token
-                $lib->setToken($token);
-                
-
-
-                $links = [];
-
-                if(($url = $programme->getTrailer())){
-                    $links[] = $url;
-                }
-
-                if(($url = $programme->getEpisode1())){
-                    $links[] = $url;
-                }
-
-                if(($url = $programme->getEpisode2())){
-                    $links[] = $url;
-                }
-
-                if(($url = $programme->getEpisode3())){
-                    $links[] = $url;
-                }
+            // use the token
+            $lib->setToken($token);
+            
 
 
-                $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
-                    $endpoint = '/videos';
-                    $links = implode(",", $videos);
+            $links = [];
 
-                    if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
+            if(($url = $programme->getTrailer())){
+                $links[] = $url;
+            }
 
-                        $e = array_map(function($el){
-                            $code = array_slice(explode("/", $el['uri']),-1)[0];
-                            return array(
-                                "code"=>$code,
-                                "name"=>$el['name'],
-                                "uri"=>$el['uri'],
-                                "description"=>$el['description'],
-                                "description"=>$el['description'],
-                                "link"=>$el['link'],
-                                "duration"=>$el['duration'],
-                                "width"=>$el['width'],
-                                "height"=>$el['height'],
-                                "created_time"=>$el['created_time'],
-                                "modified_time"=>$el['modified_time'],
-                                "content_rating"=>$el['content_rating'],
-                                "license"=>$el['license'],
-                                "privacy"=>$el['privacy'],
-                                "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
-                                "thumbnail"=>$el['pictures']["sizes"][0]['link'],
-                            );
+            if(($url = $programme->getEpisode1())){
+                $links[] = $url;
+            }
 
-                        },$response['body']['data']);
+            if(($url = $programme->getEpisode2())){
+                $links[] = $url;
+            }
 
-                        $data = [];
+            if(($url = $programme->getEpisode3())){
+                $links[] = $url;
+            }
 
-                        foreach ($videos as $el) {
-                            foreach ($e as $key => $el2) {
-                                if($el == $el2['link']){
-                                    $data[] = $el2;
-                                    break;
-                                }
+
+            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
+                $endpoint = '/videos';
+                $links = implode(",", $videos);
+
+                if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
+
+                    $e = array_map(function($el){
+                        $code = array_slice(explode("/", $el['uri']),-1)[0];
+                        return array(
+                            "code"=>$code,
+                            "name"=>$el['name'],
+                            "uri"=>$el['uri'],
+                            "description"=>$el['description'],
+                            "description"=>$el['description'],
+                            "link"=>$el['link'],
+                            "duration"=>$el['duration'],
+                            "width"=>$el['width'],
+                            "height"=>$el['height'],
+                            "created_time"=>$el['created_time'],
+                            "modified_time"=>$el['modified_time'],
+                            "content_rating"=>$el['content_rating'],
+                            "license"=>$el['license'],
+                            "privacy"=>$el['privacy'],
+                            "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
+                            "thumbnail"=>$el['pictures']["sizes"][0]['link'],
+                        );
+
+                    },$response['body']['data']);
+
+                    $data = [];
+
+                    foreach ($videos as $el) {
+                        foreach ($e as $key => $el2) {
+                            if($el == $el2['link']){
+                                $data[] = $el2;
+                                break;
                             }
                         }
-                        
-                        if($fn){
-                            $ret = call_user_func($fn,$data);
-                        }
-                    }
-                };
-
-
-                $requestVimeo2($links,function($data)use(&$vimeoRsrc){
-
-                    foreach ($data as $i => $el) {
-                        $label = "";
-                        switch ($i) {
-                            case 0:
-                                $label = 'trailer';
-                            break;
-                            
-                            default:
-                                $label = 'episode '.$i;
-                            break;
-                        }
-
-                        $vimeoRsrc[$label] = $el;
                     }
                     
-                });
+                    if($fn){
+                        $ret = call_user_func($fn,$data);
+                    }
+                }
+            };
 
-            } catch (Exception $e) {
+
+            $requestVimeo2($links,function($data)use(&$vimeoRsrc){
+
+                foreach ($data as $i => $el) {
+                    $label = "";
+                    switch ($i) {
+                        case 0:
+                            $label = 'trailer';
+                        break;
+                        
+                        default:
+                            $label = 'episode '.$i;
+                        break;
+                    }
+
+                    $vimeoRsrc[$label] = $el;
+                }
                 
-            }finally{
+            });
 
-            }
+            
 
            
     		return $this->render('catalogue/movie-single.html.twig',array(

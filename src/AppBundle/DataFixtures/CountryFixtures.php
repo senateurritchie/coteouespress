@@ -10,7 +10,7 @@ class CountryFixtures extends Fixture{
 
     public function load(ObjectManager $manager){
 
-        $rep = $manager->getRepository(Country::class);
+       /* $rep = $manager->getRepository(Country::class);
 
         if(($data = $rep->findBy([],["id"=>"asc"]))){
             foreach ($data as $key => $el) {
@@ -18,6 +18,6 @@ class CountryFixtures extends Fixture{
             }
         }
 
-        $manager->flush();
+        $manager->flush();*/
     }
 }

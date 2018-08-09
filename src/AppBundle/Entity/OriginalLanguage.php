@@ -9,12 +9,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 
 /**
- * Language
+ * OriginalLanguage
  *
- * @ORM\Table(name="language")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\LanguageRepository")
+ * @ORM\Table(name="original_language")
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\OriginalLanguageRepository")
  */
-class Language implements Translatable
+class OriginalLanguage
 {
     /**
     * @var int
@@ -57,24 +57,23 @@ class Language implements Translatable
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime")
     */
     private $createAt;
 
-     /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
+    /**
+    * @Gedmo\Locale
+    * Used locale to override Translation listener`s locale
+    * this is not a mapped field of entity metadata, just a simple property
+    */
     private $locale;
 
     /**
     * @Groups({"group2"})
-    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieLanguage", mappedBy="language")
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\Movie", mappedBy="language")
     */
     private $movies;
-
-
     /**
      * Constructor
      */
@@ -83,11 +82,10 @@ class Language implements Translatable
         $this->movies = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
      * Get id
      *
-     * @return int
+     * @return integer
      */
     public function getId()
     {
@@ -99,7 +97,7 @@ class Language implements Translatable
      *
      * @param string $name
      *
-     * @return Language
+     * @return OriginalLanguage
      */
     public function setName($name)
     {
@@ -123,7 +121,7 @@ class Language implements Translatable
      *
      * @param string $slug
      *
-     * @return Language
+     * @return OriginalLanguage
      */
     public function setSlug($slug)
     {
@@ -143,11 +141,35 @@ class Language implements Translatable
     }
 
     /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return OriginalLanguage
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
+    }
+
+    /**
      * Set createAt
      *
      * @param \DateTime $createAt
      *
-     * @return Language
+     * @return OriginalLanguage
      */
     public function setCreateAt($createAt)
     {
@@ -166,19 +188,14 @@ class Language implements Translatable
         return $this->createAt;
     }
 
-    public function setTranslatableLocale($locale){
-        $this->locale = $locale;
-    }
-    
-
     /**
      * Add movie
      *
-     * @param \AppBundle\Entity\MovieLanguage $movie
+     * @param \AppBundle\Entity\Movie $movie
      *
-     * @return Language
+     * @return OriginalLanguage
      */
-    public function addMovie(\AppBundle\Entity\MovieLanguage $movie)
+    public function addMovie(\AppBundle\Entity\Movie $movie)
     {
         $this->movies[] = $movie;
 
@@ -188,9 +205,9 @@ class Language implements Translatable
     /**
      * Remove movie
      *
-     * @param \AppBundle\Entity\MovieLanguage $movie
+     * @param \AppBundle\Entity\Movie $movie
      */
-    public function removeMovie(\AppBundle\Entity\MovieLanguage $movie)
+    public function removeMovie(\AppBundle\Entity\Movie $movie)
     {
         $this->movies->removeElement($movie);
     }
@@ -205,27 +222,7 @@ class Language implements Translatable
         return $this->movies;
     }
 
-    /**
-     * Set movieNbr
-     *
-     * @param integer $movieNbr
-     *
-     * @return Language
-     */
-    public function setMovieNbr($movieNbr)
-    {
-        $this->movieNbr = $movieNbr;
-
-        return $this;
-    }
-
-    /**
-     * Get movieNbr
-     *
-     * @return integer
-     */
-    public function getMovieNbr()
-    {
-        return $this->movieNbr;
+    public function setTranslatableLocale($locale){
+        $this->locale = $locale;
     }
 }

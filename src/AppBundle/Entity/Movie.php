@@ -37,6 +37,15 @@ class Movie implements Translatable
     private $category;
 
     /**
+    * @var AppBundle\Entity\OriginalLanguage
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OriginalLanguage", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $language;
+
+    /**
     * @var string
     *
     * @Groups({"group1","group2"})
@@ -168,14 +177,6 @@ class Movie implements Translatable
     * @ORM\Column(name="mention", type="string", options={"comment":"determine si le movie est en HD, SD ou autre"}, columnDefinition="ENUM('HD','SD','4k','2k')", nullable=true)
     */
     private $mention = "HD";
-
-    /**
-    * @var string
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="original_language", type="string", options={"comment":"la langue original du movie"},nullable=true)
-    */
-    private $originalLanguage;
 
    /**
     * @var string
@@ -311,8 +312,8 @@ class Movie implements Translatable
 
 
     /**
-     * Constructor
-     */
+    * Constructor
+    */
     public function __construct()
     {
         $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
@@ -526,29 +527,7 @@ class Movie implements Translatable
         return $this->mention;
     }
 
-    /**
-     * Set originalLanguage
-     *
-     * @param string $originalLanguage
-     *
-     * @return Movie
-     */
-    public function setOriginalLanguage($originalLanguage)
-    {
-        $this->originalLanguage = $originalLanguage;
 
-        return $this;
-    }
-
-    /**
-     * Get originalLanguage
-     *
-     * @return string
-     */
-    public function getOriginalLanguage()
-    {
-        return $this->originalLanguage;
-    }
 
     /**
      * Set hasExclusivity
@@ -1206,9 +1185,7 @@ class Movie implements Translatable
         return $this->logline;
     }
 
-    public function setTranslatableLocale($locale){
-        $this->locale = $locale;
-    }
+   
 
     /**
      * Set updateAt
@@ -1256,5 +1233,34 @@ class Movie implements Translatable
     public function getPublishedAt()
     {
         return $this->publishedAt;
+    }
+
+    public function setTranslatableLocale($locale){
+        $this->locale = $locale;
+    }
+
+
+    /**
+     * Set language
+     *
+     * @param \AppBundle\Entity\OriginalLanguage $language
+     *
+     * @return Movie
+     */
+    public function setLanguage(\AppBundle\Entity\OriginalLanguage $language = null)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \AppBundle\Entity\OriginalLanguage
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 }

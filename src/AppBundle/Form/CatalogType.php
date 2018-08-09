@@ -23,6 +23,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 use AppBundle\Entity\Catalog;
 use AppBundle\Entity\Language;
+use AppBundle\Entity\OriginalLanguage;
 use AppBundle\Entity\Category;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Country;
@@ -59,6 +60,13 @@ class CatalogType extends AbstractType
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
+            },
+            'group_by' => function($value, $input, $index) {
+                return strtoupper($value->getSlug()[0]);
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
             },
             "mapped"=>false,
         ))
@@ -146,7 +154,7 @@ class CatalogType extends AbstractType
         ->add('language',EntityType::class,array(
             "required"=>false,
             "placeholder"=>$this->translator->trans("Langue",array(),"catalogue"),
-            "class"=>Language::class,
+            "class"=>OriginalLanguage::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",
             'choice_attr' => function($value, $key, $index)use(&$request) {
@@ -155,6 +163,10 @@ class CatalogType extends AbstractType
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
             },
             "mapped"=>false,
         ))

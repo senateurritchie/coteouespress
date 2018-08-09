@@ -35,7 +35,9 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		$qb->select("m")
 		->from(Movie::class,"m")
 		->leftJoin("m.category","category")
-		->addSelect("category");
+		->addSelect("category")
+        ->leftJoin("m.language","language")
+        ->addSelect("language");
 
         // recherche par id
         if(@$params["id"]){
@@ -81,7 +83,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
 		// recherche par language
 		if(@$params["language"]){
-			$this->whereLanguage($qb,@$params["language"],@$params["locale"]);
+			$this->whereLanguage($qb,@$params["language"]);
 		}
 
 		// recherche par createur
@@ -258,20 +260,9 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       	->setParameter("genre",$value);
   	}
 
-  	public function whereLanguage(QueryBuilder $qb,$value,$locale="en"){
-  		$qb2 = $this->_em->createQueryBuilder();
-
-      	$qb->andWhere(
-      		$qb->expr()->exists(
-      			$qb2->select("ml.id")
-      			->from(MovieLanguage::class,"ml")
-      			->innerJoin("ml.movie","mlm")
-      			->innerJoin("ml.language","mll")
-      			->where("m.id = mlm.id")
-      			->andWhere("mll.slug = :language")
-      		)
-      	)
-      	->setParameter("language",$value);
+  	public function whereLanguage(QueryBuilder $qb,$value){
+        $qb->andWhere("language.slug = :language")
+        ->setParameter("language",$value);
   	}
 
   	public function whereCreator(QueryBuilder $qb,$value){

@@ -30,8 +30,8 @@
 		</td>
 
 		<td class="data-item-originalLanguage" style="vertical-align:middle;text-align:center" width="100">
-			{% if item.originalLanguage %}
-				{{ item.originalLanguage|lower|title }}
+			{% if item.language %}
+				{{ item.language.name|lower|title }}
 			{% else %}
 				-
 			{% endif %}

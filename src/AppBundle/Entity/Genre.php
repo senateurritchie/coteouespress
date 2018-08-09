@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gedmo\Translatable\Translatable;
 
 /**
 * Genre
@@ -30,6 +31,7 @@ class Genre
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @ORM\Column(name="name", type="string", length=30, unique=true)
     */
     private $name;
@@ -38,6 +40,7 @@ class Genre
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=60, unique=true, nullable=true)
     */

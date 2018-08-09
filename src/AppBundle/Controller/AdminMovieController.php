@@ -26,9 +26,6 @@ use AppBundle\Entity\Catalog;
 use AppBundle\Entity\Metadata;
 use AppBundle\Form\MetadataType;
 
-use AppBundle\Utils\CatalogMetadata;
-use AppBundle\Utils\Validator\CatalogMetadataHeaderValidator;
-
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -1069,7 +1066,7 @@ class AdminMovieController extends Controller
         })
         
         ->process();
-        echo " </tbody></table></div>";*/
+        echo " </tbody></table></div>";
 
         return new Response("");
     }
