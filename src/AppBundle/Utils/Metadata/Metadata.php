@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Utils;
+namespace AppBundle\Utils\Metadata;
 
 use \PhpOffice\PhpSpreadsheet\IOFactory;
 use AppBundle\Utils\Event\CatalogDataEvent;
@@ -10,6 +10,7 @@ use AppBundle\Utils\Validator\ValidatorManager;
 use AppBundle\Utils\Validator\FieldValidatorManager;
 use AppBundle\Utils\Validator\EntityFieldValidator;
 use AppBundle\Utils\Validator\UrlFieldValidator;
+use AppBundle\Utils\Validator\MetadataHeaderValidator\MetadataHeaderValidator;
 
 use AppBundle\Utils\MetadataEntry\MetadataPlainTextEntry;
 use AppBundle\Utils\MetadataEntry\MetadataResourceEntry;
@@ -17,9 +18,8 @@ use AppBundle\Utils\MetadataEntry\MetadataChoiceEntry;
 use AppBundle\Utils\MetadataEntry\MetadataEntityEntry;
 
 
-class CatalogMetadata extends EventDispatcher{
+abstract class Metadata extends EventDispatcher{
 
-	const TARGET_SHEETNAME = "Version numérique";
 	const INPUT_FILE_TYPE = "Xlsx";
 	const TEMPNAME_PREFIX = "Aaz";
 
@@ -28,6 +28,11 @@ class CatalogMetadata extends EventDispatcher{
 	 * @var string
 	 */
 	protected $path;
+	/**
+	 * l'onglet par default à lire
+	 * @var string
+	 */
+	protected $defaultSheetname;
 	/**
 	* le dossier temporaire
 	* @var string
@@ -58,14 +63,40 @@ class CatalogMetadata extends EventDispatcher{
 
 	/**
 	* Initialize le lecteur de metadonnée catalogue
+	* 
 	* @param string $path represente le chemin du fichier zip
 	*/
-	public function __construct($path,$tmpdname = __DIR__."/../../../web/tmp"){
+	public function __construct($path,array $headerValidators = array(),array $bodyValidators = array()){
 		parent::__construct();
-		$this->tmpdname = $tmpdname;
+		$this->tmpdname = __DIR__."/../../../web/tmp";
 		$this->path = $path;
 		$this->dvm = new FieldValidatorManager();
 		$this->hvm = new ValidatorManager();
+
+		foreach ($headerValidators as $key => $el) {
+			$this->hvm->add($el);
+		}
+
+		foreach ($bodyValidators as $key => $el) {
+			$this->dvm->add($el);
+		}
+	}
+
+	/**
+	* change l'onglet par default
+	* 
+	* @param string $sheetname le nom de l'onglet à definir
+	*/
+	public function setDefaultSheetname($sheetname){
+		return $this->defaultSheetname = $sheetname;
+	}
+	/**
+	 * retourne le nom de l'onglet par defaut à lire
+	 * 
+	 * @return [type] [description]
+	 */
+	public function getDefaultSheetname(){
+		return $this->defaultSheetname;
 	}
 
 	public function getSheetHeader(){
@@ -76,7 +107,10 @@ class CatalogMetadata extends EventDispatcher{
 	 * 
 	 * @return null
 	 */
-	public function process($sheetname="Full Video"){
+	public function process(){
+
+		$sheetname = $this->getDefaultSheetname();
+
 		$za = new \ZipArchive();
         $za->open($this->path);
         $this->za = $za;

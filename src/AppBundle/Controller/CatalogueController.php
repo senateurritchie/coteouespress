@@ -46,43 +46,44 @@ class CatalogueController extends Controller{
             $client_id = $vimeo_p['client_id'];
             $client_secret = $vimeo_p['client_secret'];
             $token = $vimeo_p['access_token'];
-
-            $lib = new \Vimeo\Vimeo($client_id, $client_secret);
-            /*$token = $lib->clientCredentials(["public","video_files"]);
-            var_dump($token['body']['access_token']);
-            // accepted scopes
-            var_dump($token['body']['scope']);*/
-
-            // use the token
-            $lib->setToken($token);
-            
             $vimeoRsrc = array();
 
+            try {
+                
+                $lib = new \Vimeo\Vimeo($client_id, $client_secret);
+                //$token = $lib->clientCredentials(["public","video_files"]);
+                //var_dump($token['body']['access_token']);
+                // accepted scopes
+                //var_dump($token['body']['scope']);*/
 
-            $links = [];
-
-            if(($url = $programme->getTrailer())){
-                $links[] = $url;
-            }
-
-            if(($url = $programme->getEpisode1())){
-                $links[] = $url;
-            }
-
-            if(($url = $programme->getEpisode2())){
-                $links[] = $url;
-            }
-
-            if(($url = $programme->getEpisode3())){
-                $links[] = $url;
-            }
+                // use the token
+                $lib->setToken($token);
+                
 
 
-            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
-                $endpoint = '/videos';
-                $links = implode(",", $videos);
+                $links = [];
 
-                try {
+                if(($url = $programme->getTrailer())){
+                    $links[] = $url;
+                }
+
+                if(($url = $programme->getEpisode1())){
+                    $links[] = $url;
+                }
+
+                if(($url = $programme->getEpisode2())){
+                    $links[] = $url;
+                }
+
+                if(($url = $programme->getEpisode3())){
+                    $links[] = $url;
+                }
+
+
+                $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
+                    $endpoint = '/videos';
+                    $links = implode(",", $videos);
+
                     if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
 
                         $e = array_map(function($el){
@@ -123,28 +124,34 @@ class CatalogueController extends Controller{
                             $ret = call_user_func($fn,$data);
                         }
                     }
+                };
 
-                } catch (Exception $e) { }
-            };
 
-            $requestVimeo2($links,function($data)use(&$vimeoRsrc){
+                $requestVimeo2($links,function($data)use(&$vimeoRsrc){
 
-                foreach ($data as $i => $el) {
-                    $label = "";
-                    switch ($i) {
-                        case 0:
-                            $label = 'trailer';
-                        break;
-                        
-                        default:
-                            $label = 'episode '.$i;
-                        break;
+                    foreach ($data as $i => $el) {
+                        $label = "";
+                        switch ($i) {
+                            case 0:
+                                $label = 'trailer';
+                            break;
+                            
+                            default:
+                                $label = 'episode '.$i;
+                            break;
+                        }
+
+                        $vimeoRsrc[$label] = $el;
                     }
+                    
+                });
 
-                    $vimeoRsrc[$label] = $el;
-                }
+            } catch (Exception $e) {
                 
-            });
+            }finally{
+
+            }
+
            
     		return $this->render('catalogue/movie-single.html.twig',array(
                 "programme"=>$programme,

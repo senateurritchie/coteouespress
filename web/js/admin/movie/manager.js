@@ -140,12 +140,12 @@ var AdminManager = AdminManager || {};
 
 			var file = event.params.file;
 			var _model = event.params._model;
+			var _token = event.params._token;
 
 			var formData = new FormData();
-			formData.append('metadata',file);
-			formData.append('_model',_model);
-			var url = `/admin/movies/metadata/upload`;
-
+			formData.append('file',file);
+			formData.append('_token',_token);
+			var url = `/admin/movies/metadata/upload/${_model}`;
 
 			return new Promise((resolve,reject)=>{
 
@@ -879,12 +879,17 @@ var AdminManager = AdminManager || {};
 				if(!files.length) return;
 				var file = files[0];
 
+				var input = dropper.find('input[type=file]');
+
+
 
 				var ext = file.name.split('.');
 				ext = ext.slice(-1);
 				ext = ext[0];
 				ext = ext.toLowerCase();
 				if (ext.toLowerCase() == "zip"){
+
+					input.get()[0].files = files;
 
 					var ref = this.subscribe(event=>{
 						if(event instanceof nsp.UploadMetadataEvent){
@@ -916,10 +921,13 @@ var AdminManager = AdminManager || {};
 						}
 					});
 
+					var _token  = dropper.find('input[name=_token]').val();
+
 					this.emit(new nsp.UploadMetadataEvent({
 						state:'start',
 						file:file,
 						_model:"webmaster",
+						_token:_token,
 					}));
 
 					dropper.find('button').attr('disabled','disabled');
@@ -928,6 +936,13 @@ var AdminManager = AdminManager || {};
 					dropper.addClass("uploading");
 				}
 			});
+
+			$("#modal-metadata .dropzone").on('click',e=>{
+				var obj = $(e.target);
+				var input = obj.find('input[type=file]');
+				input.trigger('click');
+			});
+
 
 			
 			var scroller = nsp.container.get('Scroller');

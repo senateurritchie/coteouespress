@@ -961,16 +961,16 @@ class AdminMovieController extends Controller
 
 
     /**
-    * @Route("/metadata/upload", name="metadata_upload")
+    * @Route("/metadata/upload/{model}", name="metadata_upload", requirements={"model":"webmaster|catalog"}, defaults={"model":"webmaster"} )
     * @Method({"POST"})
     */
-    public function metadataUploadAction(Request $request){
+    public function metadataUploadAction(Request $request,$model = "webmaster"){
         // protection par role
         $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
         $em = $this->getDoctrine()->getManager();
-
         $metadata = new Metadata();
+        $result = ["status"=>false];
 
         $form = $this->createForm(MetadataType::class,$metadata,[
             'upload_dir' => $this->getParameter('private_upload_directory'),
@@ -978,44 +978,27 @@ class AdminMovieController extends Controller
 
         $form->handleRequest($request);
 
+        foreach ($form->all() as $child) {
+            if (!$child->isValid() && count($child->getErrors())) {
+                $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                $result['errors'][] = $formatted;
+                //$this->addFlash('notice-error',$formatted);
+            }
+        }
+
+
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($metadata);
             $em->flush();
+            $result['status'] = true;
+            //$this->addFlash('notice-success',"opération éffectuée avec succès");
         }
-
-        /*$zip_path = __DIR__."/../../../web/upload/private/test.zip";
-        $reader = new CatalogMetadata($zip_path);
-
-        $reader->hvm
-        ->add(new \AppBundle\Utils\Validator\HeaderValidator());
-
-        $reader->dvm
-        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("name",["nullable"=>false,"filters"=>[new \AppBundle\Utils\Filter\TitleFilter()]]))
-        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("episodeNbr",["nullable"=>false]))
-        ->add(new \AppBundle\Utils\Validator\IntegerFieldValidator("duration",["nullable"=>false]))
-        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("mention",["4k","2k","HD","SD"]))
-        ->add(new \AppBundle\Utils\Validator\DateFieldValidator("year",["nullable"=>false]))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("trailer",["filters"=>[new \AppBundle\Utils\Filter\LinkyfyFilter(["attributes"=>["target"=>"_blank"]])]]))
-        ->add(new \AppBundle\Utils\Validator\UrlFieldValidator("episodes",["multiple"=>true,"filters"=>[new \AppBundle\Utils\Filter\LinkyfyFilter(["attributes"=>["target"=>"_blank"]])]]))
        
-        ->add(new \AppBundle\Utils\Validator\TextFieldValidator("synopsis",["filters"=>[new \AppBundle\Utils\Filter\TruncateFilter(10),new \AppBundle\Utils\Filter\TitleFilter()]]))
 
+        return $this->json($result);
 
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("category",["nullable"=>false,"class"=>\AppBundle\Entity\Category::class,"entity_manager"=>$em,"table_name"=>"Catégories"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("languages",["class"=>\AppBundle\Entity\Language::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Langues"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("genres",["class"=>\AppBundle\Entity\Genre::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Genres"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("countries",["class"=>\AppBundle\Entity\Country::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Pays"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("casting",["class"=>\AppBundle\Entity\Actor::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Casting"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("producers",["class"=>\AppBundle\Entity\Producer::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Producteurs"]))
-        ->add(new \AppBundle\Utils\Validator\EntityFieldValidator("directors",["class"=>\AppBundle\Entity\Director::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Réalisateurs"]))
-        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("In Theather",["yes","no"]))
-        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Exclusivity",["yes","no"]))
-        ->add(new \AppBundle\Utils\Validator\ChoiceFieldValidator("Published",["yes","no"]))
-
-        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@coverImg",["width"=>1920,"height"=>1080]))
-        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@landscapeImg",["width"=>640,"height"=>360]))
-        ->add(new \AppBundle\Utils\Validator\ImageFieldValidator("@portraitImg",["width"=>270,"height"=>360]))
-        ->add(new  \AppBundle\Utils\Validator\ImageFieldValidator("@gallery",["width"=>640,"height"=>360]));
+        $zip_path = __DIR__."/../../../web/upload/private/test.zip";
+        $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path);
 
         echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">';
 

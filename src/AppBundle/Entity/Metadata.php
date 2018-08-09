@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Metadata
 {
+    const STATUS_PREMODERATE = "pre-moderate";
+    const STATUS_BAN = "ban";
+    const STATUS_VALIDATED = "validated";
+
     /**
      * @var int
      *
@@ -47,7 +51,7 @@ class Metadata
     /**
     * @var \DateTime
     * @Gedmo\Timestampable(on="change", field="status", value="validated")    
-    * @ORM\Column(name="moderate_at", type="datetime", options={"comment":"la date de moderation"})
+    * @ORM\Column(name="moderate_at", type="datetime", options={"comment":"la date de moderation"}, nullable=true)
     */
     private $moderateAt;
 

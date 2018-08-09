@@ -1,19 +1,17 @@
 <?php
-namespace AppBundle\Utils\Validator;
+namespace AppBundle\Utils\Metadata\HeaderValidator;
 use AppBundle\Utils\Validator\Validator;
 
-class HeaderValidator extends Validator{
+abstract class HeaderValidator extends Validator{
 	/**
 	* les entêtes predefinies à valider
 	* @var array
 	*/
-	protected $fields = [
-		"Name","Category","EpisodeNbr","Duration","Mention","Trailer","Episodes","Synopsis","Tagline","Logline","Rewards","Awards","Audiences","Languages","Genres","Countries","Casting","Producers","Directors","In Theather","Exclusivity","Published","@CoverImg","@LandscapeImg","@PortraitImg","@Gallery"];
-
+	protected $fields;
 
 	public function __construct(array $fields = []){
 		parent::__construct();
-		$this->fields = count($fields) ? $fields : $this->fields;
+		$this->fields = $fields;
 	}
 
 	public function validate($value){

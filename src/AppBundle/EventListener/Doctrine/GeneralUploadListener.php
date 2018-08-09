@@ -135,6 +135,7 @@ class GeneralUploadListener{
                     $fileName = $this->pvtUploader->upload($file);
                     $entity->setFile($fileName);
                     $entity->setSize($file->getClientSize());
+                    $entity->setStatus(Metadata::STATUS_PREMODERATE);
                 }
             }
         }

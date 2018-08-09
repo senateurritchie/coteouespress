@@ -163,7 +163,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-2 col-sm-6">
+                            {#<div class="col-md-2 col-sm-6">
                                 <div  class="form-group">
                                     {{ form_widget(form.mention, {"attr":{"class":"form-control-sm custom-select","placeholder":'Définition'|trans({},'catalogue')}}) }}
                                 </div>
@@ -185,7 +185,7 @@
                           
                             <div class="col-md-2 col-sm-6">
                                 
-                            </div>
+                            </div>#}
 
                            
                            
@@ -260,18 +260,18 @@
                                     {{'Trier par'|trans({},'catalogue')}}...
                                 </div>
 
-                                <div class="col-6 col-md-4 col-sm-4">
+                                {#<div class="col-6 col-md-4 col-sm-4">
                                    
                                     <a href="?{{queryParams|url_encode}}" class="text-secondary">
                                          {{'Ordre alphabetique'|trans({},'catalogue')}}
-
+                                
                                         {% if (app.request.query.get('order_name') == 'asc' or not app.request.query.get('order_name') ) %}
                                             <i class="fas fa-sort-alpha-down"></i>
                                         {% else %}
                                             <i class="fas fa-sort-alpha-up"></i>
                                         {% endif %}
                                     </a>
-                                </div>
+                                </div> #}
                                 
                                 <div class="col-6 col-md-4 col-sm-4">
                                    
