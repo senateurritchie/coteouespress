@@ -54,10 +54,6 @@ class EntityFieldValidator extends FieldValidator{
 				$method = 'findOneBy'.ucfirst($this->options['search_by']);
 			}
 
-			var_dump($slug);
-
-			echo "<br><br>$ec";
-
 			if(!($data = $rep->$method($slug))){
 				if(count($values) > 1){
 					$values = implode(", ", $values);
