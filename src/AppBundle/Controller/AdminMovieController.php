@@ -1075,9 +1075,14 @@ class AdminMovieController extends Controller
         
         try {
             $reader->process();
+            $em->flush();
+
         } catch (\Exception $e) {
             $em->remove($metadata);
             $em->flush();
+
+            throw  $e;
+            
 
             ob_clean();
             $result['message'] = $e->getMessage();

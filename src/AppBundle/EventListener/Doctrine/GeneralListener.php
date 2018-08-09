@@ -23,59 +23,74 @@ class GeneralListener{
         $entity = $args->getEntity();
 
         if($entity instanceof MovieActor) {
-            $el = $entity->getActor();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getActor())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof MovieDirector) {
-            $el = $entity->getDirector();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getDirector())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+           
         }
         else if ($entity instanceof MovieProducer) {
-            $el = $entity->getProducer();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getProducer())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof MovieCategory) {
-            $el = $entity->getCategory();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getCategory())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof MovieLanguage) {
-            $el = $entity->getLanguage();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getLanguage())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof MovieGenre) {
-            $el = $entity->getGenre();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getGenre())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+            
         }
         else if ($entity instanceof MovieCountry) {
-            $el = $entity->getCountry();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getCountry())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+            
         }
         else if ($entity instanceof ActorCountry) {
-            $el = $entity->getCountry();
-            $nbr = intval($el->getActorNbr())+1;
-            $el->setActorNbr($nbr);
+            if(($el = $entity->getCountry())){
+                $nbr = intval($el->getActorNbr())+1;
+                $el->setActorNbr($nbr);
+            }
         }
         else if ($entity instanceof DirectorCountry) {
-            $el = $entity->getCountry();
-            $nbr = intval($el->getDirectorNbr())+1;
-            $el->setDirectorNbr($nbr);
+            if(($el = $entity->getCountry())){
+                $nbr = intval($el->getDirectorNbr())+1;
+                $el->setDirectorNbr($nbr);
+            }
         }
         else if ($entity instanceof ProducerCountry) {
-            $el = $entity->getCountry();
-            $nbr = intval($el->getProducerNbr())+1;
-            $el->setProducerNbr($nbr);
+            if(($el = $entity->getCountry())){
+                $nbr = intval($el->getProducerNbr())+1;
+                $el->setProducerNbr($nbr);
+            }
+            
         }
         else if ($entity instanceof Movie) {
-            $el = $entity->getCategory();
-            $nbr = intval($el->getMovieNbr())+1;
-            $el->setMovieNbr($nbr);
+            if(($el = $entity->getCategory())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
     }
 
@@ -133,9 +148,11 @@ class GeneralListener{
             $el->setProducerNbr($nbr);
         }
         else if ($entity instanceof Movie) {
-            $el = $entity->getCategory();
-            $nbr = intval($el->getMovieNbr())-1;
-            $el->setMovieNbr($nbr);
+           if(($el = $entity->getCategory())){
+                $nbr = intval($el->getMovieNbr())-1;
+                $el->setMovieNbr($nbr);
+           }
+            
         }
     }
 }

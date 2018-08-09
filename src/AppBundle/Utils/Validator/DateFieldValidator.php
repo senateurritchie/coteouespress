@@ -3,36 +3,36 @@ namespace AppBundle\Utils\Validator;
 use AppBundle\Utils\Validator\FieldValidator;
 
 class DateFieldValidator extends FieldValidator{
-	/**
-	 * le format de date souhaité
-	 * @var string
-	 */
-	protected $format;
-
-	public function __construct($field,$format = null){
-		parent::__construct($field);
-		$this->format = $format;
+	
+	public function __construct($field,array $options = array()){
+		parent::__construct($field,$options);
 	}
 
 	public function validate($value){
 		try {
 			$values = explode("-", $value);
+
 			$values = array_filter($values,function($el){
 				return trim($el);
 			});
 
 			if(count($values) == 1){
-				$date = new \Datetime($value);
+				$value = substr($value, 0,4);
 
-				if($this->format){
-					if($date->format($this->format) != $value){
+				$date = new \Datetime($value);
+				$format = $this->getOption("format");
+
+				if($format){
+					if($date->format($format) != $value){
 						return "le format de date donné n'est pas valide ";
 					}
 				}
-
 				$this->emit('validated',[$date,null]);
 			}
 			else if(count($values) == 2){
+				$values[0] = substr($values[0], 0,4);
+				$values[1] = substr($values[1], 0,4);
+
 				$start 	= new \Datetime($values[0]);
 				$end 	= new \Datetime($values[1]);
 				$this->emit('validated',[$start,$end]);
@@ -46,9 +46,5 @@ class DateFieldValidator extends FieldValidator{
 			
 		}
 		return false;
-	}
-
-	public function getFormat(){
-		return $this->format;
 	}
 }

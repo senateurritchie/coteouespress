@@ -94,7 +94,7 @@ class WebmasterMetadata extends Metadata{
                 else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataEntityEntry){
                     $choices = $el->getChoices();
                     foreach ($choices as $i=>$choice) {
-                        switch (strtolower($header)) {
+                        switch (strtolower($field)) {
 	                		case 'category':
 	                			$movie->setCategory($choice);
 	                		break;
@@ -109,7 +109,7 @@ class WebmasterMetadata extends Metadata{
                     $choices = $el->getChoices();
                     foreach ($choices as $i => $choice) {
 
-                        switch (strtolower($header)) {
+                        switch (strtolower($field)) {
 	                		case 'episodes':
 	                			$method = "setEpisode_".($i+1);
 	                			$movie->$method($choice);
@@ -118,7 +118,7 @@ class WebmasterMetadata extends Metadata{
                     }                   
                 }
                 else{
-                	switch (strtolower($header)) {
+                	switch (strtolower($field)) {
                 		case 'name':
                 			$movie->setName($el->getValue());
                 		break;
@@ -186,7 +186,6 @@ class WebmasterMetadata extends Metadata{
             }
 
             $em->persist($movie);
-            $em->flush();
         });
 	}
 	
