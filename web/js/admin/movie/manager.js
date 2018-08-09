@@ -867,6 +867,9 @@ var AdminManager = AdminManager || {};
 				e.preventDefault();
 				$(document.body).removeClass('dragenter');		
 				var dropper = $(e.currentTarget);
+				var modal = dropper.parents("#modal-metadata");
+				var modalInfo = $('#modal-info');
+
 
 				if(dropper.hasClass("uploading")) return;
 
@@ -874,6 +877,7 @@ var AdminManager = AdminManager || {};
 				dropper.removeClass("uploaded");
 
 				var progressBar = dropper.find('.progress .progress-bar');
+				var buttons = modal.find('button');
 
 				var files = e.originalEvent.dataTransfer.files;
 				if(!files.length) return;
@@ -890,6 +894,7 @@ var AdminManager = AdminManager || {};
 				if (ext.toLowerCase() == "zip"){
 
 					input.get()[0].files = files;
+					buttons.attr('disabled','disabled');
 
 					var ref = this.subscribe(event=>{
 						if(event instanceof nsp.UploadMetadataEvent){
@@ -903,6 +908,7 @@ var AdminManager = AdminManager || {};
 									dropper.removeClass("uploading");
 									dropper.find('button').removeAttr('disabled');
 									setTimeout(function(){
+										dropper.addClass("saving");
 										dropper.addClass("uploaded");
 										progressBar.css('width',`0%`);
 									},1000);
@@ -916,6 +922,37 @@ var AdminManager = AdminManager || {};
 							if(event.params.state != "end") return;
 
 							if(event.params.file === file){
+
+								var data = event.params.data;
+
+
+								var alertShow = ()=>{
+
+									modalInfo.on('hidden.bs.modal', function () {
+										modalInfo.off('hidden.bs.modal');
+						  				modal.modal('show');
+									});
+
+									if(data.hasOwnProperty('message')){
+										$('#modal-info .modal-body h4').html(data.message);
+										$('#modal-info').modal('show');
+									}
+									else if(data.hasOwnProperty('errors')){
+										var tpl = this.render(this.params.$tpl.errors,data);
+										$('#modal-info .modal-body h4').html(tpl);
+										$('#modal-info').modal('show');
+									}
+									modal.off('hidden.bs.modal');
+								};
+
+								modal.on('hidden.bs.modal', function () {
+					  				alertShow();
+								});
+
+								modal.modal('hide');
+
+								dropper.removeClass("saving");
+								buttons.removeAttr('disabled');
 								ref2.unsubscribe();
 							}
 						}

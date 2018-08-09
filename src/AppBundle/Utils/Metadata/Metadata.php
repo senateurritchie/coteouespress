@@ -16,6 +16,7 @@ use AppBundle\Utils\MetadataEntry\MetadataPlainTextEntry;
 use AppBundle\Utils\MetadataEntry\MetadataResourceEntry;
 use AppBundle\Utils\MetadataEntry\MetadataChoiceEntry;
 use AppBundle\Utils\MetadataEntry\MetadataEntityEntry;
+use AppBundle\Utils\MetadataEntry\MetadataDateEntry;
 
 
 abstract class Metadata extends EventDispatcher{
@@ -24,49 +25,72 @@ abstract class Metadata extends EventDispatcher{
 	const TEMPNAME_PREFIX = "Aaz";
 
 	/**
-	 * le chemin du fichier zip à ouvrie
-	 * @var string
-	 */
+	* le chemin du fichier zip à ouvrie
+	*
+	* @var string
+	*/
 	protected $path;
 	/**
-	 * l'onglet par default à lire
-	 * @var string
-	 */
+	* l'onglet par default à lire
+	*
+	* @var string
+	*/
 	protected $defaultSheetname;
 	/**
 	* le dossier temporaire
+	*
 	* @var string
 	*/
 	protected $tmpdname;
 	/**
-	 * les entetes de la feuille
-	 * @var [type]
-	 */
+	* les entetes de la feuille
+	*
+	* @var [type]
+	*/
 	protected $sheetHeader;
 	/**
 	 * le fichier zip actuellement ouvert
+	 *
 	 * @var \ZipArchive
 	 */
 	protected $za;
 
 	/**
 	* permet de valider les entetes du fichier
+	*
 	* @var AppBundle\Utils\Validator\ValidatorManager
 	*/
-	public $hvm;
+	protected $hvm;
 
 	/**
 	* permet de valider les cellules de la feuille
+	*
 	* @var AppBundle\Utils\Validator\FieldValidatorManager
 	*/
-	public $dvm;
+	protected $dvm;
+
+	/**
+	* parametres de configuration du lecteur
+	*
+	* @var array
+	*/
+	protected $options = [
+		"entity_manager"=>null,
+	];
+
+	/**
+	* L'entête en cours de traitement
+	*
+	* @var string
+	*/
+	protected $currentField;
 
 	/**
 	* Initialize le lecteur de metadonnée catalogue
 	* 
 	* @param string $path represente le chemin du fichier zip
 	*/
-	public function __construct($path,array $headerValidators = array(),array $bodyValidators = array()){
+	public function __construct($path,array $headerValidators = array(),array $bodyValidators = array(),array $options = array()){
 		parent::__construct();
 		$this->tmpdname = __DIR__."/../../../web/tmp";
 		$this->path = $path;
@@ -80,6 +104,8 @@ abstract class Metadata extends EventDispatcher{
 		foreach ($bodyValidators as $key => $el) {
 			$this->dvm->add($el);
 		}
+
+		$this->setOptions($options);
 	}
 
 	/**
@@ -169,6 +195,10 @@ abstract class Metadata extends EventDispatcher{
 				            				$entry->addChoice($evt->getValue());
 				            			}
 				            		}
+				            		else if($related instanceof DateFieldValidator){
+				            			$entry = new MetadataDateEntry();
+				            			$entry->setRange($evt->getValue());
+				            		}
 				            	}
 				            };
 
@@ -180,6 +210,7 @@ abstract class Metadata extends EventDispatcher{
 
 			                	$curr_header = $headers[$posIndex];
 
+			            		$this->setCurrentField($curr_header);
 				            	$this->dvm->setFieldToProcess($curr_header);
 
 			                	if($curr_header[0] == "@" && $value){
@@ -248,7 +279,34 @@ abstract class Metadata extends EventDispatcher{
                	}
             }
         }
-
         $za->close();
+        $this->emit("end","bye bye!");
+	}
+
+	/**
+	* @param string $field
+	*/
+	public function setCurrentField($field){
+		$this->currentField = $field;
+		return $this;
+	}
+	public function getCurrentField(){
+		return $this->currentField;
+	}
+
+
+
+	public function getOption($option){
+		return isset($this->options[$option]) ? $this->options[$option] : null;
+	}
+
+	public function setOption($key,$value){
+		$this->options[$key] = $value;
+		return $this;
+	}
+
+	public function setOptions(array $options){
+		$this->options = array_merge($this->options,$options);
+		return $this;
 	}
 }

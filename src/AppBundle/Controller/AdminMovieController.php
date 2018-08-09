@@ -969,8 +969,10 @@ class AdminMovieController extends Controller
         $metadata = new Metadata();
         $result = ["status"=>false];
 
+        $upload_dir = $this->getParameter('private_upload_directory');
+
         $form = $this->createForm(MetadataType::class,$metadata,[
-            'upload_dir' => $this->getParameter('private_upload_directory'),
+            'upload_dir' => $upload_dir,
         ]);
 
         $form->handleRequest($request);
@@ -983,22 +985,24 @@ class AdminMovieController extends Controller
             }
         }
 
-
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($metadata);
             $em->flush();
-            $result['status'] = true;
+            $result['file_download_ok'] = true;
             //$this->addFlash('notice-success',"opération éffectuée avec succès");
         }
        
 
-        return $this->json($result);
+        $zip_path = $upload_dir.'/'.$metadata->getFile();
+        $translator = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
-        $zip_path = __DIR__."/../../../web/upload/private/test.zip";
-        $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path);
+        $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path,array(
+            "entity_manager"=>$em,
+            "translator"=>$translator
+        ));
 
-        echo '<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">';
-
+        ob_clean();
+        ob_start();
 
         echo "<div class='table-responsive'>";
         echo "<table cellspacing='0' class='table table-hover table-striped table-bordered'>";
@@ -1064,10 +1068,26 @@ class AdminMovieController extends Controller
             }
             echo "</tr>";
         })
+        ->on("end",function($event)use(&$result){
+            $result['status'] = true;
+        });
+
         
-        ->process();
+        try {
+            $reader->process();
+        } catch (\Exception $e) {
+            $em->remove($metadata);
+            $em->flush();
+
+            ob_clean();
+            $result['message'] = $e->getMessage();
+
+            return $this->json($result);
+        }
         echo " </tbody></table></div>";
 
-        return new Response("");
+        $content = ob_end_clean();
+
+        return new Response($content,201);
     }
 }

@@ -16,10 +16,29 @@ class DateFieldValidator extends FieldValidator{
 
 	public function validate($value){
 		try {
-			$date = new Datetime($value);
+			$values = explode("-", $value);
+			$values = array_filter($values,function($el){
+				return trim($el);
+			});
 
-			if($this->format){
-				return ($date->format($this->format) == $value);
+			if(count($values) == 1){
+				$date = new \Datetime($value);
+
+				if($this->format){
+					if($date->format($this->format) != $value){
+						return "le format de date donné n'est pas valide ";
+					}
+				}
+
+				$this->emit('validated',[$date,null]);
+			}
+			else if(count($values) == 2){
+				$start 	= new \Datetime($values[0]);
+				$end 	= new \Datetime($values[1]);
+				$this->emit('validated',[$start,$end]);
+			}
+			else{
+				return "le format de date donné n'est pas valide ";
 			}
 
 			return true;

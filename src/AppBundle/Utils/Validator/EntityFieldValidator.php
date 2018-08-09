@@ -55,6 +55,13 @@ class EntityFieldValidator extends FieldValidator{
 			}
 
 			if(!($data = $rep->$method($slug))){
+				if(count($values) > 1){
+					$values = implode(", ", $values);
+
+					return "[$this->mappedBy]: '$values' sont inconnus de la liste de ".$this->getOption('table_name');
+
+				}
+
 				return "[$this->mappedBy]: '$value' est inconnu de la liste de ".$this->getOption('table_name');
 			}
 
