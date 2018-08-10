@@ -77,11 +77,13 @@ class WebmasterMetadata extends Metadata{
         	$em = $this->getOption("entity_manager");
 			$trans = $this->getOption("translator");
 
-        	$field = $event->getHeader();
-
         	$movie = new \AppBundle\Entity\Movie();
 
-            foreach ($event->getValue() as $el) {
+        	$fields = $this->getSheetHeader();
+
+            foreach ($event->getValue() as $pos_f => $el) {
+            	$field = $fields[$pos_f];
+
             	if(!trim($el->getValue())) continue;
 
                 if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataResourceEntry){
@@ -111,7 +113,7 @@ class WebmasterMetadata extends Metadata{
 
                         switch (strtolower($field)) {
 	                		case 'episodes':
-	                			$method = "setEpisode_".($i+1);
+	                			$method = "setEpisode".($i+1);
 	                			$movie->$method($choice);
 	                		break;
 	                	}
@@ -149,8 +151,8 @@ class WebmasterMetadata extends Metadata{
 
                 		//les dates
                 		case 'year':
-                			$movie->setYear_start($el->getStart());
-                			$movie->setYear_end($el->getEnd());
+                			$movie->setYearStart($el->getStart());
+                			$movie->setYearEnd($el->getEnd());
                 		break;
 
                 		// value boolean

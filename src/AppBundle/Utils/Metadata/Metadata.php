@@ -10,6 +10,7 @@ use AppBundle\Utils\Validator\ValidatorManager;
 use AppBundle\Utils\Validator\FieldValidatorManager;
 use AppBundle\Utils\Validator\EntityFieldValidator;
 use AppBundle\Utils\Validator\UrlFieldValidator;
+use AppBundle\Utils\Validator\DateFieldValidator;
 use AppBundle\Utils\Validator\MetadataHeaderValidator\MetadataHeaderValidator;
 
 use AppBundle\Utils\MetadataEntry\MetadataPlainTextEntry;
@@ -184,6 +185,7 @@ abstract class Metadata extends EventDispatcher{
 
 				            $cbkValidated = function($evt)use(&$entry){
 				            	$related = $evt->getRelatedTarget();
+
 				            	if($related){
 				            		if($related instanceof EntityFieldValidator){
 				            			$entry = new MetadataEntityEntry();
@@ -196,6 +198,7 @@ abstract class Metadata extends EventDispatcher{
 				            			}
 				            		}
 				            		else if($related instanceof DateFieldValidator){
+
 				            			$entry = new MetadataDateEntry();
 				            			$entry->setRange($evt->getValue());
 				            		}
@@ -221,7 +224,6 @@ abstract class Metadata extends EventDispatcher{
 
 			                		$multiples = explode(";", $value);
 
-			                		
 			                		// il s'agit d'un champs a valeur unique
 			                		if(count($multiples) == 1){
 
