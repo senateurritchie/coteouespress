@@ -384,9 +384,9 @@
 
                     <div class="block-content" >
                         <div class="row">
-                            <div class="col-md-7 p-0">
+                            <div class="col-md-7">
 
-                               <a class="venobox" data-vbtype="video" data-autoplay="true" href="{{ inTheather.trailer }}" >
+                               <a class="venobox position-relative d-block" data-vbtype="video" data-autoplay="true" href="{{ inTheather.trailer }}" style="height:100%;">
                                     
 
                                     {% if inTheather %}
@@ -441,7 +441,7 @@
                                 
                                 <div>
                                     {% if inTheather %}
-                                        {{ inTheather.synopsis|truncate(187,'...')|md2html }}
+                                        {{ inTheather.synopsis|truncate(250,'...')|md2html }}
                                     {% else %}
                                         -
                                     {% endif %}
@@ -462,7 +462,7 @@
                                         {% if scenes|length %}
                                             {% for img in scenes %}
                                                 
-                                                <div class="col-sm-6">
+                                                <div class="col-sm-6 {{ loop.index > 2 ? 'd-none' : '' }}">
                                                     <div class="position-relative" style="display:inline-block">
 
                                                         {% if loop.index <= 2 %}
@@ -501,9 +501,9 @@
                                     
                                 </div>
 
-                                <a class="btn btn-sm btn-primary venobox" data-vbtype="video" data-autoplay="true" href="{{inTheather.trailer}}" title="false">
+                                {#<a class="btn btn-sm btn-primary venobox" data-vbtype="video" data-autoplay="true" href="{{inTheather.trailer}}" title="false">
                                     <i class="far fa-eye"></i> &nbsp; bande annonce 
-                                </a>
+                                </a>#}
 
                                 <a class="btn btn-sm btn-primary" href="{{ path('catalogue_index',{'slug':inTheather.slug}) }}">
                                     voir la fiche &nbsp;<i class="fas fa-angle-right"></i>

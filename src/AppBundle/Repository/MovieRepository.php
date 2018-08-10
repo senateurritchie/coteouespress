@@ -64,6 +64,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereHasExclusivity($qb,@$params["has_exclusivity"]);
         }
 
+        // recherche par state
+        if(@$params["state"]){
+            $this->whereState($qb,@$params["state"]);
+        }
+
         
 
 		// recherche par mention
@@ -191,6 +196,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
     public function whereHasExclusivity(QueryBuilder $qb,$value){
         $qb->andWhere($qb->expr()->eq("m.hasExclusivity",":has_exclusivity"))
         ->setParameter("has_exclusivity",$value);
+    }
+
+     public function whereState(QueryBuilder $qb,$value){
+        $qb->andWhere($qb->expr()->eq("m.state",":state"))
+        ->setParameter("state",$value);
     }
 
     public function whereYearStart(QueryBuilder $qb,$value){

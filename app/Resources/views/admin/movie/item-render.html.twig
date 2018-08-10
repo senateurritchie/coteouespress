@@ -111,11 +111,27 @@
 		<td class="data-item-exclusivity" style="vertical-align:middle;text-align:center" width="100">
 			{% if item.isPublished %}
 				<span class="label bg-green">
-					Publié
+					Oui
 				</span> 
 			{% else %}
 				<span class="label label-default">
-					Pre-modération
+					Non
+				</span> 
+			{% endif %}
+		</td>
+
+		<td class="data-item-exclusivity" style="vertical-align:middle;text-align:center" width="100">
+			{% if item.state == 'approved' %}
+				<span class="label bg-green">
+					{{ item.state }}
+				</span> 
+			{% elseif item.state == 'deactivated' or  item.state == 'rejected' %}
+				<span class="label bg-danger">
+					{{ item.state }}
+				</span> 
+			{% else %}
+				<span class="label label-default">
+					{{ item.state }}
 				</span> 
 			{% endif %}
 		</td>

@@ -126,6 +126,19 @@ class MovieType extends AbstractType
             ],
             "required"=>false,
         ))
+        ->add('state',ChoiceType::class,array(
+            "required"=>false,
+            "expanded"=>true,
+            "placeholder"=>"aucun status",
+            "label"=>"Status du programme",
+            "choices"=>[
+                "En attente"=>"pre-moderate",
+                "Rejeté"=>"rejected",
+                "Approuvé"=>"approved",
+                "En modération"=>"workflow",
+                "Désactivé"=>"deactivated",
+            ],
+        ))
         ->add('language',EntityType::class,array(
             "class"=>OriginalLanguage::class,
             "placeholder"=>"version original...",
@@ -334,6 +347,7 @@ class MovieType extends AbstractType
                 ->remove('year_start')
                 ->remove('year_end')
                 ->remove('mention')
+                ->remove('state')
                 ->remove('language')
                 ->remove('trailer')
                 ->remove('episode1')

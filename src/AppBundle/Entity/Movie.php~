@@ -17,6 +17,17 @@ use Gedmo\Translatable\Translatable;
  */
 class Movie implements Translatable
 {
+    const INSERT_MODE_META              = 'meta';
+    const INSERT_MODE_META_WEBMASTER    = 'meta-webmaster';
+    const INSERT_MODE_META_CATALOG      = 'meta-catalog';
+
+    const STATE_PREMODERATE            = 'pre-moderate';
+    const STATE_REJECTED               = 'rejected';
+    const STATE_APPROVED               = 'approved';
+    const STATE_WORKFLOW               = 'workflow';
+    const STATE_DESACTIVATE            = 'deactivated';
+
+
     /**
     * @var int
     *
@@ -35,6 +46,15 @@ class Movie implements Translatable
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
     private $category;
+
+    /**
+    * @var AppBundle\Entity\OriginalLanguage
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OriginalLanguage", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $language;
 
     /**
     * @var string
@@ -129,13 +149,20 @@ class Movie implements Translatable
     */
     private $hasExclusivity = 0;
 
-     /**
+    /**
     * @var boolean
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="is_published", type="boolean", options={"comment":"l'etat de publication du programme"})
     */
     private $isPublished = 0;
+
+    /**
+    * @var string
+    *
+    * @ORM\Column(name="state", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('rejected','pre-moderate','approved','workflow','deactivated')", nullable=true, options={"comment":"le status du programme, c'st les differents etats que peu avoir un programme"})
+    */
+    private $state = 'pre-moderate';
 
     /**
     * @var string
@@ -149,7 +176,7 @@ class Movie implements Translatable
     * @var \Datetime
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="year_start", type="datetime", options={"comment":"debut de l'année de production du film"}, nullable=true)
+    * @ORM\Column(name="year_start", type="date", options={"comment":"debut de l'année de production du film"}, nullable=true)
     */
     private $yearStart;
 
@@ -157,7 +184,7 @@ class Movie implements Translatable
     * @var \Datetime
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="year_end", type="datetime", options={"comment":"fin de l'année de production du film"}, nullable=true)
+    * @ORM\Column(name="year_end", type="date", options={"comment":"fin de l'année de production du film"}, nullable=true)
     */
     private $yearEnd;
 
@@ -168,16 +195,6 @@ class Movie implements Translatable
     * @ORM\Column(name="mention", type="string", options={"comment":"determine si le movie est en HD, SD ou autre"}, columnDefinition="ENUM('HD','SD','4k','2k')", nullable=true)
     */
     private $mention = "HD";
-
-
-    /**
-    * @var AppBundle\Entity\OriginalLanguage
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\OriginalLanguage", inversedBy="movies")
-    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
-    */
-    private $language;
 
    /**
     * @var string
@@ -243,11 +260,18 @@ class Movie implements Translatable
     private $episode3;
 
     /**
+    * @var string
+    *
+    * @ORM\Column(name="insert_mode", type="string", length=15, options={"comment":"le mode d'insertion"}, columnDefinition="ENUM('meta','meta-webmaster','meta-catalog','admin-form')", nullable=true, options={"comment":"le mode d'insertion du programme"})
+    */
+    private $insertMode = 'admin-form';
+
+    /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
     * @Gedmo\Timestampable(on="update")
-    * @ORM\Column(name="update_at", type="datetime", nullable=true)
+    * @ORM\Column(name="update_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est modifié"})
     */
     private $updateAt;
 
@@ -255,8 +279,44 @@ class Movie implements Translatable
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="state", value="workflow")    
+    * @ORM\Column(name="in_workflow_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est marqué comme etant en workflow"})
+    */
+    private $inWorkflowAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="state", value="desactivated")    
+    * @ORM\Column(name="desactivated_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est marqué comme désactivé"})
+    */
+    private $desactivatedAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="state", value="rejected")    
+    * @ORM\Column(name="rejected_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est marqué comme rejeté"})
+    */
+    private $rejectedAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="change", field="state", value="approved")    
+    * @ORM\Column(name="approved_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est marqué comme approuvé"})
+    */
+    private $approvedAt;
+
+    /**
+    * @var \DateTime
+    *
+    * @Groups({"group1","group2"})
     * @Gedmo\Timestampable(on="change", field="isPublished", value="1")    
-    * @ORM\Column(name="published_at", type="datetime", nullable=true)
+    * @ORM\Column(name="published_at", type="datetime", nullable=true,options={"comment":"date à laquelle le programme est marqué comme publié"})
     */
     private $publishedAt;
 
@@ -1240,4 +1300,172 @@ class Movie implements Translatable
         $this->locale = $locale;
     }
 
+
+    /**
+     * Set language
+     *
+     * @param \AppBundle\Entity\OriginalLanguage $language
+     *
+     * @return Movie
+     */
+    public function setLanguage(\AppBundle\Entity\OriginalLanguage $language = null)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return \AppBundle\Entity\OriginalLanguage
+     */
+    public function getLanguage()
+    {
+        return $this->language;
+    }
+
+    /**
+     * Set state
+     *
+     * @param string $state
+     *
+     * @return Movie
+     */
+    public function setState($state)
+    {
+        $this->state = $state;
+
+        return $this;
+    }
+
+    /**
+     * Get state
+     *
+     * @return string
+     */
+    public function getState()
+    {
+        return $this->state;
+    }
+
+    /**
+     * Set insertMode
+     *
+     * @param string $insertMode
+     *
+     * @return Movie
+     */
+    public function setInsertMode($insertMode)
+    {
+        $this->insertMode = $insertMode;
+
+        return $this;
+    }
+
+    /**
+     * Get insertMode
+     *
+     * @return string
+     */
+    public function getInsertMode()
+    {
+        return $this->insertMode;
+    }
+
+    /**
+     * Set inWorkflowAt
+     *
+     * @param \DateTime $inWorkflowAt
+     *
+     * @return Movie
+     */
+    public function setInWorkflowAt($inWorkflowAt)
+    {
+        $this->inWorkflowAt = $inWorkflowAt;
+
+        return $this;
+    }
+
+    /**
+     * Get inWorkflowAt
+     *
+     * @return \DateTime
+     */
+    public function getInWorkflowAt()
+    {
+        return $this->inWorkflowAt;
+    }
+
+    /**
+     * Set desactivatedAt
+     *
+     * @param \DateTime $desactivatedAt
+     *
+     * @return Movie
+     */
+    public function setDesactivatedAt($desactivatedAt)
+    {
+        $this->desactivatedAt = $desactivatedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get desactivatedAt
+     *
+     * @return \DateTime
+     */
+    public function getDesactivatedAt()
+    {
+        return $this->desactivatedAt;
+    }
+
+    /**
+     * Set rejectedAt
+     *
+     * @param \DateTime $rejectedAt
+     *
+     * @return Movie
+     */
+    public function setRejectedAt($rejectedAt)
+    {
+        $this->rejectedAt = $rejectedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get rejectedAt
+     *
+     * @return \DateTime
+     */
+    public function getRejectedAt()
+    {
+        return $this->rejectedAt;
+    }
+
+    /**
+     * Set approvedAt
+     *
+     * @param \DateTime $approvedAt
+     *
+     * @return Movie
+     */
+    public function setApprovedAt($approvedAt)
+    {
+        $this->approvedAt = $approvedAt;
+
+        return $this;
+    }
+
+    /**
+     * Get approvedAt
+     *
+     * @return \DateTime
+     */
+    public function getApprovedAt()
+    {
+        return $this->approvedAt;
+    }
 }

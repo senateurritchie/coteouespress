@@ -276,59 +276,88 @@
 	    			<div class="box-body">
 	                    <div class="row">
 
-	                        <div class="col-md-4 col-sm-6 col-xs-12">
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
 	                            {{ form_row(form_search.name, {"attr":{"class":"form-control-sm","placeholder":'Nom du programme',"autocomplete":"off"}}) }}
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.category, {"attr":{"class":"form-control-sm custom-select"}}) }}
+	                       
+
+
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                        			{{ form_row(form_search.state, {"attr":{"class":"form-control-sm"},"label":"status"}) }}
+	                        		</div>
+
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.category, {"attr":{"class":"form-control-sm custom-select"}}) }}
+	                        		</div>
+	                        	</div>
+
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.genre, {"attr":{"class":"form-control-sm custom-select","placeholder":'Genre'}}) }}
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.genre, {"attr":{"class":"form-control-sm custom-select","placeholder":'Genre'}}) }}
+	                        		</div>
+
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.country, {"attr":{"class":"form-control-sm custom-select","placeholder":'Pays'}}) }}
+	                        		</div>
+	                        	</div>
+
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.country, {"attr":{"class":"form-control-sm custom-select","placeholder":'Pays'}}) }}
-	                        </div>
+	                       
 
 	                        <div class="col-md-2 col-sm-6 col-xs-12">
 	                            {{ form_row(form_search.language, {"attr":{"class":"form-control-sm custom-select","placeholder":'Langue'}}) }}
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                        	{{ form_row(form_search.year, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'debut de production'}) }}
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                        			{{ form_row(form_search.year, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'debut de production'}) }}
+	                        		</div>
+
+	                        		<div class="col-md-6">
+	                        			{{ form_row(form_search.year_end, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'fin de production'}) }}
+	                        		</div>
+	                        	</div>
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                        	{{ form_row(form_search.year_end, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'fin de production'}) }}
+	                       
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.mention, {"attr":{"class":"form-control-sm custom-select","placeholder":'Définition'}}) }}
+	                        		</div>
+
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.producer, {"attr":{"class":"form-control-sm custom-select","placeholder":'Producteur'}}) }}
+	                        		</div>
+	                        	</div>
+
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.mention, {"attr":{"class":"form-control-sm custom-select","placeholder":'Définition'}}) }}
+
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.director, {"attr":{"class":"form-control-sm custom-select","placeholder":'Réalisateur'}}) }}
+	                        		</div>
+
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.actor, {"attr":{"class":"form-control-sm custom-select","placeholder":'Acteur'}}) }}
+	                        		</div>
+	                        	</div>
+
 	                        </div>
 
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.producer, {"attr":{"class":"form-control-sm custom-select","placeholder":'Producteur'}}) }}
-	                        </div>
-
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.director, {"attr":{"class":"form-control-sm custom-select","placeholder":'Réalisateur'}}) }}
-	                        </div>
-	                           
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.actor, {"attr":{"class":"form-control-sm custom-select","placeholder":'Acteur'}}) }}
-	                        </div>
-
-	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                           
-	                        </div>
-	                    </div>   
-
-	                    <div class="row">
-	                    	<div class="col-md-2 col-sm-6 col-xs-12">
-
-	                    		 <div class="form-group">
+	                        <div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="form-group">
 	                                {{ form_widget(form_search.in_theather, {"attr":{"class":"form-control-sm"},"label":"programmes à l'affiche"}) }}
 	                            </div>
 
@@ -336,9 +365,24 @@
 	                                {{ form_widget(form_search.has_exclusivity, {"attr":{"class":"form-control-sm"},"label":"programmes plébicités"}) }}
 	                            </div>
 
-	                             <div class="form-group">
+	                        </div>
+	                           
+	                       
+	                        
+	                    </div>   
+
+	                    <div class="row">
+	                    	<div class="col-md-2 col-sm-6 col-xs-12">
+
+	                    		
+
+	                            {#<div class="form-group">
 	                                {{ form_widget(form_search.is_published, {"attr":{"class":"form-control-sm"},"label":"programmes publiés"}) }}
-	                            </div>
+	                            </div>#}
+
+	                           
+
+	                            
 	                        </div>
 	                    </div>
 	    			</div>
@@ -399,6 +443,7 @@
 		                 		<th style="text-align:center">Année</th>
 		                 		<th style="text-align:center">A l'affiche</th>
 		                 		<th style="text-align:center">A la une</th>
+		                 		<th style="text-align:center">Publié</th>
 		                 		<th style="text-align:center">Status</th>
 		                 		<th style="text-align:center">Vimeo</th>
 		                 		{#<th style="text-align:center">Ajouté le</th>#}

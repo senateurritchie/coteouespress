@@ -18,7 +18,7 @@
             	<div class="icon">
               		<i class="ion ion-ios-people"></i>
             	</div>
-            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+            	<a href="{{ path('admin_user_index') }}" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
           	</div>
         </div>
 
@@ -35,7 +35,7 @@
             	<div class="icon">
               		<i class="ion ion-ios-play"></i>
             	</div>
-            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+            	<a href="{{ path('admin_movie_index') }}" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
           	</div>
         </div>
         <!-- ./col -->
@@ -69,7 +69,7 @@
                 <div class="icon">
                     <i class="ion ion-ios-email-outline"></i>
                 </div>
-                <a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+                <a href="{{ path('admin_webmail_index',{'folder':'treated'}) }}" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
             </div>
         </div>
 
@@ -84,7 +84,7 @@
             	<div class="icon">
               		<i class="ion ion-ios-email-outline"></i>
             	</div>
-            	<a href="#" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
+            	<a href="{{ path('admin_webmail_index',{'folder':'untreated'}) }}" class="small-box-footer">Voir plus <i class="fa fa-arrow-circle-right"></i></a>
           	</div>
         </div>
         <!-- ./col -->

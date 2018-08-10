@@ -3,11 +3,11 @@ namespace AppBundle\Utils\Event;
 
 use AppBundle\Utils\Event\Event;
 
-class CatalogDataEvent extends Event{
+class CellDataEvent extends Event{
 	protected $header;
 	
 	function __construct($header,$value){
-		parent::__construct("data",$value);
+		parent::__construct("cell-data",$value);
 		$this->header = $header;
 	}
 

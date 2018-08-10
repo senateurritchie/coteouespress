@@ -15,7 +15,7 @@ use AppBundle\Entity\WebsiteMail;
 class AdminWebMailController extends Controller
 {
 	/**
-    * @Route("/{folder}/{message_id}", requirements={"message_id":"(\d+)?","folder":"inbox|sent"}, defaults={"folder":"inbox"}, name="index")
+    * @Route("/{folder}/{message_id}", requirements={"message_id":"(\d+)?","folder":"inbox|sent|treated|untreated"}, defaults={"folder":"inbox"}, name="index")
     */
     public function indexAction(Request $request,$folder,$message_id=null){
     	$em = $this->getDoctrine()->getManager();

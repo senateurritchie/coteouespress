@@ -17,6 +17,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 
 
 use AppBundle\Form\CatalogType;
@@ -41,7 +42,28 @@ class CatalogAdminSearchType extends AbstractType
     {
         $request = $this->requestStack->getCurrentRequest();
 
+
         $builder
+        ->add('state',ChoiceType::class,array(
+            "required"=>false,
+            "placeholder"=>"status...",
+            "choices"=>[
+                "En attente"=>"pre-moderate",
+                "Rejeté"=>"rejected",
+                "Approuvé"=>"approved",
+                "En modération"=>"workflow",
+                "Désactivé"=>"deactivated",
+            ],
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                if($request->query->get("state") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            "mapped"=>false,
+        ))
         ->add('in_theather',CheckboxType::class,array(
             "required"=>false,
             "mapped"=>false,
@@ -52,11 +74,11 @@ class CatalogAdminSearchType extends AbstractType
             "mapped"=>false,
             "data"=>$request->query->get("has_exclusivity")?true:false
         ))
-        ->add('is_published',CheckboxType::class,array(
+        /*->add('is_published',CheckboxType::class,array(
             "required"=>false,
             "mapped"=>false,
             "data"=>$request->query->get("is_published")?true:false
-        ))
+        ))*/
         ->remove("year")
 
         ->add('year',IntegerType::class,array(

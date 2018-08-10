@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            {{ form_label(form.inTheather) }}
+            {{ form_errors(form.inTheather) }}
+            {{ form_widget(form.inTheather) }}
+            <p class="help-block">
+                Les programmes à l'affiche apparaissent sur la page d'accueil du site. en vue de les mettre en avant.
+            </p>
+        </div> 
+
+        <div class="form-group">
+            {{ form_label(form.hasExclusivity) }}
+            {{ form_errors(form.hasExclusivity) }}
+            {{ form_widget(form.hasExclusivity) }}
+            <p class="help-block">
+                Il ne peut y avoir qu'un seul programme à plébisciter à la fois sur le site.
+                <br>
+                il apparait sous le titre de <strong>Production à la une</strong> ou <strong>Video à la une</strong>
+            </p>
+        </div> 
+
+        <div class="form-group">
+            {{ form_label(form.isPublished) }}
+            {{ form_errors(form.isPublished) }}
+            {{ form_widget(form.isPublished) }}
+            <p class="help-block">
+                Une fois ce programme enregistré il apparaitra sans moderation préalable sur le site.
+            </p>
+        </div> 
+    </div>
+
+    <div class="col-md-6">
+        {{ form_row(form.state) }}
+    </div>
+
+</div>

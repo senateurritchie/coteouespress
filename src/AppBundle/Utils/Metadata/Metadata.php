@@ -2,7 +2,9 @@
 namespace AppBundle\Utils\Metadata;
 
 use \PhpOffice\PhpSpreadsheet\IOFactory;
-use AppBundle\Utils\Event\CatalogDataEvent;
+use AppBundle\Utils\Event\Event;
+use AppBundle\Utils\Event\DataEvent;
+use AppBundle\Utils\Event\CellDataEvent;
 use AppBundle\Utils\EventDispatcher;
 use AppBundle\Utils\Exception\ArchiveFileNotFoundException;
 
@@ -87,6 +89,14 @@ abstract class Metadata extends EventDispatcher{
 	protected $currentField;
 
 	/**
+	* determine si un evenement error est emis
+	* si oui tout opérations en cours doit être arretés
+	*
+	* @var boolean
+	*/
+	protected $hasErrorEvent;
+
+	/**
 	* Initialize le lecteur de metadonnée catalogue
 	* 
 	* @param string $path represente le chemin du fichier zip
@@ -136,6 +146,27 @@ abstract class Metadata extends EventDispatcher{
 	 */
 	public function process(){
 
+		$errorFn = function($event){
+			$this->hasErrorEvent = true;
+		};
+
+		$this->on("error",$errorFn);
+
+		$this->on("end",function($event)use(&$errorFn){
+			$this->off("error",$errorFn);
+		});
+
+
+		$locale = 'fr';
+		$validLocale = \PhpOffice\PhpSpreadsheet\Settings::setLocale($locale);
+		if (!$validLocale) {
+		    echo 'Unable to set locale to '.$locale." - reverting to en_us<br />\n";
+		}
+
+		
+		
+		
+
 		$sheetname = $this->getDefaultSheetname();
 
 		$za = new \ZipArchive();
@@ -173,13 +204,28 @@ abstract class Metadata extends EventDispatcher{
 
             	try {
                		foreach ($sheet->getRowIterator() as $key=>$row) {
+
+               			if($this->hasErrorEvent){
+               				break;
+               			}
+
 			            $cellIterator = $row->getCellIterator();
 			            $cellIterator->setIterateOnlyExistingCells(FALSE); 
 			            $data = [];
 			            $rawData = [];
 			            $curr_header;
 			            foreach ($cellIterator as $pos => $cell) {
+
+			            	if($this->hasErrorEvent){
+               					break;
+               				}
+
 			            	$value = $cell->getValue();
+
+			            	if($cell->isFormula()){
+			            		//$value = $cell->getCalculatedValue();
+			            	}
+
 			            	$entry = new MetadataPlainTextEntry();
 				            $this->dvm->setCellToProcess($pos.$key);
 
@@ -263,14 +309,25 @@ abstract class Metadata extends EventDispatcher{
 
 			               	$this->dvm->off("validated",$cbkValidated);
 
+			               	// on emet un evenement pour la cellule traitée
+			               	$cellDataEvent = new CellDataEvent($this->getCurrentField(),$entry);
+			            	$this->onCellData($cellDataEvent);
+			            	$this->emit($cellDataEvent);
 			            }
+
 			            if($key == 1){
 			            	$this->sheetHeader = $rawData;
 			            	$this->hvm->process($rawData);
-			           		$this->emit("header",$data);
+
+			            	$headerEvent = new Event("header-data",$data);
+			            	$this->onHeaderData($headerEvent);
+			           		$this->emit($headerEvent);
 			            }
 			            else{
-			            	$this->emit(new CatalogDataEvent($curr_header,$data));
+			            	// on emet un evenement pour la ligne traitée
+			            	$dataEvent = new DataEvent($this->getSheetHeader(),$data);
+			            	$this->onData($dataEvent);
+			            	$this->emit($dataEvent);
 			            }
 			        }
 
@@ -282,7 +339,10 @@ abstract class Metadata extends EventDispatcher{
             }
         }
         $za->close();
-        $this->emit("end","bye bye!");
+
+        if(!$this->hasErrorEvent){
+        	$this->emit("end","bye bye!");
+        }
 	}
 
 	/**
@@ -295,8 +355,6 @@ abstract class Metadata extends EventDispatcher{
 	public function getCurrentField(){
 		return $this->currentField;
 	}
-
-
 
 	public function getOption($option){
 		return isset($this->options[$option]) ? $this->options[$option] : null;
@@ -311,4 +369,23 @@ abstract class Metadata extends EventDispatcher{
 		$this->options = array_merge($this->options,$options);
 		return $this;
 	}
+
+	/**
+	* Lorsque les entêtes du fichier sont disponibles
+	*
+	* @param $event \AppBundle\Utils\Event\Event
+	*/
+	abstract public function onHeaderData(\AppBundle\Utils\Event\Event $event);
+	/**
+	* Lorsque les données d'une ligne sont disponibles
+	*
+	* @param $event \AppBundle\Utils\Event\Event
+	*/
+	abstract public function onData(\AppBundle\Utils\Event\Event $event);
+	/**
+	* Lorsque la donnée d'une cellule est disponible.
+	*
+	* @param $event \AppBundle\Utils\Event\Event
+	*/
+	abstract public function onCellData(\AppBundle\Utils\Event\Event $event);
 }

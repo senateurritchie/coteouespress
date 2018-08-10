@@ -44,13 +44,13 @@ class Metadata
     /**
     * @var string
     *
-    * @ORM\Column(name="status", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('ban','pre-moderate','validated')", nullable=true)
+    * @ORM\Column(name="status", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('ban','pre-moderate','approved')", nullable=true)
     */
     private $status;
 
     /**
     * @var \DateTime
-    * @Gedmo\Timestampable(on="change", field="status", value="validated")    
+    * @Gedmo\Timestampable(on="change", field="status", value="approved")    
     * @ORM\Column(name="moderate_at", type="datetime", options={"comment":"la date de moderation"}, nullable=true)
     */
     private $moderateAt;

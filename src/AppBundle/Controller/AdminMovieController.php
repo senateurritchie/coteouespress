@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\AcceptHeader;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -961,7 +962,7 @@ class AdminMovieController extends Controller
     * @Route("/metadata/upload/{model}", name="metadata_upload", requirements={"model":"webmaster|catalog"}, defaults={"model":"webmaster"} )
     * @Method({"POST"})
     */
-    public function metadataUploadAction(Request $request,$model = "webmaster"){
+    public function metadataUploadAction(Request $request,ValidatorInterface $validator,$model = "webmaster"){
         // protection par role
         $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
@@ -981,7 +982,6 @@ class AdminMovieController extends Controller
             if (!$child->isValid() && count($child->getErrors())) {
                 $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
                 $result['errors'][] = $formatted;
-                //$this->addFlash('notice-error',$formatted);
             }
         }
 
@@ -998,13 +998,14 @@ class AdminMovieController extends Controller
 
         $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path,array(
             "entity_manager"=>$em,
-            "translator"=>$translator
+            "translator"=>$translator,
+            "validator"=>$validator
         ));
 
-        ob_clean();
-        ob_start();
+        
 
-        echo "<div class='table-responsive'>";
+       
+        /*echo "<div class='table-responsive'>";
         echo "<table cellspacing='0' class='table table-hover table-striped table-bordered'>";
         echo "<caption><h3>Aaz Metadata Reader</h3></caption>";
         $reader
@@ -1070,29 +1071,28 @@ class AdminMovieController extends Controller
         })
         ->on("end",function($event)use(&$result){
             $result['status'] = true;
+        });*/
+
+        //echo " </tbody></table></div>";
+
+        $reader
+        ->on("error",function($event)use(&$result){
+            $result['errors'] = $event->getValue();
         });
 
-        
         try {
             $reader->process();
             $em->flush();
+            $result['message'] = "opération effectuée avec succes";
 
         } catch (\Exception $e) {
-            $em->remove($metadata);
-            $em->flush();
-
-            throw  $e;
-            
-
-            ob_clean();
-            $result['message'] = $e->getMessage();
-
-            return $this->json($result);
+            $result['errors'][] = $e->getMessage();
         }
-        echo " </tbody></table></div>";
 
-        $content = ob_end_clean();
+        if(count(@$result['errors'])){
+            return $this->json($result,400);
+        }
 
-        return new Response($content,201);
+        return $this->json($result,201);
     }
 }
