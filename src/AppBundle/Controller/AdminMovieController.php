@@ -999,7 +999,8 @@ class AdminMovieController extends Controller
         $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path,array(
             "entity_manager"=>$em,
             "translator"=>$translator,
-            "validator"=>$validator
+            "validator"=>$validator,
+            'upload_dir' => $this->getParameter('public_upload_directory'),
         ));
 
         
@@ -1090,7 +1091,7 @@ class AdminMovieController extends Controller
         }
 
         if(count(@$result['errors'])){
-            return $this->json($result,400);
+            return $this->json($result,200);
         }
 
         return $this->json($result,201);

@@ -1,0 +1,53 @@
+{% for item in messages %}
+
+    {% set hours =  item.createAt|dateDiff(date("now"))|date("%H") %}
+    {% set minutes =  item.createAt|dateDiff(date("now"))|date("%I") %}
+    {% set seconds =  item.createAt|dateDiff(date("now"))|date("%s") %}
+
+    {% set days =  item.createAt|dateDiff(date("now"))|date("%a") %}
+    {% set weeks =  (days / 7)|round(0,'floor') %}
+    {% set months =  (weeks / 4)|round(0,'floor') %}
+    {% set years =  (months / 12)|round(0,'floor') %}
+    
+
+    <li>
+        <a href="{{ path('admin_webmail_index',{'message_id':item.id}) }}">
+            <div class="pull-left">
+                <!-- User Image -->
+                <img src="{{ asset('admin/dist/img/user2-160x160.jpg') }}" class="img-circle" alt="User Image">
+            </div>
+
+
+
+            <!-- Message title and timestamp -->
+            <h4>
+                {{ (item.firstname~' '~item.lastname)|lower|title }}
+                <small>
+                    <i class="fa fa-clock-o"></i> 
+                   
+                    {% if years %}
+                        {{ years }} ans
+                    {% elseif months %}
+                        {{ months }} mois
+                    {% elseif weeks %}
+                        {{ weeks }} sems
+                    {% elseif days %}
+                        {{ days }} jrs
+                    {% elseif hours != "00" %}
+                        {{ hours  }} heures
+                    {% elseif minutes != "00" %}
+                        {{ minutes }} mins
+                    {% else %}
+                        A l'instant
+                    {% endif %}
+                </small>
+            </h4>
+            <!-- The message -->
+            <p>
+                {{ item.message }}
+            </p>
+
+            <span class="label label-primary">{{ item.department.name }}</span>
+        </a>
+    </li>
+{% endfor %}

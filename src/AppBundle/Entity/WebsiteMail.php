@@ -4,6 +4,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * WebsiteMail
@@ -98,10 +99,10 @@ class WebsiteMail
     private $isProcessed;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var \DateTime
+    * @Gedmo\Timestampable(on="create")
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
 

@@ -3,6 +3,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * MovieDirector
@@ -38,10 +39,10 @@ class MovieDirector
     private $director;
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime")
-     */
+    * @var \DateTime
+    * @Gedmo\Timestampable(on="create")
+    * @ORM\Column(name="create_at", type="datetime")
+    */
     private $createAt;
 
 

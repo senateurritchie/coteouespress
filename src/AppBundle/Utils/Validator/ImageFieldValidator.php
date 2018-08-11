@@ -176,6 +176,17 @@ class ImageFieldValidator extends FieldValidator{
 					}
 				}
 			}
+		
+			$data = [
+				"raw"=>$value,
+				"width"=>$width,
+				"height"=>$height,
+				"mime"=>$mime,
+				"square"=>($width == $height),
+				"landscape"=>($width > $height),
+				"portrait"=>($width < $height),
+			];
+			$this->emit("validated",$data);
 
 			return true;
 		} catch (Exception $e) {

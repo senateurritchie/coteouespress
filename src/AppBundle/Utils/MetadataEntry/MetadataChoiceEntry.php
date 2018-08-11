@@ -7,6 +7,7 @@ class MetadataChoiceEntry extends MetadataEntry{
 
 	const CHOICE_TYPE_TEXT = 'text';
 	const CHOICE_TYPE_ENTITY = 'entity';
+	const CHOICE_TYPE_IMAGE = 'image';
 
 	/**
 	* la liste de valeur.
@@ -18,11 +19,17 @@ class MetadataChoiceEntry extends MetadataEntry{
 	* @var string
 	*/
 	protected $type;
+	/**
+	* defini si le choix est multiple ou non
+	* @var boolean
+	*/
+	protected $multiple;
 	
-	public function __construct($type = self::CHOICE_TYPE_TEXT){ 
+	public function __construct($type = self::CHOICE_TYPE_TEXT,$is_multiple = false){ 
 		parent::__construct();
 		$this->choices = [];
 		$this->type = $type;
+		$this->multiple = $is_multiple;
 	}
 
 	public function addChoice($choice){
@@ -47,5 +54,8 @@ class MetadataChoiceEntry extends MetadataEntry{
 	}
 	public function getType(){
 		return $this->type;
+	}
+	public function isMultiple(){
+		return $this->is_multiple;
 	}
 }

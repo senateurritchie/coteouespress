@@ -99,7 +99,8 @@ class CatalogAdminSearchType extends AbstractType
         ))
        ->add('actor',EntityType::class,array(
             "required"=>false,
-            "placeholder"=>"Acteur",
+            "placeholder"=>"Acteur...",
+            "label"=>"Casting",
             "class"=>Actor::class,
             "choice_label"=>"name",
             "choice_value"=>"slug",

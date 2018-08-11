@@ -17,7 +17,7 @@ class AdminWebMailController extends Controller
 	/**
     * @Route("/{folder}/{message_id}", requirements={"message_id":"(\d+)?","folder":"inbox|sent|treated|untreated"}, defaults={"folder":"inbox"}, name="index")
     */
-    public function indexAction(Request $request,$folder,$message_id=null){
+    public function indexAction(Request $request,$folder="inbox",$message_id=null){
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(WebsiteMail::class);
 
@@ -31,11 +31,24 @@ class AdminWebMailController extends Controller
             $request->query->set('id',intval($message_id));
         }
         $params = $request->query->all();
+        $params['folder'] = $folder;
         $messages = $rep->search($params,$limit,$offset);
 
     	return $this->render('admin/inbox/index.html.twig',array(
     		"messages"=>$messages,
     	));
+    }
+
+    public function renderNotice(){
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(WebsiteMail::class);
+
+        $params = ["isProcessed"=>0];
+        $messages = $rep->findBy($params,["id"=>"desc"],5);
+
+        return $this->render('admin/inbox/notice.html.twig',array(
+            "messages"=>$messages,
+        ));
     }
 
 }

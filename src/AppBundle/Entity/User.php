@@ -8,6 +8,7 @@ use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * User
@@ -109,6 +110,7 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @var \DateTime
     *
     * @Groups({"group1"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime", nullable=true)
     */
     private $createAt;

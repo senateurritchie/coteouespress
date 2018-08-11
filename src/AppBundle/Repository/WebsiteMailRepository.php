@@ -29,6 +29,21 @@ class WebsiteMailRepository extends \Doctrine\ORM\EntityRepository
             $this->whereId($qb,@$params["id"]);
         }
 
+
+        // recherche par folder
+        if(@$params["folder"]){
+            switch ($params["folder"]) {
+                case 'treated':
+                    $this->whereProcessed($qb,1);
+                break;
+
+                case 'untreated':
+                    $this->whereProcessed($qb,0);
+                break;
+        
+            }
+        }
+
         $qb->orderBy("u.createAt","DESC");
 
         // limit et offset
@@ -57,13 +72,13 @@ class WebsiteMailRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function whereProcessed($qb,$state){
-        $qb->where("w.isProcessed = :is_processed")
+        $qb->where("u.isProcessed = :is_processed")
         ->setParameter("is_processed",$state);
     }
 
     public function count($params){
-        $qb = $this->createQueryBuilder('w')
-        ->select('count(w.id)');
+        $qb = $this->createQueryBuilder('u')
+        ->select('count(u.id)');
 
         if(isset($params["is_processed"])){
            if($params["is_processed"]){

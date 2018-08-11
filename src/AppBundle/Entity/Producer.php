@@ -72,6 +72,7 @@ class Producer
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime")
     */
     private $createAt;

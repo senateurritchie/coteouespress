@@ -919,7 +919,7 @@ var AdminManager = AdminManager || {};
 
 					var ref2 = this.subscribe(event=>{
 						if(event instanceof nsp.UploadMetadataEvent){
-							if(event.params.state != "end") return;
+							if(['end','fails'].indexOf(event.params.state) == -1) return;
 
 							if(event.params.file === file){
 
@@ -933,11 +933,11 @@ var AdminManager = AdminManager || {};
 						  				modal.modal('show');
 									});
 
-									if(data.hasOwnProperty('message')){
+									if(data && data.hasOwnProperty('message')){
 										$('#modal-info .modal-body h4').html(data.message);
 										$('#modal-info').modal('show');
 									}
-									else if(data.hasOwnProperty('errors')){
+									else if(data && data.hasOwnProperty('errors')){
 										var tpl = this.render(this.params.$tpl.errors,data);
 										$('#modal-info .modal-body h4').html(tpl);
 										$('#modal-info').modal('show');

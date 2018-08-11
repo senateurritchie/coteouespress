@@ -18,6 +18,16 @@
       			<tbody>
 
       				{% for item in messages %}
+
+                        {% set hours =  item.createAt|dateDiff(date("now"))|date("%H") %}
+                        {% set minutes =  item.createAt|dateDiff(date("now"))|date("%I") %}
+                        {% set seconds =  item.createAt|dateDiff(date("now"))|date("%s") %}
+
+                        {% set days =  item.createAt|dateDiff(date("now"))|date("%a") %}
+                        {% set weeks =  (days / 7)|round(0,'floor') %}
+                        {% set months =  (weeks / 4)|round(0,'floor') %}
+                        {% set years =  (months / 12)|round(0,'floor') %}
+
           				<tr>
             				<td>
             					<input type="checkbox">
@@ -38,7 +48,24 @@
 
             				</td>
             
-            				<td class="mailbox-date">5 mins ago</td>
+            				<td class="mailbox-date">
+                                il ya
+                                {% if years %}
+                                    {{ years }} ans
+                                {% elseif months %}
+                                    {{ months }} mois
+                                {% elseif weeks %}
+                                    {{ weeks }} sems
+                                {% elseif days %}
+                                    {{ days }} jrs
+                                {% elseif hours != "00" %}
+                                    {{ hours  }} heures
+                                {% elseif minutes != "00" %}
+                                    {{ minutes }} mins
+                                {% else %}
+                                    A l'instant
+                                {% endif %}
+                            </td>
           				</tr>
       				{% endfor %}
       			</tbody>

@@ -1,5 +1,7 @@
 {% extends 'admin/base.html.twig' %}
 
+{% set folder = app.request.attributes.get('folder') %}
+
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -28,18 +30,26 @@
 
 	            <div class="box-body no-padding">
 	            	<ul class="nav nav-pills nav-stacked">
-	                	<li class="active">
+	                  	<li class="{{ folder == 'inbox' ? 'active': ''}}">
 	                		<a href="{{ path("admin_webmail_index",{'folder':'inbox'}) }}">
 	                			<i class="fa fa-inbox"></i> Boite de reception
 	                  			<span class="label label-primary pull-right">12</span>
 	                  		</a>
 	                  	</li>
 
-	                	<li>
-	                		<a  href="#">
-	                			<i class="fa fa-envelope-o"></i> Envoyés
-	                		</a>
-	                	</li>
+	                  	<li class="{{ folder == 'treated' ? 'active': ''}}">
+	                		<a href="{{ path("admin_webmail_index",{'folder':'treated'}) }}">
+	                			<i class="fa fa-envelope-o"></i> Traités
+	                  			<span class="label label-primary pull-right">{{ unprocessWebmail }}</span>
+	                  		</a>
+	                  	</li>
+
+	                  	<li class="{{ folder == 'untreated' ? 'active': ''}}">
+	                		<a href="{{ path("admin_webmail_index",{'folder':'untreated'}) }}">
+	                			<i class="fa fa-envelope-o"></i> Non Traités
+	                  			<span class="label label-primary pull-right">{{ unprocessWebmail }}</span>
+	                  		</a>
+	                  	</li>
 	              	</ul>
 	            </div>
         	</div>

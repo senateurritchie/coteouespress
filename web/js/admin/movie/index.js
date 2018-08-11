@@ -88,6 +88,7 @@ $(document).ready(function($){
 	    	},msg=>{
 	    		view.emit(new nsp.UploadMetadataEvent({
 					state:'fails',
+					file:event.params.file,
 				}));
 	    	});
 		}

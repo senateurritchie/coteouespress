@@ -53,9 +53,9 @@
                                     {{ weeks }} semaines
                                 {% elseif days %}
                                     {{ days }} jours
-                                {% elseif hours %}
-                                    {{ hours }} heures
-                                {% elseif minutes %}
+                                {% elseif hours != "00" %}
+                                    {{ hours  }} heures
+                                {% elseif minutes != "00" %}
                                     {{ minutes }} minutes
                                 {% else %}
                                     A l'instant

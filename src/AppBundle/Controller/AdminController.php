@@ -83,10 +83,16 @@ class AdminController extends Controller
         return $this->render('admin/accueil/department-list.html.twig',['departments'=>$departments]);
     }
 
-     public function renderCatalogTodoList(){
+    public function renderCatalogTodoList(){
         /*$em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Movie::class);*/
         $lists = [];
         return $this->render('admin/accueil/catalog-todo-list.html.twig',['lists'=>$lists]);
+    }
+
+    public function renderUnprocessedWebmail(){
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(WebsiteMail::class);
+        return new Response($rep->count(["is_processed"=>0]));
     }
 }

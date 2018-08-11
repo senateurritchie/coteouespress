@@ -24,6 +24,13 @@ use AppBundle\Entity\Country;
 use AppBundle\Entity\Actor;
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\Director;
+use AppBundle\Entity\MovieLanguage;
+use AppBundle\Entity\MovieGenre;
+use AppBundle\Entity\MovieActor;
+use AppBundle\Entity\MovieCountry;
+use AppBundle\Entity\MovieProducer;
+use AppBundle\Entity\MovieDirector;
+use AppBundle\Entity\MovieScene;
 
 class WebmasterMetadata extends Metadata{
 
@@ -69,6 +76,7 @@ class WebmasterMetadata extends Metadata{
     	$em = $this->getOption("entity_manager");
         $trans = $this->getOption("translator");
         $validator = $this->getOption("validator");
+        $upload_dir = $this->getOption("upload_dir");
 
     	$movie = new Movie();
 
@@ -78,6 +86,14 @@ class WebmasterMetadata extends Metadata{
 
     	$fields = $this->getSheetHeader();
         $empty_cell = 0;
+        $versions = [];
+        $genres = [];
+        $countries = [];
+        $castings = [];
+        $producers = [];
+        $directors = [];
+        $scenes = [];
+
         foreach ($event->getValue() as $pos_f => $el) {
         	$field = $fields[$pos_f];
 
@@ -86,11 +102,39 @@ class WebmasterMetadata extends Metadata{
                 continue;
             }
 
-            if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataResourceEntry){
-                $resources = $el->getResources();
-                foreach ($resources as $i=>$resource) {
-                    list($im,$filename) = $resource;
-                    // on enregistre l'image
+            if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataImageEntry){
+                $image = imagecreatefromstring($el->getRaw());
+
+                $fileName = md5(uniqid()).'.jpg';
+                $path = $upload_dir.'/'.$fileName;
+
+                imagejpeg($image,$path);
+                imagedestroy($image);
+                
+                switch (strtolower($field)) {
+            		case '@coverimg':
+            			$movie->setCoverImg($fileName);
+            		break;
+
+            		case '@landscapeimg':
+            			$movie->setLandscapeImg($fileName);
+            		break;
+
+            		case '@portraitimg':
+            			$movie->setPortraitImg($fileName);
+            		break;
+            	}                 
+            }
+            else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataCollectionEntry){
+                $items = $el->getAll();
+
+                foreach ($items as $i => $item) {
+
+                	switch (strtolower($field)) {
+                		case '@gallery':
+                			$scenes[] = $item;
+                		break;
+                	}
                 }                   
             }
             else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataEntityEntry){
@@ -104,6 +148,28 @@ class WebmasterMetadata extends Metadata{
                 		case 'language':
                 			$movie->setLanguage($choice);
                 		break;
+
+                		// les insertions multiple
+                		case 'versions':
+                			$versions[] = $choice;
+                		break;
+                		case 'genres':
+                			$genres[] = $choice;
+                		break;
+                		case 'countries':
+                			$countries[] = $choice;
+                		break;
+                		case 'casting':
+                			$castings[] = $choice;
+                		break;
+                		case 'producers':
+                			$producers[] = $choice;
+                		break;
+                		case 'directors':
+                			$directors[] = $choice;
+                		break;
+
+
                 	}
                 }                   
             }
@@ -200,15 +266,79 @@ class WebmasterMetadata extends Metadata{
         if($empty_cell != count($fields)) {
             $errors = $validator->validate($movie);
 
-            if (count($errors) > 0) {
-                $errorsString = (string) $errors;
-                throw new Exception($errorsString, 1);
-                
-                $this->emit('error',$errorsString);
+            
+            $em->persist($movie);
+
+            // les versions du programme
+            if(count($versions)){
+            	foreach ($versions as $key => $el) {
+	                $e = new MovieLanguage();
+	                $e->setMovie($movie);
+	                $e->setLanguage($el);
+	                $em->persist($e);
+	            }
             }
-            else{
-                $em->persist($movie);
+
+            // les genres du programme
+            if(count($genres)){
+            	foreach ($genres as $key => $el) {
+	                $e = new MovieGenre();
+	                $e->setMovie($movie);
+	                $e->setGenre($el);
+	                $em->persist($e);
+	            }
             }
+
+            // les pays de productions du programme
+            foreach ($countries as $key => $el) {
+                $e = new MovieCountry();
+                $e->setMovie($movie);
+                $e->setCountry($el);
+                $em->persist($e);
+            }
+
+            // les acteurs du programme
+            foreach ($castings as $key => $el) {
+                $e = new MovieActor();
+                $e->setMovie($movie);
+                $e->setActor($el);
+                $em->persist($e);
+            }
+            
+            // les producteurs du programme
+            foreach ($producers as $key => $el) {
+                $e = new MovieProducer();
+                $e->setMovie($movie);
+                $e->setProducer($el);
+                $em->persist($e);
+            }
+
+            // les réalisateurs du programme
+            foreach ($directors as $key => $el) {
+                $e = new MovieDirector();
+                $e->setMovie($movie);
+                $e->setDirector($el);
+                $em->persist($e);
+            }
+
+
+
+            // la gallery photo du programme
+            foreach ($scenes as $key => $el) {
+            	$image = imagecreatefromstring($el->getRaw());
+
+                $fileName = md5(uniqid()).'.jpg';
+                $path = $upload_dir.'/'.$fileName;
+
+                $e = new MovieScene();
+                $e->setMovie($movie);
+                $e->setImage($fileName);
+                $em->persist($e);
+
+                imagejpeg($image,$path);
+                imagedestroy($image);
+            }
+           
         }
 	}
 

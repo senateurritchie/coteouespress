@@ -42,7 +42,8 @@ class WebsiteReferer implements Translatable
 
     /**
      * @var \DateTime
-     *
+     * 
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="create_at", type="datetime")
      */
     private $createAt;
