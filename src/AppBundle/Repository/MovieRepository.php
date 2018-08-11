@@ -55,7 +55,8 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         }
 
         // recherche par published
-        if(@$params["published"]){
+        if(isset($params["published"])) {
+             $params["published"] = ($params["published"] == "yes");
             $this->whereIsPublished($qb,@$params["published"]);
         }
 

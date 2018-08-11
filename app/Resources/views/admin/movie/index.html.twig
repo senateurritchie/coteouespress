@@ -357,18 +357,24 @@
 	                        </div>
 
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
-	                        	<div class="form-group">
-	                                {{ form_widget(form_search.in_theather, {"attr":{"class":"form-control-sm"},"label":"programmes à l'affiche"}) }}
-	                            </div>
 
-	                            <div class="form-group">
-	                                {{ form_widget(form_search.has_exclusivity, {"attr":{"class":"form-control-sm"},"label":"programmes plébicités"}) }}
-	                            </div>
+	                        	<div class="row">
+	                        		
+	                        		<div class="col-md-6">
+	                        			{{ form_row(form_search.published, {"attr":{"class":"form-control-sm custom-select"}}) }}
+	                        		</div>
 
+	                        		<div class="col-md-6">
+	                        			<div class="form-group">
+			                                {{ form_widget(form_search.in_theather, {"attr":{"class":"form-control-sm"},"label":"à l'affiche"}) }}
+			                            </div>
+
+			                            <div class="form-group">
+			                                {{ form_widget(form_search.has_exclusivity, {"attr":{"class":"form-control-sm"},"label":"à la une"}) }}
+			                            </div>
+	                        		</div>
+	                        	</div>
 	                        </div>
-	                           
-	                       
-	                        
 	                    </div>   
 
 	                    <div class="row">

@@ -64,6 +64,23 @@ class CatalogAdminSearchType extends AbstractType
             },
             "mapped"=>false,
         ))
+         ->add('published',ChoiceType::class,array(
+            "required"=>false,
+            "placeholder"=>"publish state...",
+            "choices"=>[
+                "Publié"=>"yes",
+                "Dépublié"=>"no",
+            ],
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                if($request->query->get("published") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            "mapped"=>false,
+        ))
         ->add('in_theather',CheckboxType::class,array(
             "required"=>false,
             "mapped"=>false,
