@@ -40,7 +40,7 @@ class AppExtension extends AbstractExtension{
     public function truncateFilter($value,$length,$overflow="..."){
         $text = substr($value,0,$length);
 
-        return strlen($text) > $length ? $text.$overflow : $text;
+        return strlen($value) > $length ? $text.$overflow : $text;
     }
 
     public function markdownToHtml($content){
