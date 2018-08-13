@@ -7,7 +7,7 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.css">
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
@@ -896,12 +896,12 @@
     
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
 
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/admin/manager.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/movie-single/manager.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/plugins/Voting.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/movie-single/index.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/admin/manager.js','js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/movie-single/manager.js','js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/plugins/Voting.js','js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/movie-single/index.js','js') }}"></script>
 
 {% endblock %}

@@ -27,9 +27,20 @@ framework:
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
-    assets: ~
+    assets:
+        packages:
+            css:
+                version: 'v=1.0.0'
+            js:
+                version: 'v=1.0.0'
+
     php_errors:
         log: true
+
+    profiler:
+        collect: false
+        only_exceptions: true
+        only_master_requests: false
 
 
 # Twig Configuration

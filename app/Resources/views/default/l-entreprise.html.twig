@@ -3,8 +3,8 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
+    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css','css') }}">
 
     <style>
 		header #master-cover{
@@ -355,7 +355,7 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
 
      <script async defer

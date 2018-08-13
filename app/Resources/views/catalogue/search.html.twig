@@ -25,7 +25,7 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-3.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page-3.css','css') }}">
 
     <style>
         header #master-cover{
@@ -243,7 +243,7 @@
 
                                 <div class="mt-4" >
                                     {% for tag in genres %}
-                                        <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2">
+                                        <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1">
                                             {{tag.name|lower|title}} <span class="badge badge-light">{{tag.movieNbr|lower|title}}</span>
                                         </a>
                                     {% endfor %}
@@ -260,7 +260,7 @@
                                     {{'Trier par'|trans({},'catalogue')}}...
                                 </div>
 
-                                {#<div class="col-6 col-md-4 col-sm-4">
+                                <div class="col-6 col-md-4 col-sm-4">
                                    
                                     <a href="?{{queryParams|url_encode}}" class="text-secondary">
                                          {{'Ordre alphabetique'|trans({},'catalogue')}}
@@ -271,7 +271,7 @@
                                             <i class="fas fa-sort-alpha-up"></i>
                                         {% endif %}
                                     </a>
-                                </div> #}
+                                </div>
                                 
                                 <div class="col-6 col-md-4 col-sm-4">
                                    
@@ -376,12 +376,12 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     
-    <script src="{{ asset('js/admin/manager.js') }}"></script>
-    <script src="{{ asset('js/programmes/manager.js') }}"></script>
-    <script src="{{ asset('js/programmes/index.js') }}"></script>
+    <script src="{{ asset('js/admin/manager.js','js') }}"></script>
+    <script src="{{ asset('js/programmes/manager.js','js') }}"></script>
+    <script src="{{ asset('js/programmes/index.js','js') }}"></script>
 
 {% endblock %}
 

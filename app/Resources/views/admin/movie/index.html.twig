@@ -255,6 +255,14 @@
 		  			<button  data-toggle="modal" data-backdrop="static" data-target="#modal-metadata" class="btn btn-sm btn-primary">
 		  				<i class="fa fa-plus"></i> Metadonnées
 		  			</button>
+
+                	{% set exportData = app.request.query.all() %}
+                	<span class="pull-right">
+                		<a  href="{{ path('admin_export_metadata',exportData) }}"  class="btn btn-warning btn-sm">
+                            <i class="fa fa-download"></i>  Exporter
+                        </a>
+                	</span>
+                    
     			</div>
     		</div>
 
@@ -386,9 +394,7 @@
 	                                {{ form_widget(form_search.is_published, {"attr":{"class":"form-control-sm"},"label":"programmes publiés"}) }}
 	                            </div>#}
 
-	                           
-
-	                            
+	                          
 	                        </div>
 	                    </div>
 	    			</div>
@@ -401,11 +407,16 @@
 
 	                    {{ form_widget(form_search.bntSearch,{'attr':{'class':'btn-primary btn-sm'}}) }}
 
-
 	                    {% if is_search_opened %}
-                            <a  href="{{ path('admin_movie_index') }}"  class="btn btn-danger pull-right btn-sm">
-                                <i class="fa fa-trash"></i>  Vider les champs
-                            </a>
+	                    	{% set exportData = app.request.query.all() %}
+	                    	<span class="pull-right">
+	                    		
+
+	                            <a  href="{{ path('admin_movie_index') }}"  class="btn btn-primary btn-sm">
+	                                <i class="fa fa-trash"></i>  Vider les champs
+	                            </a>
+	                    	</span>
+                            
                         {% endif %}
 	    			</div>
 	    		{{ form_end(form_search) }}

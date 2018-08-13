@@ -29,4 +29,8 @@ abstract class HeaderValidator extends Validator{
 		}
 		return true;
 	}
+
+	public function getFields(){
+		return $this->fields;
+	}
 }

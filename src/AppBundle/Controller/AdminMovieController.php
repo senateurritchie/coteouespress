@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\AcceptHeader;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -962,7 +961,7 @@ class AdminMovieController extends Controller
     * @Route("/metadata/upload/{model}", name="metadata_upload", requirements={"model":"webmaster|catalog"}, defaults={"model":"webmaster"} )
     * @Method({"POST"})
     */
-    public function metadataUploadAction(Request $request,ValidatorInterface $validator,$model = "webmaster"){
+    public function metadataUploadAction(Request $request,$model = "webmaster"){
         // protection par role
         $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
 
@@ -999,7 +998,6 @@ class AdminMovieController extends Controller
         $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path,array(
             "entity_manager"=>$em,
             "translator"=>$translator,
-            "validator"=>$validator,
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ));
 

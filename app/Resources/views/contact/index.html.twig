@@ -6,7 +6,7 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
 
     <style>
 
@@ -172,7 +172,7 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
 
      <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>

@@ -1,0 +1,217 @@
+{% extends 'admin/base.html.twig' %}
+
+{% set exportData = app.request.query.all() %}
+{% set exportData = exportData|merge({'dump':'excel'}) %}
+
+
+{% block header_content %}
+    Catalogue <small>exportation de données en fichier catalogue excel</small>
+{% endblock %}
+
+{% block body_content %}
+
+	<div class="box box-primary">
+		<div class="box-header">
+	  		<h3 class="box-title">La selection</h3>
+
+	  		<div class="box-tools pull-right">
+				<a href="{{ path('admin_export_metadata',exportData) }}" class="btn btn-primary btn-sm">
+					Exporter maintenant
+				</a>
+	  		</div>
+		</div>
+
+		<div class="box-body table-responsive no-padding" id="data-container">
+	  		<table class="table table-striped table-bordered">
+	            <thead>
+	            	<tr>
+	            		{% for item in catalogHeader %}
+	             			<th style="text-align:center">{{ item }}</th>
+	             		{% endfor %}
+	             		
+	            	</tr>
+	      		</thead>
+
+	      		<tbody>
+	      			{% for el in formattedData %}
+	      				
+		      			<tr>
+		      				<td>{{ el.uniqueKey }}</td>
+
+		      				<td>-</td>
+
+		      				<td>
+		      					{{ el.originalName|lower|title }}
+		      				</td>
+
+		      				<td>
+		      					{{el.name|lower|title }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.category|lower|title }}
+		      				</td>
+		      				<td>
+		      					{{ el.mention|upper }}
+		      				</td>
+
+
+		      				<td>
+		      					{{ el.format }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.duration }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.episodeNbr }}
+		      				</td>
+
+		      				<td>
+		      					{% for item in el.producers %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>-</td>
+							
+		      				<td>
+		      					{% for item in el.genres %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>
+		      					{% for item in el.countries %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>
+
+		      					{% if el.yearStart %}
+		      						{{ el.yearStart }}
+		      					{% endif %}
+
+		      					{% if el.yearEnd and el.yearEnd !=  el.yearStart %}
+		      						- {{ el.yearEnd }}
+		      					{% endif %}
+		      				</td>
+
+		      				<td>
+		      					{% for item in el.directors %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>
+		      					{{ el.synopsis|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.tagline|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.logline|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.synopsis_en|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.tagline_en|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.logline_en|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.synopsis_ar|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.tagline_ar|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.logline_ar|truncate(20) }}
+		      				</td>
+
+
+		      				<td>
+		      					{% for item in el.casting %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>
+		      					{{ el.reward|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.audience|truncate(20) }}
+		      				</td>
+
+		      				<td>
+		      					{{ el.award|truncate(20) }}
+		      				</td>
+
+		      				<td>-</td>
+
+		      				<td>{{ el.image }}</td>
+
+		      				<td>
+		      					{% if el.language %}
+		      						{{ el.language|lower|title }}
+		      					{% endif %}
+		      				</td>
+
+		      				<td>
+		      					{% for item in el.versions %}
+		      						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+		      					{% endfor %}
+		      				</td>
+
+		      				<td>-</td>
+		      				<td>-</td>
+
+		      				<td>{{ el.trailer }}</td>
+		      				<td>{{ el.trailer }}</td>
+		      				<td>{{ el.episode1 }}</td>
+		      				<td>{{ el.episode2 }}</td>
+		      				<td>{{ el.episode3 }}</td>
+
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      				<td>-</td>
+		      			</tr>
+		      		{% endfor %}
+	      		</tbody>
+	  		</table>
+		</div>
+
+		<div class="box-footer">
+			<button class="btn btn-primary btn-sm">
+				Exporter maintenant
+			</button>
+		</div>
+	</div>
+{% endblock %}

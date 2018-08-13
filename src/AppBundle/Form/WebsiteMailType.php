@@ -81,7 +81,7 @@ class WebsiteMailType extends AbstractType
                 return ucwords($department->getName());
             },
             'group_by' => function($value, $key, $index) {
-                return strtoupper($value[0]);
+                return strtoupper($value->getSlug()[0]);
             },
             "choice_value"=>"slug",
             "label"=>$this->translator->trans("Service à contacter",array(),"contact")
@@ -99,7 +99,7 @@ class WebsiteMailType extends AbstractType
             "label"=>$this->translator->trans("referer.message",array(),"contact"),
             'choice_attr' => function($value, $key, $index) {
                 $attrs = [];
-                if($value == 6){
+                if($value->getId() == 6){
                     $attrs["checked"] = "checked";
                 }
                 return $attrs;
