@@ -29,27 +29,29 @@ class Producer
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @assert\Length(min=3, max=50)
-    * @ORM\Column(name="name", type="string", length=30)
+    * @assert\Length(min=3, max=100)
+    * @ORM\Column(name="name", type="string", length=100)
     */
     private $name;
+
+     /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @Gedmo\Slug(fields={"name"})
+    * @ORM\Column(name="slug", type="string", length=100, unique=true, nullable=true)
+    */
+    private $slug;
 
     /**
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="description", type="string", length=254)
+    * @ORM\Column(name="description", type="text", nullable=true)
     */
     private $description;
 
-   /**
-    * @var string
-    *
-    * @Groups({"group1","group2"})
-    * @Gedmo\Slug(fields={"name"})
-    * @ORM\Column(name="slug", type="string", length=30, unique=true, nullable=true)
-    */
-    private $slug;
+  
 
     /**
     * @var string

@@ -109,7 +109,7 @@
                             {{'Recherche detaillée'|trans({},'catalogue')}} 
 
                             {% if app.request.query.all()|length %}
-                                <a style="font-size:12px" data-toggle="tooltip" data-placement="top" title="{{'vider les champs'|trans()}}" href="{{ path('catalogue_index') }}"  class="badge badge-secondary ">
+                                <a style="font-size:12px" data-toggle="tooltip" data-placement="top" title="{{'vider les champs'|trans()}}" href="{{ path('movie_index') }}"  class="badge badge-secondary ">
                                     <i class="fas fa-trash"></i>  {{'Vider'|trans()}}
                                 </a>
                             {% endif %}
@@ -281,7 +281,7 @@
                                     </a>
 
                                     {% if app.request.query.has('order_name') %}
-                                        <a data-toggle="tooltip" data-placement="top" title="{{'annuler le tri'|trans()}}" href="{{ path('catalogue_index') }}"  class="text-danger ">
+                                        <a data-toggle="tooltip" data-placement="top" title="{{'annuler le tri'|trans()}}" href="{{ path('movie_index') }}"  class="text-danger ">
                                             <i class="fas fa-times"></i>
                                         </a>
                                     {% endif %}
@@ -294,7 +294,7 @@
                                 <div class="row">
 
 
-                                    {{ include('catalogue/search-movies-render.html.twig') }}
+                                    {{ include('movie/search-movies-render.html.twig') }}
 
                                     {% if programmes|length == 0 %}
                                         <div class="col-12">
@@ -307,7 +307,7 @@
                                               
                                                 <hr>
                                                 <p class="mb-0">
-                                                   <a data-toggle="tooltip" data-placement="top" title="{{'vider les champs'|trans()}}" href="{{ path('catalogue_index') }}"  class="btn btn-sm btn-light text-secondary">
+                                                   <a data-toggle="tooltip" data-placement="top" title="{{'vider les champs'|trans()}}" href="{{ path('movie_index') }}"  class="btn btn-sm btn-light text-secondary">
                                                         <i class="fas fa-trash"></i>  {{'Vider'|trans()}}
                                                     </a>
                                                 </p>

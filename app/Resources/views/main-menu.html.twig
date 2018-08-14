@@ -18,7 +18,7 @@
 					<ul class="d-flex align-items-center mb-0">
 						
 						<li>
-							<a href="{{ path("catalogue_index") }}">
+							<a href="{{ path("movie_index") }}">
 								{{'Programmes'|trans({},'main-menu')}}
 							</a>
 						</li>
@@ -43,7 +43,7 @@
 					<a href="{{ path('switch_lang',{'lang_dest':'en'}) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
 				</div>
 
-				<form  method="GET" action="{{ path('catalogue_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
+				<form  method="GET" action="{{ path('movie_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
 					<input  name="name" type="search" placeholder="Rechercher un programme..." value="{{ app.request.query.get('name') }}">
 				</form>
 
@@ -154,7 +154,7 @@
 		<ul class="d-flex align-items-center justify-content-center mb-0">
 			
 			<li>
-				<a href="{{ path("catalogue_index") }}">
+				<a href="{{ path("movie_index") }}">
 					{{'Programmes'|trans({},'main-menu')}}
 				</a>
 			</li>
@@ -179,7 +179,7 @@
 		<a href="{{ path('switch_lang',{'lang_dest':'en'}) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
 	</div>
 
-	<form  method="GET" action="{{ path('catalogue_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center">
+	<form  method="GET" action="{{ path('movie_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center">
 		<input name="name" type="search" placeholder="Rechercher" value="{{ app.request.query.get('name') }}">
 	</form>
 

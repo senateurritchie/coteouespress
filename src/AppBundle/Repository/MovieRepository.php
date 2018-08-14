@@ -381,7 +381,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         ->getSingleScalarResult();
 	}*/
 
-    public function count($params){
+    public function count(array $params = array() ){
         $qb = $this->createQueryBuilder('m');
         
         $qb

@@ -5,7 +5,7 @@
 
   		<h2 class="box-title">
             {% if catalogLink %}
-                Lien de visionnage (<small><i>{{ catalogLink }}</i></small>)
+                Lien de visionnage (<small><i><a href="{{ catalogLink }}" target="_blank">{{ catalogLink }}</a></i></small>)
             {% else %}
                 &nbsp;
             {% endif %}

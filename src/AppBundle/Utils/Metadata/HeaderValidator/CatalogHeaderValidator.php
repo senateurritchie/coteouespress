@@ -12,9 +12,10 @@ class CatalogHeaderValidator extends HeaderValidator{
 			"tagline_en","logline_en","Synopsis_arabe","tagline_ar","logline_ar","Casting",
 			"Recompenses","Audience","PrixNomination","PlusInfos","@adresseImages","Langue",
 			"Version","Territoire","FULL","Trailer","Extrait","Ep1","Ep2","Ep3","liens","FSA","ESA",
-			"VOD","WORLDWIDE","ARABOPHONE","LUSOPHONE","CLOSED","CIRCUIT","SHORT","FORMAT","DOM","TOM",
-			"EDAN","PAY","TV","CINEMA"
+			"VOD","WORLDWIDE","ARABOPHONE","LUSOPHONE","CLOSED CIRCUIT","SHORT FORMAT","DOM TOM",
+			"EDAN PAY TV","CINEMA"
 		];
+
 		
 		parent::__construct($fields);
 	}

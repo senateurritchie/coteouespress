@@ -7,7 +7,7 @@
 {% set catalogLink = null %}
 
 {% if token %}
-    {% set catalogLink = url('admin_export_token',{'token':token}) %}
+    {% set catalogLink = url('catalog_token',{'token':token}) %}
 {% endif %}
 
 {% block header_content %}
@@ -43,7 +43,7 @@
 
                         <h2 class="box-title">
                             {% if catalogLink %}
-                                Lien de visionnage (<small><i>{{ catalogLink }}</i></small>)
+                                Lien de visionnage (<small><i><a href="{{ catalogLink }}" target="_blank">{{ catalogLink }}</a></i></small>)
                             {% else %}
                                 &nbsp;
                             {% endif %}
@@ -81,14 +81,44 @@
 
 {% block javascripts %}
 	{{ parent() }}
+    
+    {% if token %}
+    	<script>
 
-	<script>
-		$(document).ready(function($){
-			$('.print-btn').on('click',function(e){
-				e.preventDefault();
-				window.print();
-			})
-		});
+            var tokenUrl = "{{ path('catalog_token',{'token':token}) }}";
 
-	</script>
+            $(document).ready(function($){
+
+                $('.print-btn').on('click',function(e){
+                    e.preventDefault();
+                    printPage(tokenUrl);
+                })
+
+                function closePrint () {
+                    document.body.removeChild(this.__container__);
+                }
+
+                function setPrint () {
+                    this.contentWindow.__container__ = this;
+                    this.contentWindow.onbeforeunload = closePrint;
+                    this.contentWindow.onafterprint = closePrint;
+                    this.contentWindow.focus(); // Required for IE
+                    this.contentWindow.print();
+                }
+
+                function printPage (sURL) {
+                    var oHiddFrame = document.createElement("iframe");
+                    oHiddFrame.onload = setPrint;
+                    oHiddFrame.style.visibility = "hidden";
+                    oHiddFrame.style.position = "fixed";
+                    oHiddFrame.style.right = "0";
+                    oHiddFrame.style.bottom = "0";
+                    oHiddFrame.src = sURL;
+                    document.body.appendChild(oHiddFrame);
+                }
+            });
+
+    		
+    	</script>
+    {% endif %}
 {% endblock %}

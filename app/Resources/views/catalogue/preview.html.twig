@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Catalogue {{ app.request.attributes.get("token") }}</title>
+        
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin/dist/css/AdminLTE.min.css') }}">
+
+
+        <style>
+			.table-borderless > tbody > tr > td,
+			.table-borderless > tbody > tr > th,
+			.table-borderless > tfoot > tr > td,
+			.table-borderless > tfoot > tr > th,
+			.table-borderless > thead > tr > td,
+			.table-borderless > thead > tr > th {
+			    border: none;
+			}
+
+			.program-description{
+				font-size: 12px;
+			}
+
+			.print-mine {
+				background: #fff;
+				padding: 10px;
+				padding-top: 20px;
+				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+				width: 29.7cm !important;
+				height: 21cm !important;
+				position: relative;
+				overflow: hidden;
+				page-break-before: always;
+			}
+
+			footer{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				display:flex;
+				flex-direction: column;
+				justify-content:center;
+				align-items:center;
+			}
+
+			.movie-vignette{
+				width:180px;
+				height:180px;
+				overflow:hidden;
+				border:1px solid #d4d4d4;
+			}
+			
+			@media print{
+				.print-mine{
+					margin: 0px;
+					padding: 10px;
+					padding-top: 1.2cm;
+					padding-right: 1cm;
+					overflow: hidden;
+					page-break-inside: avoid;
+				}
+
+				@page { 
+					size: landscape; 
+				}
+
+				.container {
+				    padding: 0px !important;
+				    margin-right: 0px !important;
+				    margin-left: 0px !important;
+				}
+
+				body,html{
+					width: 29.7cm !important;
+					height: 21cm !important;
+				}
+			}
+
+		</style>
+
+    </head>
+
+    <body style="background:#bfbfbf;padding-bottom:40px" >
+		{% set step = 3 %}
+		{% set limit = formattedData|length %}
+		{% set pages = limit / 3 %}
+		{% set pages = pages|round(0,"ceil") %}
+
+    	<div class="container">
+    		<div class="row-fluid">
+    			<div class="col-md-12 mb-5">
+    				{% for page in 0..pages if formattedData[page] is defined %}
+						{% set pos = page * step  %}
+						
+						<div style="height:30px" class="hidden-print"></div>
+
+						<div class="print-mine">
+
+							<table class="table table-borderless" >
+								<tbody>	
+									{% for el in formattedData|slice(pos, step) %}
+										<tr>
+											<td style="width:180px;padding-bottom:20px" valign="top">
+												<div class="movie-vignette">
+													{% if el.image %}
+														<img width="180" src="{{ asset('upload/public/'~el.image) }}" alt="">
+													{% else %}
+														<img width="180" src="{{ asset('img/vignette.png') }}" alt="">
+													{% endif %}
+													
+												</div>
+											</td>
+
+											<td  valign="top" style="padding-top:0px;padding-bottom:30px">
+												<h3 style="margin-top:0px;font-weight:bold">
+													{{ el.name|upper }} <small><i>({{ el.originalName|upper }})</i></small>
+												</h3>
+												
+												<div class="program-description">
+													<div class="sub-title">
+														{% spaceless %}
+															<strong>Genre: </strong>
+															{% for item in el.genres %}
+										  						{{ item|upper }}{{ loop.last ?'':', ' }}
+										  					{% endfor %}
+															/&nbsp;<strong>Format: </strong>{{ el.duration }}&nbsp;/&nbsp;<strong>Origine de production: </strong>
+															{% for item in el.countries %}
+										  						{{ item|upper }}{{ loop.last ?'':', ' }}
+										  					{% endfor %}
+															&nbsp;/&nbsp;<strong>Année de production: </strong>
+										  					{% if el.yearStart %}
+										  						{{ el.yearStart }}
+										  					{% endif %}
+
+										  					{% if el.yearEnd and el.yearEnd !=  el.yearStart %}
+										  						- {{ el.yearEnd }}
+										  					{% endif %}
+															&nbsp;/&nbsp;<strong>Langue: </strong>
+															{% if el.language %}
+										  						{{ el.language|upper }}
+										  					{% endif %}
+															&nbsp;/&nbsp;<strong>Version(s) disponible(s): </strong>
+															{% for item in el.versions %}
+										  						{{ item|upper }}{{ loop.last ?'':', ' }}
+										  					{% endfor %}
+															&nbsp;/&nbsp;<strong>Acteurs: </strong>
+															{% for item in el.casting %}
+										  						{{ item|upper }}{{ loop.last ?'':', ' }}
+										  					{% endfor %}
+															&nbsp;/&nbsp;<strong>Réalisateurs: </strong>
+															{% for item in el.directors %}
+										  						{{ item|upper }}{{ loop.last ?'':', ' }}
+										  					{% endfor %}
+														{% endspaceless %}
+													</div>
+
+													<p style="margin-top:20px">
+														{{ el.synopsis|truncate(480,'...') }}
+													</p>
+												</div>
+											</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+							
+							<footer>
+								<small class="text-center">
+									<strong>&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
+									<div style="font-size:8px">
+										Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande
+									</div>
+								</small>
+								<span>{{ page+1 }}</span>
+							</footer>
+						</div>
+					{% endfor %}
+    			</div>
+    		</div>
+    	</div>
+    </body>
+</html>
+
+
+
+
+
+
+

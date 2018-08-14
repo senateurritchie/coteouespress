@@ -1,7 +1,7 @@
 {% for item in data %}
 	<tr class="data-item" data-id="{{ item.id }}">
 		<td class="data-item-image">
-			<a href="{{ path('catalogue_index',{'slug':item.slug}) }}" target="_blank" data-title="afficher sur le site" data-toggle="tooltip">
+			<a href="{{ path('movie_index',{'slug':item.slug}) }}" target="_blank" data-title="afficher sur le site" data-toggle="tooltip">
 				{% if item.portraitImg %}
 					<img  src="{{ asset('upload/public/'~item.portraitImg) }}" alt="" />
 				{% else %}

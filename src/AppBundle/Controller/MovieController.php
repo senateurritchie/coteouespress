@@ -16,9 +16,9 @@ use AppBundle\Entity\Genre;
 use AppBundle\Entity\Actor;
 
 /**
-* @Route("/programmes", name="catalogue_")
+* @Route("/programmes", name="movie_")
 */
-class CatalogueController extends Controller{
+class MovieController extends Controller{
     /**
     * @Route("/{slug}", name="index", requirements={"slug":"([\w-]+)?"})
     */
@@ -147,7 +147,7 @@ class CatalogueController extends Controller{
             
 
            
-    		return $this->render('catalogue/movie-single.html.twig',array(
+    		return $this->render('movie/movie-single.html.twig',array(
                 "programme"=>$programme,
                 "vimeoRsrc"=>$vimeoRsrc,
                 "otherMovies"=>$otherMovies,
@@ -199,7 +199,7 @@ class CatalogueController extends Controller{
     	$rep = $em->getRepository(Genre::class);
     	$genres = $rep->findBy([],["name"=>"asc"]);
 
-    	return $this->render('catalogue/search.html.twig',array(
+    	return $this->render('movie/search.html.twig',array(
     		"form"=>$form->createView(),
     		"programmes"=>$data,
     		"categories"=>$categories,

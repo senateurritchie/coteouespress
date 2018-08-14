@@ -295,7 +295,7 @@
                     {#<div class="movie-vote text-info">
                         <div class="row">
                             <div class="col-md-8 pr-2">
-                                {{ include('catalogue/chart.html.twig') }}
+                                {{ include('movie/chart.html.twig') }}
                             </div>
                             <div class="col-md-4">
                                 
@@ -805,7 +805,7 @@
                                                 </li>
 
                                                 <li>
-                                                    <a href="{{ path('catalogue_index',{'slug':item.slug})}}" class="movie-link">
+                                                    <a href="{{ path('movie_index',{'slug':item.slug})}}" class="movie-link">
                                                         {{ 'Details'|trans({},'movies') }}
                                                     </a>
                                                 </li>
@@ -870,7 +870,7 @@
                                             </li>
 
                                             <li>
-                                                <a href="{{ path('catalogue_index',{'slug':random(1000)})}}">
+                                                <a href="{{ path('movie_index',{'slug':random(1000)})}}">
                                                     {{ 'Details'|trans({},'movies') }}
                                                 </a>
                                             </li>

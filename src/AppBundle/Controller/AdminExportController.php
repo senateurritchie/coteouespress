@@ -35,7 +35,6 @@ class AdminExportController extends Controller
         $rep = $em->getRepository(Movie::class);
 
         $params = $request->query->all();
-        $params['order_id'] = "DESC";
 
         $data = $rep->search($params,-1);
 

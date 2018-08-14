@@ -59,7 +59,7 @@
                                     </li>
 
                                     <li>
-                                        <a href="{{ path('catalogue_index',{'slug':movie.slug})}}">
+                                        <a href="{{ path('movie_index',{'slug':movie.slug})}}">
                                             {{ 'Details'|trans({},'movies') }}
                                         </a>
                                     </li>
@@ -165,7 +165,7 @@
                                                         </li>
 
                                                         <li>
-                                                            <a href="{{ path('catalogue_index',{'slug':movie.slug}) }}">
+                                                            <a href="{{ path('movie_index',{'slug':movie.slug}) }}">
                                                                 {{ 'Details'|trans({},'movies') }}
                                                             </a>
                                                         </li>
@@ -278,7 +278,7 @@
                                         -
                                     {% endif %}
 
-                                    <a href="{{ path('catalogue_index',{'slug':inTheather.slug}) }}">
+                                    <a href="{{ path('movie_index',{'slug':inTheather.slug}) }}">
                                         <small>lire la suite</small>
                                     </a>
                                 </div>
@@ -337,7 +337,7 @@
                                     <i class="far fa-eye"></i> &nbsp; bande annonce 
                                 </a>#}
 
-                                <a class="btn btn-sm btn-primary" href="{{ path('catalogue_index',{'slug':inTheather.slug}) }}">
+                                <a class="btn btn-sm btn-primary" href="{{ path('movie_index',{'slug':inTheather.slug}) }}">
                                     voir la fiche &nbsp;<i class="fas fa-angle-right"></i>
                                 </a>
                             </div>

@@ -995,84 +995,12 @@ class AdminMovieController extends Controller
         $zip_path = $upload_dir.'/'.$metadata->getFile();
         $translator = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
-        $reader = new \AppBundle\Utils\Metadata\WebmasterMetadata($zip_path,array(
+        $reader = new \AppBundle\Utils\Metadata\CatalogMetadata($zip_path,array(
             "entity_manager"=>$em,
             "translator"=>$translator,
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ));
 
-        
-
-       
-        /*echo "<div class='table-responsive'>";
-        echo "<table cellspacing='0' class='table table-hover table-striped table-bordered'>";
-        echo "<caption><h3>Aaz Metadata Reader</h3></caption>";
-        $reader
-        ->on("header",function($event){
-
-            echo "<thead><tr>";
-            foreach ($event->getValue() as $el) {
-                echo "<th scope='col'> ".$el->getFiltered()." </th>";
-            }
-            echo "</tr></thead><tbody>";
-        })
-        ->on("sheetnames",function($event){
-            
-        })
-        ->on("worksheetData",function($event){
-
-        })
-        ->on("data",function($event){
-
-            echo "<tr style='border-top:1px solid #ff0000;'>";
-            foreach ($event->getValue() as $el) {
-                //style='text-align:center;border:1px solid #333;padding:10px'
-                if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataResourceEntry){
-                    echo "<td valign='top'>";
-
-                    $resources = $el->getResources();
-                    foreach ($resources as $i=>$resource) {
-                        list($im,$filename) = $resource;
-                        echo "<img style='margin:0px 5px 5px 0px;' alt='$filename' width='100' height='50'  src='data:image/jpeg;base64,".base64_encode($im)."'>";
-
-                        if($i && $i % 2 == 0) echo "<br>";
-                    }
-                   
-                    echo "</td>";
-                }
-                else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataEntityEntry){
-                    echo "<td valign='top'><ol>";
-
-                    $choices = $el->getChoices();
-
-                    foreach ($choices as $i=>$choice) {
-                        echo "<li><a style='text-decoration:none' href='#'>".$choice->getName()."</a></li>";
-                    }
-                   
-                    echo "</ol></td>";
-                }
-                else if($el instanceof \AppBundle\Utils\MetadataEntry\MetadataChoiceEntry){
-                    echo "<td valign='top'><ol>";
-
-                    $choices = $el->getChoices();
-
-                    foreach ($choices as $i=>$choice) {
-                        echo "<li>".$choice."</li>";
-                    }
-                   
-                    echo "</ol></td>";
-                }
-                else{
-                    echo "<td valign='top'>".$el->getFiltered()."</td>";
-                }
-            }
-            echo "</tr>";
-        })
-        ->on("end",function($event)use(&$result){
-            $result['status'] = true;
-        });*/
-
-        //echo " </tbody></table></div>";
 
         $reader
         ->on("error",function($event)use(&$result){

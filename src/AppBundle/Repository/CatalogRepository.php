@@ -82,7 +82,7 @@ class CatalogRepository extends \Doctrine\ORM\EntityRepository
 	    ->setParameter("creator",$value);
 	}
 
-	public function count($params){
+	public function count(array $params = array()){
         $qb = $this->createQueryBuilder('m')
         ->select('count(m.id)');
 
