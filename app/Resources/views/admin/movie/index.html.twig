@@ -258,7 +258,7 @@
 
                 	{% set exportData = app.request.query.all() %}
                 	<span class="pull-right">
-                		<a  href="{{ path('admin_export_metadata',exportData) }}"  class="btn btn-warning btn-sm">
+                		<a  href="{{ path('admin_export_preview',exportData) }}"  class="btn btn-warning btn-sm">
                             <i class="fa fa-download"></i>  Exporter
                         </a>
                 	</span>

@@ -3,7 +3,7 @@
   		<h3 class="box-title">&nbsp;</h3>
 
   		<div class="box-tools pull-right">
-			<a href="{{ path('admin_export_metadata',exportData) }}" class="btn btn-primary btn-sm">
+			<a href="{{ path('admin_export_preview',exportData) }}" class="btn btn-primary btn-sm">
 				Exporter maintenant
 			</a>
   		</div>
@@ -197,8 +197,8 @@
 	</div>
 
 	<div class="box-footer">
-		<button class="btn btn-primary btn-sm">
+		<a href="{{ path('admin_export_preview',exportData) }}" class="btn btn-primary btn-sm">
 			Exporter maintenant
-		</button>
+		</a>
 	</div>
 </div>

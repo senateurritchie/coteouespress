@@ -21,33 +21,25 @@ use AppBundle\Entity\Language;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
-	public function search($params = array(),$limit = 20,$offset=0){
-		$qb = $this->_em->createQueryBuilder();
+    public function addWhereClause(&$qb,&$params){
 
-		if(@$params["q"]){
-    		$params["name"] = $params["q"];
-    	}
+        if(@$params["q"]){
+            $params["name"] = $params["q"];
+        }
 
-		$params = array_filter($params,function($el){
-			return strip_tags(trim($el));
-		});
-
-		$qb->select("m")
-		->from(Movie::class,"m")
-		->leftJoin("m.category","category")
-		->addSelect("category")
-        ->leftJoin("m.language","language")
-        ->addSelect("language");
+        $params = array_filter($params,function($el){
+            return strip_tags(trim($el));
+        });
 
         // recherche par id
         if(@$params["id"]){
             $this->whereId($qb,@$params["id"]);
         }
 
-		// recherche par terms
-		if(@$params["name"]){
-			$this->whereTerms($qb,@$params["name"]);
-		}
+        // recherche par terms
+        if(@$params["name"]){
+            $this->whereTerms($qb,@$params["name"]);
+        }
 
         // recherche par in_theather
         if(@$params["in_theather"]){
@@ -72,50 +64,50 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
         
 
-		// recherche par mention
-		if(@$params["mention"]){
-			$this->whereMention($qb,@$params["mention"]);
-		}
+        // recherche par mention
+        if(@$params["mention"]){
+            $this->whereMention($qb,@$params["mention"]);
+        }
 
-		// recherche par category
-		if(@$params["category"]){
-			$this->whereCategory($qb,@$params["category"]);
-		}
+        // recherche par category
+        if(@$params["category"]){
+            $this->whereCategory($qb,@$params["category"]);
+        }
 
-		// recherche par genre
-		if(@$params["genre"]){
-			$this->whereGenre($qb,@$params["genre"]);
-		}
+        // recherche par genre
+        if(@$params["genre"]){
+            $this->whereGenre($qb,@$params["genre"]);
+        }
 
-		// recherche par language
-		if(@$params["language"]){
-			$this->whereLanguage($qb,@$params["language"]);
-		}
+        // recherche par language
+        if(@$params["language"]){
+            $this->whereLanguage($qb,@$params["language"]);
+        }
 
-		// recherche par createur
-		if(@$params["creator"]){
-			$this->whereCreator($qb,@$params["creator"]);
-		}
+        // recherche par createur
+        if(@$params["creator"]){
+            $this->whereCreator($qb,@$params["creator"]);
+        }
 
-		// recherche par director
-		if(@$params["director"]){
-			$this->whereDirector($qb,@$params["director"]);
-		}
+        // recherche par director
+        if(@$params["director"]){
+            $this->whereDirector($qb,@$params["director"]);
+        }
 
-		// recherche par producteur
-		if(@$params["producer"]){
-			$this->whereProducer($qb,@$params["producer"]);
-		}
+        // recherche par producteur
+        if(@$params["producer"]){
+            $this->whereProducer($qb,@$params["producer"]);
+        }
 
-		// recherche par pays
-		if(@$params["country"]){
-			$this->whereCountry($qb,@$params["country"]);
-		}
+        // recherche par pays
+        if(@$params["country"]){
+            $this->whereCountry($qb,@$params["country"]);
+        }
 
-		// recherche par année
-		if(@$params["year"] && @$params["year_end"]){
+        // recherche par année
+        if(@$params["year"] && @$params["year_end"]){
             $this->whereYearRange($qb,$params["year"],$params["year_end"]);
-		}
+        }
         else if(@$params["year"]){
             $this->whereYearStart($qb,$params["year"]);
         }
@@ -123,6 +115,44 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereYearEnd($qb,$params["year_end"]);
         }
 
+
+        // ordre d'affichage par id
+        if(@$params['order_id']){
+            $order = strtoupper(trim($params['order_id'])) == "ASC" ? "ASC" : "DESC";
+            $qb->orderBy("m.id",$order);
+        }
+
+        if(!@$params['order_id'] && !@$params["order_name"]){
+            $params["order_name"] = "asc";
+        }
+
+
+        // ordre d'affichage par nom de programme
+        if(@$params['order_name']){
+            $order = strtoupper(trim($params['order_name'])) == "ASC" ? "ASC" : "DESC";
+            $qb->orderBy("m.name",$order);
+        }
+
+        // ordre d'affichage par date e production
+        if(@$params['order_year']){
+            $order = strtoupper(trim($params['order_year'])) == "ASC" ? "ASC" : "DESC";
+            $qb->orderBy("m.yearStart",$order);
+        }
+
+        return $this;
+    }
+
+	public function search($params = array(),$limit = 20,$offset=0){
+		$qb = $this->_em->createQueryBuilder();
+
+		$qb->select("m")
+		->from(Movie::class,"m")
+		->leftJoin("m.category","category")
+		->addSelect("category")
+        ->leftJoin("m.language","language")
+        ->addSelect("language");
+
+        $this->addWhereClause($qb,$params);
 
         // ordre d'affichage par id
         if(@$params['order_id']){
@@ -153,7 +183,6 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             ->setFirstResult( $offset )
             ->setMaxResults( $limit );
         }
-	    
 
    		$query = $qb->getQuery();
 
@@ -344,10 +373,20 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       	->setParameter("country",$value);
   	}
 
-  	public function count(){
+  	/*public function count(){
 		return $this->createQueryBuilder('m')
         ->select('count(m.id)')
         ->getQuery()
         ->getSingleScalarResult();
-	}
+	}*/
+
+    public function count($params){
+        $qb = $this->createQueryBuilder('m')
+        ->select('count(m.id)');
+
+        $this->addWhereClause($qb, $params);
+
+        return $qb->getQuery()
+        ->getSingleScalarResult();
+    }
 }

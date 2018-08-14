@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use AppBundle\Entity\Movie;
+use AppBundle\Entity\Catalog;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -21,10 +22,10 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class AdminExportController extends Controller
 {
     /**
-    * @Route("/{template}", name="metadata", requirements={"template":"webmaster|catalog"}, defaults={"template":"webmaster"} )
+    * @Route("/", name="preview")
     * @Method({"GET"})
     */
-    public function metadataAction(Request $request,$template = "webmaster"){
+    public function previewAction(Request $request){
         if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
         else{
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
@@ -213,5 +214,59 @@ class AdminExportController extends Controller
                 "catalogHeader"=>$cFields,
             ));
         }
+    }
+
+    /**
+    * @Route("/token/{token}", name="token")
+    * @Method({"GET"})
+    */
+    public function tokenPreviewAction(Request $request,$token){
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Catalog::class);
+
+        if(!($catalog = $rep->findOneByToken($token))){
+            throw $this->createNotFoundException('le catalogue est introuvable');
+        }
+
+        $params = $catalog->getCriteria();
+        unset($params["_token"]);
+        $params["catalog_token"] = $token;
+        return $this->forward("AppBundle:AdminExport:preview",[],$params);
+    }
+
+    /**
+    * @Route("/save", name="save")
+    * @Method({"POST","get"})
+    */
+    public function saveAction(Request $request){
+        if($this->isGranted('ROLE_CATALOG_INSERT'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $result = ["status"=>false];
+
+        $params = $request->query->all();
+
+        if(($data = $rep->count($params))){
+            $item = new Catalog();
+            $item->setCreator($this->getUser());
+            $item->setCriteria($params);
+            $item->setType("FSA");
+            $item->setToken(\AppBundle\Entity\User::generateToken(16));
+            $em->persist($item);
+            $em->flush();
+            $result["message"] = "Votre lien de visionnage à bien été créee, vous pour dès maintenant le partager. la durée de validité est de 1 semaine.";
+            $result["status"] = true;
+        }
+
+        return $this->json($result);
     }
 }

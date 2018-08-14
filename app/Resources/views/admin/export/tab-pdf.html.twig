@@ -123,7 +123,9 @@
 		</footer>
 	</div>
 	
-	<section style="page-break-before: always;"></section>
+	{% if not loop.last %}
+		<section style="page-break-before: always;"></section>
+	{% endif %}
 
 
 {% endfor %}

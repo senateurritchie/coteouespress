@@ -160,7 +160,7 @@ class Movie implements Translatable
     /**
     * @var string
     *
-    * @ORM\Column(name="state", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('rejected','pre-moderate','approved','workflow','deactivated')", nullable=true, options={"comment":"le status du programme, c'st les differents etats que peu avoir un programme"})
+    * @ORM\Column(name="state", type="string", length=15, columnDefinition="ENUM('rejected','pre-moderate','approved','workflow','deactivated')", nullable=true, options={"comment":"le status du programme, c'est les differents etats que peu avoir un programme"})
     */
     private $state = 'pre-moderate';
 
@@ -262,7 +262,7 @@ class Movie implements Translatable
     /**
     * @var string
     *
-    * @ORM\Column(name="insert_mode", type="string", length=15, options={"comment":"le mode d'insertion"}, columnDefinition="ENUM('meta','meta-webmaster','meta-catalog','admin-form')", nullable=true, options={"comment":"le mode d'insertion du programme"})
+    * @ORM\Column(name="insert_mode", type="string", length=15, columnDefinition="ENUM('meta','meta-webmaster','meta-catalog','admin-form')", nullable=true, options={"comment":"le mode d'insertion du programme"})
     */
     private $insertMode = 'admin-form';
 

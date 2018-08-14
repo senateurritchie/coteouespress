@@ -1,47 +1,64 @@
 <?php
-
 namespace AppBundle\Entity;
 
-
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Catalog
- *
- * @ORM\Table(name="catalog")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\CatalogRepository")
- */
-class Catalog
-{
+* Actor
+*
+* @ORM\Table(name="catalog", options={"comment":"permet de stocker les liens de visionnage de catalogue"})
+* @ORM\Entity(repositoryClass="AppBundle\Repository\CatalogRepository")
+*/
+class Catalog{
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
+    * @var int
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="id", type="integer")
+    * @ORM\Id
+    * @ORM\GeneratedValue(strategy="AUTO")
+    */
     private $id;
-
-    private $genre;
-    private $mention;
-    private $country;
-    private $category;
-    private $language;
-    private $producer;
-    private $director;
-    private $creator;
-    private $name;
-    private $theather;
-    private $year;
-
     /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    * @var AppBundle\Entity\User
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $creator;
+    /**
+    * @var string
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="type", type="string", length=15, options={"comment":"le type type de catalogue soit ESA ou FSA"}, columnDefinition="ENUM('FSA','ESA','WORLD')", nullable=true)
+    */
+    protected $type;
+    /**
+    * @var string
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="token", type="string", length=16, options={"comment":"code unique du catalogue"},unique=true, nullable=false)
+    */
+    protected $token;
+    /**
+    * @var array
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="criteria", type="array", options={"comment":"les parametres ou critères de recherche"}, nullable=true)
+    */
+    protected $criteria;
+    /**
+    * @var datetime
+    * 
+    * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
+    * @ORM\Column(name="createAt", type="datetime", options={"comment":"la dete de creation du catalogue"}, nullable=true)
+    */
+    protected $createAt;
 
+    
 }

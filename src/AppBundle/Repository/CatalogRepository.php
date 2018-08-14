@@ -1,6 +1,7 @@
 <?php
 
 namespace AppBundle\Repository;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * CatalogRepository
@@ -10,6 +11,85 @@ namespace AppBundle\Repository;
  */
 class CatalogRepository extends \Doctrine\ORM\EntityRepository
 {
-	
+	public function addWhereClause(&$qb,&$params){
+		$params = array_filter($params,function($el){
+			return strip_tags(trim($el));
+		});
+
+		// recherche par id
+		if(@$params["id"]){
+			$this->whereId($qb,@$params["id"]);
+		}
+
+		// recherche par token
+		if(@$params["token"]){
+			$this->whereToken($qb,@$params["token"]);
+		}
+
+		// recherche par type
+		if(@$params["type"]){
+			$this->whereType($qb,@$params["type"]);
+		}
+
+		// recherche par creator
+		if(@$params["creator"]){
+			$this->whereCreator($qb,@$params["creator"]);
+		}
+
+		return $this;
+	}
+
+	public function search($params = array(),$limit = 50,$offset=0){
+		$qb = $this->createQueryBuilder("u");
+
+		$qb
+		->leftJoin("u.creator","creator")
+		->addSelect("creator");
+
+		$this->addWhereClause($params);
+		
+		$qb->orderBy("u.id","DESC");
+
+	    // limit et offset
+	    $qb->setFirstResult( $offset )
+   		->setMaxResults( $limit );
+
+   		$query = $qb->getQuery();
+
+	    return $query->getResult();
+	}
+
+
+	public function whereToken(QueryBuilder $qb,$value){
+		$qb->andWhere($qb->expr()->orX(
+			$qb->expr()->like("u.token", ":token")
+		))
+	    ->setParameter("token",$value);
+	}
+
+	public function whereId(QueryBuilder $qb,$value){
+		$qb->andWhere($qb->expr()->eq("u.id", ":id"))
+	    ->setParameter("id",$value);
+	}
+
+	public function whereType(QueryBuilder $qb,$value){
+		$qb->andWhere($qb->expr()->eq("u.type", ":type"))
+	    ->setParameter("type",$value);
+	}
+
+	public function whereCreator(QueryBuilder $qb,$value){
+		$qb->andWhere($qb->expr()->eq("creator.id", ":creator"))
+	    ->setParameter("creator",$value);
+	}
+
+	public function count($params){
+        $qb = $this->createQueryBuilder('m')
+        ->select('count(m.id)');
+
+        $this->addWhereClause($qb, $params);
+
+        return $qb->getQuery()
+        ->getSingleScalarResult();
+    }
 	
 }

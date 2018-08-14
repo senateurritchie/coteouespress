@@ -2,8 +2,7 @@
 
 {% set ee = app.request.query.all() %}
 {% set exportData = ee|merge({'dump':'excel'}) %}
-{% set exportPDF = ee|merge({'dump':'pdf'}) %}
-
+{% set exportSave = ee|merge({}) %}
 
 {% block header_content %}
     Catalogue <small>exportation de données en fichier catalogue excel</small>
@@ -41,6 +40,12 @@
 							<a href="" class="btn btn-primary btn-sm print-btn">
 								Imprimer
 							</a>
+                            
+                            {% if not app.request.query.has('catalog_token') %}
+                                <a href="{{ path('admin_export_save',exportSave) }}"  class="btn btn-primary btn-sm">
+                                    <i class="fa fa-link"></i> Lien de visionnage
+                                </a>
+                            {% endif %}
 				  		</div>
 					</div>
 
