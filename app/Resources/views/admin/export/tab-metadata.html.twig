@@ -1,6 +1,15 @@
+
 <div class="box box-primary" style="border-top:none">
 	<div class="box-header">
-  		<h3 class="box-title">&nbsp;</h3>
+
+
+  		<h2 class="box-title">
+            {% if catalogLink %}
+                Lien de visionnage (<small><i>{{ catalogLink }}</i></small>)
+            {% else %}
+                &nbsp;
+            {% endif %}
+  		</h2>
 
   		<div class="box-tools pull-right">
 			<a href="{{ path('admin_export_preview',exportData) }}" class="btn btn-primary btn-sm">

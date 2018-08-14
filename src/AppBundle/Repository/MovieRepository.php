@@ -199,6 +199,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 			);
 		}*/
 
+
 	    return $query->getResult();
 	}
 
@@ -381,7 +382,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 	}*/
 
     public function count($params){
-        $qb = $this->createQueryBuilder('m')
+        $qb = $this->createQueryBuilder('m');
+        
+        $qb
+        ->leftJoin("m.category","category")
+        ->leftJoin("m.language","language")
         ->select('count(m.id)');
 
         $this->addWhereClause($qb, $params);

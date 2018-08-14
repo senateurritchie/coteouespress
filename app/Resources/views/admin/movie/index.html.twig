@@ -386,16 +386,19 @@
 	                    </div>   
 
 	                    <div class="row">
-	                    	<div class="col-md-2 col-sm-6 col-xs-12">
+	                    	<div class="col-md-3 col-sm-6 col-xs-12">
+	                        	<div class="row">
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.order_name, {"attr":{"class":"form-control-sm custom-select","label":'Affichage par nom'}}) }}
+	                        		</div>
 
-	                    		
+	                        		<div class="col-md-6">
+	                            		{{ form_row(form_search.order_year, {"attr":{"class":"form-control-sm custom-select","label":"Affichage par année"}}) }}
+	                        		</div>
+	                        	</div>
 
-	                            {#<div class="form-group">
-	                                {{ form_widget(form_search.is_published, {"attr":{"class":"form-control-sm"},"label":"programmes publiés"}) }}
-	                            </div>#}
-
-	                          
 	                        </div>
+
 	                    </div>
 	    			</div>
 

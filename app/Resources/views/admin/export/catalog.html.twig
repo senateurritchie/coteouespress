@@ -3,6 +3,12 @@
 {% set ee = app.request.query.all() %}
 {% set exportData = ee|merge({'dump':'excel'}) %}
 {% set exportSave = ee|merge({}) %}
+{% set token = app.request.query.get('catalog_token') %}
+{% set catalogLink = null %}
+
+{% if token %}
+    {% set catalogLink = url('admin_export_token',{'token':token}) %}
+{% endif %}
 
 {% block header_content %}
     Catalogue <small>exportation de données en fichier catalogue excel</small>
@@ -14,7 +20,7 @@
         <ul class="nav nav-tabs hidden-print">
             <li class="active">
                 <a href="#m-preview-metadata" data-toggle="tab" aria-expanded="false">
-                    Metadonnées 
+                    Aperçu des metadonnées 
                 </a>
             </li>
 
@@ -34,7 +40,15 @@
             <div class="tab-pane" id="m-preview-pdf" >
             	<div class="box box-primary" style="border-top:none">
 					<div class="box-header hidden-print">
-				  		<h3 class="box-title">&nbsp;</h3>
+
+                        <h2 class="box-title">
+                            {% if catalogLink %}
+                                Lien de visionnage (<small><i>{{ catalogLink }}</i></small>)
+                            {% else %}
+                                &nbsp;
+                            {% endif %}
+                        </h2>
+
 
 				  		<div class="box-tools pull-right">
 							<a href="" class="btn btn-primary btn-sm print-btn">

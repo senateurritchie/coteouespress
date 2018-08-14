@@ -64,7 +64,7 @@ class CatalogAdminSearchType extends AbstractType
             },
             "mapped"=>false,
         ))
-         ->add('published',ChoiceType::class,array(
+        ->add('published',ChoiceType::class,array(
             "required"=>false,
             "placeholder"=>"publish state...",
             "choices"=>[
@@ -135,6 +135,40 @@ class CatalogAdminSearchType extends AbstractType
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
                 ->orderBy('u.name', 'ASC');
+            },
+            "mapped"=>false,
+        ))
+       ->add('order_name',ChoiceType::class,array(
+            "required"=>false,
+            "placeholder"=>"ordre alphabetique...",
+            "choices"=>[
+                "A-Z"=>"ASC",
+                "Z-A"=>"DESC",
+            ],
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                if($request->query->get("order_name") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            "mapped"=>false,
+        ))
+       ->add('order_year',ChoiceType::class,array(
+            "required"=>false,
+            "placeholder"=>"ordre chronologique...",
+            "choices"=>[
+                "croissant"=>"ASC",
+                "décroissant"=>"DESC",
+            ],
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                if($request->query->get("order_year") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
             },
             "mapped"=>false,
         ));

@@ -255,7 +255,14 @@ class AdminExportController extends Controller
 
         $params = $request->query->all();
 
+
+
         if(($data = $rep->count($params))){
+
+            $params = array_filter($params,function($el){
+                return strip_tags(trim($el));
+            });
+                
             $item = new Catalog();
             $item->setCreator($this->getUser());
             $item->setCriteria($params);
@@ -263,8 +270,11 @@ class AdminExportController extends Controller
             $item->setToken(\AppBundle\Entity\User::generateToken(16));
             $em->persist($item);
             $em->flush();
+
+            return $this->redirectToRoute("admin_export_token",['token'=>$item->getToken()]);
+            /*
             $result["message"] = "Votre lien de visionnage à bien été créee, vous pour dès maintenant le partager. la durée de validité est de 1 semaine.";
-            $result["status"] = true;
+            $result["status"] = true;*/
         }
 
         return $this->json($result);
