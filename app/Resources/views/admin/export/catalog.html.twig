@@ -7,7 +7,7 @@
 {% set catalogLink = null %}
 
 {% if token %}
-    {% set catalogLink = url('catalog_token',{'token':token}) %}
+    {% set catalogLink = url('catalog_watch_link',{'token':token}) %}
 {% endif %}
 
 {% block header_content %}
@@ -15,7 +15,6 @@
 {% endblock %}
 
 {% block body_content %}
-
 	<div class="nav-tabs-custom">
         <ul class="nav nav-tabs hidden-print">
             <li class="active">
@@ -85,7 +84,7 @@
     {% if token %}
     	<script>
 
-            var tokenUrl = "{{ path('catalog_token',{'token':token}) }}";
+            var tokenUrl = "{{ path('catalog_watch_link',{'token':token}) }}";
 
             $(document).ready(function($){
 

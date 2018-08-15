@@ -178,10 +178,15 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		}
 
 	    // limit et offset
-        if($limit > 0){
+        if($limit >= 0){
             $qb
             ->setFirstResult( $offset )
             ->setMaxResults( $limit );
+        }
+        else if($limit != -1){
+            $qb
+            ->setFirstResult( 0 )
+            ->setMaxResults( 20 );
         }
 
    		$query = $qb->getQuery();

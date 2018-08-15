@@ -36,7 +36,8 @@ class AdminExportController extends Controller
 
         $params = $request->query->all();
 
-        $data = $rep->search($params,-1);
+        $limit = @$params['limit'] ? intval($params['limit']) : -1;
+        $data = $rep->search($params, $limit);
 
         $cHeader = new \AppBundle\Utils\Metadata\HeaderValidator\CatalogHeaderValidator();
         $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
@@ -216,10 +217,10 @@ class AdminExportController extends Controller
     }
 
     /**
-    * @Route("/token/{token}", name="token")
+    * @Route("/watch-link/{token}", name="watch_link")
     * @Method({"GET"})
     */
-    public function tokenPreviewAction(Request $request,$token){
+    public function watchLinkAction(Request $request,$token){
         if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
         else{
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
@@ -270,7 +271,7 @@ class AdminExportController extends Controller
             $em->persist($item);
             $em->flush();
 
-            return $this->redirectToRoute("admin_export_token",['token'=>$item->getToken()]);
+            return $this->redirectToRoute("admin_export_watch_link",['token'=>$item->getToken()]);
             /*
             $result["message"] = "Votre lien de visionnage à bien été créee, vous pour dès maintenant le partager. la durée de validité est de 1 semaine.";
             $result["status"] = true;*/

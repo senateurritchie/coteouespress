@@ -29,8 +29,8 @@ class Actor
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @assert\Length(min=3, max=50)
-    * @ORM\Column(name="name", type="string", length=50)
+    * @assert\Length(min=3, max=100)
+    * @ORM\Column(name="name", type="string", length=100)
     */
     private $name;
 
@@ -38,7 +38,7 @@ class Actor
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="description", type="string", length=254)
+    * @ORM\Column(name="description", type="text", nullable=true)
     */
     private $description;
 
@@ -64,7 +64,7 @@ class Actor
     * @var integer
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="movie_nbr", type="integer")
+    * @ORM\Column(name="movie_nbr", type="integer", nullable=true)
     */
     private $movieNbr = 0;
 

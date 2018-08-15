@@ -61,7 +61,9 @@ class AdminMovieController extends Controller
         }
 
         $params = $request->query->all();
-        $params['order_id'] = "DESC";
+        if(!@$params['order_id']){
+            $params['order_id'] = "DESC";
+        }
 
         $data = $rep->search($params,$limit,$offset);
 

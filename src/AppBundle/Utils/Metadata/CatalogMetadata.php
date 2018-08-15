@@ -67,7 +67,6 @@ class CatalogMetadata extends Metadata{
 		$this->setDefaultSheetname("Full Video");
 	}
 
-
     public function onData(\AppBundle\Utils\Event\Event $event){
 
     	$em = $this->getOption("entity_manager");
@@ -107,7 +106,7 @@ class CatalogMetadata extends Metadata{
                 imagejpeg($image,$path);
                 imagedestroy($image);
                 
-                switch (strtolower($field)) {
+                switch ($field) {
             		case '@adresseImages':
             			$movie->setPortraitImg($fileName);
             		break;
@@ -118,32 +117,32 @@ class CatalogMetadata extends Metadata{
                 foreach ($choices as $i=>$choice) {
                    
 
-                    switch (strtolower($field)) {
-                		case 'categorie':
+                    switch ($field) {
+                		case 'Categorie':
                 			$movie->setCategory($choice);
                 		break;
 
-                		case 'langue':
+                		case 'Langue':
                 			$movie->setLanguage($choice);
                 		break;
 
                 		// les insertions multiple
-                		case 'version':
+                		case 'Version':
                 			$versions[] = $choice;
                 		break;
-                		case 'genre':
+                		case 'Genre':
                 			$genres[] = $choice;
                 		break;
-                		case 'origineproduction':
+                		case 'OrigineProduction':
                 			$countries[] = $choice;
                 		break;
-                		case 'casting':
+                		case 'Casting':
                 			$castings[] = $choice;
                 		break;
-                		case 'producteur':
+                		case 'Producteur':
                 			$producers[] = $choice;
                 		break;
-                		case 'realisateur':
+                		case 'Realisateur':
                 			$directors[] = $choice;
                 		break;
                 	}
@@ -151,90 +150,88 @@ class CatalogMetadata extends Metadata{
             }
             else{
 
-            	switch (strtolower($field)) {
-            		case 'titreexploitation':
+            	switch ($field) {
+            		case 'TitreExploitation':
             			$movie->setName($el->getValue());
             		break;
-            		case 'titrevo':
+            		case 'TitreVO':
             		    $movie->setOriginalName($el->getValue());
             		break;
-            		case 'synopsis_fr':
+            		case 'Synopsis_fr':
             		    $movie->setSynopsis($el->getValue());
             		break;
-                    case 'tagline_fr':
+                    case 'Tagline_fr':
                         $movie->setTagline($el->getValue());
                     break;
-                    case 'logline_fr':
+                    case 'Logline_fr':
                         $movie->setLogline($el->getValue());
                     break;
 
                     
-            		case 'format':
+            		case 'Format':
             		    $movie->setFormat($el->getValue());
             		break;
-            		case 'mention':
+            		case 'Mention':
             		    $movie->setMention($el->getValue());
             		break;
 
-            		case 'trailer':
+            		case 'Trailer':
             		    $movie->setTrailer($el->getValue());
             		break;
-                    case 'ep1':
-                        $movie->setEpidode1($el->getValue());
+                    case 'Ep1':
+                        $movie->setEpisode1($el->getValue());
                     break;
-                    case 'ep2':
-                        $movie->setEpidode2($el->getValue());
+                    case 'Ep2':
+                        $movie->setEpisode2($el->getValue());
                     break;
-                    case 'ep3':
-                        $movie->setEpidode2($el->getValue());
+                    case 'Ep3':
+                        $movie->setEpisode3($el->getValue());
                     break;
 
-            		case 'recompenses':
+            		case 'Recompenses':
             		    $movie->setReward($el->getValue());
             		break;
-            		case 'prixnomination':
+            		case 'PrixNomination':
             			$movie->setAward($el->getValue());
             		break;
-            		case 'audience':
+            		case 'Audience':
             			$movie->setAudience($el->getValue());
             		break;
 
             		//les dates
-            		case 'anneeproduction':
+            		case 'AnneeProduction':
             			$movie->setYearStart($el->getStart());
             			$movie->setYearEnd($el->getEnd());
             		break;
 
-                    case 'nombreepisodes':
-                        $movie->setFormat($el->getValue());
+                    case 'Durée':
+                        $movie->setFormat(trim($el->getValue()));
                     break;
 
-                    case 'durée':
-                        $eps = intval($movie->getFormat());
-                        $duration = intval($el->getValue());
+                    case 'NombreEpisodes':
+                        $duration = intval(trim($movie->getFormat()));
+                        $eps = intval(trim($el->getValue()));
                         $format = $eps."x".$duration."'";
                         $movie->setFormat($format);
                     break;
 
             		// traductions
-            		case 'synopsis_en':
+            		case 'Synopsis_en':
             			$trans->translate($movie, 'synopsis', 'en',$el->getValue());
             		break;
-            		case 'synopsis_arabe':
+            		case 'Synopsis_arabe':
             			$trans->translate($movie, 'synopsis', 'ar',$el->getValue());
             		break;
-            		case 'tagline_en':
+            		case 'Tagline_en':
             		    $trans->translate($movie, 'tagline', 'en',$el->getValue());
             		break;
-            		case 'tagline_ar':
+            		case 'Tagline_ar':
             			$trans->translate($movie, 'tagline', 'ar',$el->getValue());
             		break;
             	}
             }
         }
         if($empty_cell != count($fields)) {
-            $errors = $validator->validate($movie);
-
             
             $em->persist($movie);
 
@@ -289,8 +286,6 @@ class CatalogMetadata extends Metadata{
                 $e->setDirector($el);
                 $em->persist($e);
             }
-
-
 
             // la gallery photo du programme
             foreach ($scenes as $key => $el) {

@@ -17,7 +17,7 @@ class UrlFieldValidator extends FieldValidator{
 	public function validate($value){
 
 		if($this->getOption("multiple")){
-			$urls = explode(";", $value);
+			$urls = preg_split("#[;,]#", $value);
 
 			$urls = array_map(function($el){
 				return strip_tags(trim($el));

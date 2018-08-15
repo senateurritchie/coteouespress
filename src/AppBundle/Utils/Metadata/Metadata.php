@@ -225,13 +225,15 @@ abstract class Metadata extends EventDispatcher{
                				}
 
 			            	$value = $cell->getValue();
+			            	$value = trim($value);
 
 			            	if($cell->isFormula()){
 			            		//$value = $cell->getCalculatedValue();
 			            	}
 
 			            	$entry = new MetadataPlainTextEntry();
-				            $this->dvm->setCellToProcess($pos.$key);
+			            	$cellToProcess = $pos.$key;
+				            $this->dvm->setCellToProcess($cellToProcess);
 
 				            $cbkValidated = function($evt)use(&$entry,&$isResourceMultiple){
 				            	$related = $evt->getRelatedTarget();
@@ -295,7 +297,7 @@ abstract class Metadata extends EventDispatcher{
 			                		if(count($multiples) == 1){
 
 			                			if(($rscrStat = $za->statName($value)) === false){
-					                		throw new ArchiveFileNotFoundException($value);
+					                		throw new ArchiveFileNotFoundException($value,$cellToProcess);
 					                	}
 					                	else{
 					          				$rawRsrc = $za->getFromName($value);
@@ -309,7 +311,7 @@ abstract class Metadata extends EventDispatcher{
 			                			$args = [];
 			                			foreach ($multiples as $e) {
 			                				if(($ov = $za->statName($e)) === false){
-						                		throw new ArchiveFileNotFoundException($value);
+						                		throw new ArchiveFileNotFoundException($value,$cellToProcess);
 						                	}
 						                	else{
 						                		$rawRsrc = $za->getFromName($e);

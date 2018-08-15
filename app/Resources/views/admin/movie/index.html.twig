@@ -285,7 +285,7 @@
 	                    <div class="row">
 
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.name, {"attr":{"class":"form-control-sm","placeholder":'Nom du programme',"autocomplete":"off"}}) }}
+	                            {{ form_row(form_search.name, {"attr":{"class":"form-control-sm input-sm","placeholder":'Nom du programme',"autocomplete":"off"}}) }}
 	                        </div>
 
 	                       
@@ -294,11 +294,11 @@
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
 	                        	<div class="row">
 	                        		<div class="col-md-6">
-	                        			{{ form_row(form_search.state, {"attr":{"class":"form-control-sm"},"label":"status"}) }}
+	                        			{{ form_row(form_search.state, {"attr":{"class":"form-control-sm input-sm"},"label":"status"}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.category, {"attr":{"class":"form-control-sm custom-select"}}) }}
+	                            		{{ form_row(form_search.category, {"attr":{"class":"form-control-sm input-sm"}}) }}
 	                        		</div>
 	                        	</div>
 
@@ -308,11 +308,11 @@
 
 	                        	<div class="row">
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.genre, {"attr":{"class":"form-control-sm custom-select","placeholder":'Genre'}}) }}
+	                            		{{ form_row(form_search.genre, {"attr":{"class":"form-control-sm input-sm","placeholder":'Genre'}}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.country, {"attr":{"class":"form-control-sm custom-select","placeholder":'Pays'}}) }}
+	                            		{{ form_row(form_search.country, {"attr":{"class":"form-control-sm input-sm","placeholder":'Pays'}}) }}
 	                        		</div>
 	                        	</div>
 
@@ -321,17 +321,17 @@
 	                       
 
 	                        <div class="col-md-2 col-sm-6 col-xs-12">
-	                            {{ form_row(form_search.language, {"attr":{"class":"form-control-sm custom-select","placeholder":'Langue'}}) }}
+	                            {{ form_row(form_search.language, {"attr":{"class":"form-control-sm input-sm","placeholder":'Langue'}}) }}
 	                        </div>
 
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
 	                        	<div class="row">
 	                        		<div class="col-md-6">
-	                        			{{ form_row(form_search.year, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'debut de production'}) }}
+	                        			{{ form_row(form_search.year, {"attr":{"class":"form-control-sm input-sm","min":2000},"placeholder":'debut de production'}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
-	                        			{{ form_row(form_search.year_end, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'fin de production'}) }}
+	                        			{{ form_row(form_search.year_end, {"attr":{"class":"form-control-sm input-sm","min":2000},"placeholder":'fin de production'}) }}
 	                        		</div>
 	                        	</div>
 	                        </div>
@@ -340,11 +340,11 @@
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
 	                        	<div class="row">
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.mention, {"attr":{"class":"form-control-sm custom-select","placeholder":'Définition'}}) }}
+	                            		{{ form_row(form_search.mention, {"attr":{"class":"form-control-sm input-sm","placeholder":'Définition'}}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.producer, {"attr":{"class":"form-control-sm custom-select","placeholder":'Producteur'}}) }}
+	                            		{{ form_row(form_search.producer, {"attr":{"class":"form-control-sm input-sm","placeholder":'Producteur'}}) }}
 	                        		</div>
 	                        	</div>
 
@@ -354,11 +354,11 @@
 	                        <div class="col-md-3 col-sm-6 col-xs-12">
 	                        	<div class="row">
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.director, {"attr":{"class":"form-control-sm custom-select","placeholder":'Réalisateur'}}) }}
+	                            		{{ form_row(form_search.director, {"attr":{"class":"form-control-sm input-sm","placeholder":'Réalisateur'}}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.actor, {"attr":{"class":"form-control-sm custom-select","placeholder":'Casting',"label":"Casting"}}) }}
+	                            		{{ form_row(form_search.actor, {"attr":{"class":"form-control-sm input-sm","placeholder":'Casting',"label":"Casting"}}) }}
 	                        		</div>
 	                        	</div>
 
@@ -369,7 +369,7 @@
 	                        	<div class="row">
 	                        		
 	                        		<div class="col-md-6">
-	                        			{{ form_row(form_search.published, {"attr":{"class":"form-control-sm custom-select"}}) }}
+	                        			{{ form_row(form_search.published, {"attr":{"class":"form-control-sm input-sm"}}) }}
 	                        		</div>
 
 	                        		<div class="col-md-6">
@@ -386,14 +386,22 @@
 	                    </div>   
 
 	                    <div class="row">
-	                    	<div class="col-md-3 col-sm-6 col-xs-12">
+	                    	<div class="col-md-6 col-sm-6 col-xs-12">
 	                        	<div class="row">
-	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.order_name, {"attr":{"class":"form-control-sm custom-select","label":'Affichage par nom'}}) }}
+	                        		<div class="col-md-3">
+	                            		{{ form_row(form_search.order_name, {"attr":{"class":"form-control-sm input-sm","label":'Affichage par nom'}}) }}
 	                        		</div>
 
-	                        		<div class="col-md-6">
-	                            		{{ form_row(form_search.order_year, {"attr":{"class":"form-control-sm custom-select","label":"Affichage par année"}}) }}
+	                        		<div class="col-md-3">
+	                            		{{ form_row(form_search.order_year, {"attr":{"class":"form-control-sm input-sm","label":"Affichage par année"}}) }}
+	                        		</div>
+
+	                        		<div class="col-md-3">
+	                            		{{ form_row(form_search.order_id, {"attr":{"class":"form-control-sm input-sm","label":"Affichage par entrée"}}) }}
+	                        		</div>
+
+	                        		<div class="col-md-3">
+	                            		{{ form_row(form_search.limit, {"attr":{"class":"form-control-sm input-sm text-center"}}) }}
 	                        		</div>
 	                        	</div>
 

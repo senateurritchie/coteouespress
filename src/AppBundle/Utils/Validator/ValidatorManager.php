@@ -31,6 +31,7 @@ class ValidatorManager extends EventDispatcher{
 	}
 
 	public function process($value){
+		
 		foreach ($this->data as $key => $item) {
 			$ret = $item->validate($value);
 			$msg;

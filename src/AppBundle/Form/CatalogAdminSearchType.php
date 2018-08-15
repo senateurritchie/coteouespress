@@ -171,6 +171,36 @@ class CatalogAdminSearchType extends AbstractType
                 return $attrs;
             },
             "mapped"=>false,
+        ))
+        ->add('order_id',ChoiceType::class,array(
+            "required"=>false,
+            "placeholder"=>"",
+            "label"=>"Ordre d'entrée",
+            "choices"=>[
+                "premier entré"=>"ASC",
+                "dernier entré"=>"DESC",
+            ],
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                if($request->query->get("order_id") == $value){
+                    $attrs["selected"] = "selected";
+                }
+                else if(!$request->query->get("order_id") && $value == "DESC"){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            "mapped"=>false,
+        ))
+        ->add('limit',IntegerType::class,array(
+            "required"=>false,
+            "label"=>"Resultats",
+            'attr' => [
+                "value"=>$request->query->get("limit") ? intval($request->query->get("limit")) : 20,
+                "min"=>1,
+            ],
+            "mapped"=>false,
         ));
     }
 

@@ -1,6 +1,10 @@
 
 {% set route = app.request.attributes.get('_route') %}
 
+{% if not route  and app.request.attributes.has('_forwarded') %}
+    {% set route = app.request.attributes.get('_forwarded').get('_route') %}
+{% endif %}
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -57,7 +61,7 @@
     -->
     <body class="hold-transition skin-blue sidebar-mini 
     
-        {% if route in ['admin_movie_index','admin_export_metadata'] %}
+        {% if route in ['admin_movie_index','admin_export_preview','admin_export_watch_link'] %}
             sidebar-collapse
         {% endif %}
     ">

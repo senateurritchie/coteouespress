@@ -17,9 +17,9 @@ use AppBundle\Entity\Movie;
 */
 class CatalogController extends Controller{
     /**
-    * @Route("/{token}/", name="token", requirements={"token":"[\w-]+"})
+    * @Route("/watch-link/{token}/", name="watch_link", requirements={"token":"[\w-]+"})
     */
-    public function tokenAction(Request $request,$token){
+    public function watchLinkAction(Request $request,$token){
 
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Catalog::class);
@@ -33,7 +33,10 @@ class CatalogController extends Controller{
 
         $params = $catalog->getCriteria();
         $rep = $em->getRepository(Movie::class);
-        $data = $rep->search($params,-1);
+
+        $limit = @$params['limit'] ? intval($params['limit']) : -1;
+        $data = $rep->search($params, $limit);
+
         $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         $formattedData = [];
 

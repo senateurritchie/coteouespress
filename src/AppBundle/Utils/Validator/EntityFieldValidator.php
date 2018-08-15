@@ -2,6 +2,7 @@
 namespace AppBundle\Utils\Validator;
 use AppBundle\Utils\Validator\FieldValidator;
 use AppBundle\Utils\Validator\FieldValidatorManager;
+use AppBundle\Utils\Exception\ValidatorException;
 
 class EntityFieldValidator extends FieldValidator{
 	/**
@@ -32,7 +33,7 @@ class EntityFieldValidator extends FieldValidator{
 
 
 			if($this->getOption("multiple")){
-				$values = explode(";", $value);
+				$values = preg_split("#[;,/]#",  $value);
 
 				$values = array_map(function($el){
 					return strip_tags(trim($el));
@@ -54,33 +55,46 @@ class EntityFieldValidator extends FieldValidator{
 				$method = 'findOneBy'.ucfirst($this->options['search_by']);
 			}
 
-			if(!($data = $rep->$method($slug))){
-				if(count($values) > 1){
-					$values = implode(", ", $values);
+			try {
 
-					return "[$this->mappedBy]: '$values' sont inconnus de la liste de ".$this->getOption('table_name');
-
+				if(!($data = $rep->$method($slug))){
+					if(count($values) > 1){
+						$values = implode(", ", $values);
+						$msg = "'$values' sont inconnus";
+						throw new ValidatorException($msg);
+					}
+					$msg =  "'$value' est inconnu";
+					throw new ValidatorException($msg);
 				}
 
-				return "[$this->mappedBy]: '$value' est inconnu de la liste de ".$this->getOption('table_name');
-			}
+				if(is_array($data)){
 
-			if(is_array($data)){
+					foreach ($slug as $i=>$el) {
+						$is_exists = false;
+						foreach ($data as $el2) {
+							if(trim($el) == trim($el2->getSlug())) {
+								$is_exists = true;
+								break;
+							}
+						}
 
-				foreach ($slug as $i=>$el) {
-					$is_exists = false;
-					foreach ($data as $el2) {
-						if($el == $el2->getSlug()){
-							$is_exists = true;
-							break;
+						if($is_exists === false){
+							$missing = $values[$i];		
+							$msg =  "'$missing' est inconnu";
+							throw new ValidatorException($msg);
 						}
 					}
-
-					if($is_exists === false){
-						$missing = $values[$i];
-						return "[$this->mappedBy]: '$missing' est inconnu de la liste de ".$this->getOption('table_name');
-					}
 				}
+			}
+			catch(ValidatorException $e){
+				$msg = $e->getMessage();
+				$cell = $this->getOption('cellToProcess');
+				$msg = "[$this->mappedBy]: ".$msg." de la liste de ".$this->getOption('table_name');
+				$msg .= ". cellule $cell";
+				return $msg;
+			}
+			catch (\Exception $e) {
+				throw $e;
 			}
 			
 			$this->emit('validated',$data);
@@ -99,7 +113,7 @@ class EntityFieldValidator extends FieldValidator{
         $b = array('A','A','A','A','A','A','AE','C','E','E','E','E','I','I','I','I','D','N','O','O','O','O','O','O','U','U','U','U','Y','s','a','a','a','a','a','a','ae','c','e','e','e','e','i','i','i','i','n','o','o','o','o','o','o','u','u','u','u','y','y','A','a','A','a','A','a','C','c','C','c','C','c','C','c','D','d','D','d','E','e','E','e','E','e','E','e','E','e','G','g','G','g','G','g','G','g','H','h','H','h','I','i','I','i','I','i','I','i','I','i','IJ','ij','J','j','K','k','L','l','L','l','L','l','L','l','l','l','N','n','N','n','N','n','n','O','o','O','o','O','o','OE','oe','R','r','R','r','R','r','S','s','S','s','S','s','S','s','T','t','T','t','T','t','U','u','U','u','U','u','U','u','U','u','U','u','W','w','Y','y','Y','Z','z','Z','z','Z','z','s','f','O','o','U','u','A','a','I','i','O','o','U','u','U','u','U','u','U','u','U','u','A','a','AE','ae','O','o');
 
         $slug = str_replace($a, $b, $input);
-        $slug = preg_replace("#[']+#","",trim($slug));
+        $slug = preg_replace("#['’]+#","",trim($slug));
         $slug = preg_replace('#[^A-Za-z0-9]+#',$sep,trim($slug));
         $slug = preg_replace("#-+#", $sep, $slug);
         $slug = trim($slug,$sep);

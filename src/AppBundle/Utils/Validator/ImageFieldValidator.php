@@ -189,14 +189,13 @@ class ImageFieldValidator extends FieldValidator{
 			$this->emit("validated",$data);
 
 			return true;
-		} catch (Exception $e) {
-			
-		}
-		catch(ImageFieldValidatorException $e){
+		}catch(ImageFieldValidatorException $e){
 			$msg = $e->getMessage();
 			$cell = $this->getOption('cellToProcess');
 			$msg .= " dans la cellule $cell";
 			return $msg;
+		}catch (\Exception $e) {
+			throw $e;
 		}
 		finally{
 			if($image){
