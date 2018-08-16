@@ -31,6 +31,30 @@ class AdminExportController extends Controller
             $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
         }
 
+        $formattedData = [];
+        $cFields = [];
+
+        if($request->query->has('catalog_token') && $request->attributes->has('_forwarded')){
+            $attributes = $request->attributes->get('_forwarded');
+            if($attributes->get('_route') == "admin_export_watch_link"){
+
+                $path = [$this->getParameter('watch_link_dir')];
+                $path[] = $request->query->get('catalog_token').".json";
+                $path = implode("/", $path);
+
+                // on lit directement dans le fichier
+                if(file_exists($path) && is_file($path)){
+                    $data = json_decode(file_get_contents($path),true);
+                    
+                    $cFields = $data["catalogHeader"];
+                    $formattedData = $data['formattedData'];
+
+                    goto render_step;
+                }
+            }
+        }
+
+
         $em = $this->getDoctrine()->getManager();
         $rep = $em->getRepository(Movie::class);
 
@@ -42,7 +66,6 @@ class AdminExportController extends Controller
         $cHeader = new \AppBundle\Utils\Metadata\HeaderValidator\CatalogHeaderValidator();
         $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
-        $formattedData = [];
         $cFields = $cHeader->getFields();
 
         foreach ($data as $key => $el) {
@@ -208,12 +231,36 @@ class AdminExportController extends Controller
             header('Cache-Control: max-age=0');
             return $writer->save('php://output');
         }
-        else{
-            return $this->render('admin/export/catalog.html.twig',array(
-                "formattedData"=>$formattedData,
-                "catalogHeader"=>$cFields,
-            ));
+    
+
+        if($request->query->has('catalog_token') && $request->attributes->has('_forwarded')){
+            $attributes = $request->attributes->get('_forwarded');
+
+            if($attributes->get('_route') == "admin_export_watch_link"){
+
+                $path = [$this->getParameter('watch_link_dir')];
+                $dir = implode("/", $path );
+
+                $path[] = $request->query->get('catalog_token').".json";
+                $path = implode("/", $path);
+
+                // on enregistre dans un fichier
+                if(!file_exists($path)){
+                    if(!file_exists($dir)) mkdir($dir);
+
+                    file_put_contents($path, json_encode(array(
+                        "formattedData"=>$formattedData,
+                        "catalogHeader"=>$cFields,
+                    )));
+                }
+            }
         }
+
+        render_step:
+        return $this->render('admin/export/catalog.html.twig',array(
+            "formattedData"=>$formattedData,
+            "catalogHeader"=>$cFields,
+        ));
     }
 
     /**
@@ -236,7 +283,10 @@ class AdminExportController extends Controller
         $params = $catalog->getCriteria();
         unset($params["_token"]);
         $params["catalog_token"] = $token;
-        return $this->forward("AppBundle:AdminExport:preview",[],$params);
+
+        $response = $this->forward("AppBundle:AdminExport:preview",[],$params);
+        
+        return $response;
     }
 
     /**

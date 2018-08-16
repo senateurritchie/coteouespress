@@ -21,115 +21,48 @@ class CatalogController extends Controller{
     */
     public function watchLinkAction(Request $request,$token){
 
-        $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Catalog::class);
-
-        $em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Catalog::class);
-
-        if(!($catalog = $rep->findOneByToken($token))){
-            throw $this->createNotFoundException('le catalogue est introuvable');
+        if($request->headers->has('If-None-Match')){
+            $response = new Response();
+            $response->setNotModified();
+            return $response;
         }
 
-        $params = $catalog->getCriteria();
-        $rep = $em->getRepository(Movie::class);
-
-        $limit = @$params['limit'] ? intval($params['limit']) : -1;
-        $data = $rep->search($params, $limit);
-
-        $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         $formattedData = [];
+        $cFields = [];
 
-        foreach ($data as $key => $el) {
-            $item = [];
+        $path = [$this->getParameter('watch_link_dir')];
+        $path[] = "$token.json";
+        $path = implode("/", $path);
 
-            $formatData = $el->getFormat();
-            $formatDuration = null;
-            $formatEps = null;
-
-            if ($formatData){
-                $e = explode("x", $formatData);
-                $formatEps = $e[0];
-                $formatDuration = $e[1];
-            }
-
-            $translations = $repository->findTranslations($el);
-        
-            $item = [
-                "name"=>$el->getName(),
-                "originalName"=>$el->getOriginalName(),
-                "category"=>$el->getCategory()->getName(),
-                "mention"=>$el->getMention(),
-                "format"=>$formatData,
-                "duration"=>$formatDuration,
-                "episodeNbr"=>$formatEps,
-                "producers"=>[],
-                "genres"=>[],
-                "countries"=>[],
-                "directors"=>[],
-                "casting"=>[],
-
-                "yearStart"=>$el->getYearStart()?$el->getYearStart()->format('Y'):null,
-                "yearEnd"=>$el->getYearEnd()?$el->getYearEnd()->format('Y'):null,
-
-                "synopsis"=>$el->getSynopsis(),
-                "tagline"=>$el->getTagline(),
-                "logline"=>$el->getLogline(),
-
-                "synopsis_en"=>@$translations["en"]["synopsis"],
-                "tagline_en"=>@$translations["en"]["tagline"],
-                "logline_en"=>@$translations["en"]["logline"],
-
-                "synopsis_ar"=>@$translations["ar"]["synopsis"],
-                "tagline_ar"=>@$translations["ar"]["tagline"],
-                "logline_ar"=>@$translations["ar"]["logline"],
-
-                "reward"=>$el->getReward(),
-                "award"=>$el->getAward(),
-                "audience"=>$el->getAudience(),
-                "image"=>$el->getPortraitImg(),
-                "language"=>$el->getLanguage()?$el->getLanguage()->getName():null,
-
-                "versions"=>[],
-                "trailer"=>$el->getTrailer(),
-                "episode1"=>$el->getEpisode1(),
-                "episode2"=>$el->getEpisode2(),
-                "episode3"=>$el->getEpisode3(),
-            ];
-
-            // les produceurs
-            foreach ($el->getProducers() as $e) {
-                $item["producers"][] = $e->getProducer()->getName();
-            }
-            // les genres
-            foreach ($el->getGenres() as $e) {
-                $item["genres"][] = $e->getGenre()->getName();
-            }
-            // les countries
-            foreach ($el->getCountries() as $e) {
-                $item["countries"][] = $e->getCountry()->getName();
-            }
-            // les directors
-            foreach ($el->getDirectors() as $e) {
-                $item["directors"][] = $e->getDirector()->getName();
-            }
-            // les acteurs
-            foreach ($el->getActors() as $e) {
-                $item["casting"][] = $e->getActor()->getName();
-            }
-            // les versions
-            foreach ($el->getLanguages() as $e) {
-                $item["versions"][] = $e->getLanguage()->getName();
-            }
-
-            $formattedData[] = $item;
+        // on lit directement dans le fichier
+        if(file_exists($path) && is_file($path)){
+            $data = json_decode(file_get_contents($path),true);
+            $cFields = $data["catalogHeader"];
+            $formattedData = $data['formattedData'];
+        }
+        else{
+            throw $this->createNotFoundException("le catalogue désiré est introuvable");
         }
 
-
-        return $this->render('catalogue/preview.html.twig',array(
+        $response = $this->render('catalogue/preview.html.twig',array(
             "formattedData"=>$formattedData,
         ));
 
+        // on cache pour 1 mois
+        $maxAge = 2592000; //2592000
+        $response->setPublic();
+        $response->setMaxAge($maxAge);
+        $response->setSharedMaxAge($maxAge);
+
+        $date = new \DateTime();
+        $date->modify('+1 month');
+        $response->setExpires($date);
+
+        $response->setEtag(md5($response->getContent()));
+        $response->setLastModified(new \DateTime());
+        $response->isNotModified($request);
+
+        return $response;
     }
 
 }

@@ -4,6 +4,7 @@ parameters:
     #parameter_name: value
     public_upload_directory: '%kernel.project_dir%/web/upload/public'
     private_upload_directory: '%kernel.project_dir%/web/upload/private'
+    watch_link_dir: '%kernel.project_dir%/web/watch_link'
 
 services:
     # default configuration for services in *this* file
