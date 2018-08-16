@@ -13,9 +13,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 class CateroryController extends Controller
 {
 	/**
-    * @Route("/{slug}", name="index", requirements={"slug":"\w+"})
+    * @Route("/{slug}", name="index", requirements={"slug":"[\w-]+"})
     */
     public function indexAction($slug){
-    	return $this->render('category/index.html.twig');
+    	return $this->forward('AppBundle:Movie:index',[],['category'=>$slug]);
     }
 }

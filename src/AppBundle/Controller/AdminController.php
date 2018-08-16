@@ -10,6 +10,7 @@ use AppBundle\Entity\User;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\Department;
 use AppBundle\Entity\WebsiteMail;
+use AppBundle\Entity\Catalog;
 
 
 use AppBundle\Form\UserProfilType;
@@ -84,9 +85,9 @@ class AdminController extends Controller
     }
 
     public function renderCatalogTodoList(){
-        /*$em = $this->getDoctrine()->getManager();
-        $rep = $em->getRepository(Movie::class);*/
-        $lists = [];
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Catalog::class);
+        $lists = $rep->findBy([],["id"=>"desc"],4);
         return $this->render('admin/accueil/catalog-todo-list.html.twig',['lists'=>$lists]);
     }
 

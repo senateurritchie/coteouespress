@@ -1,9 +1,9 @@
 <div class="box box-primary">
     <div class="box-header with-border">
-        <h3 class="box-title">Demande de catalogue</h3>
+        <h3 class="box-title">Création de catalogue</h3>
 
         <div class="box-tools pull-right">
-            <span class="label label-primary">les 4 derniers demandes</span>
+            <span class="label label-primary">les 4 derniers</span>
 
             <button type="button" class="btn btn-box-tool" data-widget="collapse">
                 <i class="fa fa-minus"></i>
@@ -16,19 +16,44 @@
     <div class="box-body">
         <ul class="products-list product-list-in-box">
 
-            {% for item in 0..2 %}
+            {% for item in lists %}
                 <li class="item">
                     <div class="product-img">
                         <img src="{{ asset('admin/dist/img/user1-128x128.jpg') }}" alt="Product Image">
                     </div>
                     
                     <div class="product-info">
-                        <a data-title="priorité" data-toggle="tooltip" href="javascript:void(0)" class="product-title">Anna Alix
-                            <span class="label label-warning pull-right">il ya 2 jours</span>
+                        <a target="_blank" href="{{ path('catalog_watch_link',{'token':item.token}) }}" class="product-title">  {{ item.creator.username|lower|title}}
+                            {% set hours =  item.createAt|dateDiff(date("now"))|date("%H") %}
+                            {% set minutes =  item.createAt|dateDiff(date("now"))|date("%I") %}
+                            {% set seconds =  item.createAt|dateDiff(date("now"))|date("%s") %}
+
+                            {% set days =  item.createAt|dateDiff(date("now"))|date("%a") %}
+                            {% set weeks =  (days / 7)|round(0,'floor') %}
+                            {% set months =  (weeks / 4)|round(0,'floor') %}
+                            {% set years =  (months / 12)|round(0,'floor') %}
+                            <span class="label label-warning pull-right">
+                                il ya 
+                                {% if years %}
+                                    {{ years }} ans
+                                {% elseif months %}
+                                    {{ months }} mois
+                                {% elseif weeks %}
+                                    {{ weeks }} semaines
+                                {% elseif days %}
+                                    {{ days }} jours
+                                {% elseif hours != "00" %}
+                                    {{ hours  }} heures
+                                {% elseif minutes != "00" %}
+                                    {{ minutes }} minutes
+                                {% else %}
+                                    A l'instant
+                                {% endif %}
+                            </span>
                         </a>
                         
                         <span class="product-description">
-                            Coucou Maï stp pour un client. merci.
+                            {{item.token}}
                         </span>
                     </div>
                 </li>

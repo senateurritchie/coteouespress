@@ -228,7 +228,8 @@
                                             <ul class="navbar-nav flex-column w-100 ">
                                                 {% for item in categories %}
                                                     <li class="nav-item active ">
-                                                        <a class="nav-link text-white" href="?category={{item.slug}}">
+                                                        <a class="nav-link text-white" href="{{ path('category_index',{'slug':item.slug}) }}">
+                                                        <!--a class="nav-link text-white" href="?category={{item.slug}}"-->
                                                             {{item.name|lower|title}} 
                                                             <span class="sr-only">(current)</span>
 
@@ -243,7 +244,9 @@
 
                                 <div class="mt-4" >
                                     {% for tag in genres %}
-                                        <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1">
+                                        <a href="{{ path('genre_index',{'slug':tag.slug}) }}" class="badge badge-pill badge-info p-2 mb-1">
+
+                                        <!--a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1"-->
                                             {{tag.name|lower|title}} <span class="badge badge-light">{{tag.movieNbr|lower|title}}</span>
                                         </a>
                                     {% endfor %}

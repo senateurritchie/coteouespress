@@ -16,6 +16,6 @@ class GenreController extends Controller
     * @Route("/{slug}", name="index", requirements={"slug":"[\w-]+"})
     */
     public function indexAction($slug){
-    	return $this->render('genre/index.html.twig');
+    	return $this->forward('AppBundle:Movie:index',[],['genre'=>$slug]);
     }
 }
