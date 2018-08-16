@@ -144,9 +144,6 @@ class MovieController extends Controller{
                 
             });
 
-            
-
-           
     		return $this->render('movie/movie-single.html.twig',array(
                 "programme"=>$programme,
                 "vimeoRsrc"=>$vimeoRsrc,
@@ -158,7 +155,9 @@ class MovieController extends Controller{
     	$form = $this->createForm(CatalogType::class,$catalogue);
     	$params = $request->query->all();
 
-    	$params["locale"] = $request->getLocale();
+        $params["locale"] = $request->getLocale();
+        //$params["published"] = "yes";
+
     	$data = $rep->search($params,$limit,$offset);
 
         if($request->isXmlHttpRequest()){
@@ -169,7 +168,7 @@ class MovieController extends Controller{
                 $charset = $item->getAttribute('charset', 'utf-8');
                 $quality = $item->getQuality();
 
-                return $this->render('catalogue/search-movies-render.html.twig',array(
+                return $this->render('movie/search-movies-render.html.twig',array(
                     "programmes"=>$data,
                 ));
             }

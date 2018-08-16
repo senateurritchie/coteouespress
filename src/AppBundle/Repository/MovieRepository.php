@@ -48,7 +48,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
         // recherche par published
         if(isset($params["published"])) {
-             $params["published"] = ($params["published"] == "yes");
+            $params["published"] = ($params["published"] == "yes" || $params["published"] == 1);
             $this->whereIsPublished($qb,@$params["published"]);
         }
 
@@ -214,9 +214,10 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
     }
 
 	public function whereTerms(QueryBuilder $qb,$value){
+        $terms_1 = $value;
 
 		$qb->andWhere($qb->expr()->orX(
-			"(MATCH_AGAINST(m.slug,m.synopsis, :terms_1) > 0",
+            "(MATCH_AGAINST(m.name,m.synopsis, :terms_1) > 0",
 			"m.slug LIKE :terms_2)"
 		))
 	    ->setParameter("terms_1",$value)

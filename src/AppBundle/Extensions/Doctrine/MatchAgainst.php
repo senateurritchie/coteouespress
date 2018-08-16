@@ -42,7 +42,7 @@ class MatchAgainst extends FunctionNode {
         if ($this->mode) {
             $query .= " " . $this->mode->dispatch($sqlWalker) . " )";
         } else {
-            $query .= " IN BOOLEAN MODE)";
+            $query .= " )";
         }
         return $query;
     }

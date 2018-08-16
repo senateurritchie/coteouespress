@@ -11,7 +11,7 @@ use Gedmo\Translatable\Translatable;
 /**
  * Movie
  *
- * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"slug","synopsis"},flags={"fulltext"})})
+ * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"name","synopsis"},flags={"fulltext"}),@ORM\Index(columns={"name"},flags={"fulltext"}),@ORM\Index(columns={"synopsis"},flags={"fulltext"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -61,8 +61,8 @@ class Movie implements Translatable
     *
     * @Groups({"group1","group2"})
     * @Assert\NotBlank
-    * @Assert\Length(min=3, max=50)
-    * @ORM\Column(name="name", type="string", length=50, unique=true)
+    * @Assert\Length(min=3, max=250)
+    * @ORM\Column(name="name", type="string", length=250, unique=true)
     */
     private $name;
 
@@ -71,7 +71,7 @@ class Movie implements Translatable
     *
     * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
-    * @ORM\Column(name="slug", type="string", length=30, unique=true)
+    * @ORM\Column(name="slug", type="string", length=250, unique=true)
     */
     private $slug;
 

@@ -53,16 +53,24 @@
                         </a>
                         
                         <span class="product-description">
-                            {{item.token}}
+                            à généré un lien de visionnage avec le code 
+                            <br>
+                            <a target="_blank" href="{{ path('catalog_watch_link',{'token':item.token}) }}">
+                                <i>{{item.token}}</i>
+                            </a>
                         </span>
                     </div>
+                </li>
+            {% else %}
+                <li>
+                    Aucun catalogue généré pour le moment.
                 </li>
             {% endfor %}
         </ul>
     </div>
     <!-- /.box-body -->
     <div class="box-footer text-center">
-        <a href="javascript:void(0)" class="uppercase">Voir plus</a>
+        <a href="{{ path('admin_catalog_index') }}" class="uppercase">Voir plus</a>
     </div>
     <!-- /.box-footer -->
 </div>

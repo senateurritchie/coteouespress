@@ -33,7 +33,7 @@
         <div class="tab-content">
 
             <div class="tab-pane active" id="m-preview-metadata">
-				{{ include('admin/export/tab-metadata.html.twig') }}
+				{{ include('admin/catalog/tab-metadata.html.twig') }}
             </div>
 
             <div class="tab-pane" id="m-preview-pdf" >
@@ -55,7 +55,7 @@
 							</a>
                             
                             {% if not app.request.query.has('catalog_token') %}
-                                <a href="{{ path('admin_export_save',exportSave) }}"  class="btn btn-primary btn-sm">
+                                <a href="{{ path('admin_catalog_save',exportSave) }}"  class="btn btn-primary btn-sm">
                                     <i class="fa fa-link"></i> Lien de visionnage
                                 </a>
                             {% endif %}
@@ -63,7 +63,7 @@
 					</div>
 
 					<div class="box-body table-responsive no-padding">
-                		{{ include('admin/export/tab-pdf.html.twig') }}
+                		{{ include('admin/catalog/tab-pdf.html.twig') }}
                 	</div>
 
                 	<div class="box-footer hidden-print">

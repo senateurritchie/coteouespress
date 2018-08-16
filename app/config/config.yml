@@ -37,10 +37,10 @@ framework:
     php_errors:
         log: true
 
-    profiler:
-        collect: false
-        only_exceptions: true
-        only_master_requests: false
+    # profiler:
+    #     collect: false
+    #     only_exceptions: true
+    #     only_master_requests: false
 
 
 # Twig Configuration

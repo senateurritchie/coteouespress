@@ -17,12 +17,20 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
 /**
-* @Route("/admin/export", name="admin_export_")
+* @Route("/admin/catalog", name="admin_catalog_")
 */
-class AdminExportController extends Controller
+class AdminCatalogController extends Controller
 {
     /**
-    * @Route("/", name="preview")
+    * @Route("/", name="index")
+    * @Method({"GET"})
+    */
+    public function indexAction(Request $request){
+
+    }
+
+    /**
+    * @Route("/preview", name="preview")
     * @Method({"GET"})
     */
     public function previewAction(Request $request){
@@ -36,7 +44,7 @@ class AdminExportController extends Controller
 
         if($request->query->has('catalog_token') && $request->attributes->has('_forwarded')){
             $attributes = $request->attributes->get('_forwarded');
-            if($attributes->get('_route') == "admin_export_watch_link"){
+            if($attributes->get('_route') == "admin_catalog_watch_link"){
 
                 $path = [$this->getParameter('watch_link_dir')];
                 $path[] = $request->query->get('catalog_token').".json";
@@ -236,7 +244,7 @@ class AdminExportController extends Controller
         if($request->query->has('catalog_token') && $request->attributes->has('_forwarded')){
             $attributes = $request->attributes->get('_forwarded');
 
-            if($attributes->get('_route') == "admin_export_watch_link"){
+            if($attributes->get('_route') == "admin_catalog_watch_link"){
 
                 $path = [$this->getParameter('watch_link_dir')];
                 $dir = implode("/", $path );
@@ -257,7 +265,7 @@ class AdminExportController extends Controller
         }
 
         render_step:
-        return $this->render('admin/export/catalog.html.twig',array(
+        return $this->render('admin/catalog/preview.html.twig',array(
             "formattedData"=>$formattedData,
             "catalogHeader"=>$cFields,
         ));
@@ -284,7 +292,7 @@ class AdminExportController extends Controller
         unset($params["_token"]);
         $params["catalog_token"] = $token;
 
-        $response = $this->forward("AppBundle:AdminExport:preview",[],$params);
+        $response = $this->forward("AppBundle:AdminCatalog:preview",[],$params);
         
         return $response;
     }
@@ -321,7 +329,7 @@ class AdminExportController extends Controller
             $em->persist($item);
             $em->flush();
 
-            return $this->redirectToRoute("admin_export_watch_link",['token'=>$item->getToken()]);
+            return $this->redirectToRoute("admin_catalog_watch_link",['token'=>$item->getToken()]);
             /*
             $result["message"] = "Votre lien de visionnage à bien été créee, vous pour dès maintenant le partager. la durée de validité est de 1 semaine.";
             $result["status"] = true;*/
