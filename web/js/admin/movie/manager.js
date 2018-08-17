@@ -484,7 +484,9 @@ var AdminManager = AdminManager || {};
 			});
 			document.addEventListener("dragleave",e=>{
 				e.preventDefault();
-				$(document.body).removeClass('dragenter');
+				if(e.currentTarget == document){
+					$(document.body).removeClass('dragenter');
+				}
 			});
 			document.addEventListener("dragend",e=>{
 				e.preventDefault();

@@ -7,6 +7,7 @@
 {% set use_modal = 'add' %}
 
 {% set is_search_opened = app.request.query.has('search_on') %}
+{% set exportData = app.request.query.all() %}
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -88,6 +89,8 @@
 			border: 2px dashed #00a7d0;
 		}
 
+
+
 		.data-item .data-item-image img{
 			width: 50px;
 			height: 50px;
@@ -131,6 +134,54 @@
 		    pointer-events: none;
 		}
 	</style>
+
+	<!-- Le panier -->
+	<style>
+
+		
+		#cart{
+			position:absolute;
+			right:10px;
+			top:60px;
+			width:25%;
+			z-index:100;
+
+			-webkit-transition:.2s linear all;
+		    -moz-transition:.2s linear all;
+		    -o-transition:.2s linear all;
+		    transition:.2s linear all;
+		}
+
+		#cart .info-box-number{
+			position: absolute;
+			top: 10px;
+			left: 3px;
+			display: inline-block;
+			font-size: 3rem;
+		}
+
+		#cart .info-box-content{
+			position: relative;
+		}
+
+		#cart .btn{
+			position: absolute;
+			bottom: -5px;
+			right: 5px;
+		}
+
+		body.cart-dragenter #cart{
+			-webkit-transition:.2s linear all;
+		    -moz-transition:.2s linear all;
+		    -o-transition:.2s linear all;
+		    transition:.2s linear all;
+
+			position: fixed;
+			top: 50%;
+			left: 20%;
+		}
+
+    </style>
 
 {% endblock %}
 
@@ -242,6 +293,36 @@
         </div>
     {% endfor %}
 
+    
+
+
+    <div id="cart">
+		<div class="row">
+			<div class="col-md-12 col-sm-12 col-xs-12">
+				<div class="info-box" >
+		            <span class="info-box-icon bg-blue">
+		            	<i class="ion ion-ios-cart-outline"></i>
+		            	<span class="info-box-number badge bg-red">0</span>
+		            </span>
+
+		            <div class="info-box-content">
+		              	<span class="info-box-text">Ma selection</span>
+
+		              	<p>
+		              		Ajouter au panier pour générer un catalogue
+		              	</p>
+
+		              	<a  href="{{ path('admin_catalog_preview',exportData) }}"  class="btn btn-primary btn-sm">
+	                        <i class="fa fa-download"></i>  Exporter
+	                    </a>
+		            </div>
+		       	</div>
+			</div>
+		</div>
+	</div>
+
+
+
 	<div class="row">
     	<div class="col-xs-12 col-md-12">
 
@@ -256,15 +337,15 @@
 		  				<i class="fa fa-plus"></i> Metadonnées
 		  			</button>
 
-                	{% set exportData = app.request.query.all() %}
-                	<span class="pull-right">
-                		<a  href="{{ path('admin_catalog_preview',exportData) }}"  class="btn btn-warning btn-sm">
-                            <i class="fa fa-download"></i>  Exporter
-                        </a>
+                	<span class="">
+			
                 	</span>
                     
     			</div>
     		</div>
+
+			
+    		
 
     		<br>
 
@@ -606,9 +687,27 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
 
-	<script src="{{ asset('js/admin/manager.js') }}"></script>
-	<script src="{{ asset('js/admin/movie/manager.js') }}"></script>
-	<script src="{{ asset('js/admin/movie/index.js') }}"></script>
+	<script src="{{ asset('js/admin/manager.js','js') }}"></script>
+	<script src="{{ asset('js/admin/movie/manager.js','js') }}"></script>
+	<script src="{{ asset('js/admin/movie/index.js','js') }}"></script>
+	<script src="{{ asset('js/plugins/Cart.js','js') }}"></script>
 	
+	<script>
+		$(document).ready(function($){
+			var nsp = AdminManager;
+
+			var cart = new nsp.plugins.Cart();
+			cart.subscribe(evt=>{
+
+            })
+
+            cart.init({
+            	entries:'.cart-entry',
+            	container:'#cart',
+            })
+
+            
+		});
+	</script>
 {% endblock %}
 
