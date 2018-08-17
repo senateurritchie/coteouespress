@@ -28,6 +28,9 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         }
 
         $params = array_filter($params,function($el){
+            if(is_array($el)){
+                return $el;
+            }
             return strip_tags(trim($el));
         });
 
@@ -209,8 +212,13 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 	}
 
     public function whereId(QueryBuilder $qb,$value){
-        $qb->andWhere($qb->expr()->eq("m.id",":id"))
-        ->setParameter("id",$value);
+        if(is_array($value)){
+            $qb->andWhere($qb->expr()->in("m.id",":id"));
+        }
+        else{
+            $qb->andWhere($qb->expr()->eq("m.id",":id"));
+        }
+        $qb->setParameter("id",$value);
     }
 
 	public function whereTerms(QueryBuilder $qb,$value){

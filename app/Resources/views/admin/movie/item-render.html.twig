@@ -1,11 +1,12 @@
 {% for item in data %}
 	<tr class="data-item" data-id="{{ item.id }}">
 		<td class="data-item-image" valign="top">
+			
 			<a draggable="true" href="{{ path('movie_index',{'slug':item.slug}) }}" target="_blank" data-title="afficher sur le site" data-toggle="tooltip" class="cart-entry">
 				{% if item.portraitImg %}
-					<img  src="{{ asset('upload/public/'~item.portraitImg) }}" alt="" />
+					<img  src="{{ absolute_url(asset('upload/public/'~item.portraitImg)) }}" alt="" />
 				{% else %}
-					<img  src="{{ asset('admin/dist/img/default-50x50.gif') }}">
+					<img  src="{{ absolute_url(asset('admin/dist/img/default-50x50.gif')) }}">
 				{% endif %}
 			</a>
 		</td>

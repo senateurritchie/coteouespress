@@ -27,8 +27,11 @@ class UserRepository extends \Doctrine\ORM\EntityRepository implements UserLoade
 		$qb = $this->createQueryBuilder("u");
 
 		$params = array_filter($params,function($el){
-			return strip_tags(trim($el));
-		});
+            if(is_array($el)){
+                return $el;
+            }
+            return strip_tags(trim($el));
+        });
 
 		// recherche par terms
 		if(@$params["q"]){

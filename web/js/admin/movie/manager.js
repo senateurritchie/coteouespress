@@ -189,6 +189,7 @@ var AdminManager = AdminManager || {};
 	  		});
 		};
 
+
 		return MovieRepository;
 	})();
 
@@ -981,7 +982,6 @@ var AdminManager = AdminManager || {};
 				var input = obj.find('input[type=file]');
 				input.trigger('click');
 			});
-
 
 			
 			var scroller = nsp.container.get('Scroller');

@@ -13,8 +13,11 @@ class CatalogRepository extends \Doctrine\ORM\EntityRepository
 {
 	public function addWhereClause(&$qb,&$params){
 		$params = array_filter($params,function($el){
-			return strip_tags(trim($el));
-		});
+            if(is_array($el)){
+                return $el;
+            }
+            return strip_tags(trim($el));
+        });
 
 		// recherche par id
 		if(@$params["id"]){

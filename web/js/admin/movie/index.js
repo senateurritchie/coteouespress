@@ -146,4 +146,30 @@ $(document).ready(function($){
 			})
 		}
 	});
+
+
+	var cart = new nsp.plugins.Cart();
+	cart.subscribe(event=>{
+		
+    });
+
+    cart.init({
+    	entries:'.cart-entry',
+    	container:'#cart',
+    });
+
+    var storage = cart.loadStorage();
+	cart.render(storage,'cookies');
+	cart.emit(new nsp.Event('initialized'));
+
+
+    /*repository.cartRequest(new nsp.Event(''),"GET")
+	.then(data=>{
+		if(data && data.hasOwnProperty('data') && data.data instanceof Array){
+			cart.render(data.data,'cookies');
+		}
+		cart.emit(new nsp.Event('initialized'));
+	},msg=>{
+		cart.emit(new nsp.Event('initialized'));
+	});*/
 });

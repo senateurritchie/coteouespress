@@ -140,21 +140,32 @@
 
 		
 		#cart{
+			-webkit-transition:.5s linear all;
+		    -moz-transition:.5s linear all;
+		    -o-transition:.5s linear all;
+		    transition:.5s linear all;
+
 			position:absolute;
-			right:10px;
+			right:15px;
 			top:60px;
 			width:25%;
 			z-index:100;
+			background: #ffffff;
+			display: none;
+			border: 1px solid #ccc;
+		}
 
-			-webkit-transition:.2s linear all;
-		    -moz-transition:.2s linear all;
-		    -o-transition:.2s linear all;
-		    transition:.2s linear all;
+		#cart.ready{
+			display: block;
+		}
+
+		#cart .info-box{
+			margin-bottom: 0px;
 		}
 
 		#cart .info-box-number{
 			position: absolute;
-			top: 10px;
+			top: -10px;
 			left: 3px;
 			display: inline-block;
 			font-size: 3rem;
@@ -164,11 +175,13 @@
 			position: relative;
 		}
 
-		#cart .btn{
+		#cart .info-box-footer{
 			position: absolute;
-			bottom: -5px;
+			bottom: -25px;
+			left: 5px;
 			right: 5px;
 		}
+
 
 		body.cart-dragenter #cart{
 			-webkit-transition:.2s linear all;
@@ -177,8 +190,35 @@
 		    transition:.2s linear all;
 
 			position: fixed;
-			top: 50%;
+			top: 40%;
 			left: 20%;
+		}
+
+		#cart .cart-list{
+
+			-webkit-transition:.2s linear all;
+		    -moz-transition:.2s linear all;
+		    -o-transition:.2s linear all;
+		    transition:.2s linear all;
+			
+			height: 0px;
+			padding: 0px;
+			overflow-x: hidden;
+			overflow-y: auto;
+			box-shadow: inset 0 0 10px #000000;
+			position: relative;
+		}
+
+
+
+		#cart.open .cart-list{
+			-webkit-transition:.2s linear all;
+		    -moz-transition:.2s linear all;
+		    -o-transition:.2s linear all;
+		    transition:.2s linear all;
+
+			height: 300px;
+			padding: 10px;
 		}
 
     </style>
@@ -301,21 +341,39 @@
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="info-box" >
 		            <span class="info-box-icon bg-blue">
-		            	<i class="ion ion-ios-cart-outline"></i>
+		            	<a href="" style="color:#ffffff" class="cart-open-list">
+		            		<i class="ion ion-ios-cart-outline"></i>
+		            	</a>
 		            	<span class="info-box-number badge bg-red">0</span>
 		            </span>
 
 		            <div class="info-box-content">
-		              	<span class="info-box-text">Ma selection</span>
+
+		            	<span class="info-box-text">Ma selection</span>
 
 		              	<p>
-		              		Ajouter au panier pour générer un catalogue
+		              		Glisser ici pour ajouter au panier
 		              	</p>
+						
+						<div class="info-box-footer">
+							<a  href=""  class="btn btn-primary btn-sm cart-open-list">
+		                        <i class="fa fa-eye"></i>  voir la liste
+		                    </a>
 
-		              	<a  href="{{ path('admin_catalog_preview',exportData) }}"  class="btn btn-primary btn-sm">
-	                        <i class="fa fa-download"></i>  Exporter
-	                    </a>
+		                    <a  href="{{ path('admin_catalog_preview',exportData) }}"  class="btn btn-primary btn-sm cart-export-list pull-right">
+		                        <i class="fa fa-download"></i>  Exporter
+		                    </a>
+						</div>
+		              	
 		            </div>
+		       	</div>
+
+		       	<div  class="cart-list">
+		       		<div class="table-responsive no-padding">
+		       			<table class="table table-hover">
+		              		<tbody></tbody>
+	              		</table>
+		       		</div>
 		       	</div>
 			</div>
 		</div>
@@ -533,7 +591,7 @@
             	<!-- /.box-header -->
             	<div class="box-body table-responsive no-padding" id="data-container">
               		<table class="table table-hover">
-		                <tbody>
+		                <thead>
 		                	<tr>
 		                 		<th>Image</th>
 		                 		<th>Name</th>
@@ -549,10 +607,11 @@
 		                 		<th style="text-align:center">Status</th>
 		                 		<th style="text-align:center">Vimeo</th>
 		                 		{#<th style="text-align:center">Ajouté le</th>#}
-		                	</tr>
-	                		
-	                		{{ include('admin/movie/item-render.html.twig') }}
-	               
+		                	</tr>	               
+	              		</thead>
+
+	              		<tbody>
+	              			{{ include('admin/movie/item-render.html.twig') }}
 	              		</tbody>
               		</table>
             	</div>
@@ -693,21 +752,7 @@
 	<script src="{{ asset('js/plugins/Cart.js','js') }}"></script>
 	
 	<script>
-		$(document).ready(function($){
-			var nsp = AdminManager;
-
-			var cart = new nsp.plugins.Cart();
-			cart.subscribe(evt=>{
-
-            })
-
-            cart.init({
-            	entries:'.cart-entry',
-            	container:'#cart',
-            })
-
-            
-		});
+		
 	</script>
 {% endblock %}
 

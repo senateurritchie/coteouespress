@@ -84,42 +84,44 @@ class MovieController extends Controller{
 
                 if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
 
-                    $e = array_map(function($el){
-                        $code = array_slice(explode("/", $el['uri']),-1)[0];
-                        return array(
-                            "code"=>$code,
-                            "name"=>$el['name'],
-                            "uri"=>$el['uri'],
-                            "description"=>$el['description'],
-                            "description"=>$el['description'],
-                            "link"=>$el['link'],
-                            "duration"=>$el['duration'],
-                            "width"=>$el['width'],
-                            "height"=>$el['height'],
-                            "created_time"=>$el['created_time'],
-                            "modified_time"=>$el['modified_time'],
-                            "content_rating"=>$el['content_rating'],
-                            "license"=>$el['license'],
-                            "privacy"=>$el['privacy'],
-                            "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
-                            "thumbnail"=>$el['pictures']["sizes"][0]['link'],
-                        );
+                    if($response['status'] == 200){
+                        $e = array_map(function($el){
+                            $code = array_slice(explode("/", $el['uri']),-1)[0];
+                            return array(
+                                "code"=>$code,
+                                "name"=>$el['name'],
+                                "uri"=>$el['uri'],
+                                "description"=>$el['description'],
+                                "description"=>$el['description'],
+                                "link"=>$el['link'],
+                                "duration"=>$el['duration'],
+                                "width"=>$el['width'],
+                                "height"=>$el['height'],
+                                "created_time"=>$el['created_time'],
+                                "modified_time"=>$el['modified_time'],
+                                "content_rating"=>$el['content_rating'],
+                                "license"=>$el['license'],
+                                "privacy"=>$el['privacy'],
+                                "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
+                                "thumbnail"=>$el['pictures']["sizes"][0]['link'],
+                            );
 
-                    },$response['body']['data']);
+                        },$response['body']['data']);
 
-                    $data = [];
+                        $data = [];
 
-                    foreach ($videos as $el) {
-                        foreach ($e as $key => $el2) {
-                            if($el == $el2['link']){
-                                $data[] = $el2;
-                                break;
+                        foreach ($videos as $el) {
+                            foreach ($e as $key => $el2) {
+                                if($el == $el2['link']){
+                                    $data[] = $el2;
+                                    break;
+                                }
                             }
                         }
-                    }
-                    
-                    if($fn){
-                        $ret = call_user_func($fn,$data);
+                        
+                        if($fn){
+                            $ret = call_user_func($fn,$data);
+                        }
                     }
                 }
             };

@@ -15,8 +15,11 @@ class DirectorRepository extends \Doctrine\ORM\EntityRepository
 		$qb = $this->createQueryBuilder("u");
 
 		$params = array_filter($params,function($el){
-			return strip_tags(trim($el));
-		});
+            if(is_array($el)){
+                return $el;
+            }
+            return strip_tags(trim($el));
+        });
 
 		// recherche par terms
 		if(@$params["q"]){

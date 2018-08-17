@@ -16,6 +16,9 @@ class WebsiteMailRepository extends \Doctrine\ORM\EntityRepository
         $qb = $this->createQueryBuilder("u");
 
         $params = array_filter($params,function($el){
+            if(is_array($el)){
+                return $el;
+            }
             return strip_tags(trim($el));
         });
 

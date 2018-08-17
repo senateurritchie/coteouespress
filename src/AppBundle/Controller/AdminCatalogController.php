@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Cookie;
 
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\Catalog;
@@ -318,6 +319,9 @@ class AdminCatalogController extends Controller
         if(($data = $rep->count($params))){
 
             $params = array_filter($params,function($el){
+                if(is_array($el)){
+                    return $el;
+                }
                 return strip_tags(trim($el));
             });
                 
