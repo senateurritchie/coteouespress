@@ -13,7 +13,6 @@
 
 <div class="row">
     <div class="col-md-4">
-
         {{ form_row(form.language) }}
     </div>
     <div class="col-md-4">
@@ -286,7 +285,47 @@
     </div>
 </div>
 
+<div class="row">
 
+    <div class="col-md-4 has-collection">
+        {{ form_label(form.catalogs) }}
+
+        {% if use_modal is not defined %}
+            <div class="form-group collection-badge" data-alert="Voulez-vous vraiment retirer ce catalogue ?" data-route="catalog/delete">
+                {% for item in data.catalogs %}
+                    <div class="badge label-info old-value" data-id="{{ item.id }}">
+                        {{ item.catalog.name|lower|title }} 
+                        
+                        &nbsp;&nbsp;
+                        <a href="" data-title="supprimer" data-toggle="tooltip">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-group">
+           
+            {{ form_errors(form.catalogs) }}
+            {{ form_widget(form.catalogs) }}
+
+            <a href="" class="collection-add">
+                <i class="fa fa-plus"></i> ajouter
+            </a>
+        </div> 
+    </div>
+
+    <div class="col-md-4">
+        
+    </div>
+
+    <div class="col-md-4">
+        
+        
+    </div>
+</div>
 
 <hr>
 

@@ -89,28 +89,27 @@ $(document).ready(function($){
 		}
 	});
 
-	$("#data-container .data-item .data-item-tools .edit").on({
-		click:function(e){
-			e.preventDefault();
+	$("#data-container").on("click",".data-item .data-item-tools .edit",function(e){
 
-			var self = $(this);
-			self.addClass('disabled');
-			var id = self.data('id');
-			rightSection.addClass('data-loading');
+		e.preventDefault();
 
-			repository.find(id)
-			.then(data=>{
-				rightSection.addClass('data-active');
-				rightSection.removeClass('data-loading');
-				self.removeClass('disabled');
-				repository.setCurrent(data);
-				view.renderSelectedData(data);
+		var self = $(this);
+		self.addClass('disabled');
+		var id = self.data('id');
+		rightSection.addClass('data-loading');
 
-			},msg=>{
-				rightSection.removeClass('data-active');
-				rightSection.removeClass('data-loading');
-				self.removeClass('disabled');
-			})
-		}
+		repository.find(id)
+		.then(data=>{
+			rightSection.addClass('data-active');
+			rightSection.removeClass('data-loading');
+			self.removeClass('disabled');
+			repository.setCurrent(data);
+			view.renderSelectedData(data);
+
+		},msg=>{
+			rightSection.removeClass('data-active');
+			rightSection.removeClass('data-loading');
+			self.removeClass('disabled');
+		})
 	});
 });

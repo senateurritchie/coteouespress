@@ -832,6 +832,7 @@ var AdminManager = AdminManager || {};
 
 								if(event instanceof nsp.TranslationEvent){
 									if(~['end','fails'].indexOf(event.params.state)){
+
 										ref.unsubscribe();
 										modal.removeClass('fetching-translation');
 										var data = event.params.data;
@@ -1087,26 +1088,25 @@ var AdminManager = AdminManager || {};
 
 		MovieView.prototype.insertNewTranslation = function(lang,modal,data){
 
+			var select = `
+				<select class="translation-btn-add form-control" name="locale[]" >
+					<option value="">Selectionner une langue...</option>
+					<option value="fr">Français</option>
+					<option value="en">Anglais</option>
+					<option value="ar">Arabe</option>
+					<option value="pt">Portugais</option>
+				</select>
+			`;
+
 			var tranlationsDiv = modal.find('#translate-area-data');
-
-			var languagesClone = $("#originalLanguage").clone();
-    		languagesClone
-    		.attr('name','locale[]')
-    		.addClass('translation-btn-add')
-    		.removeAttr('required');
-
-    		languagesClone.find('option:first').html("Ajouter une langue...");
-    		languagesClone.val("");
-
-
+			var locale = $(select);
+			
 			var tpl = $(this.render(this.params.$tpl.translation,{}));
 
-			var locale = languagesClone.clone();
 			var taglineInput = tpl.find("[name*=tagline]");
 			var loglineInput = tpl.find("[name*=logline]");
 			var synopsisInput = tpl.find("[name*=synopsis]");
 			var responseMsg = tpl.find(".response-msg");
-			locale.val(lang);
 
 			if(typeof data != "undefined"){
 				taglineInput.val(data.tagline);
@@ -1124,6 +1124,8 @@ var AdminManager = AdminManager || {};
 					});
 				}
 			});
+
+			locale.val(lang).trigger('change');
 
 			tpl.find('.locale').append(locale);
 			tpl.find('button.remove').on({

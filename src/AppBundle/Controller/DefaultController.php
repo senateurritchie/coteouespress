@@ -43,12 +43,70 @@ class DefaultController extends Controller{
         $rep = $em->getRepository(Producer::class);
         $producer = $rep->findOneBy([],["id"=>"desc"]);
 
+
+        // video à voir
+        $vimeo_p = $this->getParameter('app.vimeo');
+            
+        $client_id = $vimeo_p['client_id'];
+        $client_secret = $vimeo_p['client_secret'];
+        $token = $vimeo_p['access_token'];
+        $vimeoRsrc = array();
+
+        $lib = new \Vimeo\Vimeo($client_id, $client_secret);
+        // use the token
+        $lib->setToken($token);
+        
+        $requestVimeo2 = function (callable $fn = null)use(&$lib){
+            $endpoint = '/me/videos';
+
+            if(($response = $lib->request($endpoint, ["query"=>"#trailer","direction"=>"desc","page"=>1,"per_page"=>4,"sort"=>"date"], 'GET'))){
+
+                if($response['status'] == 200){
+                    $e = array_map(function($el){
+                        $code = array_slice(explode("/", $el['uri']),-1)[0];
+                        return array(
+                            "code"=>$code,
+                            "name"=>$el['name'],
+                            "uri"=>$el['uri'],
+                            "description"=>$el['description'],
+                            "description"=>$el['description'],
+                            "link"=>$el['link'],
+                            "duration"=>$el['duration'],
+                            "width"=>$el['width'],
+                            "height"=>$el['height'],
+                            "created_time"=>$el['created_time'],
+                            "modified_time"=>$el['modified_time'],
+                            "content_rating"=>$el['content_rating'],
+                            "license"=>$el['license'],
+                            "privacy"=>$el['privacy'],
+                            "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
+                            "thumbnail"=>preg_replace("#(\d+x\d+)#", "350x197",$el['pictures']["sizes"][0]['link']),
+                        );
+
+                    },$response['body']['data']);
+
+                    if($fn){
+                        $ret = call_user_func($fn,$e);
+                    }
+                }
+            }
+        };
+
+
+        $requestVimeo2(function($data)use(&$vimeoRsrc){
+            foreach ($data as $i => $el) {
+                $vimeoRsrc[] = $el;
+            }
+        });
+
+
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
             "actors"=>$actors,
             "directors"=>$directors,
             "producer"=>$producer,
+            "vimeoRsrc"=>$vimeoRsrc,
         ));
     }
 

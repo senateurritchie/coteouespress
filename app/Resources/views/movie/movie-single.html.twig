@@ -151,16 +151,19 @@
                                 <strong>{{'Année'|trans({},'catalogue')}}</strong>
                             </td>
 
+                            {% set p_yearStart = programme.yearStart|date("Y") %}
+                            {% set p_yearEnd = programme.yearEnd|date("Y") %}
+
                             <td class="text-right">
                                 <div class="badge badge-secondary">
-                                    {{programme.yearStart|date("Y")}}
+                                    {{ p_yearStart }}
                                 </div>
 
-                                {% if programme.yearEnd %}
+                                {% if p_yearEnd and p_yearEnd != p_yearStart %}
                                     <span> à </span> 
 
                                     <div class="badge badge-secondary">
-                                        {{programme.yearEnd|date("Y")}}
+                                        {{ p_yearEnd }}
                                     </div>
                                 {% endif %}
                             </td>
@@ -222,7 +225,7 @@
 
                         {% for item in programme.directors|slice(0,2) %}
                             <div class="col-sm-6" >
-                                <a href="{{ path('producer_index',{'slug':item.director.slug}) }}" class="d-inline-block  has-detail text-white position-relative">
+                                <a href="{{ path('director_index',{'slug':item.director.slug}) }}" class="d-inline-block  has-detail text-white position-relative">
 
                                     {% if item.director.image %}
                                         <img class="img-fluid" src="{{ asset('upload/public/'~item.director.image)}}"  alt="{{ item.director.name|lower|title }}">

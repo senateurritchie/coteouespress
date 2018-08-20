@@ -20,6 +20,7 @@ use AppBundle\Entity\MovieActor;
 use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieScene;
+use AppBundle\Entity\MovieCatalog;
 
 use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
@@ -208,6 +209,18 @@ class AdminMovieController extends Controller
                 $e->setMovie($item);
                 $e->setDirector($el);
                 $e->setCreateAt($date);
+                $em->persist($e);
+            }
+
+            // gestion des catalogues
+            $catalogs = $form->get('catalogs')->getData();
+            $db = [];
+            foreach ($catalogs as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieCatalog();
+                $e->setMovie($item);
+                $e->setCatalog($el);
                 $em->persist($e);
             }
 
@@ -438,6 +451,18 @@ class AdminMovieController extends Controller
                     $e->setCreateAt($date);
                     $em->persist($e);
                 }
+            }
+
+            // gestion des catalogues
+            $catalogs = $form->get('catalogs')->getData();
+            $db = [];
+            foreach ($catalogs as $key => $el) {
+                if(in_array($el->getId(), $db)) continue;
+
+                $e = new MovieCatalog();
+                $e->setMovie($item);
+                $e->setCatalog($el);
+                $em->persist($e);
             }
 
 
@@ -858,6 +883,37 @@ class AdminMovieController extends Controller
 
         if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
             throw $this->createNotFoundException("Réalisateur introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/catalog/delete", requirements={"movie_id":"\d+"}, name="catalog_delete")
+    * @Method("POST")
+    */
+    public function catalogDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieCatalog::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Pays introuvable");
         }
 
         $em->remove($target);

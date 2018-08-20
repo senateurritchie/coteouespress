@@ -24,32 +24,29 @@ $(document).ready(function($){
 		}
 	});
 
-	$("#users-container .user-item .user-item-tools .edit").on({
-		click:function(e){
-			e.preventDefault();
+	$("#data-container").on("click",".data-item .data-item-tools .edit",function(e){
 
-			var self = $(this);
-			self.addClass('disabled');
-			var id = self.data('id');
-			rightSection.addClass('user-loading');
+		e.preventDefault();
 
-			repository.find(id)
-			.then(data=>{
-				rightSection.addClass('user-active');
-				rightSection.removeClass('user-loading');
-				self.removeClass('disabled');
-				view.renderCurrentUser(data);
-				repository.setCurrent(data);
-			},msg=>{
-				console.log(msg);
-				rightSection.removeClass('user-active');
-				rightSection.removeClass('user-loading');
-				self.removeClass('disabled');
-			})
-		}
+		var self = $(this);
+		self.addClass('disabled');
+		var id = self.data('id');
+		rightSection.addClass('user-loading');
+
+		repository.find(id)
+		.then(data=>{
+			rightSection.addClass('user-active');
+			rightSection.removeClass('user-loading');
+			self.removeClass('disabled');
+			view.renderCurrentUser(data);
+			repository.setCurrent(data);
+		},msg=>{
+			console.log(msg);
+			rightSection.removeClass('user-active');
+			rightSection.removeClass('user-loading');
+			self.removeClass('disabled');
+		})
 	});
-
-	
 
 
 });

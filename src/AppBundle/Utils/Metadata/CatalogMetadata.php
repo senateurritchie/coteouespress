@@ -31,6 +31,7 @@ use AppBundle\Entity\MovieCountry;
 use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieScene;
+use AppBundle\Entity\MovieCatalog;
 
 class CatalogMetadata extends Metadata{
 
@@ -88,6 +89,7 @@ class CatalogMetadata extends Metadata{
         $producers = [];
         $directors = [];
         $scenes = [];
+        $catalogs = [];
 
         foreach ($event->getValue() as $pos_f => $el) {
         	$field = $fields[$pos_f];
@@ -167,7 +169,6 @@ class CatalogMetadata extends Metadata{
                         $movie->setLogline($el->getValue());
                     break;
 
-                    
             		case 'Format':
             		    $movie->setFormat($el->getValue());
             		break;
@@ -228,6 +229,22 @@ class CatalogMetadata extends Metadata{
             		case 'Tagline_ar':
             			$trans->translate($movie, 'tagline', 'ar',$el->getValue());
             		break;
+
+                    case 'ESA':
+                    case 'FSA':
+                    case "ARABOPHONE":
+                    case "CINEMA":
+                    case "CLOSED CIRCUIT":
+                    case "DOM TOM":
+                    case "EDAN PAY TV":
+                    case "LUSOPHONE":
+                    case "SHORT FORMAT":
+                    case "VOD":
+                    case "WORLDWIDE":
+                        if(strtoupper($el->getValue()) == "OUI"){
+                            $catalogs[] = $field;
+                        }
+                    break;
             	}
             }
         }
@@ -236,55 +253,67 @@ class CatalogMetadata extends Metadata{
             $em->persist($movie);
 
             // les versions du programme
+            $db = [];
             if(count($versions)){
             	foreach ($versions as $key => $el) {
 	                $e = new MovieLanguage();
 	                $e->setMovie($movie);
 	                $e->setLanguage($el);
 	                $em->persist($e);
+                    $db[] = $el->getId();
 	            }
             }
 
             // les genres du programme
+            $db = [];
             if(count($genres)){
             	foreach ($genres as $key => $el) {
 	                $e = new MovieGenre();
 	                $e->setMovie($movie);
 	                $e->setGenre($el);
 	                $em->persist($e);
+                    $db[] = $el->getId();
 	            }
             }
 
             // les pays de productions du programme
+            $db = [];
             foreach ($countries as $key => $el) {
                 $e = new MovieCountry();
                 $e->setMovie($movie);
                 $e->setCountry($el);
                 $em->persist($e);
+                $db[] = $el->getId();
             }
 
             // les acteurs du programme
+            $db = [];
             foreach ($castings as $key => $el) {
                 $e = new MovieActor();
                 $e->setMovie($movie);
                 $e->setActor($el);
                 $em->persist($e);
+                $db[] = $el->getId();
             }
             
             // les producteurs du programme
+            $db = [];
             foreach ($producers as $key => $el) {
                 $e = new MovieProducer();
                 $e->setMovie($movie);
                 $e->setProducer($el);
                 $em->persist($e);
+                $db[] = $el->getId();
             }
 
             // les réalisateurs du programme
+            $db = [];
             foreach ($directors as $key => $el) {
                 $e = new MovieDirector();
                 $e->setMovie($movie);
                 $e->setDirector($el);
                 $em->persist($e);
+                $db[] = $el->getId();
             }
 
             // la gallery photo du programme
@@ -302,7 +331,23 @@ class CatalogMetadata extends Metadata{
                 imagejpeg($image,$path);
                 imagedestroy($image);
             }
-           
+
+            // gestion des catalogues
+            if(count($catalogs)){
+                $db = [];
+                $rep = $em->getRepository(\AppBundle\Entity\CatalogType::class);
+                if(($catalogs = $rep->findBy(["name"=>$catalogs]))){
+                    foreach ($catalogs as $key => $el) {
+                        if(in_array($el->getId(), $db)) continue;
+
+                        $e = new MovieCatalog();
+                        $e->setMovie($movie);
+                        $e->setCatalog($el);
+                        $em->persist($e);
+                        $db[] = $el->getId();
+                    }
+                }
+            }
         }
 	}
 

@@ -31,7 +31,7 @@ class Language implements Translatable
     *
     * @Groups({"group1","group2"})
     * @Gedmo\Translatable
-    * @ORM\Column(name="name", type="string", length=30, unique=true)
+    * @ORM\Column(name="name", type="string", length=100, unique=true)
     */
     private $name;
 
@@ -41,9 +41,17 @@ class Language implements Translatable
     * @Groups({"group1","group2"})
     * @Gedmo\Translatable
     * @Gedmo\Slug(fields={"name"})
-    * @ORM\Column(name="slug", type="string", length=30, unique=true)
+    * @ORM\Column(name="slug", type="string", length=100, unique=true)
     */
     private $slug;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="lang_code", type="string", length=5, nullable=true)
+    */
+    private $langCode;
 
     /**
     * @var integer
@@ -57,6 +65,7 @@ class Language implements Translatable
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime")
     */
     private $createAt;
@@ -203,5 +212,29 @@ class Language implements Translatable
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Language
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 }

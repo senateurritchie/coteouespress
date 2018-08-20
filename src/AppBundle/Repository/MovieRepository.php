@@ -87,11 +87,6 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereLanguage($qb,@$params["language"]);
         }
 
-        // recherche par createur
-        if(@$params["creator"]){
-            $this->whereCreator($qb,@$params["creator"]);
-        }
-
         // recherche par director
         if(@$params["director"]){
             $this->whereDirector($qb,@$params["director"]);
@@ -198,7 +193,6 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
             'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
         );
-
 
    		/*if(@$params["language"]){
 			$query->setHint(
@@ -324,34 +318,25 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         ->setParameter("language",$value);
   	}
 
-  	public function whereCreator(QueryBuilder $qb,$value){
-  		$qb2 = $this->_em->createQueryBuilder();
-
-      	$qb->andWhere(
-      		$qb->expr()->exists(
-      			$qb2->select("x2.id")
-      			->from(MovieCreator::class,"x2")
-      			->innerJoin("x2.movie","xm2")
-      			->innerJoin("x2.creator","xc2")
-      			->where("m.id = xm2.id")
-      			->andWhere("xc2.slug = :creator")
-      		)
-      	)
-      	->setParameter("creator",$value);
-  	}
 
   	public function whereDirector(QueryBuilder $qb,$value){
   		$qb2 = $this->_em->createQueryBuilder();
 
+        $qb2->select("x3.id")
+        ->from(MovieDirector::class,"x3")
+        ->innerJoin("x3.movie","xm3")
+        ->innerJoin("x3.director","xc3")
+        ->where("m.id = xm3.id");
+        
+        if(is_numeric($value)){
+            $qb2->andWhere("xc3.id = :director");
+        }
+        else{
+            $qb2->andWhere("xc3.slug = :director");
+        }
+
       	$qb->andWhere(
-      		$qb->expr()->exists(
-      			$qb2->select("x3.id")
-      			->from(MovieDirector::class,"x3")
-      			->innerJoin("x3.movie","xm3")
-      			->innerJoin("x3.director","xc3")
-      			->where("m.id = xm3.id")
-      			->andWhere("xc3.slug = :director")
-      		)
+      		$qb->expr()->exists($qb2)
       	)
       	->setParameter("director",$value);
   	}
@@ -359,15 +344,21 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
   	public function whereProducer(QueryBuilder $qb,$value){
   		$qb2 = $this->_em->createQueryBuilder();
 
+        $qb2->select("x4.id")
+        ->from(MovieProducer::class,"x4")
+        ->innerJoin("x4.movie","xm4")
+        ->innerJoin("x4.producer","xc4")
+        ->where("m.id = xm4.id");
+
+        if(is_numeric($value)){
+            $qb2->andWhere("xc4.id = :producer");
+        }
+        else{
+            $qb2->andWhere("xc4.slug = :producer");
+        }
+
       	$qb->andWhere(
-      		$qb->expr()->exists(
-      			$qb2->select("x4.id")
-      			->from(MovieProducer::class,"x4")
-      			->innerJoin("x4.movie","xm4")
-      			->innerJoin("x4.producer","xc4")
-      			->where("m.id = xm4.id")
-      			->andWhere("xc4.slug = :producer")
-      		)
+      		$qb->expr()->exists($qb2)
       	)
       	->setParameter("producer",$value);
   	}
@@ -375,15 +366,21 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
   	public function whereCountry(QueryBuilder $qb,$value){
   		$qb2 = $this->_em->createQueryBuilder();
 
+        $qb2->select("x5.id")
+        ->from(MovieCountry::class,"x5")
+        ->innerJoin("x5.movie","xm5")
+        ->innerJoin("x5.country","xc5")
+        ->where("m.id = xm5.id");
+
+        if(is_numeric($value)){
+            $qb2->andWhere("xc5.id = :country");
+        }
+        else{
+            $qb2->andWhere("xc5.code = :country");
+        }
+       
       	$qb->andWhere(
-      		$qb->expr()->exists(
-      			$qb2->select("x5.id")
-      			->from(MovieCountry::class,"x5")
-      			->innerJoin("x5.movie","xm5")
-      			->innerJoin("x5.country","xc5")
-      			->where("m.id = xm5.id")
-      			->andWhere("xc5.code = :country")
-      		)
+      		$qb->expr()->exists($qb2)
       	)
       	->setParameter("country",$value);
   	}

@@ -40,7 +40,7 @@ class ProducerType extends AbstractType
             },
             "choice_value"=>"slug",
             'group_by' => function($value, $key, $index) {
-                return strtoupper($value[0]);
+                return strtoupper($value->getSlug()[0]);
             },
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')

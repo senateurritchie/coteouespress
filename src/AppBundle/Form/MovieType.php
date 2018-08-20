@@ -32,6 +32,7 @@ use AppBundle\Entity\Language;
 use AppBundle\Entity\OriginalLanguage;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Country;
+
 use AppBundle\Form\ResourceType;
 
 class MovieType extends AbstractType
@@ -309,6 +310,25 @@ class MovieType extends AbstractType
             "required"=>false,
             "mapped"=>false,
         ))
+        ->add('catalogs',CollectionType::class,array(
+            'entry_type' => EntityType::class,
+            'entry_options' => array(
+                "class"=>\AppBundle\Entity\CatalogType::class,
+                "placeholder"=>"Catalogue...",
+                "attr"=>array("class"=>"input-sm"),
+                "choice_label"=>"name",
+                "attr"=>array("class"=>"input-sm"),
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('u')
+                    ->orderBy('u.name', 'ASC');
+                },
+            ),
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Catalogues",
+            "required"=>false,
+            "mapped"=>false,
+        ))
         ->add('gallery',CollectionType::class,array(
             'entry_type' => FileType::class,
             'entry_options' => array(
@@ -358,7 +378,8 @@ class MovieType extends AbstractType
                 ->remove('directors')
                 ->remove('languages')
                 ->remove('countries')
-                ->remove('genres');
+                ->remove('genres')
+                ->remove('catalogs');
             }
 
             if($options["use_for"] == "upload_gallery") {

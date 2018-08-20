@@ -361,6 +361,11 @@ class Movie implements Translatable
     private $directors;
     /**
     * @Groups({"group2"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieCatalog", mappedBy="movie")
+    */
+    private $catalogs;
+    /**
+    * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;
@@ -373,8 +378,8 @@ class Movie implements Translatable
 
 
     /**
-    * Constructor
-    */
+     * Constructor
+     */
     public function __construct()
     {
         $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
@@ -383,8 +388,12 @@ class Movie implements Translatable
         $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->scenes = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+
+    
 
     /**
      * Get id
@@ -1467,5 +1476,40 @@ class Movie implements Translatable
     public function getApprovedAt()
     {
         return $this->approvedAt;
+    }
+    
+
+    /**
+     * Add catalog
+     *
+     * @param \AppBundle\Entity\MovieCatalog $catalog
+     *
+     * @return Movie
+     */
+    public function addCatalog(\AppBundle\Entity\MovieCatalog $catalog)
+    {
+        $this->catalogs[] = $catalog;
+
+        return $this;
+    }
+
+    /**
+     * Remove catalog
+     *
+     * @param \AppBundle\Entity\MovieCatalog $catalog
+     */
+    public function removeCatalog(\AppBundle\Entity\MovieCatalog $catalog)
+    {
+        $this->catalogs->removeElement($catalog);
+    }
+
+    /**
+     * Get catalogs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCatalogs()
+    {
+        return $this->catalogs;
     }
 }

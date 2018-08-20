@@ -401,14 +401,17 @@
                     <div class="block-content" >
 
                         <div class="row">
-                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
-                                <a class="venobox"  data-vbtype="video" data-title="" data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
-                                    <img  class="img-fluid" src="{{ asset('img/vid1.jpg')}}" alt="">
-                                    <i class="video-icon video-popup-control"></i>
-                                </a>
-                            </div>
+                            {% for item in vimeoRsrc %}
+                                <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
 
-                            <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="" data-autoplay="true" data-gall="myGallery2" data-title="{{ item.name }}" >
+                                        <img  class="img-fluid" src="{{ item.thumbnail }}" alt="">
+                                        <i class="video-icon video-popup-control"></i>
+                                    </a>
+                                </div>
+                            {% endfor %}
+
+                            {#<div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
                                 <a class="venobox"  data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="https://www.youtube.com/embed/V_aDojXG8cM">
                                     <img class="img-fluid" src="{{ asset('img/vid2.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
@@ -427,7 +430,7 @@
                                     <img class="img-fluid" src="{{ asset('img/vid3.jpg')}}" alt="">
                                     <i class="video-icon video-popup-control"></i>
                                 </a>
-                            </div>
+                            </div>#}
                         </div>
                     
                     </div>
@@ -694,6 +697,7 @@
                 numeratio: true,
                 titleattr: 'data-title',
                 titlePosition: 'top',
+                titleColor:"#ffffff",
                 spinner: 'wandering-cubes',
                 spinColor: '#007bff',
                 autoplay:true
