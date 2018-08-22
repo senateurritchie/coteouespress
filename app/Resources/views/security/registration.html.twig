@@ -30,7 +30,7 @@
         <div class="row justify-content-center align-items-center" style="height:50vh">
 
             {% for notice in app.flashes('notice-success') %}
-                <div class="col-md-6 bg-white p-5">
+                <div class="col-md-6 bg-white p-4">
                     <div class="alert alert-info alert-dismissible">
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
@@ -42,9 +42,9 @@
                     
                 </div>
             {% else %}
-                <div class="col-md-4 shadow bg-white p-5">
+                <div class="col-md-4 shadow bg-white p-4">
                     {{ form_start(form) }}
-                        <legend>{{ 'Inscription'|trans({},'login') }}</legend>
+                        <legend>{{ 'Inscrivez-vous'|trans({},'login') }}</legend>
 
                         {{ form_row(form.username) }}
                         {{ form_row(form.email) }}
