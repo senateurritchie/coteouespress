@@ -73,7 +73,10 @@ $(document).ready(function($){
 
 			var limit = event.params.data.limit;
 			var offset = event.params.data.offset;
-			repository.findBy({},{},limit,offset)
+			repository.findBy({
+				headers:{accept:"text/html"},
+				dataType:'text'
+			},{},limit,offset)
 			.then(data=>{
 
 				view.emit(new nsp.InfiniteScrollEvent({
@@ -89,26 +92,33 @@ $(document).ready(function($){
 		}
 	});
 
-	$("#data-container").on("click",".data-item .data-item-tools .edit",function(e){
+	var modal = $("#modal-loading");
+
+	$("#data-container").on("click",".data-item .edit",function(e){
 
 		e.preventDefault();
 
 		var self = $(this);
 		self.addClass('disabled');
-		var id = self.data('id');
-		rightSection.addClass('data-loading');
+		var id = self.parents("tr").data('id');
+
+		modal.modal({backdrop:'static',show:true});
 
 		repository.find(id)
 		.then(data=>{
-			rightSection.addClass('data-active');
-			rightSection.removeClass('data-loading');
 			self.removeClass('disabled');
-			repository.setCurrent(data);
-			view.renderSelectedData(data);
+			repository.setCurrent(data.model);
+			var fn = (e)=> {
+				$('#modal-loading').off('hidden.bs.modal',fn);
+  				view.renderSelectedData(data.view);
+			};
 
+			$('#modal-loading').on('hidden.bs.modal',fn);
+
+			modal.modal('hide');
+			
 		},msg=>{
-			rightSection.removeClass('data-active');
-			rightSection.removeClass('data-loading');
+			modal.modal('hide');
 			self.removeClass('disabled');
 		})
 	});

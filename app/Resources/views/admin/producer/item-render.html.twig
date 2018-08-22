@@ -1,0 +1,24 @@
+{% for item in data %}
+	<tr class="data-item" data-id="{{ item.id }}">
+		<td class="data-item-image">
+			<a target="_blank" href="{{ path('producer_index',{'slug':item.slug}) }}">
+				{% if item.image %}
+					<img width="50" height="50"  src="{{ asset('upload/public/'~item.image) }}" alt="" />
+					
+				{% else %}
+					<img  width="50" height="50" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}">
+				{% endif %}
+			</a>
+		</td>
+
+		<td class="data-item-name">
+			<a data-id="{{ item.id }}" href="{{ path('producer_index',{'slug':item.slug}) }}" class="edit">
+				{{ item.name|lower|title }}
+			</a>
+		</td>
+
+		<td style="text-align:center">
+			{{ item.movieNbr }}
+		</td>
+	</tr>
+{% endfor %}

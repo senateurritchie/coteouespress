@@ -1,50 +1,132 @@
-{% extends 'base.html.twig' %}
+{% extends 'account/base.html.twig' %}
 
-{% block stylesheets %}
-    {{ parent() }}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
+{% block content %}
 
-     <style>
-        header #master-cover{
-            height: 200px;
-            background-image: url({{asset('img/illustrator-banner.jpg')}});
-        }
-    </style>
+    <div class="modal fade " id="profil-update" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    <h5 class="modal-title">Modifier ma fiche</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            
+                {{ form_start(form) }}
 
-{% endblock %}
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-4">
+                                {{ form_label(form.image) }}
+                                {{ form_errors(form.image) }}
+                                {{ form_widget(form.image,{'attr':{'class':'d-none'}}) }}
+                                <br>
+                                <div style="position:relative;display:inline-block">
+                                    {% if app.user.image %}
+                                        <img width="200" height="150" src="{{ asset('upload/public/'~(app.user.image|basename)) }}" alt="User Avatar">
+                                    {% else %}
+                                        <img width="200" height="150" src="{{ asset('img/vignette-landscape.png') }}" alt="User Avatar">
+                                    {% endif %}
 
-{% block body %}
-   
-    <header id="header">
-        {{ include('main-menu.html.twig') }}
+                                    <div style="position:absolute;bottom:0;left:0;right:0;padding:5px 10px 5px 10px;background:rgba(0,0,0,0.4);">
+                                        <a class="user-image" href="" style="display:block;color:#ffffff;text-decoration:none">
+                                            <i class="fa fa-camera"></i>&nbsp;&nbsp;modifier l'image
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
 
-        <div id="master-cover"></div>
-        <div id="master-cover-overlay"></div>
+                            <div class="col-md-8">
+                                {{ form_row(form.username)}}
+                                {{ form_row(form.aboutme,{'attr':{'rows':15},"label":"Biographie"})}}
+                            </div>
+                        </div>
+                    </div>
 
-    </header>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Quitter</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                    </div>
+                {{ form_end(form) }}
 
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-12 col-sm-12">
-
-                <section style="min-height:800px;margin-top:20px">
-                    <h3>Mon profil</h3>
-
-                    
-                </section>
-
-                
             </div>
         </div>
-
     </div>
 
+    <section style="min-height:600px;">
+        <h1 class="text-nowrap text-truncate">
+            {{ app.user.username|lower|title }}
+        </h1>
+        <hr>
+
+        {% for notice in app.flashes('notice-success') %}
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+                {{ notice }}
+            </div>
+        {% endfor %}
+
+        {% for notice in app.flashes('notice-error') %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+                {{ notice }}
+            </div>
+        {% endfor %}
+
+        <div class="biography shadow-effect2">
+
+            <a href=""  class="btn btn-sm btn-light text-secondary float-right" data-toggle="modal" data-target="#profil-update">
+               <i class="fa fa-edit"></i> modifier ma fiche.
+            </a>
+
+            <h2>A propos de moi</h2>
+
+            {% if app.user.aboutme %}
+                {{ app.user.aboutme|md2html }}
+            {% else %}
+               
+            {% endif %}
+        </div>
+
+    </section>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
 
+    <script>
+        $(document).ready(function($){
+            // gestion des upload images
+            $('.user-image').on("click",e=>{
+                e.preventDefault();
+                var modal = $(e.target).parents(".modal");
+                modal.find("input[type=file]").trigger('click');
+            });
+
+            $('input[type=file]').on("change",e=>{
+                e.preventDefault();
+
+                var files = e.target.files;
+                var modal = $(e.target).parents(".modal");
+                var file = files[0];
+
+                var ext = file.name.split('.');
+                ext = ext.slice(-1);
+                ext = ext[0];
+                ext = ext.toLowerCase();
+                if (["jpg","jpeg","png"].indexOf(ext.toLowerCase()) == -1) return;
+
+                var reader = new FileReader();
+
+                reader.addEventListener('load', ()=> {
+                    modal.find('img:first').attr('src',reader.result);
+                });
+                reader.readAsDataURL(file);
+            });
+        });
+    </script>
 {% endblock %}

@@ -46,22 +46,32 @@
 				<form  method="GET" action="{{ path('movie_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
 					<input  name="name" type="search" placeholder="Rechercher un programme..." value="{{ app.request.query.get('name') }}">
 				</form>
-
-
-				
 			</div>
 
 			<div class="col-md-1 text-left align-self-center">
 				{% if is_granted('IS_AUTHENTICATED_FULLY') %}
 					<div class="btn-group homepage-user-info ml-auto">
 						<a  href="" class="d-none d-md-block rounded-circle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							<img style="height:40px;width:40px;"  class="rounded-circle" src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user">
+							
+							{% if app.user.image %}
+								<img width="40" height="40"  class="rounded-circle" src="{{ asset('upload/public/'~(app.user.image|basename) ) }}" alt="user">
+							{% else %}
+								<img width="40" height="40"  class="rounded-circle" src="{{ asset('img/vignette.png') }}" alt="user">
+							{% endif %}
 						</a>
 
 						<div class="dropdown-menu dropdown-user animated dropdown-menu-right">
 			                <div class="dropdown-item">
 			                    <div class="dw-user-box">
-			                        <div class="u-img"><img src="http://www.ampleadmin.wrappixel.com/ampleadmin-html/plugins/images/users/varun.jpg" alt="user"></div>
+			                        <div class="u-img">
+			                        	{% if app.user.image %}
+											<img width="80" height="80" src="{{ asset('upload/public/'~(app.user.image|basename) ) }}" alt="user">
+										{% else %}
+											<img  width="80" height="80" src="{{ asset('img/vignette.png') }}" alt="user">
+										{% endif %}
+
+			                        </div>
+
 			                        <div class="u-text">
 			                            <h4>{{app.user.username|title}}</h4>
 			                            <p class="text-muted">
@@ -107,28 +117,39 @@
 
 			                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_TRANSLATOR') or is_granted('ROLE_CATALOG') %}
 			            		<a class="dropdown-item" href="{{ path('admin_index')}}">
-			               			<!--i class="fas fa-envelope"--></i> Espace d'administration
+			               			<i class="fas fa-envelope"></i>&nbsp;&nbsp;Espace d'administration
 			               		</a>
-			            	
 			            	{% endif %}
-
-
-			               	<a class="dropdown-item" href="{{ path('account_inbox')}}">
-			               		<!--i class="fas fa-envelope"--></i> Boite de reception
-			               	</a>
 			                
 			                <a class="dropdown-item" href="{{ path('account_profile')}}">
-			                	<!--i class="fas fa-cogs"></i--> Modifier mon profil
+			                	<i class="fas fa-user"></i>&nbsp;&nbsp;Mon profil
 			                </a>
 
-			                <a class="dropdown-item" href="{{ path('account_settings')}}">
-			                	<!--i class="fas fa-atlas"></i--> Générer le catalogue
-			                </a>
+			                <a class="dropdown-item" href="{{ path('account_download_index')}}">
+			               		<i class="fab fa-cloud-download-alt"></i>&nbsp;&nbsp;Téléchargement
+			               	</a>
+
+			               	{% if is_granted('ROLE_PRODUCER') %}
+				               	<a class="dropdown-item" href="{{ path('account_producer_index')}}">
+				               		<i class="fab fa-stack-exchange"></i>&nbsp;&nbsp;Acquisition
+				               	</a>
+				            {% endif %}
 
 			                <div role="separator" class="dropdown-divider"></div>
 
+			                <a class="dropdown-item" href="{{ path('account_cgu')}}">
+			               		<i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Conditions générale d'utilisation
+			               	</a>
+
+			               	<a class="dropdown-item" href="{{ path('account_privacy_policy')}}">
+			               		<i class="fas fa-user-secret"></i>&nbsp;&nbsp;Politique de confidentialité
+			               	</a>
+
+			               
+			                <div role="separator" class="dropdown-divider"></div>
+
 			                <a class="dropdown-item" href="{{ logout_path() }}">
-			                	<i class="fa fa-power-off"></i> Se deconnecter
+			                	<i class="fa fa-power-off"></i>&nbsp;&nbsp;Se deconnecter
 			                </a>
 			            </div>
 					</div>

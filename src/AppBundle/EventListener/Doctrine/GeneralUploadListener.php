@@ -13,6 +13,7 @@ use AppBundle\Entity\MovieTrailer;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\MovieScene;
 use AppBundle\Entity\Metadata;
+use AppBundle\Entity\User;
 
 use AppBundle\Services\FileUploader;
 use AppBundle\Services\PrivateFileUploader;
@@ -66,7 +67,7 @@ class GeneralUploadListener{
     public function postRemove(LifecycleEventArgs $args){
         $entity = $args->getEntity();
 
-        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene) ||  ($entity instanceof User)) {
             
             if(($fileName = trim($entity->getImage()))){
                 $this->uploader->remove($fileName);
@@ -92,7 +93,7 @@ class GeneralUploadListener{
 
     private function uploadFile($entity){
         
-        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene)) {
+        if ($entity instanceof Director || ($entity instanceof Producer) || ($entity instanceof Actor) ||  ($entity instanceof MovieTrailer) ||  ($entity instanceof MovieScene) ||  ($entity instanceof User)) {
 
             $file = $entity->getImage();
 

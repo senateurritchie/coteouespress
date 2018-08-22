@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% set route = app.request.attributes.get('_route') %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+
+        header #master-cover{
+            height: 200px;
+            background-color: #f6f6f6;
+            overflow: hidden;
+            background: url("{{asset('img/illustrator-banner.jpg')}}") no-repeat left top / cover;
+        }
+
+        @media (max-width: 576px) { 
+            #master-cover {
+                height: 258px !important;
+            }
+        }
+
+        #user-profil{
+            margin-top: 10px;
+            text-align: center;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;            
+        }
+
+        
+        #user-profil-image{
+            height: 200px;
+            overflow: hidden;
+            background: url("{{ asset('img/vignette.png') }}") no-repeat center center / cover;
+            background-color: #ffffff;
+            position: relative;
+        }
+
+        #user-profil-image .tools{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 2px 10px 2px 10px;
+            background: rgba(0,0,0,.4);
+        }
+
+        #user-profil-image .tools a{
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+        }
+
+        .biography{
+            background: #ffffff;
+            padding: 10px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+        <div id="master-cover"></div>
+    </header>
+
+    <div class="container" style="margin-top:10px;margin-bottom:100px">
+
+        <div class="row">
+            <div class="col-md-3">
+                {% block content_left %}
+                    {{ include('account/menu-left.html.twig') }}
+                {% endblock %}
+            </div>
+            <div class="col-md-9 col-sm-12">
+                {% block content %}{% endblock %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            let mainMenu = $("#master-menu");
+            var sections = $(".block");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 200){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        mainMenu.removeClass('active');
+                    }
+                    
+                    sections.each(function(i,el){
+                        let obj = $(el);
+                        let top = obj.offset().top;
+                        let delta = top - pos;
+                        if(delta <= 600 && !obj.hasClass('section-animation')){
+                            obj.addClass('section-animation');
+                        }
+                    });
+                }
+            });
+
+        });
+    </script>
+
+{% endblock %}

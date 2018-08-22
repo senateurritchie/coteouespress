@@ -136,53 +136,6 @@ var AdminManager = AdminManager || {};
 							{{/errors}}
 						</ul>
 					`,
-					countries:`
-						{{#countries}}
-							{{> country}}
-						{{/countries}}
-					`,
-					country:`
-						<span  style="padding:5px;margin-right:5px" data-name="{{ name }}" data-id="{{ id }}" data-name="{{ name }}" class="badge bg-aqua text-white"> 
-							{{ name }} 
-
-							<input type="hidden" name="pays[]" value="{{ id }}" />
-
-							<a data-title="supprimer" data-toggle="tooltip" href="" style="margin-left: 10px;color:#fff"><i class="fa fa-times"></i></a>
-						</span>
-					`,
-					entry:`
-						<tr class="data-item" data-id="{{ id }}">
-                			<td class="data-item-image">
-                				{{#image}} 
-                  					<img  class="img-circle" src="/upload/public/{{ . }}" alt="" />
-                				{{/image}}
-
-                				{{^image}} 
-                					<img  class="img-circle" src="/admin/dist/img/user7-128x128.jpg" alt="User Avatar">
-                				{{/image}}
-                  			</td>
-
-                  			<td class="data-item-name">
-                  				{{ name }}
-                  			</td>
-
-             
-                  			<td style="text-align:center">
-                  				{{ movieNbr }}
-                  			</td>
-
-                  			<td class="data-item-tools">
-                  				<a data-id="{{ id }}" href="" class="edit btn">
-                  					<i class="fa fa-edit"></i> modifier
-                  				</a>
-                  			</td>
-                		</tr>
-					`,
-					entries:`
-						{{#data}}
-							{{> entry}}
-						{{/data}}
-					`
 				}
 			});
 		};
@@ -190,22 +143,7 @@ var AdminManager = AdminManager || {};
 		Object.assign(DirectorView.prototype, nsp.View.prototype);
 
 		DirectorView.prototype.controller = function(){
-			this.params.selectedDataView.find('#area-persist button[type=reset]').on({
-				click:e=>{
-					e.preventDefault();
-					//this.params.rightSection.removeClass('data-active');
-					$(e.target).parents(".box").removeClass('action-update-active');
-				}
-			});
-
-			this.params.selectedDataView.find('#area-action button[type=button]:first').on({
-				click:e=>{
-					this.params.rightSection.removeClass('data-active');
-				}
-			});
-
 			
-
 			$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
 			});
@@ -226,58 +164,202 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
-			// le model pour modification du pays d'origine de l'element en cours
-			var currentUserCmodel = $("#data-secondary-box select").clone();
-			currentUserCmodel.removeAttr("multiple");
-			currentUserCmodel.removeAttr("name");
-			currentUserCmodel.addClass("input-sm");
-			$("#current-user-cmodel").html(currentUserCmodel);
-			currentUserCmodel.on({
-				change:e=>{
+			// gestion des ajouts pays
+			$('body').on("click",".modal-form .has-collection .collection-add",
+				e=>{
+				e.preventDefault();
+				var parent = $(e.target).parent();
+				var tpl = parent.find('[data-prototype]').data('prototype');
+				var index = parent.children(" .input-group ").length;
 
-					this.params.selectedDataView.addClass('updating');
+				tpl = tpl.replace(/__name__/g,index);
 
-					var selected = $(e.target);
-					var value = e.target.value;
-					var opt = selected.find(`*[value=${value}]`);
+				var a = $('<div class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></div>');
+				var li = $('<div class="input-group input-group-sm">').append(a).append(tpl);
+				li.find('label').remove();
 
-					var model = {
-						id:value,
-						name:opt.html(),
-					};
-					var item = this.params.selectedDataView.find(`#countries *[data-id=${model.id}]`);
-
-					if(!item.length){
-						var country = $(this.render(this.params.$tpl.country,model));
-						this.applyRemoveCountryEvent(country);
-						this.params.selectedDataView.find("#countries").append(country);
-
-						this.emit(new nsp.CountryInsertEvent({
-							state:'start',
-							model:model
-						}));
+				li.insertBefore(parent.find('a'));
+				a.find('button').on({
+					click:e=>{
+						li.remove();
 					}
-				}
+				})
 			});
 
-			this.params.selectedDataView.find('form .box-footer #area-action button.update').on({
-				click:e=>{
-					$(e.target).parents(".box").addClass('action-update-active');
-				}
+
+			// gestion des upload images
+			$('body').on("click",".modal-form .user-image",e=>{
+				e.preventDefault();
+				var modal = $(e.target).parents(".modal-form");
+				modal.find("input[type=file]").trigger('click');
 			});
 
-			this.params.selectedDataView.find('form').on({
-				submit:e=>{
-					e.preventDefault();
-					this.params.selectedDataView.addClass('updating');
-					var data = $(e.target).serialize();
+			$('body').on("change",".modal-form input[type=file]",
+				e=>{
+				e.preventDefault();
 
-					this.emit(new nsp.DirectorUpdatingEvent({
-						state:'start',
-						model:data
-					}));
-				}
+				var files = e.target.files;
+				var modal = $(e.target).parents(".modal-form");
+				var file = files[0];
+
+		        var ext = file.name.split('.');
+				ext = ext.slice(-1);
+				ext = ext[0];
+				ext = ext.toLowerCase();
+				if (["jpg","jpeg","png"].indexOf(ext.toLowerCase()) == -1) return;
+
+			    var reader = new FileReader();
+
+			    reader.addEventListener('load', ()=> {
+			    	modal.find('img:first').attr('src',reader.result);
+			    });
+			    reader.readAsDataURL(file);
 			});
+
+			// gestion de suppression 
+			$('body').on("click","#modal-update button.delete",e=>{
+				e.preventDefault();
+				var modal = $(e.target).parents("#modal-update");
+				var modal_confirm = $('#myModal');
+
+				var fn1 = function () {
+	  				modal_confirm.modal('show');
+	  				modal.off('hidden.bs.modal',fn1);
+
+				};
+
+				var fn2 = function () {
+					modal.modal('show');
+					modal_confirm.off('hidden.bs.modal',fn2);
+				};
+
+				modal.on('hidden.bs.modal',fn1);
+				modal_confirm.on('hidden.bs.modal',fn2);
+				modal.modal('hide');
+
+			});
+
+			$("body").on("click","#modal-update .has-collection .collection-badge .old-value a",e=>{
+    			e.preventDefault();
+
+    			var obj = $(e.currentTarget);
+    			var parentModal = obj.parents("#modal-update");
+    			var collectionModal = $("#modal-update-gallery");
+    			
+    			var oldValue = obj.parent();
+    			var collectionBadge = oldValue.parent();
+    			var route = collectionBadge.data('route');
+    			var dataId = oldValue.data('id');
+
+    			collectionModal.find('.collection-alert-msg').html(collectionBadge.data('alert'));
+
+    			var removeCbk = function(){
+    				oldValue.remove();
+    				if(!collectionBadge.find('.old-value').length){
+    					collectionBadge.remove();
+    				}
+    			};
+
+    			if(oldValue.length && dataId){
+    				collectionModal.attr('data-id',dataId);
+
+    				var fn = (e)=>{
+
+    					var shownFn = (ee)=>{
+    						var submitBtn = collectionModal.find('button[type=submit]');
+    						submitBtn.on({
+    							click:ee=>{
+    								ee.preventDefault();
+
+    								removeCbk();
+    								submitBtn.off();
+
+    								var evt = new nsp.CountryDeleteEvent({
+										state:'start',
+										model:{
+											id:dataId
+										},
+									});
+
+    								this.emit(evt);
+
+    								collectionModal.modal("hide");
+    							}
+    						});
+    					};
+
+    					collectionModal.on('shown.bs.modal', shownFn);
+    					collectionModal.modal("show");
+
+    					parentModal.off('hidden.bs.modal', fn);
+
+    					var fn2 = (ee)=>{
+    						collectionModal.off('hidden.bs.modal', fn2);
+    						collectionModal.off('shown.bs.modal', shownFn);
+    						parentModal.modal("show");
+    						collectionModal.attr('data-id',null);
+    					};
+
+    					collectionModal.on('hidden.bs.modal', fn2);
+    				};
+
+    				parentModal.on('hidden.bs.modal', fn);
+    				parentModal.modal("hide");
+    			}
+    			else{
+    				removeCbk();
+    			}
+    		});
+
+    		$("body").on("dragenter",".modal-form",e=>{
+				var obj = $(e.currentTarget);
+				obj.addClass('dragenter');
+				e.preventDefault();
+			});
+
+			$("body").on("dragover",".modal-form",e=>{
+				var obj = $(e.currentTarget);
+				obj.addClass('dragenter');
+				e.preventDefault();
+			});
+
+			$("body").on("dragleave",".modal-form",e=>{
+				var obj = $(e.currentTarget);
+				obj.removeClass('dragenter');
+				e.preventDefault();
+			});
+
+			$("body").on("dragend",".modal-form",e=>{
+				var obj = $(e.currentTarget);
+				obj.removeClass('dragenter');
+				e.preventDefault();
+			});
+
+			$("body").on("drop",".modal-form",e=>{
+				e.preventDefault();
+				var obj = $(e.currentTarget);
+				obj.removeClass('dragenter');
+
+				var files = e.originalEvent.dataTransfer.files;
+				var file = files[0];
+
+		        var ext = file.name.split('.');
+				ext = ext.slice(-1);
+				ext = ext[0];
+				ext = ext.toLowerCase();
+				if (["jpg","jpeg","png"].indexOf(ext.toLowerCase()) == -1) return;
+
+				var input = obj.find('input[type=file]');
+
+			    var reader = new FileReader();
+
+			    reader.addEventListener('load', ()=> {
+			    	obj.find('img:first').attr('src',reader.result);
+					input.get()[0].files = files;
+			    });
+
+			    reader.readAsDataURL(file);
+			});		
 
 			// on ecoute les evenements
 			this.subscribe(event=>{
@@ -344,6 +426,8 @@ var AdminManager = AdminManager || {};
 								$('#myModal').modal('hide');
 								
 								this.params.rightSection.removeClass('data-active');
+
+								window.location.reload();
 							}
 							else{
 								alertShow();
@@ -399,58 +483,15 @@ var AdminManager = AdminManager || {};
 							var model = {data:data};
 
 							if(data){
-								var tpl = this.render(this.params.$tpl.entries,model,{
-									entry:this.params.$tpl.entry
-								});
-
-								$("#data-container table:first").append($(tpl));
+								$("#data-container table:first tbody:first").append(data);
 							}
 						}
 					}
 				}
 			});
 
-			var dropper = document.getElementById("current-widget-data");
 
-			document.addEventListener("dragenter",e=>{
-				this.params.selectedDataView.addClass('dragenter');
-				e.preventDefault();
-			});
-			document.addEventListener("dragover",e=>{
-				this.params.selectedDataView.addClass('dragenter');
-				e.preventDefault();
-			});
-			document.addEventListener("dragleave",e=>{
-				e.preventDefault();
-				this.params.selectedDataView.removeClass('dragenter');
-			});
-			document.addEventListener("dragend",e=>{
-				e.preventDefault();
-				this.params.selectedDataView.removeClass('dragenter');
-			});
-
-			dropper.addEventListener("drop",e=>{
-				e.preventDefault();
-				this.params.selectedDataView.removeClass('dragenter');
-
-				var file = e.dataTransfer.files[0];
-		        var filenames = file.name;
-
-			    var reader = new FileReader();
-
-			    reader.addEventListener('load', ()=> {
-			    	this.params.selectedDataView.find('img:first').attr('src',reader.result);
-			    	this.params.selectedDataView.addClass('updating');
-
-			    	this.emit(new nsp.UploadEvent({
-						state:'start',
-						file:file
-					}));
-			    });
-
-			    reader.readAsDataURL(file);
-			});
-			
+				
 
 			var scroller = nsp.container.get('Scroller');
 			scroller.subscribe(event=>{
@@ -475,53 +516,12 @@ var AdminManager = AdminManager || {};
 			return this;
 		}
 
-		DirectorView.prototype.renderSelectedData = function(model){
-			this.params.selectedDataView.attr('data-id',model.id);
-			this.params.selectedDataView.find("#name").val(model.name);
-			this.params.selectedDataView.find("#description").val(model.description);
-			this.params.selectedDataView.find("#aboutme").html(model.description);
-			this.params.selectedDataView.find(".widget-user-username").html(model.name);
-			this.params.selectedDataView.find("#countries").html('');
-			var src = $("#data-container .data-item[data-id="+model.id+"] .data-item-image img");
-			this.params.selectedDataView.find('.widget-user-image img:first').attr('src',src.attr("src"));
-
-			if(model.hasOwnProperty('countries')){
-				model.countries = model.countries.map(function(el){
-					el.id = el.slug;
-					return el;
-				})
-				var countries = this.render(this.params.$tpl.countries,model,{
-					country:this.params.$tpl.country
-				});
-
-				countries = $(countries);
-				this.applyRemoveCountryEvent(countries);
-				this.params.selectedDataView.find("#countries").html(countries);
-			}
-			
-		}
-
-		DirectorView.prototype.applyRemoveCountryEvent = function(elts){
-			elts.each((i,el)=>{
-				var obj = $(el);
-				$(el).find("a").on({
-					click:e=>{
-
-						this.params.selectedDataView.addClass('updating');
-
-						e.preventDefault();
-						obj.remove();
-						var model = {
-							id:obj.data('id'),
-							name:obj.data('name'),
-						};
-
-						this.emit(new nsp.CountryDeleteEvent({
-							state:'start',
-							model:model
-						}));
-					}
-				});
+		DirectorView.prototype.renderSelectedData = function(view){
+			var ref = $("#modal-update-area").html(view);
+			var modal = ref.find('#modal-update');
+			modal.modal({
+				backdrop:'static',
+				show:true
 			});
 		}
 

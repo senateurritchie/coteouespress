@@ -47,6 +47,9 @@ security:
 
     access_control:
         - { path: ^/admin, roles: [ROLE_ADMIN,ROLE_TRANSLATOR,ROLE_CATALOG,ROLE_SALER,ROLE_OBSERVER] }
+        - { path: ^/account/producer, roles: ROLE_PRODUCER }
+        - { path: ^/account/actor, roles: ROLE_ACTOR }
+        - { path: ^/account/director, roles: ROLE_DIRECTOR }
         - { path: ^/account, roles: IS_AUTHENTICATED_FULLY }
 
 

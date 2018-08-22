@@ -19,6 +19,7 @@ class AppExtension extends AbstractExtension{
             new TwigFilter('generateToken', array($this, 'generateTokenFilter')),
             new TwigFilter('dateDiff', array($this, 'dateDiffFilter')),
             new TwigFilter('truncate', array($this, 'truncateFilter')),
+            new TwigFilter('basename', array($this, 'basenameFilter')),
             new TwigFilter(
                 'md2html',
                 array($this, 'markdownToHtml'),
@@ -41,6 +42,10 @@ class AppExtension extends AbstractExtension{
         $text = substr($value,0,$length);
 
         return strlen($value) > $length ? $text.$overflow : $text;
+    }
+
+    public function basenameFilter($value){
+        return basename($value);
     }
 
     public function markdownToHtml($content){

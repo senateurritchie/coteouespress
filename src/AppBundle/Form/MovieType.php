@@ -9,9 +9,10 @@ use Doctrine\ORM\EntityRepository;
 
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
-use Symfony\Component\HttpFoundation\File\File;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 
+use Symfony\Component\HttpFoundation\File\File;
+
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;

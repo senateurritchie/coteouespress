@@ -22,6 +22,8 @@ class UserType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver)
     {
+        $resolver->setRequired('upload_dir');
+
         $resolver->setDefaults(array(
             'data_class' => User::class
         ));
@@ -32,7 +34,7 @@ class UserType extends AbstractType
      */
     public function getBlockPrefix()
     {
-        return 'appbundle_user';
+        return null;
     }
 
 

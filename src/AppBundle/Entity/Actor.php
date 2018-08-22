@@ -56,7 +56,7 @@ class Actor
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=200,maxWidth=400, minHeight=180,maxHeight=400,allowPortrait=false)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
 

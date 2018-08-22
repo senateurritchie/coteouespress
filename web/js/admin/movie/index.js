@@ -115,6 +115,7 @@ $(document).ready(function($){
 			});
 		}
 	});
+	
 	var modal = $("#modal-loading");
 
 	$("#data-container").on("click",".data-item .edit",function(e){

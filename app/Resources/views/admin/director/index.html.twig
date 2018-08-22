@@ -3,6 +3,8 @@
 
 {% form_theme form 'bootstrap_3_layout.html.twig' %}
 
+{% set use_modal = 'insert' %}
+
 
 {% block stylesheets %}
 	{{ parent() }}
@@ -106,7 +108,8 @@
 {% block body_content %}
 	
 	{{ include('admin/modal-info.html.twig') }}
-
+	
+	{# boite de dialogue pour la suppresion #}
 	<div class="modal modal-danger fade" id="myModal">
     	<div class="modal-dialog">
         	<div class="modal-content">
@@ -136,9 +139,87 @@
         	</div>
       	</div>
     </div>
+	
+	{# boite de dialogue pour la modification de fiche #}
+    <div id="modal-update-area"></div>
+
+	{# boite de dialogue pour insertion #}
+    <div id="modal-add-area">
+	    {{ include('admin/director/selected-view.html.twig') }}
+    </div>
+
+	{# boite de dialogue pour le chargement #}
+    <div class="modal fade" id="modal-loading">
+    	<div class="modal-dialog">
+        	<div class="modal-content" style="background:none;box-shadow:none">
+          		<div class="modal-body text-center" style="background:none;color:#ffffff">
+					<i  class="fa fa-spinner fa-spin fa-5x text-white"></i>
+          		</div>
+        	</div>
+      	</div>
+    </div>
+
+
+    <div class="modal modal-danger fade" id="modal-update-gallery">
+    	<div class="modal-dialog">
+        	<div class="modal-content">
+          		<div class="modal-header">
+            		<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              			<span aria-hidden="true">×</span>
+              		</button>
+            		<h4 class="modal-title">Confirmation...</h4>
+          		</div>
+          
+          		<div class="modal-body">
+          			<h4 class="collection-alert-msg"></h4>
+
+            		<p>
+            			Attention cette action est irreversible, vous perdrez definitivement cet element.
+            		</p>
+
+          		</div>
+          
+          		<div class="modal-footer">
+            		<button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+            			Annuler
+            		</button>
+
+            		<button type="submit" class="btn btn-outline">Valider</button>
+          		</div>
+        	</div>
+      	</div>
+    </div>
+
+
+    {% for notice in app.flashes('notice-success') %}
+        <div class="alert alert-info alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+            {{ notice }}
+        </div>
+    {% endfor %}
+
+    {% for notice in app.flashes('notice-error') %}
+        <div class="alert alert-danger alert-dismissible">
+            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+            <h4><i class="icon fa fa-check"></i> Attention!</h4>
+            {{ notice }}
+        </div>
+    {% endfor %}
 
 	<div class="row">
-    	<div class="col-xs-12 col-md-8">
+    	<div class="col-xs-12 col-md-12">
+
+    		<div class="row">
+    			<div class="col-md-12">
+    				<button  data-toggle="modal" data-backdrop="static" data-target="#modal-insert" class="btn btn-sm btn-primary">
+		  				<i class="fa fa-plus"></i> Nouveau
+		  			</button>
+    			</div>
+    		</div>
+
+    		<hr>
+
         	<div class="box box-primary">
             	<div class="box-header">
               		<h3 class="box-title">Toutes les réalisateurs</h3>
@@ -156,39 +237,12 @@
               		<table class="table table-hover">
 		                <tbody>
 		                	<tr>
-		                 		<th>Image</th>
+		                 		<th width="100">Image</th>
 		                 		<th>Nom</th>
 		                 		<th style="text-align:center">Programmes associés</th>
-		                 		<th>#</th>
 		                	</tr>
 	                		
-	                		{% for item in data %}
-		                		<tr class="data-item" data-id="{{ item.id }}">
-		                			<td class="data-item-image">
-		                  				{% if item.image %}
-		                  					<img width="50" height="50"  class="img-circle" src="{{ asset('upload/public/'~item.image) }}" alt="" />
-		                  					
-		                  				{% else %}
-		                  					<img  width="50" height="50" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}">
-		                  				{% endif %}
-		                  			</td>
-
-		                  			<td class="data-item-name">
-		                  				{{ item.name|lower|title }}
-		                  			</td>
-
-		             
-		                  			<td style="text-align:center">
-		                  				{{ item.movieNbr }}
-		                  			</td>
-
-		                  			<td class="data-item-tools">
-		                  				<a data-id="{{ item.id }}" href="" class="edit btn">
-		                  					<i class="fa fa-edit"></i> modifier
-		                  				</a>
-		                  			</td>
-		                		</tr>
-		                	{% endfor %}
+	                		{{ include('admin/director/item-render.html.twig') }}
 	               
 	              		</tbody>
               		</table>
@@ -198,186 +252,6 @@
             <div style="text-align:center" id="infinite-loading">
 				<i  class="fa fa-spinner fa-spin fa-3x"></i>
 			</div>
-        </div>
-
-        <div class="col-md-4 col-xs-12" id="right-section">
-
-        	<div style="text-align:center" id="data-loading">
-        		<i  class="fa fa-spinner fa-spin fa-3x"></i>
-        	</div>
-
-			<div class="box box-widget widget-user-2" id="current-widget-data" draggable="false">
-	            <div class="widget-user-header bg-aqua-active">
-	            	<div class="widget-user-image">
-	            		<input id="upload-folder" type="hidden" value="{{ asset('upload/public/') }}" />
-	                	<img style="width:65px;height:65px" class="img-circle" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
-	              	</div>
-	              	<h3 class="widget-user-username">
-	              		Nadia Carmichael
-	              	</h3>
-	              	<h5 class="widget-user-desc">
-	              		Réalisateur 
-	              	</h5>
-		            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
-		                <i class="fa fa-trash fa-2x" style="color:#fff"></i>
-		            </button>
-	            </div>
-
-	           	<form >
-		            <div class="box-body">
-		            	<h4>Pays d'origine</h4>
-			            <div  id="countries"></div>
-
-		            	<div id="update-show">
-			            	<hr>
-
-			            	<h4>A propos</h4>
-							<div  id="aboutme"></div>
-		            	</div>
-		            	
-
-						<div id="update-form">
-							<hr>
-
-							<div class="form-group">
-					    		<label for="name">Name</label>
-					    		<input name="name" type="text" class="form-control input-sm" id="name" />
-					  		</div>
-
-					  		<div class="form-group">
-					    		<label for="name">Description</label>
-					    		<textarea name="description" class="form-control" id="description"></textarea>
-					  		</div>
-
-							<div class="form-group">
-								<label for="name">Ajouter un pays</label>
-					    		<div id="current-user-cmodel"></div>
-							</div>
-						</div>
-						
-		            </div>
-
-		            <div class="box-footer">
-		            	<div id="area-action">
-		            		<button  type="button" class="btn btn-default reset" >
-	              				Quitter
-	              			</button>
-
-		            		<button  type="button" class="btn btn-default update" >
-	              				Modifier
-	              			</button>
-		            	</div>
-
-		            	<div id="area-persist">
-		            		<button type="reset" class="btn btn-default" >
-		              			Annuler
-		              		</button>
-
-		                	<button type="submit" class="btn btn-danger pull-right">
-		                		<i class="fa fa-save"></i> Enregistrer
-		                	</button>
-		            	</div>
-						
-		            </div>
-		        </form>
-
-	            <div class="overlay" id="spinner">
-              		<i class="fa fa-spinner fa-spin"></i>
-            	</div>
-	        </div>
-
-
-
-        	{#<div class="box box-danger" id="current-widget-data">
-            	<div class="box-header">
-            		<h3 class="box-title">Modification</h3>
-
-            		<div class="box-tools pull-right">
-			            <button id="data-btn-remove" data-title="supprimer" type="button" class="btn btn-box-tool" data-toggle="modal" data-target="#myModal">
-			                <i class="fa fa-trash fa-2x"></i>
-			            </button>
-			        </div>
-            	</div>
-            	
-            	<form>
-	            	<div class="box-body preview">
-
-				  		<div class="form-group">
-				    		<label for="name">Name</label>
-				    		<input name="name" type="text" class="form-control" id="name" />
-				  		</div>
-						
-
-						<div class="form-group">
-							<label for="name">Pays d'origine</label>
-							<div  id="countries"></div>
-						</div>
-
-						<hr>
-
-						<div class="form-group">
-				    		<label for="name">Ajouter un pays</label>
-				    		<div id="current-user-cmodel">
-				    			
-				    		</div>
-				  		</div>
-
-	            	</div>
-
-	            	<div class="box-footer" style="padding-top:10px">
-	              		<button type="reset" class="btn btn-default" >
-	              			Annuler
-	              		</button>
-
-	                	<button type="submit" class="btn btn-danger pull-right">
-	                		<i class="fa fa-save"></i> Enregistrer
-	                	</button>
-	            	</div>
-            	</form>
-
-            	<div class="overlay" id="spinner">
-              		<i class="fa fa-spinner fa-spin"></i>
-            	</div>
-          	</div>#}
-
-        	<div class="box box-primary" id="data-secondary-box">
-	            <div class="box-header with-border">
-	            	<h3 class="box-title">Ajouter un réalisateur</h3>
-	            </div>
-	            
-	            {{ form_start(form) }}
-	            	<div class="box-body">
-						
-						{% for notice in app.flashes('notice-success') %}
-                            <div class="alert alert-info alert-dismissible">
-				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
-				                Le catégorie à bien été enregistré avec succès.
-				            </div>
-                        {% endfor %}
-
-                        {% for notice in app.flashes('notice-error') %}
-                            <div class="alert alert-danger alert-dismissible">
-				                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-				                <h4><i class="icon fa fa-check"></i> Attention!</h4>
-				                {{ notice }}
-				            </div>
-                        {% endfor %}
-
-
-	            		{{ form_row(form.name) }}
-	            		{{ form_row(form.description) }}
-	            		{{ form_row(form.pays) }}
-	              	</div>
-
-	              	<div class="box-footer">
-
-	                	<button type="submit" class="btn btn-danger pull-right">
-	                		<i class="fa fa-save"></i> Enregistrer
-	                	</button>
-	              	</div>
-              	{{ form_end(form) }}
-	        </div>
         </div>
     </div>
 {% endblock %}

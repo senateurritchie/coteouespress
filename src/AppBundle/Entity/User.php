@@ -51,9 +51,18 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @var string
     *
     * @Groups({"group1"})
-    * @ORM\Column(name="about_me", type="text", nullable=true,)
+    * @ORM\Column(name="about_me", type="text", nullable=true)
     */
     private $aboutMe;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
+    */
+    private $image;
 
     /**
     * @var string
@@ -497,5 +506,29 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getAboutMe()
     {
         return $this->aboutMe;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return User
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
     }
 }

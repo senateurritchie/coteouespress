@@ -1,0 +1,76 @@
+<div id="user-profil">
+    <div class="card text-left border-0" >
+
+        <div id="user-profil-image" 
+        
+        {% if app.user.image %}
+            style="background-image:url({{ asset('upload/public/'~(app.user.image|basename) ) }});" 
+        {% endif %}
+        >
+            <h1 class="text-hide">{{ app.user.username|lower|title }}</h1>
+
+            <div class="tools">
+                <a href="" class="btn-upload">
+                    <input type="file" name="image" class="d-none" />
+                    <i class="fas fa-camera fa-2x"></i>&nbsp;&nbsp;<span style="vertical-align:super">Modifier l'image</span>
+                </a>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="card-body p-0">
+
+
+            <div class="list-group">
+                <a href="{{ path('account_index') }}" class="list-group-item list-group-item-action {{ route == 'account_index' ? 'active' : ''}}">
+                    <i class="fas fa-home"></i>&nbsp;Accueil
+                </a>
+
+                <a href="{{ path('account_profile') }}" class="list-group-item list-group-item-action {{ route == 'account_profile' ? 'active' : ''}}">
+                    <i class="fas fa-user"></i>&nbsp;Mon profil
+                </a>
+
+                <a href="{{ path('account_settings') }}" class="list-group-item list-group-item-action disabled{{ route == 'account_settings' ? 'active' : ''}}">
+                    <i class="fas fa-cogs"></i>&nbsp;Paramètres du compte
+                </a>
+
+                <a href="{{ path('account_inbox') }}" class="list-group-item d-flex justify-content-between align-items-center {{ route == 'account_inbox' ? 'active' : ''}}">
+                    <i class="far fa-envelope"></i>&nbsp;Boite de reception
+
+                    <span class="badge badge-primary badge-pill">2</span>
+                </a>
+
+                <a href="{{ path('admin_index') }}" class="list-group-item list-group-item-action {{ route == 'admin_index' ? 'active' : ''}}">
+                    <i class="fas fa-tachometer-alt"></i>&nbsp;Espace d'administration
+                </a>
+
+                {% if route !=  "account_index" %}
+
+                    <a href="{{ path('account_cgu') }}" class="list-group-item list-group-item-action {{ route == 'account_cgu' ? 'active' : ''}}">
+                        <i class="fas fa-bullhorn"></i>&nbsp;Conditions générales d'utilisation
+                    </a>
+
+                    <a href="{{ path('account_privacy_policy') }}" class="list-group-item list-group-item-action {{ route == 'account_privacy_policy' ? 'active' : ''}}">
+                        <i class="fas fa-user-secret"></i>&nbsp;Politique de confidentialité
+                    </a>
+
+                    <a href="{{ path('account_producer_index') }}" class="list-group-item list-group-item-action {{ route == 'account_producer_index' ? 'active' : ''}}">
+                        <i class="fab fa-stack-exchange"></i>&nbsp;Formulaire d'acquisition
+                    </a>
+
+                    <a href="{{ path('account_download_index') }}" class="list-group-item list-group-item-action {{ route == 'account_download_index' ? 'active' : ''}}">
+                        <i class="fab fa-cloud-download-alt"></i>&nbsp;Espace de téléchargement
+                    </a>
+                {% endif %}
+
+                <a href="{{ logout_path() }}" class="list-group-item list-group-item-action">
+                    <i class="fas fa-power-off"></i>&nbsp;Se deconnecter
+                </a>
+              
+            </div>
+        
+        </div>
+    </div>
+    
+</div>

@@ -469,17 +469,17 @@ class AdminMovieController extends Controller
             $em->flush();
 
             if($oldCoverImg && $item->getCoverImg() && $item->getCoverImg() != $oldCoverImg){
-                $path = $this->getParameter('public_upload_directory').'/'.$oldCoverImg;
+                $path = $this->getParameter('public_upload_directory').'/'.basename($oldCoverImg);
                 unlink($path);
             }
 
             if($oldCoverImg && $item->getLandscapeImg() && $item->getLandscapeImg() != $oldLandscapeImg){
-                $path = $this->getParameter('public_upload_directory').'/'.$oldLandscapeImg;
+                $path = $this->getParameter('public_upload_directory').'/'.basename($oldLandscapeImg);
                 unlink($path);
             }
 
             if($oldCoverImg && $item->getPortraitImg() && $item->getPortraitImg() != $oldPortraitImg){
-                $path = $this->getParameter('public_upload_directory').'/'.$oldPortraitImg;
+                $path = $this->getParameter('public_upload_directory').'/'.basename($oldPortraitImg);
                 unlink($path);
             }
 
@@ -580,21 +580,21 @@ class AdminMovieController extends Controller
         
                 case "portrait":
                     if($oldName && $oldName != $item->getPortraitImg()){
-                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        $path = $this->getParameter('public_upload_directory').'/'.basename($oldName);
                         unlink($path);
                     }
                 break;
 
                 case "landscape":
                     if($oldName && $oldName != $item->getLandscapeImga()){
-                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        $path = $this->getParameter('public_upload_directory').'/'.basename($oldName);
                         unlink($path);
                     }
                 break;
 
                 case "cover":
                     if($oldName && $oldName != $item->getCoverImg()){
-                        $path = $this->getParameter('public_upload_directory').'/'.$oldName;
+                        $path = $this->getParameter('public_upload_directory').'/'.basename($oldName);
                         unlink($path);
                     }
                 break;

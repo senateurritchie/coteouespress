@@ -1,0 +1,121 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% if use_modal == 'insert' %}
+    <div class="modal fade modal-form" id="modal-insert" role="dialog" aria-labelledby="modification du programme" aria-describedby="">
+{% else %}
+    <div class="modal fade modal-form" id="modal-update" data-id="{{ data.id }}" role="dialog" aria-labelledby="modification du programme" aria-describedby="">
+{% endif %}
+
+
+	<div class="modal-dialog modal-lg"  role="document">
+	    <div class="modal-content" >
+	        <div class="modal-header bg-red">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                <span aria-hidden="true">×</span>
+	            </button>
+	            <h4 class="modal-title">
+	                
+	                {% if use_modal == 'insert' %}
+	                	Ajouter une fiche
+					{% else %}
+						Modification de fiche
+					{% endif %}
+	            </h4>
+	        </div>
+	        
+	        {{ form_start(form) }}
+	            <div class="modal-body">
+
+	            	<div class="row">
+	            		<div class="col-md-3">
+	            			{{ form_label(form.image) }}
+	            			{{ form_errors(form.image) }}
+	            			{{ form_widget(form.image) }}
+							<br>
+							<div style="position:relative;display:inline-block">
+								{% if use_modal == 'update' and data.image %}
+					    			<img width="200" height="150" src="{{ asset('upload/public/'~(data.image|basename)) }}" alt="User Avatar">
+					    		{% else %}
+					    		    <img width="200" height="150" src="{{ asset('admin/dist/img/user7-128x128.jpg') }}" alt="User Avatar">
+					    		{% endif %}
+
+					    		<div style="position:absolute;bottom:0;left:0;right:0;padding:5px 10px 5px 10px;background:rgba(0,0,0,0.4);">
+					    			<a class="user-image" href="" style="display:block;color:#ffffff">
+					    				<i class="fa fa-photo"></i>&nbsp;&nbsp;modifier l'image
+					    			</a>
+					    			
+					    		</div>
+							</div>
+
+							<br>
+							<br>
+
+							<div class="has-collection">
+	            				{{ form_label(form.pays) }}
+								
+								{% if use_modal == 'update' %}
+						            <div class="form-group collection-badge" data-alert="Voulez-vous vraiment supprimer ce pays ?" data-route="country/delete">
+						                {% for item in data.countries %}
+						                    <span class="badge label-info old-value" data-id="{{ item.id }}">
+						                        {{ item.country.name|lower|title }} 
+						                        
+						                        &nbsp;&nbsp;
+						                        <a href="" data-title="supprimer" data-toggle="tooltip">
+						                            <i class="fa fa-times"></i>
+						                        </a>
+						                    </span>
+						                    <br>
+						                {% endfor %}
+						            </div>
+						        {% endif %}
+
+						        <div class="form-group">
+						            
+						            {{ form_errors(form.pays) }}
+
+						            {{ form_widget(form.pays) }}
+
+						            <a href="" class="collection-add">
+						                <i class="fa fa-plus"></i> ajouter
+						            </a>
+						        </div>
+	            			</div>
+	            			
+	            		</div>
+
+	            		<div class="col-md-9">
+	            			{{ form_row(form.name)}}
+	            			{{ form_row(form.description,{'attr':{'rows':15},"label":"Biographie"})}}
+	            		</div>
+	            	</div>
+	            </div>
+
+	            <div class="modal-footer">
+
+	                <div class="pull-left">
+	                    
+
+						{% if use_modal == 'update' %}
+							<button type="reset" class="btn btn-default" >
+		                        Annuler
+		                    </button>
+
+		                    <button data-title="supprimer" type="button" class="btn btn-danger delete">
+		                        <i class="fa fa-trash"></i> Supprimer
+		                    </button>
+
+		                {% else %}
+			                <button type="button" class="btn btn-danger" data-dismiss="modal">
+		                        Quitter
+		                    </button>
+		                {% endif %}
+	                </div>
+	                
+	                <button class="btn btn-danger pull-right">
+	                    <i class="fa fa-save"></i> Enregistrer
+	                </button>
+	            </div>
+	        {{ form_end(form) }}
+	    </div>
+	</div>
+</div>

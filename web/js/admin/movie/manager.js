@@ -889,8 +889,6 @@ var AdminManager = AdminManager || {};
 
 				var input = dropper.find('input[type=file]');
 
-
-
 				var ext = file.name.split('.');
 				ext = ext.slice(-1);
 				ext = ext[0];

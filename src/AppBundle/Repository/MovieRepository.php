@@ -7,10 +7,10 @@ use Doctrine\ORM\QueryBuilder;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\MovieGenre;
 use AppBundle\Entity\MovieLanguage;
-use AppBundle\Entity\MovieCreator;
 use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieCountry;
+use AppBundle\Entity\MovieActor;
 use AppBundle\Entity\Language;
 
 /**
@@ -95,6 +95,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         // recherche par producteur
         if(@$params["producer"]){
             $this->whereProducer($qb,@$params["producer"]);
+        }
+
+        // recherche par acteur
+        if(@$params["actor"]){
+            $this->whereActor($qb,@$params["actor"]);
         }
 
         // recherche par pays
@@ -362,6 +367,28 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       	)
       	->setParameter("producer",$value);
   	}
+
+    public function whereActor(QueryBuilder $qb,$value){
+        $qb2 = $this->_em->createQueryBuilder();
+
+        $qb2->select("x5.id")
+        ->from(MovieActor::class,"x5")
+        ->innerJoin("x5.movie","xm5")
+        ->innerJoin("x5.actor","xc5")
+        ->where("m.id = xm5.id");
+
+        if(is_numeric($value)){
+            $qb2->andWhere("xc5.id = :actor");
+        }
+        else{
+            $qb2->andWhere("xc5.slug = :actor");
+        }
+
+        $qb->andWhere(
+            $qb->expr()->exists($qb2)
+        )
+        ->setParameter("actor",$value);
+    }
 
   	public function whereCountry(QueryBuilder $qb,$value){
   		$qb2 = $this->_em->createQueryBuilder();

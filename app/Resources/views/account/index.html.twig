@@ -1,48 +1,112 @@
-{% extends 'base.html.twig' %}
+{% extends 'account/base.html.twig' %}
 
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css') }}">
-
     <style>
-        header #master-cover{
-            height: 200px;
-            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        .account-app-menu{
+            display: block;
+            height:180px;
+            overflow:hidden;
+            text-align: center;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card > a {
+            text-decoration:none;
+            color:#212529;
         }
     </style>
-
 {% endblock %}
 
-{% block body %}
-   
-    <header id="header">
-        {{ include('main-menu.html.twig') }}
 
-        <div id="master-cover"></div>
-        <div id="master-cover-overlay"></div>
+{% block content %}
+    <section style="min-height:600px;">
+        <h3 class="text-nowrap text-truncate">
+            Bienvenu, {{ app.user.username|lower|title }}
+        </h3>
+        <hr>
 
-    </header>
+        <div class="card-group">
+            <div class="card">
+                <a href="{{ path('account_cgu') }}" class="d-block clearfix">
+                    <div class="account-app-menu bg-secondary">
+                        <i class="fas fa-bullhorn fa-6x"></i>
+                    </div>
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            Conditions Générales d'Utilisation
+                        </h5>
 
-    <div class="container">
-        <div class="row justify-content-end">
-            <div class="col-md-12 col-sm-12">
+                        <p class="card-text">
+                           Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi blanditiis, neque ipsum numquam odit, asperiores, hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum, temporibus cum nemo iste!
+                        </p>
 
-                <section style="min-height:800px;margin-top:20px">
-                    <h3>Espace utilisateur</h3>
-                </section>
+                    </div>
+                </a>
+            </div>
 
+            <div class="card">
+                <a href="{{ path('account_privacy_policy') }}" class="d-block clearfix">
+
+                    <div class="account-app-menu bg-secondary">
+                        <i class="fas fa-user-secret fa-6x"></i>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Politique de Confidentialité</h5>
+                        <p class="card-text">
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi blanditiis, neque ipsum numquam odit, asperiores, hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum, temporibus cum nemo iste!
+                        </p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="card">
+
+                {% if is_granted('ROLE_PRODUCER') %}
+                    <a href="{{ path('account_producer_index') }}" class="d-block clearfix">
+
+                        <div class="account-app-menu bg-secondary">
+                            <i class="fab  fa-stack-exchange fa-6x"></i>
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Formulaire d'Acquisition
+                            </h5>
+
+                            <p class="card-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi blanditiis, neque ipsum numquam odit, asperiores, hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum, temporibus cum nemo iste!
+                            </p>
+                        </div>
+                    </a>
+                {% else %}
+                    <a href="{{ path('account_download_index') }}" class="d-block clearfix">
+                        <div class="account-app-menu bg-secondary">
+                            <i class="fas fa-cloud-download-alt fa-6x"></i>
+                            {#<img width="259" height="180" class="card-img-top" src="..." alt="Card image cap">#}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                Espace de Téléchargement
+                            </h5>
+
+                            <p class="card-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi blanditiis, neque ipsum numquam odit, asperiores, hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum, temporibus cum nemo iste!
+                            </p>
+
+                        </div>
+                    </a>
+                {% endif %}
                 
             </div>
         </div>
 
-    </div>
-
-{% endblock %}
-
-{% block javascripts %}
-    {{ parent() }}
-    
-    <script src="{{ asset('js/main-menu-manager.js') }}"></script>
-
+    </section>
 {% endblock %}

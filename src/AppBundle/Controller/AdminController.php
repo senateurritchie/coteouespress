@@ -46,12 +46,34 @@ class AdminController extends Controller
     public function profilAction(Request $request){
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm(UserProfilType::class,$this->getUser());
+        $item = $this->getUser();
+        $oldImage = $item->getImage();
+
+        $form = $this->createForm(UserProfilType::class,$item,[
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ]);
 
         $form->handleRequest($request);
+
+        foreach ($form->all() as $child) {
+            if (!$child->isValid() && count($child->getErrors())) {
+                $error = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                $this->addFlash('notice-error',$error);
+            }
+        }
+        
         if($form->isSubmitted() && $form->isValid()){
-            $user = $form->getData();
-            $em->merge($user);
+            $em->merge($item);
+
+            if(!$item->getImage() && $oldImage){
+                $item->setImage($oldImage);
+            }
+
+            if($oldImage && $item->getImage() && $item->getImage() != $oldImage){
+                $path = $this->getParameter('public_upload_directory').'/'.$oldImage;
+                unlink($path);
+            }
+
             $em->flush();
 
             $this->addFlash('notice-success',"modification éffectuée avec success");
