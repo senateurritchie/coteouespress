@@ -474,7 +474,11 @@
                             <div class="col-md-5 mb-2" >
 
                                 <div class="position-relative">
-                                    <img  class="img-fluid" src="{{ asset('img/producer.jpg')}}" alt="">
+                                    {% if producer.image %}
+                                        <img  class="img-fluid" src="{{ asset('upload/public/'~producer.image) }}" alt="">
+                                    {% else %}
+                                        <img  class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}" alt="">
+                                    {% endif %}
 
                                     <a href="{{ path('producer_index',{'slug':producer.slug}) }}" class="bg-circle detail-producer">
 
@@ -494,7 +498,7 @@
 
                             <div class="col-md-7">
 
-                                <div class="row">
+                                <div class="row d-flex flex-row justify-content-center align-items-center">
 
                                     {% for item in directors %}
                                         {% set pos = loop.index %}
@@ -503,9 +507,14 @@
                                             {% set pos = pos - 3 %}
                                         {% endif %}
 
-                                        <div class="col-6 col-md-4 col-sm-6 mb-3">
+                                        <div class="col-6 col-md-4 col-sm-6 mb-4">
                                             <a href="{{ path('director_index',{'slug':item.slug}) }}" class="position-relative d-block vid-hover has-detail">
-                                                <img  class="img-fluid" src="{{ asset('img/director-'~pos~'.jpg')}}" alt="" />
+
+                                                {% if item.image %}
+                                                    <img  class="img-fluid" src="{{ asset('upload/public/'~item.image) }}" alt="">
+                                                {% else %}
+                                                    <img  class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}" alt="">
+                                                {% endif %}
 
                                                 <div class="media-info align-items-center justify-content-center">
                                                     <span class="badge badge-light">

@@ -103,7 +103,7 @@
       </trans-unit>
       <trans-unit id="PebLBbn" resname="Réalisateur">
         <source>Réalisateur</source>
-        <target>Réalisateur</target>
+        <target>[0,1] Réalisateur | ]1,Inf[ Réalisateurs</target>
       </trans-unit>
       <trans-unit id="VbRqUx4" resname="Créateur">
         <source>Créateur</source>
@@ -121,10 +121,7 @@
         <source>Nom du programme</source>
         <target>Nom du programme</target>
       </trans-unit>
-      <trans-unit id="WgDLhYa" resname="Réalisateurs">
-        <source>Réalisateurs</source>
-        <target>__Réalisateurs</target>
-      </trans-unit>
+     
     </body>
   </file>
 </xliff>

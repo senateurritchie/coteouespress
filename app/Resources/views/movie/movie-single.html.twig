@@ -230,7 +230,7 @@
                                     {% if item.director.image %}
                                         <img class="img-fluid" src="{{ asset('upload/public/'~item.director.image)}}"  alt="{{ item.director.name|lower|title }}">
                                     {% else %}
-                                        <img class="img-fluid" src="{{ asset('img/vignette-actor.jpg')}}"  alt="{{ item.director.name|lower|title }}">
+                                        <img class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}"  alt="{{ item.director.name|lower|title }}">
                                     {% endif %}
 
                                     <div class="media-info align-items-center justify-content-center">
@@ -794,7 +794,7 @@
                                         {% if item.portraitImg %}
                                             <img  src="{{ asset('upload/public/'~item.portraitImg) }}"  alt="{{ item.name|lower|title }}">
                                         {% else %}
-                                            <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}"  alt="">
+                                            <img alt="" src="{{ asset('img/vignette.png')}}"  alt="">
                                         {% endif %}
 
                                         <div class="media-overlay"></div>

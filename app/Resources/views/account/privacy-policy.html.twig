@@ -1,30 +1,244 @@
 {% extends 'account/base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .p-ul{
+            padding-left:20px;
+        }
+
+        section{
+            margin-bottom: 40px;
+        }
+    </style>
+    
+{% endblock %}
+
 {% block content %}
     <section style="min-height:600px;">
         <h1 class="text-nowrap text-truncate">
             Politique de Confidentialité
         </h1>
         <hr>
-        <div class="biography shadow-effect2">
+        <div class="biography">
+            
+            <section>
+                <h4>Introduction</h4>
+            
+                <p>
+                    Devant le développement des nouveaux outils de communication, il est nécessaire de porter une attention particulière à la protection de la vie privée. 
+                    C'est pourquoi, MAGIC MOVIES s’engage à respecter et protéger la confidentialité des informations personnelles que nous collectons. 
+                    Les informations personnelles sont des données associées à un individu identifié ou identifiable. 
+                    La présente Politique de confidentialité décrit le type d’informations personnelles que nous recueillons ou recevons, la façon dont nous utilisons, partageons et protégeons vos informations personnelles, la façon dont nous utilisons les cookies et les technologies similaires ainsi que vos droits et vos options.
+                </p>
 
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Officiis velit animi odio dolorum, fugit ducimus voluptatibus, inventore obcaecati deserunt explicabo est harum mollitia laudantium suscipit quaerat. Ad veritatis laboriosam temporibus.</p>
-            <p>Quo perspiciatis odit vel quasi nisi similique quas aliquid quaerat quidem itaque dolor, obcaecati animi porro sit nobis voluptas blanditiis tempora aliquam labore odio a maiores laborum, nam eveniet quos?</p>
-            <p>Quaerat dolor qui delectus culpa corporis minima, nesciunt, tempore esse nemo, deserunt, veniam illo? Enim, qui quo magni eligendi delectus vero odit natus. Sunt veniam ullam, similique sit culpa, repellendus.</p>
-            <p>Aperiam soluta tempora, temporibus officiis beatae quibusdam error recusandae necessitatibus ratione! Voluptatum suscipit aspernatur nesciunt, aperiam dicta pariatur quod et at eveniet, eos, dolorem saepe doloribus ipsa earum veritatis. Expedita.</p>
-            <p>Veniam harum ducimus eius iste accusamus. Eos molestias voluptatibus, pariatur facilis eaque nulla molestiae impedit inventore! Illum inventore quaerat est nostrum et error quo architecto velit fugiat. At, obcaecati, rem.</p>
-            <p>Quibusdam delectus tenetur, repellat natus recusandae consectetur corporis, neque! Facere debitis consequuntur atque, nulla aliquid voluptatum ullam consequatur, voluptatem, officiis totam quae? Saepe dolor cumque, laudantium ab unde cupiditate est.</p>
-            <p>Veritatis earum aut iure, consequatur, nemo accusantium repellendus quasi, qui quidem obcaecati praesentium temporibus expedita possimus porro veniam quo voluptate voluptatibus fugit. Quos maiores pariatur, minima doloremque corporis, necessitatibus accusamus.</p>
-            <p>Nostrum temporibus facere earum labore illum nam eveniet ipsa eaque soluta vel, reiciendis fuga accusamus debitis pariatur dolorum quo nihil. Nesciunt accusamus, officia ipsam fugiat a incidunt quo modi quibusdam.</p>
-            <p>Esse totam distinctio dolores officiis error maiores eum facere cum nisi. Iste nulla, a modi quisquam, quae, eligendi ipsam laborum ipsum iure magni ratione voluptatem doloribus. Nisi delectus, itaque repellendus.</p>
-            <p>Inventore ratione nobis id aliquid mollitia accusantium, libero dignissimos rem cupiditate, in, minus deserunt modi eligendi sed neque consectetur numquam perferendis et voluptas suscipit fugiat cum aliquam. Beatae, assumenda, aliquid!</p>
+
+                <h4>Collecte des renseignements personnels</h4>
+                
+                <p>
+                    <em>Les informations que vous fournissez</em>
+                </p>
+
+                <p>
+                    Nous collectons les renseignements suivants : 
+                </p>
+
+                <div>
+                     <ul class="p-ul" >
+                        <li>Nom + Prénom</li>
+                        <li>Adresse électronique</li>
+                        <li>Numéro de mobile (MSISDN)</li>
+                        <li>Type d’appareil</li>
+                        <li>Pays</li>
+                        <li>Type de souscription</li>
+                    </ul>
+                </div>
+                
+            
+                <p>
+                    Les renseignements personnels que nous collectons sont recueillis au travers du formulaire d’inscription et grâce à l'interactivité établie entre vous et notre application mobile « MyNina ». Nous utilisons également, comme indiqué dans la section suivante, des fichiers témoins et/ou journaux logs pour réunir des informations vous concernant. 
+                </p>
+                
+                <p>
+                    <em>Les informations que nous recueillons automatiquement</em>
+                </p>
+
+                <p>
+                    En plus des informations personnelles que vous nous fournissez, notre application collecte automatiquement d’autres informations techniques par le biais des cookies et d’autres technologies de suivi similaires. 
+                    Collecter des informations nous permet de mieux comprendre les utilisateurs de notre application, d’où ils viennent et quel contenu de notre application les intéresse. Nous utilisons ces informations à des fins d’analyse interne et pour améliorer la qualité et la pertinence de notre application pour les utilisateurs.
+                </p>
+            </section>
+            
+            
+            <section>
+                <h4>
+                    Comment sont utilisées vos informations personnelles ?
+                </h4>
+
+                <p>
+                    Nous utiliserons les informations personnelles que nous collectons auprès de vous seulement aux fins décrites dans la présente Politique de confidentialité ou aux fins que nous vous avons expliquées au moment de collecter vos informations personnelles.  Nous utilisons vos informations pour :
+                </p>
+
+                <ul class="p-ul">
+                    <li>
+                        Authentifier le paiement à un service ;
+                    </li>
+
+                    <li>
+                        Vous fournir les produits, les services ou les solutions que vous achetez, respecter les conditions de nos accords contenus dans les Condition Générales de Vente ;
+                    </li>
+
+                    <li>
+                        Envoyer des notifications importantes au sujet de nos modalités, conditions et politiques ;
+                    </li>
+
+                    <li>
+                        Exercer nos activités, évaluer et améliorer notre entreprise (notamment développer de nouveaux produits ; optimiser et améliorer nos services ; analyser nos produits) ;
+                    </li>
+
+                    <li>
+                        Mener des vérifications de référence de crédit et d’autres devoirs de précaution financière appropriés ;  
+                    </li>
+
+                    <li>
+                        Exercer des fonctions de comptabilité, d’audit, de rapprochement et collecte de factures ainsi que d’autres fonctions commerciales internes ;
+                    </li>
+
+                    <li>
+                        Effectuer des analyses et des traitements de données (y compris des études de marché et de consommation, des études relatives à la satisfaction de la clientèle, des analyses des tendances, des analyses financières) ;
+                    </li>
+
+                    <li>
+                        Protéger contre la fraude et les autres activités illégales, revendications et responsabilités infondées, établir, exercer et défendre les droits juridiques et respecter nos obligations juridiques et réglementaires en vertu des lois en vigueur ;
+                    </li>
+
+                    <li>
+                        Vous informer des prochains événements, des mises à jour, des nouvelles et des derniers produits, services et solutions ainsi que d’autres offres conformément à vos préférences de communication ;
+                    </li>
+                </ul>
+                
+                <p>
+                    Nous   pouvons   également   utiliser   vos   informations   sous   une   forme   anonyme afin d’évaluer et d’améliorer nos offres.
+                </p>
+            </section>
+
+            <section>
+                <h4>
+                    Base légale pour le traitement des données personnelles
+                </h4>
+
+                <p>
+                    Nous recueillons des informations personnelles auprès de vous seulement quand :
+                </p>
+
+                <ul class="p-ul">
+                    <li>
+                        vous nous avez donné votre consentement en cliquant sur la case à cocher à l’inscription ; 
+                    </li>
+
+                    <li>
+                        nous avons besoin de vos informations personnelles pour fournir  un  service  ou  exécuter un contrat ou un accord conclu avec vous ; ou  
+                    </li>
+
+                    <li>
+                        quand le traitement est dans nos intérêts légitimes et qu’il n’est pas supplanté par vos intérêts en matière de protection des données ou par vos droits et libertés fondamentaux.  
+                    </li>
+                </ul>
 
 
-            <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. In, iste deserunt. Laboriosam cupiditate magni nam adipisci dolorem ab aliquid, beatae! Ad sunt atque optio molestiae rerum corrupti ex error, animi.</div>
-            <div>Eaque, unde molestiae dolor. Unde ipsum nisi ex, minima ullam autem voluptatum, ut labore quasi, vero nesciunt veniam in. Sint atque molestias nemo maxime veritatis quae sed suscipit rem, illo.</div>
-            <div>Deleniti dicta qui natus ipsum ex eligendi voluptas voluptatibus omnis tempora repellendus ratione amet voluptatum necessitatibus quas dignissimos consequuntur velit possimus distinctio architecto temporibus, similique harum doloribus illo alias. Labore!</div>
-            <div>Magnam, odit minima architecto. Inventore voluptatum eum perspiciatis sapiente reiciendis. Aperiam id, ipsa ducimus sapiente ut maxime optio odit quas molestias, consequatur iure nesciunt velit quaerat eos neque magnam est.</div>
-            <div>Repudiandae dolor eos odio, incidunt atque, saepe velit quis laborum architecto mollitia similique quae exercitationem eligendi, adipisci nesciunt deleniti tempora fugiat necessitatibus animi autem facilis quaerat. Nemo veritatis laboriosam sequi.</div>
+            </section>
+
+
+            <section>
+                <h4>
+                    Comment nous protégeons les informations personnelles
+                </h4>
+
+                <p>
+                    Nous prenons la protection des données et de la vie privée de nos utilisateurs au sérieux.  Nous maintenons en place des systèmes de protection à la pointe de la technologie en vue de protéger les informations personnelles contre la destruction, la perte, l’altération, l’accès, la divulgation et l’utilisation accidentels, illégaux ou non autorisés. 
+                </p>
+            </section>
+
+            <section>
+                <h4>
+                    Conservation des données
+                </h4>
+
+                <p>
+                    Nous conservons des informations personnelles que nous collectons auprès de vous lorsque nous en avons un besoin commercial légitime continu (par exemple, pour vous fournir un service ou une solution ou pour nous conformer à des obligations juridiques, fiscales et comptables). Lorsque nous n’avons aucun besoin commercial légitime de traiter vos informations personnelles, nous les supprimerons ou nous les anonymiserons ou, si cela n’est pas possible (par exemple, parce que vos informations personnelles sont stockées dans des archives de sauvegarde), alors nous stockerons vos informations personnelles de manière sécurisée et nous les isolerons de tout autre traitement jusqu’à ce qu'il soit possible de les supprimer.
+                </p>
+            </section>
+
+            <section>
+                <h4>
+                    Vos actions
+                </h4>
+
+                <p>
+                    Il vous est possible :
+                </p>
+
+                <ul class="p-ul">
+                    <li>
+                        d'accéder à toutes vos informations personnelles et d’en obtenir une copie;
+                    </li>
+                    <li>
+                        de mettre à jour ou de corriger l’inexactitude de ces informations ;
+                    </li>
+                    <li>
+                        de contester l'utilisation que nous faisons de vos renseignements personnels ;  
+                    </li>
+                    <li>
+                        de supprimer vos informations personnelles de notre base de données en supprimant votre compte utilisateur ;
+                    </li>
+                    <li>
+                        de nous demander de restreindre le traitement de vos informations personnelles
+                    </li>
+                </ul>
+
+                <p>
+                    Vous avez aussi le droit de refuser de recevoir les communications marketing que nous vous envoyons à certains moments dans le but de nos actions marketing.  Vous pouvez exercer ce droit en cliquant sur les liens de désabonnement dans les e-mails marketing que nous vous envoyons.  
+                </p>
+
+                <p>
+                    Vous avez le droit de déposer une plainte auprès de votre autorité locale de protection des données contre la collecte et l'utilisation que nous faisons de vos informations   personnelles.   Pour   plus   d’informations, veuillez contacter votre autorité de protection des données.
+                </p>
+
+                <p>
+                    Pour exercer ces droits, veuillez contacter vod@nina.tv, et nous prendrons en compte votre requête conformément aux règles établies par l’UE et communément appelé RGPD.
+                    Afin de protéger votre privée et maintenir la sécurité, nous pouvons prendre des mesures pour vérifier votre identité avant de vous octroyer l’accès aux informations.
+
+                </p>
+
+            </section>
+
+            <section>
+                <h4>
+                    Transferts internationaux
+                </h4>
+
+                <p>
+                    Vos informations personnelles peuvent être transférées et traitées dans des pays autres que votre pays de résidence.  Ces pays peuvent avoir des lois sur la protection des données différentes des lois de votre pays (et, dans certains cas, peuvent ne pas être aussi protectrices).
+                </p>
+
+                <p>
+                    Nous avons cependant pris les précautions appropriées pour exiger que vos informations personnelles restent protégées conformément avec le présent Avis de confidentialité. 
+                    Plus détails peuvent être fournis sur demande en nous contactant à l’adresse contact@nina.tv
+
+                </p>
+            </section>
+
+            <section>
+                <h4>
+                    Changements et contact
+                </h4>
+
+                <p>
+                    Il est possible que nous mettions à jour la présente Politique de confidentialité en réponse à des évolutions légales, techniques ou commerciales. Il est donc de votre responsabilité de visiter périodiquement la présente politique de confidentialité afin de vous maintenir informés des éventuelles mises à jour. Nous obtiendrons tacitement votre consentement à tous changements significatifs de la Politique de confidentialité si et quand cela est exigé par les lois sur la protection des données en vigueur.
+                </p>
+            </section>
+
         </div>
 
     </section>

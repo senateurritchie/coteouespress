@@ -13,6 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+
+use Symfony\Component\HttpFoundation\File\File;
+
+
 
 use AppBundle\Form\UserType;
 use AppBundle\Entity\Role;
@@ -26,37 +32,13 @@ class UserAdminRegistrationType extends AbstractType
     {
         $builder->remove('salt')->remove('createAt')->remove('password');
 
-        $builder
-        ->add('username', TextType::class,array(
-            "label"=>"Nom & Prénoms",
-            "attr"=>["class"=>"input-sm"]
-        ))
-        ->add('email',EmailType::class,array(
-            "attr"=>["class"=>"input-sm"]
-        ))
-        ->add('roles',EntityType::class,array(
-            "placeholder"=>"",
-            "mapped"=>false,
-            "class"=>Role::class,
-            "choice_label"=>"name",
-            "attr"=>["class"=>"input-sm"],
-            'query_builder' => function (EntityRepository $er) {
-                $qb = $er->createQueryBuilder('r');
-
-                $qb->where($qb->expr()->eq('r.type',':role'))
-                ->setParameter('role',"role")
-                ->orderBy('r.name', 'ASC');
-                return $qb;
-            },
-        ))
-        ->add('privileges',EntityType::class,array(
+        $privilegeOpts = array(
             "required"=>false,
             "class"=>Role::class,
             "choice_label"=>"name",
-            "choice_value"=>"label",
             "mapped"=>false,
             "multiple"=>true,
-            "attr"=>["class"=>"input-sm"],
+            "expanded"=>true,
             'group_by' => function($index, $key, $value) {
                 $e = explode("_", $value);
                 if(count($e) >= 2){
@@ -77,7 +59,101 @@ class UserAdminRegistrationType extends AbstractType
 
                 return $qb;
             },
-        ));
+        );
+
+        $rolesOpts = array(
+            "placeholder"=>"",
+            "mapped"=>false,
+            "class"=>Role::class,
+            "choice_label"=>"name",
+            "attr"=>["class"=>"input-sm"],
+            'query_builder' => function (EntityRepository $er) {
+                $qb = $er->createQueryBuilder('r');
+
+                $qb->where($qb->expr()->eq('r.type',':role'))
+                ->setParameter('role',"role")
+                ->orderBy('r.name', 'ASC');
+                return $qb;
+            },
+        );
+
+        $usernameOpts = array(
+            "label"=>"Nom & Prénoms",
+            "attr"=>["class"=>"input-sm"]
+        );
+
+        $emailOpts = array(
+            "attr"=>["class"=>"input-sm"]
+        );
+
+        $builder
+        ->add('username', TextType::class,$usernameOpts)
+        ->add('email',EmailType::class,$emailOpts)
+        ->add('roles',EntityType::class,$rolesOpts)
+        ->add('privileges',EntityType::class,$privilegeOpts)
+        ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options,&$privilegeOpts,$rolesOpts,$usernameOpts,$emailOpts){
+            $model = $event->getData();
+            $form = $event->getForm();
+
+            if (!$model) {
+                return;
+            }
+
+            $uroles = $options["usr_roles"];
+            $roles = [];
+            $privils = [];
+
+            foreach ($uroles as $key => $el) {
+                if($el->getRole()->getType() == "role"){
+                    $roles[] = $el->getRole();
+                }
+                else if($el->getRole()->getType() == "privilege"){
+                    $privils[] = $el->getRole();
+                }
+            }
+
+            if(count($privils)){
+                $privilegeOpts['choice_attr'] = function($value, $key, $index)use(&$privils) {
+                    $attrs = [];
+                    foreach ($privils as $el) {
+                        if($el->getId() == $value->getId()){
+                            $attrs["checked"] = "checked";
+                        }
+                    }
+                    return $attrs;
+                };
+                $form->add('privileges',EntityType::class,$privilegeOpts);
+            }
+
+            if(count($roles)){
+                $rolesOpts['attr'] = [
+                    "disabled"=>"disabled"
+                ];
+
+                $rolesOpts['choice_attr'] = function($value, $key, $index)use(&$roles) {
+                    $attrs = [];
+                    foreach ($roles as $el) {
+                        if($el->getId() == $value->getId()){
+                            $attrs["selected"] = "selected";
+                        }
+                    }
+                    return $attrs;
+                };
+                $form->add('roles',EntityType::class,$rolesOpts);
+            }
+
+            $usernameOpts['attr']["disabled"] = "disabled";
+            $emailOpts['attr']["disabled"] = "disabled";
+
+            $form->add('username', TextType::class,$usernameOpts)
+            ->add('email',EmailType::class,$emailOpts);
+
+
+            if($model->getImage()){
+                $path = $options['upload_dir'].'/'.$model->getImage();
+                $model->setImage(new File($path));
+            }
+        });
     }
 
     /**

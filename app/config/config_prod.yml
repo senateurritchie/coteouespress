@@ -30,6 +30,17 @@ parameters:
         email:  'webmaster@coteouest.ci'
         url:    'http://coteouest.tv/'
     app.vimeo:
-        access_token: '1198091448fb8d24a0b332ab28b7e0cf'
-        client_id: '7ec68730b75234b0808db6a3a1f473f1424af34e'
-        client_secret: '/lP+99w7SP7JKIxW3WydJLuzX5+AK9mkK4mkAfbRZOc9gAvGNEqlK0swUbYPBK+AeonvHddAHGmKh+5ZMnujQBPkPJOIJw6J4M/dz22LndFSt21vl1mW9zBHhkcnrkTV'
+        # mes propre acces
+        # access_token: '95e6651dbfaf32ff95b86f047afa645b'
+        # client_id: '7ec68730b75234b0808db6a3a1f473f1424af34e'
+        # client_secret: '/lP+99w7SP7JKIxW3WydJLuzX5+AK9mkK4mkAfbRZOc9gAvGNEqlK0swUbYPBK+AeonvHddAHGmKh+5ZMnujQBPkPJOIJw6J4M/dz22LndFSt21vl1mW9zBHhkcnrkTV'
+
+        # access cote ouest
+        access_token: '8531d3e2429838d548c960e52b035148'
+        client_id: '5f060d30dea49fcc03e514796218c04740792683'
+        client_secret: 'GPH0T7BCY8aas5vous6KzedIXU92wwXbGKtpXfEHkr60E2fEYhRizc8eI9MGKFnRQ+/WJL55+qhhbB6+yUmx5yvnl0l+I0bFTBPw/heiXIF0NR+E5b/VjR7oB7XmdfOG'
+
+        # access cote ouest 2
+        # access_token: 'dd85a81b21555c5a34d7cd7c419aa6b4'
+        # client_id: '97b9159f2231b43f90f3874ce745e2d2dda609ba'
+        # client_secret: 'zfw/DV7ERqi+974In0JlP+Bnbrr6OygeWDQeYeWTwJcXvJqMfDDT3JPPLa291dy/GUHRR5T1L7gyDcOygGRkkPrp9KJ0qLYMV95nqZngouvPh9bQmRS+XnJhSitWYEv2'

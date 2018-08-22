@@ -72,9 +72,9 @@
                         </div>
 
                         <div class="card-body pl-2 pr-2">
-                            <h3 class="text-nowrap text-truncate" >
+                            {#<h3 class="text-nowrap text-truncate" >
                                 {{ profil.name|lower|title }}
-                            </h3>
+                            </h3>#}
 
                             <hr>
                             <table class="table table-sm table-borderless">
@@ -85,7 +85,7 @@
 
                                     <td class="text-right">
                                         {% for i in profil.countries %}
-                                            <div class="badge badge-secondary">
+                                            <div class="badge badge-info">
                                                 {{i.country.name|lower|title}}
                                             </div>
                                         {% else %}
@@ -95,21 +95,6 @@
                                 </tr>
                             </table>
 
-                            <br>
-
-                            <div class="alert alert-light" role="alert">                              
-                                <p>
-                                    Faites une requete de modification pour ce profil.
-                                </p>
-
-                                <hr>
-                                <p class="mb-0">
-                                    <a href=""  class="btn btn-sm btn-light text-secondary">
-                                        Cliquez ici.
-                                    </a>
-                                </p>
-                            </div>
-                            
                         </div>
                     </div>
                     
@@ -123,11 +108,12 @@
                     <hr>
 
                     <div class="biography shadow-effect2">
-                        <h2>Biographie</h2>
 
                         {% if profil.description %}
                             {{ profil.description|md2html }}
                         {% else %}
+                            <h2>Biographie</h2> 
+
                             <div class="alert alert-light p-0" role="alert">
                                 <h5 class="alert-heading">Information indisponible</h5>
                               
@@ -179,7 +165,7 @@
                                             {% if item.portraitImg %}
                                                 <img  src="{{ asset('upload/public/'~item.portraitImg) }}"  alt="{{ item.name|lower|title }}">
                                             {% else %}
-                                                <img  src="{{ asset('img/'~random(['other-movie-1','other-movie-2','other-movie-3','other-movie-4','other-movie-5','other-movie-6','other-movie-7'])~'.jpg')}}"  alt="">
+                                                <img alt="" src="{{ asset('img/vignette.png')}}"  alt="">
                                             {% endif %}
 
                                             <div class="media-overlay"></div>

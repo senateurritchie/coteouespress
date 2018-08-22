@@ -35,6 +35,7 @@ class ActorType extends AbstractType
         ))
         ->add('description',TextareaType::class,array(
             "attr"=>["placeholder"=>"A propos","class"=>"input-sm"],
+            "required"=>false,
         ))
         ->add('pays',CollectionType::class,array(
             'entry_type' => EntityType::class,

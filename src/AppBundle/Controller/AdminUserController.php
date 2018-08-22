@@ -8,6 +8,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\AcceptHeader;
 
 
 use AppBundle\Entity\User;
@@ -33,10 +34,10 @@ class AdminUserController extends Controller
     	$rep = $em->getRepository(User::class);
         $rep_role = $em->getRepository(Role::class);
 
-    	$limit = intval($request->query->get('limit',50));
+    	$limit = intval($request->query->get('limit',20));
     	$offset = intval($request->query->get('offset',0));
 
-    	$limit = $limit > 50 ? 50 : $limit;
+    	$limit = $limit > 20 ? 20 : $limit;
     	$offset = $offset < 0 ? 0 : $offset;
 
         if($user_id){
@@ -44,11 +45,12 @@ class AdminUserController extends Controller
         }
 
     	$params = $request->query->all();
-
-    	$users = $rep->search($params,$limit,$offset);
+    	$data = $rep->search($params,$limit,$offset);
 
     	$user = new User();
-    	$form = $this->createForm(UserAdminRegistrationType::class,$user);
+    	$form = $this->createForm(UserAdminRegistrationType::class,$user,[
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ]);
 
     	$form->handleRequest($request);
     	if($form->isSubmitted() && $form->isValid()){
@@ -87,32 +89,73 @@ class AdminUserController extends Controller
     		return $this->redirectToRoute("admin_user_index");
     	}
 
+        // requete ajax
         if($request->isXmlHttpRequest()){
 
+            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+            
             if(intval(@$params['id'])){
-                if(empty($users)){
-                    throw $this->createNotFoundException("Utilisateur introuvable");
+                if(empty($data)){
+                    throw $this->createNotFoundException("Element introuvable");
                 }
-                $users = $users[0];
+                $data = $data[0];
             }
 
-            $json = $this->get("serializer")->serialize($users,'json', array('groups' => array('group1')));
 
+            $result = array();
+            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
+            $result['model'] = $json;
+            $result['view'] = "";
+            $view = null;
+
+            if(is_array($data)){
+                $view = $this->render('admin/user/item-render.html.twig',array(
+                    "data"=>$data,
+                ));
+            }
+            else{
+
+                $form2 = $this->createForm(UserAdminRegistrationType::class,$data,[
+                    'usr_roles'=>$data->getUroles(),
+                    'upload_dir' => $this->getParameter('public_upload_directory'),
+                ]);
+                
+                $formView = $form2->createView();
+
+                $view = $this->render('admin/user/selected-view.html.twig',[
+                    "data"=>$data,
+                    "use_modal"=>"update",
+                    "form"=>$formView,
+                ]);
+            }
+
+            if ($acceptHeader->has('text/html')) {
+                $item = $acceptHeader->get('text/html');
+                return $view;
+            }
+            
+            if($view){
+                $result['view'] = $view->getContent();
+            }
+
+            $json = json_encode($result);
             $response = new Response($json);
             $response->headers->set('Content-Type', 'application/json');
             return $response;
         }
 
     	return $this->render('admin/user/index.html.twig',array(
-            "users"=>$users,
+            "users"=>$data,
             "roles"=>$rep_role->findAll(),
     		"form"=>$form->createView()
     	));
     }
 
+    
+
 
     /**
-    * @Route("/grant-role/{user_id}", requirements={"user_id":"\d+"}, name="grant_role")
+    * @Route("/{user_id}/grant-role", requirements={"user_id":"\d+"}, name="grant_role")
     * @Method("POST")
     */
     public function grantAction(Request $request,$user_id){
@@ -154,7 +197,7 @@ class AdminUserController extends Controller
     }
 
     /**
-    * @Route("/revoke-role/{user_id}", requirements={"user_id":"\d+"}, name="revoke_role")
+    * @Route("/{user_id}/revoke-role", requirements={"user_id":"\d+"}, name="revoke_role")
     * @Method("POST")
     */
     public function revokeAction(Request $request,$user_id){

@@ -21,6 +21,14 @@
         <source>Acteurs</source>
         <target>Acteurs</target>
       </trans-unit>
+      <trans-unit id="sw2ZkqT" resname="Production à la une">
+        <source>Production à la une</source>
+        <target>__Production à la une</target>
+      </trans-unit>
+      <trans-unit id="VBvfmNa" resname="Equipe de production">
+        <source>Equipe de production</source>
+        <target>__Equipe de production</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

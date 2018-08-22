@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="wB_qOf5" resname="Nos contacts">
         <source>Nos contacts</source>
-        <target>__Nos contacts</target>
+        <target>Our Contacts</target>
       </trans-unit>
       <trans-unit id="bcoHoL7" resname="Nous écrire">
         <source>Nous écrire</source>
@@ -19,11 +19,11 @@
       </trans-unit>
       <trans-unit id="bf2y8Z." resname="Votre prénom">
         <source>Votre prénom</source>
-        <target>__Votre prénom</target>
+        <target>Your surname</target>
       </trans-unit>
       <trans-unit id="B50hZGY" resname="Votre adresse email">
         <source>Votre adresse email</source>
-        <target>__Votre adresse email</target>
+        <target>Email address</target>
       </trans-unit>
       <trans-unit id="sBGJzTX" resname="Objet">
         <source>Objet</source>
@@ -31,7 +31,7 @@
       </trans-unit>
       <trans-unit id="9OFN3Ga" resname="Exprimez-vous">
         <source>Exprimez-vous</source>
-        <target>__Exprimez-vous</target>
+        <target>Your message</target>
       </trans-unit>
       <trans-unit id="eQdSCfK" resname="Envoyer">
         <source>Envoyer</source>
@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="lbpg_9o" resname="referer.message">
         <source>referer.message</source>
-        <target>__referer.message</target>
+        <target>How did you hear about our website ?</target>
       </trans-unit>
     </body>
   </file>

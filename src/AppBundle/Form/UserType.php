@@ -16,7 +16,13 @@ class UserType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('username')->add('email')->add('salt')->add('password')->add('roles')->add('createAt');
+        $builder
+        ->add('username')
+        ->add('email')
+        ->add('salt')
+        ->add('password')
+        ->add('roles')
+        ->add('createAt');
     }/**
      * {@inheritdoc}
      */
@@ -25,6 +31,7 @@ class UserType extends AbstractType
         $resolver->setRequired('upload_dir');
 
         $resolver->setDefaults(array(
+            'usr_roles'=>array(),
             'data_class' => User::class
         ));
     }

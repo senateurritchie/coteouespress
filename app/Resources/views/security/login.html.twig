@@ -135,7 +135,9 @@
                             {{ 'no.account'|trans({},'login') }}
                             
                             <br>
-                            <a href="">{{ 'inscrivez-vous'|trans({},'login') }}</a>
+                            <a href="{{ path('security_registration') }}">
+                                {{ 'inscrivez-vous'|trans({},'login') }}
+                            </a>
                         </p>
                         
                     </div>

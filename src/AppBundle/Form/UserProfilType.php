@@ -46,6 +46,7 @@ class UserProfilType extends AbstractType
         ))
         ->add('aboutme', TextareaType::class,array(
             "label"=>"A propos",
+            "required"=>false,
         ))
         ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options){
             $model = $event->getData();

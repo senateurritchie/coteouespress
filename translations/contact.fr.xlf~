@@ -47,7 +47,7 @@
       </trans-unit>
       <trans-unit id="lbpg_9o" resname="referer.message">
         <source>referer.message</source>
-        <target>__referer.message</target>
+        <target>Comment avez-vous connu notre site web ?</target>
       </trans-unit>
     </body>
   </file>

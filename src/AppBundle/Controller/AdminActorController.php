@@ -104,7 +104,7 @@ class AdminActorController extends Controller
             $view = null;
 
             if(is_array($data)){
-                $view = $this->render('admin/Actor/item-render.html.twig',array(
+                $view = $this->render('admin/actor/item-render.html.twig',array(
                     "data"=>$data,
                 ));
             }
@@ -120,7 +120,7 @@ class AdminActorController extends Controller
                 
                 $formView = $form2->createView();
 
-                $view = $this->render('admin/Actor/selected-view.html.twig',[
+                $view = $this->render('admin/actor/selected-view.html.twig',[
                     "data"=>$data,
                     "use_modal"=>"update",
                     "form"=>$formView,
@@ -142,7 +142,7 @@ class AdminActorController extends Controller
             return $response;
         }
 
-        return $this->render('admin/Actor/index.html.twig',array(
+        return $this->render('admin/actor/index.html.twig',array(
             "data"=>$data,
             "form"=>$form->createView(),
         ));

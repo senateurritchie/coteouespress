@@ -1,0 +1,74 @@
+{% form_theme form 'bootstrap_3_layout.html.twig' %}
+
+{% if use_modal == 'insert' %}
+    <div class="modal fade modal-form" id="modal-insert" role="dialog" aria-labelledby="création de compte" aria-describedby="">
+{% else %}
+    <div class="modal fade modal-form" id="modal-update" data-id="{{ data.id }}" role="dialog" aria-labelledby="modification du compte" aria-describedby="">
+{% endif %}
+
+	<div class="modal-dialog"  role="document">
+	    <div class="modal-content" >
+	        <div class="modal-header bg-red">
+	            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                <span aria-hidden="true">×</span>
+	            </button>
+	            <h4 class="modal-title">
+	                
+	                {% if use_modal == 'insert' %}
+	                	Ajouter un compte
+					{% else %}
+						Modification de compte
+					{% endif %}
+	            </h4>
+	        </div>
+	        
+	        {{ form_start(form) }}
+	            <div class="modal-body" style="height:auto">
+					
+					<div class="row">
+						<div class="col-md-6">
+							{{ form_row(form.username) }}
+						</div>
+
+						<div class="col-md-6">
+							{{ form_row(form.email) }}
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+							{{ form_row(form.roles) }}
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-12">
+            				{{ form_row(form.privileges) }}
+						</div>
+					</div>
+	            </div>
+				
+
+	            <div class="modal-footer">
+
+	                <div class="pull-left">
+	               
+		                <button type="button" class="btn btn-danger" data-dismiss="modal">
+	                        Quitter
+	                    </button>
+	                </div>
+	                
+	                {% if use_modal == 'insert' %}
+		                <button class="btn btn-danger pull-right">
+		                    <i class="fa fa-save"></i> Enregistrer
+		                </button>
+		            {% endif %}
+	            </div>
+	        {{ form_end(form) }}
+
+	        <div class="overlay">
+      			<i class="fa fa-spinner fa-spin fa-5x"></i>
+    		</div>
+	    </div>
+	</div>
+</div>

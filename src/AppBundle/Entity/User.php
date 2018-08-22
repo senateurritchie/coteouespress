@@ -86,7 +86,7 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @Groups({"group1"})
     * @ORM\Column(name="state", type="string", options={"comment":"le status d'un utilisateur"}, columnDefinition="ENUM('activate','pending','blocked')", nullable=true)
     */
-    private $state = "activate";
+    private $state = "pending";
     /**
     * @var string
     *

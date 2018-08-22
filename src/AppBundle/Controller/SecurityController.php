@@ -16,7 +16,10 @@ use Symfony\Component\Security\Http\Event\InteractiveLoginEvent;
 
 use AppBundle\Entity\User;
 use AppBundle\Entity\Movie;
+use AppBundle\Entity\Role;
+use AppBundle\Entity\UserRole;
 
+use AppBundle\Form\UserRegistrationType;
 
 /**
 * @Route("/security", name="security_")
@@ -25,13 +28,13 @@ class SecurityController extends Controller{
 	/**
     * @Route("/login", name="login")
     */
-    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils,$_locale = 'fr'){
+    public function loginAction(Request $request, AuthenticationUtils $authenticationUtils){
         
         $em = $this->getDoctrine()->getManager();
         $rep_movie = $em->getRepository(Movie::class);
 
     	if($this->isGranted('IS_AUTHENTICATED_FULLY')){
-    		return $this->redirectToRoute('homepage');
+    		return $this->redirectToRoute('account_index');
     	}
 
     	// get the login error if there is one
@@ -45,6 +48,50 @@ class SecurityController extends Controller{
 	        'error'         => $error,
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
 	    ));
+    }
+
+    /**
+    * @Route("/registration", name="registration")
+    */
+    public function registrationAction(Request $request){
+        
+        $em = $this->getDoctrine()->getManager();
+        $rep_movie = $em->getRepository(Movie::class);
+
+        if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+            return $this->redirectToRoute('account_index');
+        }
+
+        $user = new User();
+
+        $form = $this->createForm(UserRegistrationType::class,$user,[
+            'upload_dir' => $this->getParameter('public_upload_directory'),
+        ]);
+
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+
+            $user->setState('pending');
+            $em->persist($user);
+
+            $rep = $em->getRepository(Role::class);
+            if(($role = $rep->findOneBy(["label"=>"ROLE_SUBSCRIBER"]))){
+                $userrole = new UserRole();
+                $userrole->setUser($user);
+                $userrole->setRole($role);
+                $em->persist($userrole);
+            }
+            $em->flush();
+
+            $this->addFlash("notice-success",1);
+            $this->redirectToRoute("security_registration");
+        }
+
+        return $this->render('security/registration.html.twig', array(
+            "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
+            "form"=>$form->createView(),
+        ));
     }
 
     /**

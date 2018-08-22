@@ -48,7 +48,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/users/${event.type}/${this.current.id}`,
+	  				url:`/admin/users/${this.current.id}/${event.type}`,
 	  				method:"POST",
 	  				data:{
 	  					role_id:event.params.role_id
@@ -71,25 +71,6 @@ var AdminManager = AdminManager || {};
 		function UserView(params){
 			nsp.View.call(this,params);
 			this.params.$tpl = {
-				currentUserHeader:
-				`<div class="widget-user-image">
-                	<img class="img-circle" src="/admin/dist/img/user7-128x128.jpg" alt="User Avatar">
-              	</div>
-
-              	<h3 class="widget-user-username">{{ username }}</h3>
-              	<h5 class="widget-user-desc">{{ masterRole.name }}</h5>
-              	<div data-title="état du compte" data-toggle="tooltip" class="label label-warning widget-user-state">{{ state }}</div>`,
-
-				currentUserRoles:`
-				{{#privileges}}
-					{{> role}}
-				{{/privileges}}
-				{{^privileges}}
-					<tr><td>- aucun autre</td></tr>
-				{{/privileges}}
-				`,
-				currentUserRole:`
-				<div><span data-label="{{ label }}" data-id="{{ id }}" class="label label-info"> {{ name }} </span></div>`,
 			}
 		};
 
@@ -103,52 +84,49 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
+			$("body").on("change","#modal-update input[type=checkbox]",e=>{
 
-			this.params.currentUserModels.on({
-				change:(e)=>{
-					var selected = e.target;
-					var value = selected.value;
-					var label = $(selected).data('label');
-					var name = $(selected).data('name');
+				var modal = $(e.target).parents("#modal-update");
 
-					var sel = `.widget-user-privileges [data-id=${value}]`;
-					var item = this.params.currentUserView.find(sel);
+				var selected = e.target;
+				var value = selected.value;
 
-					// on ajoute
-					if(selected.checked){
-						if(item.length) return;
-
-						var model = {
-							name:name,
-							id:value,
-							label:label,
-						};
-
-						var role = this.render(this.params.$tpl.currentUserRole,model);	
-						this.params.currentUserView.find('.widget-user-privileges').append($(role.trim())).app;
-
-						this.emit(new nsp.UserGrantRoleEvent({role_id:model.id}));
-					}
-					// on supprime
-					else{
-						var model = {
-							name:item.text(),
-							id:value
-						};
-						item.remove();
-						this.emit(new nsp.UserRevokeRoleEvent({role_id:model.id}));
-					}
-
-					this.params.currentUserView.addClass('updating');
+				// on ajoute
+				if(selected.checked){
+					this.emit(new nsp.UserGrantRoleEvent({role_id:value}));
 				}
+				// on supprime
+				else{
+					this.emit(new nsp.UserRevokeRoleEvent({role_id:value}));
+				}
+				modal.addClass('updating');
 			});
+
 
 			// on ecoute les evenements
 			this.subscribe(event=>{
 				if(event instanceof nsp.UserRoleUpdatingEvent){
 					if(~['end','fails'].indexOf(event.params.state)){
-						this.params.currentUserView.removeClass('updating');
+
+						var modal = $("#modal-update");
+						var modal_info = $('#modal-info');
+
+						modal.removeClass('updating');
 						var data = event.params.data;
+
+						var fn1 = function () {
+			  				modal_info.modal('show');
+			  				modal.off('hidden.bs.modal',fn1);
+						};
+
+						var fn2 = function () {
+							modal.modal('show');
+							modal_info.off('hidden.bs.modal',fn2);
+						};
+
+						modal.on('hidden.bs.modal',fn1);
+						modal_info.on('hidden.bs.modal',fn2);
+						modal.modal('hide');
 
 						if(data.hasOwnProperty('message')){
 							$('#modal-info .modal-body h4').html(data.message);
@@ -166,28 +144,13 @@ var AdminManager = AdminManager || {};
 			return this;
 		}
 
-		UserView.prototype.renderCurrentUser = function(model){
-			this.params.currentUserView.attr('data-id',model.id);
-
-			// les roles
-			var roles = this.render(this.params.$tpl.currentUserRoles,model,{
-				role:this.params.$tpl.currentUserRole
-			});				
-			this.params.currentUserView.find('.widget-user-privileges').html(roles);
-
-			// l'entete
-			var header = this.render(this.params.$tpl.currentUserHeader,model);	
-			this.params.currentUserView.find('.widget-user-header').html(header);
-
-
-			for(var item of model.privileges){
-				this.params.currentUserModels.each(function(i,el){
-					var obj = $(el);
-					if(obj.attr('value') == item.id){
-						obj.prop('checked',true);
-					}
-				});
-			}
+		UserView.prototype.renderSelectedData = function(view){
+			var ref = $("#modal-update-area").html(view);
+			var modal = ref.find('#modal-update');
+			modal.modal({
+				backdrop:'static',
+				show:true
+			});
 		}
 
 		return UserView;

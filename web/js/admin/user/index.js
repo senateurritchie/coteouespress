@@ -24,29 +24,34 @@ $(document).ready(function($){
 		}
 	});
 
-	$("#data-container").on("click",".data-item .data-item-tools .edit",function(e){
+	var modal = $("#modal-loading");
+
+	$("#data-container").on("click",".data-item .edit",function(e){
 
 		e.preventDefault();
 
 		var self = $(this);
 		self.addClass('disabled');
-		var id = self.data('id');
-		rightSection.addClass('user-loading');
+		var id = self.parents("tr").data('id');
+
+		modal.modal({backdrop:'static',show:true});
 
 		repository.find(id)
 		.then(data=>{
-			rightSection.addClass('user-active');
-			rightSection.removeClass('user-loading');
 			self.removeClass('disabled');
-			view.renderCurrentUser(data);
-			repository.setCurrent(data);
+			repository.setCurrent(data.model);
+			var fn = (e)=> {
+				$('#modal-loading').off('hidden.bs.modal',fn);
+  				view.renderSelectedData(data.view);
+			};
+
+			$('#modal-loading').on('hidden.bs.modal',fn);
+
+			modal.modal('hide');
+			
 		},msg=>{
-			console.log(msg);
-			rightSection.removeClass('user-active');
-			rightSection.removeClass('user-loading');
+			modal.modal('hide');
 			self.removeClass('disabled');
 		})
 	});
-
-
 });
