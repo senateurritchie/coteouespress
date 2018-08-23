@@ -11,7 +11,7 @@ security:
         my_db_provider:
             entity:
                 class: AppBundle\Entity\User
-                property: email
+                #property: email
 
         in_memory:
             memory: ~
@@ -36,6 +36,8 @@ security:
             logout:
                 path: /security/logout
                 target: /
+                handlers: 
+                    - 'app.logout_listener'
 
             # activate different ways to authenticate
 

@@ -108,6 +108,7 @@ class SecurityController extends Controller{
 
         if($user->getState() == "pending"){
             $user->setState("activate");
+            $user->setEmailVerified(1);
             $em->persist($user);
             $em->flush();
         }

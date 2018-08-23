@@ -11,22 +11,40 @@
 
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
 
-    <style>
+    {#<style>
         header#header{
             height: auto !important;
             position: static;
         }
+    </style>#}
+
+    <style>
+
+        header #master-cover{
+            height: 200px;
+            background-color: #f6f6f6;
+            overflow: hidden;
+            background: url("{{asset('img/illustrator-banner.jpg')}}") no-repeat left top / cover;
+        }
+
+        @media (max-width: 576px) { 
+            #master-cover {
+                height: 258px !important;
+            }
+        }
+
     </style>
 
 {% endblock %}
 
 {% block body %}
    
-    <header id="header">
+     <header id="header">
         {{ include('main-menu.html.twig') }}
+        <div id="master-cover"></div>
     </header>
 
-    <div class="container" style="margin-top:100px;margin-bottom:100px">
+    <div class="container" style="margin-top:50px;margin-bottom:100px">
         <div class="row justify-content-center align-items-center" style="height:50vh">
 
             {% for notice in app.flashes('notice-success') %}
@@ -45,10 +63,17 @@
                 <div class="col-md-4 shadow bg-white p-4">
                     {{ form_start(form) }}
                         <legend>{{ 'Inscrivez-vous'|trans({},'login') }}</legend>
+                        <hr>    
 
                         {{ form_row(form.username) }}
                         {{ form_row(form.email) }}
 
+                        <div class="alert alert-light p-0">
+                            <small>
+                                En cliquant sur S’inscrire, vous acceptez les Conditions d’utilisation, la Politique de confidentialité, et la Politique relative aux cookies de {{ site.name }}.
+                            </small>
+                        </div>
+        
                         <button type="submit" class="btn btn-sm btn-primary">
                             {{ 'sign.up'|trans({},'login') }}
                         </button>

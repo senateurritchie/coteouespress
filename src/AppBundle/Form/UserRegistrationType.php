@@ -26,7 +26,7 @@ class UserRegistrationType extends AbstractType
             "label"=>"Adresse email",
         ))
         ->add('username', TextType::class,array(
-            "label"=>"Nom & Prénoms",
+            "label"=>"Nom",
         ));
     }
 

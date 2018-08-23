@@ -39,7 +39,7 @@
       </trans-unit>
       <trans-unit id="0tp0Ujd" resname="sign.up">
         <source>sign.up</source>
-        <target>Inscription</target>
+        <target>S'incrire</target>
       </trans-unit>
     </body>
   </file>

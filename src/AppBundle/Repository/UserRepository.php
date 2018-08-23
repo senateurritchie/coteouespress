@@ -17,8 +17,10 @@ class UserRepository extends \Doctrine\ORM\EntityRepository implements UserLoade
 	public function loadUserByUsername($username){
         return $this->createQueryBuilder('u')
             ->where('u.username = :username OR u.email = :email')
+            ->andWhere('u.state = :state')
             ->setParameter('username', $username)
             ->setParameter('email', $username)
+            ->setParameter('state', "activate")
             ->getQuery()
             ->getOneOrNullResult();
     }

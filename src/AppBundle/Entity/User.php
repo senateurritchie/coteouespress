@@ -94,6 +94,21 @@ class User implements UserInterface, EquatableInterface, \Serializable
     * @ORM\Column(name="signup_token", type="string", options={"comment":"un code arbitraire généré pour l'activation du compte"}, nullable=true, length=64)
     */
     private $signUpToken;
+     /**
+    * @var string
+    *
+    * @Groups({"group1","group2","group3"})
+    * @ORM\Column(name="locale", type="string", options={"comment":"la langue de l'utilisateur"}, nullable=true, length=5)
+    */
+    private $locale = 'fr';
+
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1"})
+    * @ORM\Column(name="email_verified", type="boolean", options={"comment":"permet de savoir si l'adresse mail a été vérifiée"}, nullable=true)
+    */
+    private $emailVerified = 0;
     
     /**
     * @var array
@@ -530,5 +545,53 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getImage()
     {
         return $this->image;
+    }
+
+    /**
+     * Set locale
+     *
+     * @param string $locale
+     *
+     * @return User
+     */
+    public function setLocale($locale)
+    {
+        $this->locale = $locale;
+
+        return $this;
+    }
+
+    /**
+     * Get locale
+     *
+     * @return string
+     */
+    public function getLocale()
+    {
+        return $this->locale;
+    }
+
+    /**
+     * Set emailVerified
+     *
+     * @param boolean $emailVerified
+     *
+     * @return User
+     */
+    public function setEmailVerified($emailVerified)
+    {
+        $this->emailVerified = $emailVerified;
+
+        return $this;
+    }
+
+    /**
+     * Get emailVerified
+     *
+     * @return boolean
+     */
+    public function getEmailVerified()
+    {
+        return $this->emailVerified;
     }
 }
