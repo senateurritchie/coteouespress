@@ -78,7 +78,7 @@ class ProducerType extends AbstractType
             }
 
             if($model->getImage()){
-                $path = $options['upload_dir'].'/'.$model->getImage();
+                $path = $options['upload_dir'].'/'.basename($model->getImage());
                 $model->setImage(new File($path));
             }
         });

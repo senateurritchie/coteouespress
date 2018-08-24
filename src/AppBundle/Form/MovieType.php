@@ -396,17 +396,17 @@ class MovieType extends AbstractType
 
 
             if($movie->getCoverImg()){
-                $path = $options['upload_dir'].'/'.$movie->getCoverImg();
+                $path = $options['upload_dir'].'/'.basename($movie->getCoverImg());
                 $movie->setCoverImg(new File($path));
             }
 
             if($movie->getLandscapeImg()){
-                $path = $options['upload_dir'].'/'.$movie->getLandscapeImg();
+                $path = $options['upload_dir'].'/'.basename($movie->getLandscapeImg());
                 $movie->setLandscapeImg(new File($path));
             }
 
             if($movie->getPortraitImg()){
-                $path = $options['upload_dir'].'/'.$movie->getPortraitImg();
+                $path = $options['upload_dir'].'/'.basename($movie->getPortraitImg());
                 $movie->setPortraitImg(new File($path));
             }
 

@@ -30,7 +30,7 @@ class MetadataType extends AbstractType{
             }
 
             if($file->getFile()){
-                $path = $options['upload_dir'].'/'.$file->getFile();
+                $path = $options['upload_dir'].'/'.basename($file->getFile());
                 $file->setFile(new File($path));
             }
         });

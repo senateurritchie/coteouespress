@@ -37,7 +37,7 @@ class ActorUploadImageType extends AbstractType
             }
 
             if($actor->getImage()){
-                $path = $options['upload_dir'].'/'.$actor->getImage();
+                $path = $options['upload_dir'].'/'.basename($actor->getImage());
                 $actor->setImage(new File($path));
             }
         });

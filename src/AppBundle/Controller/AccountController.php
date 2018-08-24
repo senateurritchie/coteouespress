@@ -4,8 +4,12 @@ namespace AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 use AppBundle\Form\UserProfilType;
 
@@ -62,7 +66,7 @@ class AccountController extends Controller
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ]);
 
-        $oldImage = $item->getImage();
+        $oldImage = basename($item->getImage());
 
         $form->handleRequest($request);
 
@@ -92,6 +96,43 @@ class AccountController extends Controller
         }
 
     	return $this->render('account/profile.html.twig',["form"=>$form->createView()]);
+    }
+
+    /**
+    * @Route("/password/update", name="pwd_update")
+    * @Method("POST")
+    */
+    public function pwdUpdateAction(Request $request, UserPasswordEncoderInterface $encoder){
+
+        $em = $this->getDoctrine()->getManager();
+        $user = $this->getUser();
+
+        $old_pwd = trim($request->request->get('_old_pwd'));
+        $new_pwd = trim($request->request->get('_new_pwd'));
+        $new_cpwd = trim($request->request->get('_new_cpwd'));
+
+        
+        if(!$old_pwd){
+            $this->addFlash('notice-error',"veuillez saisir l'ancien  mot de passe.");
+        }
+        else if(!$new_pwd || !$new_cpwd){
+            $this->addFlash('notice-error',"veuillez saisir le nouveau mot de passe.");
+        }
+        else if(!$encoder->isPasswordValid($user, $old_pwd)){
+            $this->addFlash('notice-error',"le mot de passe donné est incorrect. êtes-vous vraiment le depositaire de ce compte ?");
+        }
+        else if(strcmp($new_pwd, $new_cpwd) != 0){
+            $this->addFlash('notice-error',"les mots de passe donnés sont différents.");
+        }
+        else{
+            $encoded = $encoder->encodePassword($user, $new_pwd);
+            $user->setPassword($encoded);
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('notice-success',"modification éffectuée avec success");
+        }
+
+        return $this->redirectToRoute("account_settings");
     }
 
 

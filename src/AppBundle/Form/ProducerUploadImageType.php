@@ -37,7 +37,7 @@ class ProducerUploadImageType extends AbstractType
             }
 
             if($producer->getImage()){
-                $path = $options['upload_dir'].'/'.$producer->getImage();
+                $path = $options['upload_dir'].'/'.basename($producer->getImage());
                 $producer->setImage(new File($path));
             }
         });

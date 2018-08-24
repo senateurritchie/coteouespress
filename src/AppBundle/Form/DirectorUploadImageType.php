@@ -37,7 +37,7 @@ class DirectorUploadImageType extends AbstractType
             }
 
             if($director->getImage()){
-                $path = $options['upload_dir'].'/'.$director->getImage();
+                $path = $options['upload_dir'].'/'.basename($director->getImage());
                 $director->setImage(new File($path));
             }
         });

@@ -47,7 +47,7 @@ class MovieTrailerType extends AbstractType
             }
 
             if($trailer->getImage()){
-                $path = $options['upload_dir'].'/'.$trailer->getImage();
+                $path = $options['upload_dir'].'/'.basename($trailer->getImage());
                 $trailer->setImage(new File($path));
             }
         });

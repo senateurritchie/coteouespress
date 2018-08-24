@@ -1,11 +1,124 @@
 {% extends 'account/base.html.twig' %}
 
 {% block content %}
-    <div class="jumbotron">
-		<h1 class="display-4">Desolé!</h1>
-		<p class="lead">
-		  	Cette page est en construction
-		</p>
-		<hr class="my-4">
-	</div>
+
+    <section style="min-height:600px;">
+        <h1 class="text-nowrap text-truncate">
+            Paramètres du compte
+        </h1>
+
+        {% for notice in app.flashes('notice-success') %}
+            <div class="alert alert-info alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+                {{ notice }}
+            </div>
+        {% endfor %}
+
+        {% for notice in app.flashes('notice-error') %}
+            <div class="alert alert-danger alert-dismissible">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+                {{ notice }}
+            </div>
+        {% endfor %}
+
+        <div class="biography">
+        	<table class="table">
+
+        		<thead>
+        			<tr>
+        				<th width="150"></th>
+        				<th></th>
+        			</tr>
+        		</thead>
+					
+				<tbody>
+	        		<tr>
+	        			<td>
+	        				<strong>
+	        					Nom
+	        				</strong>
+	        			</td>
+
+	        			<td>
+	        				{{ app.user.username|lower|title }}
+	        			</td>
+	        		</tr>
+
+	        		<tr>
+	        			<td>
+	        				<strong>
+	        					Email
+	        				</strong>
+	        			</td>
+
+	        			<td>
+	        				{{ app.user.email }}
+	        			</td>
+	        		</tr>
+
+	        		<tr>
+	        			<td>
+	        				<strong>
+	        					A propos
+	        				</strong>
+	        			</td>
+
+	        			<td>
+	        				{{ app.user.aboutme }}
+	        			</td>
+	        		</tr>
+
+	        		<tr>
+	        			<td>
+	        				<strong>
+	        					Mot de passe
+	        				</strong>
+	        			</td>
+	        			
+	        			<td>
+	        				<div class="row">
+	        					
+	        					<div class="col-md-4">
+	        						<form action="{{ path('account_pwd_update') }}" method="POST">
+			        					<div class="form-group">
+			        						<input name="_old_pwd" class="form-control form-control-sm" type="password" placeholder="ancien mot de passe" />
+			        					</div>
+
+			        					<hr>
+
+			        					<div class="form-group">
+			        						<input name="_new_pwd" class="form-control form-control-sm" type="password" placeholder="Nouveau" />
+
+			        						<input name="_new_cpwd" class="form-control form-control-sm" type="password" placeholder="confirmation" />
+			        					</div>
+
+			        					<div class="form-group">
+			        						<button type="submit" class="btn btn-info btn-sm">
+			        							<i class="fas fa-save"></i> Enregistrer
+			        						</button>
+			        					</div>
+			        				</form>
+	        					</div>
+	        				</div>
+	        				
+	        			</td>
+	        		</tr>
+	        	</tbody>
+        	</table>
+        </div>
+
+    </section>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).ready(function($){
+           
+    
+        });
+    </script>
 {% endblock %}
