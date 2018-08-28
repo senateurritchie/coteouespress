@@ -369,6 +369,11 @@ class Movie implements Translatable
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;
+     /**
+    * @Groups({"group2"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieEpisode", mappedBy="movie", cascade={"persist"})
+    */
+    private $episodes;
     /**
     * @Gedmo\Locale
     * Used locale to override Translation listener`s locale
@@ -390,6 +395,7 @@ class Movie implements Translatable
         $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
         $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
         $this->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -1102,6 +1108,36 @@ class Movie implements Translatable
     public function getScenes()
     {
         return $this->scenes;
+    }
+
+    /**
+     * Add episode
+     *
+     * @param \AppBundle\Entity\MovieEpisode $episode
+     *
+     * @return Movie
+     */
+    public function addEpisode(\AppBundle\Entity\MovieEpisode $episode){
+        $this->episodes[] = $episode;
+        return $this;
+    }
+
+    /**
+     * Remove episode
+     *
+     * @param \AppBundle\Entity\MovieEpisode $episode
+     */
+    public function removeEpisode(\AppBundle\Entity\MovieEpisode $episode){
+        $this->episodes->removeElement($episode);
+    }
+
+    /**
+    * Get episodes
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getEpisodes(){
+        return $this->episodes;
     }
 
     /**

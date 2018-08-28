@@ -223,6 +223,25 @@
 
     </style>
 
+    <style>
+
+		.has-collection-multiple-fields div[data-prototype] > div.form-group{
+			display: inline-block !important;
+			width: 25%;
+			padding: 10px;
+		}
+
+		.has-collection-multiple-fields div[data-prototype] > div.form-group:hover{
+			background: #eee;
+		}
+
+		.has-collection-multiple-fields div[data-prototype] > div.form-group .control-label{
+			display: none;
+		}
+
+		
+    </style>
+
 {% endblock %}
 
 {% block header_content %}
@@ -746,6 +765,7 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
 
+	<script src="{{ asset('admin/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
 	<script src="{{ asset('js/admin/manager.js','js') }}"></script>
 	<script src="{{ asset('js/admin/movie/manager.js','js') }}"></script>
 	<script src="{{ asset('js/admin/movie/index.js','js') }}"></script>

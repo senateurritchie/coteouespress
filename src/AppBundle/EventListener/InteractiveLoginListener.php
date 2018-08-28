@@ -38,6 +38,7 @@ class InteractiveLoginListener{
         $lat = null;
         $lng = null;
         $country = null;
+        $cityName = null;
 
         $ip = ($ip == "127.0.0.1") ? "160.120.150.87" : $ip;
         

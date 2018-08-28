@@ -43,15 +43,15 @@
 
 <div class="row">
     <div class="col-md-4">
-       {{ form_row(form.episode1) }}
+       {{ form_row(form.episode1,{"label":"lien 1"}) }}
     </div>
 
     <div class="col-md-4">
-       {{ form_row(form.episode2) }}
+       {{ form_row(form.episode2,{"label":"lien 2"}) }}
     </div>
 
     <div class="col-md-4">
-        {{ form_row(form.episode3) }}
+        {{ form_row(form.episode3,{"label":"lien 3"}) }}
     </div>
 </div>
 
@@ -59,6 +59,7 @@
     <div class="col-md-4">
         {{ form_row(form.trailer) }}
     </div>
+
     <div class="col-md-4">
 
     </div>
@@ -316,15 +317,41 @@
             </a>
         </div> 
     </div>
+</div>
 
-    <div class="col-md-4">
-        
-    </div>
+<hr>
 
-    <div class="col-md-4">
-        
-        
-    </div>
+<div class="row">
+    <div class="col-md-12 has-collection has-collection-multiple-fields">
+
+        {{ form_label(form.episodes) }}
+
+        {% if use_modal is not defined %}
+            <div class="form-group collection-badge" data-alert="Voulez-vous vraiment retirer ce episode ?" data-route="episode/delete">
+                {% for item in data.episodes %}
+                    <div class="badge label-info old-value" data-id="{{ item.id }}">
+                        {{ item.title|lower|title }} 
+                        
+                        &nbsp;&nbsp;
+                        <a href="" data-title="supprimer" data-toggle="tooltip">
+                            <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                    
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="form-group sortable">
+           
+            {{ form_errors(form.episodes) }}
+            {{ form_widget(form.episodes) }}
+
+            <a href="" class="collection-add">
+                <i class="fa fa-plus"></i> ajouter
+            </a>
+        </div> 
+    </div>  
 </div>
 
 <hr>

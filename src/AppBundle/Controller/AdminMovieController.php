@@ -21,6 +21,7 @@ use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieScene;
 use AppBundle\Entity\MovieCatalog;
+use AppBundle\Entity\MovieEpisode;
 
 use AppBundle\Form\CatalogAdminSearchType;
 use AppBundle\Entity\Catalog;
@@ -100,6 +101,10 @@ class AdminMovieController extends Controller
                 ]);
 
                 $em->refresh($data);
+
+                $e = $data->getEpisodes();
+
+                $form2->get('episodes')->setData($e);
 
                 $view = $this->render('admin/movie/selected-view.html.twig',array(
                     "data"=>$data,
@@ -222,6 +227,15 @@ class AdminMovieController extends Controller
                 $e->setMovie($item);
                 $e->setCatalog($el);
                 $em->persist($e);
+            }
+
+            // gestion des episodes
+            $episodes = $form->get('episodes')->getData();
+
+            $db = [];
+            foreach ($episodes as $key => $e) {
+                if(in_array($e->getId(), $db)) continue;
+                $item->addEpisode($e);
             }
 
     		$em->flush();
@@ -465,6 +479,15 @@ class AdminMovieController extends Controller
                 $em->persist($e);
             }
 
+            // gestion des episodes
+            $episodes = $form->get('episodes')->getData();
+            $db = [];
+            foreach ($episodes as $key => $e) {
+                if(in_array($e->getId(), $db)) continue;
+                $e->setMovie($item);
+                $em->merge($e);
+            }
+
 
             $em->flush();
 
@@ -485,7 +508,7 @@ class AdminMovieController extends Controller
 
 
             $this->addFlash('notice-success',"Votre programme a été mise à jour avec succes");
-            return $this->redirectToRoute('admin_movie_index');
+            return $this->redirectToRoute('admin_movie_index',["movie_id"=>$item->getId(),"modal"=>1]);
         }
 
         return $this->redirectToRoute('admin_movie_index',["movie_id"=>$item->getId(),"modal"=>1]);

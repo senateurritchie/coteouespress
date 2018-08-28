@@ -340,22 +340,49 @@ var AdminManager = AdminManager || {};
 			$('body').on("click",".modal-form .has-collection .collection-add",
 				e=>{
 					e.preventDefault();
-					var parent = $(e.target).parent();
-					var tpl = parent.find('[data-prototype]').data('prototype');
+					var obj = $(e.target);
+					var parent = obj.parent();
+					var parent_collection = obj.parents(".has-collection:first");
+					var parent_prototype  = parent.find('[data-prototype]');
+					var tpl = parent_prototype.data('prototype');
 					var index = parent.children(" .input-group ").length;
 
 					tpl = tpl.replace(/__name__/g,index);
 
 					var a = $('<span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></span>');
 					var li = $('<div class="input-group input-group-sm">').append(a).append(tpl);
-					li.find('label').remove();
 
-					li.insertBefore(parent.find('a'));
-					a.find('button').on({
-						click:e=>{
-							li.remove();
-						}
+					if(parent_collection.hasClass('has-collection-multiple-fields')){
+						li = $(tpl);
+					}
+					else{
+						a.find('button').on({
+							click:e=>{
+								li.remove();
+							}
+						});
+					}
+
+					li.find('label').remove();
+					//li.insertBefore(parent.find('a'));
+					parent_prototype.append(li);
+
+					
+
+					parent_prototype.sortable({
+						items:".collection-multiple-item",
+						containment:"parent",
+						cursor: "move",
+						forceHelperSize: true
 					})
+			})
+
+			$('body').on("click",".modal-form .has-collection-multiple-fields button.delete",
+				e=>{
+				e.preventDefault();
+
+				var obj = $(e.target);
+				obj.parents('div[id]:first').parent().remove();
 			})
 
 			// on ecoute les evenements

@@ -17,6 +17,9 @@
     {% set queryParams2 = queryParams2|merge({order_year: "asc"}) %}
 {% endif %}
 
+{% set has_url_cat = app.request.query.get('category') %}
+{% set has_url_genre = app.request.query.get('genre') %}
+
 
 {% block title %}
    Intégration html + css  | movies search
@@ -72,13 +75,16 @@
             display: block;
         }
 
+        .has_category{
+            background: rgba(0,0,0,.6) !important;
+        }
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
 
 {% endblock %}
 
-{% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 
 {% block body %}
@@ -87,14 +93,30 @@
         {{ include('main-menu.html.twig') }}
 
         <div id="master-cover"></div>
-        <div id="master-cover-overlay"></div>
+        <div id="master-cover-overlay" class="{{app.request.query.get('category') or  app.request.query.get('genre') ? 'has_category' : ''}}"></div>
+
+       
 
         <div id="gender-print">
-            {% for item in categories if item.slug == app.request.query.get('category') %}
-                <h1 class="display-4 text-light">{{item.name|upper}}</h1>
+
+            {% if has_url_cat %}
+                {% for item in categories if item.slug == has_url_cat %}
+                    <h1 class="display-4 text-light">
+                        {{item.name|upper}} 
+                        {% if has_url_genre %}
+                            {% for item in genres if item.slug == has_url_genre %}
+                                <small style="font-size:11px;text-shadow:none">{{item.name|upper}}</small>
+                            {% endfor %}
+                        {% endif %}
+                    </h1>
+                {% endfor %}
+            {% elseif has_url_genre %}
+                {% for item in genres if item.slug == has_url_genre %}
+                    <h1 class="display-4 text-light">{{item.name|upper}}</h1>
+                {% endfor %}
             {% else %}
                 <h1 class="display-4 text-light">Programmes</h1>
-            {% endfor %}
+            {% endif %}
         </div>
         
     </header>
@@ -149,19 +171,21 @@
                             </div>
 
                             <div class="col-md-2 col-sm-6">
-                                <div class="form-group">
+                                {#<div class="form-group">
                                     {{ form_widget(form.year, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'Année'|trans({},'catalogue')}) }}
+                                </div>#}
 
-                                   
-                                </div>
-                            </div>
-                                
-                           
-                            <div class="col-md-2 col-sm-6">
                                 <div class="form-group">
                                     {{ form_widget(form.language, {"attr":{"class":"form-control-sm custom-select","placeholder":'Langue'|trans({},'catalogue')}}) }}
                                 </div>
                             </div>
+                                
+                           
+                            {#<div class="col-md-2 col-sm-6">
+                                <div class="form-group">
+                                    {{ form_widget(form.language, {"attr":{"class":"form-control-sm custom-select","placeholder":'Langue'|trans({},'catalogue')}}) }}
+                                </div>
+                            </div>#}
 
                             {#<div class="col-md-2 col-sm-6">
                                 <div  class="form-group">
@@ -244,9 +268,11 @@
 
                                 <div class="mt-4" >
                                     {% for tag in genres %}
-                                        <a href="{{ path('genre_index',{'slug':tag.slug}) }}" class="badge badge-pill badge-info p-2 mb-1">
-
-                                        <!--a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1"-->
+                                        {% if has_url_cat %}
+                                             <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1">
+                                        {% else %}
+                                            <a href="{{ path('genre_index',{'slug':tag.slug}) }}" class="badge badge-pill badge-info p-2 mb-1">
+                                        {% endif %}
                                             {{tag.name|lower|title}} <span class="badge badge-light">{{tag.movieNbr|lower|title}}</span>
                                         </a>
                                     {% endfor %}
@@ -263,7 +289,26 @@
                                     {{'Trier par'|trans({},'catalogue')}}...
                                 </div>
 
-                                <div class="col-6 col-md-4 col-sm-4">
+                                <div class="col-12 col-md-8 col-sm-4 d-flex flex-row justify-content-end align-items-end">
+                                   
+                                    <a href="?{{queryParams|url_encode}}" class="text-secondary">
+                                         {{'Ordre alphabetique'|trans({},'catalogue')}}
+                                
+                                        {% if (app.request.query.get('order_name') == 'asc' or not app.request.query.get('order_name') ) %}
+                                            <i class="fas fa-sort-alpha-down"></i>
+                                        {% else %}
+                                            <i class="fas fa-sort-alpha-up"></i>
+                                        {% endif %}
+                                    </a>
+
+                                    {% if app.request.query.has('order_name') %}
+                                        <a data-toggle="tooltip" data-placement="top" title="{{'annuler le tri'|trans()}}" href="{{ path('movie_index') }}"  class="text-danger ">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+
+                                {#<div class="col-6 col-md-4 col-sm-4">
                                    
                                     <a href="?{{queryParams|url_encode}}" class="text-secondary">
                                          {{'Ordre alphabetique'|trans({},'catalogue')}}
@@ -288,7 +333,7 @@
                                             <i class="fas fa-times"></i>
                                         </a>
                                     {% endif %}
-                                </div>
+                                </div>#}
 
                                 
                             </div>

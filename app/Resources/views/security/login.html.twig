@@ -1,10 +1,11 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}
    Côte Ouest Audiovisuel  | Login
 {% endblock %}
 
-{% block stylesheets %}
+{#{% block stylesheets %}
     {{ parent() }}
 
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
@@ -49,7 +50,7 @@
                     {% endif %}
 
 
-                    {#<div class="self-vid-hover" style="background:url({{ asset('img/'~random(['trailer-new.jpg','trailer-new-2.jpg'])) }}) 50% 0 repeat-y;background-position:center 0;background-size:cover;background-repeat:no-repeat;float:left;width:100%;height:100%;padding-top:300px;padding-bottom:100px;"></div>#}
+                  
 
                     <i class="video-icon video-popup-control"></i>
 
@@ -146,6 +147,141 @@
                         
                 </form>
             </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+
+    <script>
+        $(document).ready(function($){
+            /* 09. VENOBOX JS */
+            $('.venobox').venobox({
+                numeratio: true,
+                titleattr: 'data-title',
+                titlePosition: 'top',
+                spinner: 'wandering-cubes',
+                spinColor: '#007bff',
+                autoplay:true
+            });
+        });
+    </script>
+{% endblock %}
+
+
+::::::::::::::::::::::::::::::#}
+
+
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+
+    {#<style>
+        header#header{
+            height: auto !important;
+            position: static;
+        }
+    </style>#}
+
+    <style>
+
+        header #master-cover{
+            height: 200px;
+            background-color: #f6f6f6;
+            overflow: hidden;
+            background: url("{{asset('img/illustrator-banner.jpg')}}") no-repeat left top / cover;
+        }
+
+        @media (max-width: 576px) { 
+            #master-cover {
+                height: 258px !important;
+            }
+        }
+
+    </style>
+
+{% endblock %}
+
+{% block body %}
+   
+     <header id="header">
+        {{ include('main-menu.html.twig') }}
+        <div id="master-cover"></div>
+    </header>
+
+    <div class="container" style="margin-top:50px;margin-bottom:100px">
+        <div class="row justify-content-center align-items-center" style="height:60vh">
+
+            <div class="col-md-4 shadow bg-white p-4">
+
+                {% if error %}
+                    <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+
+                <form action="{{ path('security_login') }}" method="post">
+                    <legend>{{ 'Se connecter'|trans({},'login') }}</legend>
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="login-email">Email</label>
+
+                        <div class="position-relative">
+                            <span class="fas fa-at position-absolute text-secondary" style="right: 5px;top:5px;"></span>
+
+                            <input required="" type="email" class="form-control form-control-sm pr-4" id="login-email" placeholder="votre email" name="_username" value="{{ last_username }}">
+
+                        </div>
+
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="login-pwd">{{ 'Mot de passe'|trans({},'login') }}</label>
+
+                        <div class="position-relative">
+                            <span class="fas fa-lock position-absolute text-secondary" style="right: 5px;top:5px;"></span>
+
+                            <input required="" type="password" class="form-control form-control-sm pr-4" id="login-pwd" placeholder="Mot de passe" name="_password">
+
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-sm btn-primary">
+                        {{ 'sign.in'|trans({},'login') }}
+                    </button>
+
+                    <hr>
+                    <div style="font-size: 13px">
+                        <p>
+                            {{ 'connect.blem'|trans({},'login') }}
+                            <br>
+                            <a href="">{{ 'cliquez ici'|trans({},'login') }}</a>
+                        </p>
+                        
+
+                        <p>
+                            {{ 'no.account'|trans({},'login') }}
+                            
+                            <br>
+                            <a href="{{ path('security_registration') }}">
+                                {{ 'inscrivez-vous'|trans({},'login') }}
+                            </a>
+                        </p>
+                        
+                    </div>
+ 
+                </form>
+            </div>
+
+           
         </div>
 
     </div>

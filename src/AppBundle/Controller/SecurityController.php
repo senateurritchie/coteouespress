@@ -30,8 +30,8 @@ class SecurityController extends Controller{
     */
     public function loginAction(Request $request, AuthenticationUtils $authenticationUtils){
         
-        $em = $this->getDoctrine()->getManager();
-        $rep_movie = $em->getRepository(Movie::class);
+        //$em = $this->getDoctrine()->getManager();
+        //$rep_movie = $em->getRepository(Movie::class);
 
     	if($this->isGranted('IS_AUTHENTICATED_FULLY')){
     		return $this->redirectToRoute('account_index');
@@ -46,7 +46,7 @@ class SecurityController extends Controller{
 	    return $this->render('security/login.html.twig', array(
 	        'last_username' => $lastUsername,
 	        'error'         => $error,
-            "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
+            //"inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
 	    ));
     }
 

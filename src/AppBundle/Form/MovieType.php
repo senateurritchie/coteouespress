@@ -35,6 +35,7 @@ use AppBundle\Entity\Genre;
 use AppBundle\Entity\Country;
 
 use AppBundle\Form\ResourceType;
+use AppBundle\Form\MovieEpisodeType;
 
 class MovieType extends AbstractType
 {
@@ -327,6 +328,18 @@ class MovieType extends AbstractType
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Catalogues",
+            "required"=>false,
+            "mapped"=>false,
+        ))
+        ->add('episodes',CollectionType::class,array(
+            'entry_type' => MovieEpisodeType::class,
+            'entry_options' => array(
+               "upload_dir"=>$options["upload_dir"],
+            ),
+            'by_reference' => false,
+            "allow_add"=>true,
+            "allow_delete"=>true,
+            "label"=>"Les Episodes",
             "required"=>false,
             "mapped"=>false,
         ))
