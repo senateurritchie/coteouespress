@@ -345,7 +345,7 @@ var AdminManager = AdminManager || {};
 					var parent_collection = obj.parents(".has-collection:first");
 					var parent_prototype  = parent.find('[data-prototype]');
 					var tpl = parent_prototype.data('prototype');
-					var index = parent.children(" .input-group ").length;
+					var index = parent_prototype.find(" > div.form-group ").length;
 
 					tpl = tpl.replace(/__name__/g,index);
 

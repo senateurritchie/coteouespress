@@ -92,12 +92,17 @@ class DefaultController extends Controller{
             }
         };
 
+        try {
+            $requestVimeo2(function($data)use(&$vimeoRsrc){
+                foreach ($data as $i => $el) {
+                    $vimeoRsrc[] = $el;
+                }
+            });
+        } catch (\Exception $e) {
+            
+        }
 
-        $requestVimeo2(function($data)use(&$vimeoRsrc){
-            foreach ($data as $i => $el) {
-                $vimeoRsrc[] = $el;
-            }
-        });
+        
 
 
         return $this->render('default/index.html.twig',array(

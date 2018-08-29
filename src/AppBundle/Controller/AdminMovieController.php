@@ -102,10 +102,6 @@ class AdminMovieController extends Controller
 
                 $em->refresh($data);
 
-                $e = $data->getEpisodes();
-
-                $form2->get('episodes')->setData($e);
-
                 $view = $this->render('admin/movie/selected-view.html.twig',array(
                     "data"=>$data,
                     "form"=>$form2->createView(),
@@ -236,6 +232,8 @@ class AdminMovieController extends Controller
             foreach ($episodes as $key => $e) {
                 if(in_array($e->getId(), $db)) continue;
                 $item->addEpisode($e);
+                $e->setMovie($item);
+                $em->persist($e);
             }
 
     		$em->flush();
@@ -291,6 +289,15 @@ class AdminMovieController extends Controller
         $oldCoverImg = $item->getCoverImg();
         $oldLandscapeImg = $item->getLandscapeImg();
         $oldPortraitImg = $item->getPortraitImg();
+
+
+        $originalEpisodes = new \Doctrine\Common\Collections\ArrayCollection();
+
+        // Create an ArrayCollection of the current Tag objects in the database
+        foreach ($item->getEpisodes() as $episode) {
+            $originalEpisodes->add($episode);
+        }
+
 
         $form = $this->createForm(MovieType::class,$item,[
             'upload_dir' => $this->getParameter('public_upload_directory'),
@@ -479,15 +486,29 @@ class AdminMovieController extends Controller
                 $em->persist($e);
             }
 
-            // gestion des episodes
-            $episodes = $form->get('episodes')->getData();
+            // gestion des ajouts episodes
+           $episodes = $form->get('episodes')->getData();
             $db = [];
             foreach ($episodes as $key => $e) {
                 if(in_array($e->getId(), $db)) continue;
+
+                $item->addEpisode($e);
                 $e->setMovie($item);
-                $em->merge($e);
+                $em->persist($e);
             }
 
+
+           $item = $form->getData();
+
+           // gestion des suppressions
+            foreach ($originalEpisodes as $episode) {
+                if (false === $item->getEpisodes()->contains($episode)) {
+                    // remove the Task from the Tag
+                    $item->removeEpisode($episode);
+                    $episode->setMovie(null);
+                    $em->remove($episode);
+                }
+            }
 
             $em->flush();
 
@@ -937,6 +958,37 @@ class AdminMovieController extends Controller
 
         if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
             throw $this->createNotFoundException("Pays introuvable");
+        }
+
+        $em->remove($target);
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $em->flush();
+    
+        return $this->json($result);
+    }
+
+    /**
+    * @Route("/{movie_id}/episode/delete", requirements={"movie_id":"\d+"}, name="episode_delete")
+    * @Method("POST")
+    */
+    public function episodeDeleteAction(Request $request,$movie_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_CATALOG_INSERT', null, 'Vous ne pouvez pas éffectuer cette action');
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(Movie::class);
+        $rep_2 = $em->getRepository(MovieEpisode::class);
+        $result = ["status"=>false];
+        $id = intval($request->request->get('id'));
+
+        if(!($item = $rep->find($movie_id))){
+            throw $this->createNotFoundException("Ce programme n'existe pas");
+        }
+
+        if(!($target = $rep_2->findOneBy(["movie"=>$item,"id"=>$id]))){
+            throw $this->createNotFoundException("Episode introuvable");
         }
 
         $em->remove($target);

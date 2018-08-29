@@ -203,6 +203,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Producteurs",
@@ -225,7 +226,8 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
-             "allow_add"=>true,
+            'delete_empty'=>true,
+            "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Acteurs",
             "required"=>false,
@@ -247,6 +249,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
              "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Réalisateurs",
@@ -265,6 +268,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Versions disponibles",
@@ -287,6 +291,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Origine de production",
@@ -306,6 +311,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Genres",
@@ -325,6 +331,7 @@ class MovieType extends AbstractType
                     ->orderBy('u.name', 'ASC');
                 },
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Les Catalogues",
@@ -339,15 +346,16 @@ class MovieType extends AbstractType
             'by_reference' => false,
             "allow_add"=>true,
             "allow_delete"=>true,
+            'delete_empty'=>true,
             "label"=>"Les Episodes",
             "required"=>false,
-            "mapped"=>false,
         ))
         ->add('gallery',CollectionType::class,array(
             'entry_type' => FileType::class,
             'entry_options' => array(
                 "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"],
             ),
+            'delete_empty'=>true,
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Galerie photo",

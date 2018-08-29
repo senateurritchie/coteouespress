@@ -127,24 +127,29 @@ class MovieController extends Controller{
             };
 
 
-            $requestVimeo2($links,function($data)use(&$vimeoRsrc){
+            try {
+                $requestVimeo2($links,function($data)use(&$vimeoRsrc){
 
-                foreach ($data as $i => $el) {
-                    $label = "";
-                    switch ($i) {
-                        case 0:
-                            $label = 'trailer';
-                        break;
-                        
-                        default:
-                            $label = 'episode '.$i;
-                        break;
+                    foreach ($data as $i => $el) {
+                        $label = "";
+                        switch ($i) {
+                            case 0:
+                                $label = 'trailer';
+                            break;
+                            
+                            default:
+                                $label = 'episode '.$i;
+                            break;
+                        }
+
+                        $vimeoRsrc[$label] = $el;
                     }
-
-                    $vimeoRsrc[$label] = $el;
-                }
+                    
+                });
+            } catch (\Exception $e) {
                 
-            });
+            }
+            
 
     		return $this->render('movie/movie-single.html.twig',array(
                 "programme"=>$programme,

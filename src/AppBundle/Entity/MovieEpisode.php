@@ -31,7 +31,7 @@ class MovieEpisode
     * @var AppBundle\Entity\Movie
     *
     * @Groups({"group2"})
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Movie", inversedBy="episodes")
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Movie", inversedBy="episodes", cascade={"persist"})
     * @ORM\JoinColumn(nullable=true, onDelete="CASCADE")
     */
     private $movie;
