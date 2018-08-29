@@ -372,6 +372,7 @@ class Movie implements Translatable
      /**
     * @Groups({"group2"})
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieEpisode", mappedBy="movie", cascade={"persist","remove"})
+    * @ORM\OrderBy({"pos":"ASC"})
     */
     private $episodes;
     /**

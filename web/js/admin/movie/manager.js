@@ -284,6 +284,42 @@ var AdminManager = AdminManager || {};
                 autoplay:true
             });
 
+            $('body').on('shown.bs.modal','.modal-form',  (e)=> {
+            	var modal = $(e.target);
+            	var parent_prototype  = modal.find('.has-collection-multiple-fields [data-prototype]');
+
+  				parent_prototype.sortable({
+					items:" > div.form-group",
+					containment:"parent",
+					cursor: "move",
+					stop: function( event, ui ) {
+						parent_prototype.find(' > .form-group').each(function(i,el){
+							var child = $(el);
+
+							child.find('input, textarea').each((ii,ell)=>{
+								var name = $(ell).attr('name');
+								var new_name = name.replace(/(\[\d+\])/ig,`[${i}]`);
+								$(ell).attr('name',new_name);
+							});
+
+							child.find('[id]').each((ii,ell)=>{
+								var id = $(ell).attr('id');
+								var new_id = id.replace(/(_\d+)/ig,`_${i}`);
+								$(ell).attr('id',new_id);
+							});
+						})
+					}
+				});
+
+
+			});
+
+			$('body').on('shown.bs.hidden','.modal-form',(e)=> {
+            	var modal = $(e.target);
+            	var parent_prototype  = modal.find('.has-collection-multiple-fields [data-prototype]');
+  				parent_prototype.sortable("destroy");
+			});
+
 
 			$('#myModal').on('shown.bs.modal', function () {
   				$('#myModal button').removeAttr('disabled');
@@ -350,7 +386,7 @@ var AdminManager = AdminManager || {};
 					tpl = tpl.replace(/__name__/g,index);
 
 					var a = $('<span class="input-group-btn"><button type="button" class="btn btn-default"><i class="fa fa-trash"></i></button></span>');
-					var li = $('<div class="input-group input-group-sm">').append(a).append(tpl);
+					var li = $('<div class="input-group input-group-sm form-group">').append(a).append(tpl);
 
 					if(parent_collection.hasClass('has-collection-multiple-fields')){
 						li = $(tpl);
@@ -367,14 +403,6 @@ var AdminManager = AdminManager || {};
 					//li.insertBefore(parent.find('a'));
 					parent_prototype.append(li);
 
-					
-
-					parent_prototype.sortable({
-						items:".collection-multiple-item",
-						containment:"parent",
-						cursor: "move",
-						forceHelperSize: true
-					})
 			})
 
 			$('body').on("click",".modal-form .has-collection-multiple-fields button.delete",
@@ -502,24 +530,35 @@ var AdminManager = AdminManager || {};
 				}
 			});
 
+
 			document.addEventListener("dragenter",e=>{
-				$(document.body).addClass('dragenter');
 				e.preventDefault();
+
+				if(~e.dataTransfer.types.indexOf('Files')) {
+					$(document.body).addClass('dragenter');
+				}
 			});
 			document.addEventListener("dragover",e=>{
-				$(document.body).addClass('dragenter');
 				e.preventDefault();
+
+				if(~e.dataTransfer.types.indexOf('Files')){
+					$(document.body).addClass('dragenter');
+				}
 			});
 			document.addEventListener("dragleave",e=>{
 				e.preventDefault();
-				if(e.currentTarget == document){
-					$(document.body).removeClass('dragenter');
+
+				if(~e.dataTransfer.types.indexOf('Files')){
+					if(e.currentTarget == document){
+						$(document.body).removeClass('dragenter');
+					}
 				}
 			});
-			document.addEventListener("dragend",e=>{
-				e.preventDefault();
-				$(document.body).removeClass('dragenter');
-			});
+
+			document.addEventListener("drop",e=>{
+                e.preventDefault();
+               	$(document.body).removeClass('dragenter');
+            });
 
 			// les vignettes du programme
 			$("body").on('drop','.modal .dropper',e=>{

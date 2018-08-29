@@ -185,6 +185,20 @@
                                                     </li>
                                                 </ul>
                                             </div>
+
+                                            <div class="movie-f d-none d-md-flex">
+                                                <h2 class="text-truncate movie-name" >
+                                                    {{ item.name|lower|title }} 
+                                                </h2>
+
+                                                {#<small class="d-none d-md-block movie-rank">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                    <i class="far fa-star"></i>
+                                                </small>#}
+                                            </div>
                                         
                                         </div>
                                     </div>
@@ -256,10 +270,9 @@
                 });
 
                 let opts = {
-                    loop:true,
+                    loop:false,
                     items:6,
                     margin:10,
-                    loop:true
                 };
 
                 owl.owlCarousel(opts);

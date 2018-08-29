@@ -67,6 +67,44 @@
 {% endblock %}
 
 {% block body %}
+
+    <div class="modal fade " id="download-list" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title">Télécharger</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            
+
+                <div class="modal-body">
+                    <table class="table table-striped">
+                        <tbody>
+                            {% for key,rsrc in vimeoRsrc %}
+                                <tr>
+                                    <td>
+                                        <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
+                                    </td>
+                                    <td>
+                                        {{ rsrc.name|lower|title }}<br><small>
+                                        
+                                        {% for i in rsrc.download %}
+                                        <div>
+                                            <a href="{{ i.link }}" download="{{ rsrc.name|lower|title }}">{{ i.quality }}&nbsp;-&nbsp;{{ i.height }}p&nbsp;&nbsp;-&nbsp;{{ i.width }} x {{ i.height }}&nbsp;-&nbsp;&nbsp;{{ i.size }}Mo </a>
+                                        </div>
+                                        {% endfor %}
+                                    </td>
+                                   
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
    
     <header id="header">
         {{ include('main-menu.html.twig') }}
@@ -78,7 +116,8 @@
             {% if vimeoRsrc.trailer is defined %}
                 <div id="master-cover" style="background-image:url({{ vimeoRsrc.trailer.cover }});background-position:left -100px;"></div>
             {% else %}
-                <div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>
+                <div id="master-cover" style="background-image:none"></div>
+                {#<div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>#}
             {% endif %}
 
         {% endif %}
@@ -273,7 +312,7 @@
 
                     <h2 class="text-nowrap text-truncate">{{ programme.name|lower|title }}</h2>
 
-                    <span class="position-relative voting-plug text-info">
+                    {#<span class="position-relative voting-plug text-info">
                         {% for item in 1..5 %}
                             <a href="" data-toggle="tooltip" class="text-info" 
 
@@ -295,7 +334,7 @@
                         {% endfor %}
                     </span>
 
-                    {#<div class="movie-vote text-info">
+                    <div class="movie-vote text-info">
                         <div class="row">
                             <div class="col-md-8 pr-2">
                                 {{ include('movie/chart.html.twig') }}
@@ -334,6 +373,14 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+
+
+                        <div class="d-flex flex-row justify-content-end">
+                            <button class="btn btn-light btn-lg" data-toggle="modal" data-target="#download-list">
+                                <i class="fas fa-download"></i> Télécharger
+                            </button>
                         </div>
                     </section>
                 {% endif %}
@@ -813,6 +860,20 @@
                                                     </a>
                                                 </li>
                                             </ul>
+                                        </div>
+
+                                        <div class="movie-f d-none d-md-flex">
+                                            <h2 class="text-truncate movie-name" >
+                                                {{ item.name|lower|title }} 
+                                            </h2>
+
+                                            {#<small class="d-none d-md-block movie-rank">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </small>#}
                                         </div>
                                     
                                     </div>

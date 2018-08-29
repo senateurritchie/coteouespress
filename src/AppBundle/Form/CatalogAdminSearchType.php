@@ -42,7 +42,6 @@ class CatalogAdminSearchType extends AbstractType
     {
         $request = $this->requestStack->getCurrentRequest();
 
-
         $builder
         ->add('state',ChoiceType::class,array(
             "required"=>false,
@@ -122,9 +121,11 @@ class CatalogAdminSearchType extends AbstractType
             "choice_label"=>"name",
             "choice_value"=>"slug",
             'choice_attr' => function($value, $key, $index) {
-                $attrs = [];
+               $attrs = [];
                 $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("director") == $value){
+                $query = $request->query->get("catalog");
+
+                if($query == $value->getSlug() || (is_array($query) && in_array($value->getSlug(), $query))){
                     $attrs["selected"] = "selected";
                 }
                 return $attrs;
@@ -138,6 +139,33 @@ class CatalogAdminSearchType extends AbstractType
             },
             "mapped"=>false,
         ))
+       ->add('catalog',EntityType::class,array(
+            "required"=>false,
+            "placeholder"=>"catalogue...",
+            "label"=>"Catalogues",
+            "class"=>\AppBundle\Entity\CatalogType::class,
+            "choice_label"=>"name",
+            "choice_value"=>"slug",
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                $query = $request->query->get("catalog");
+
+                if($query == $value->getSlug() || (is_array($query) && in_array($value->getSlug(), $query))){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            'group_by' => function($value, $key, $index) {
+                return strtoupper($value->getSlug()[0]);
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+            "mapped"=>false,
+        ))
+
        ->add('order_name',ChoiceType::class,array(
             "required"=>false,
             "placeholder"=>"ordre alphabetique...",

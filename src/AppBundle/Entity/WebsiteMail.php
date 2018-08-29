@@ -96,7 +96,7 @@ class WebsiteMail
     *
     * @ORM\Column(name="is_processed", type="boolean")
     */
-    private $isProcessed;
+    private $isProcessed = 0;
 
     /**
     * @var \DateTime

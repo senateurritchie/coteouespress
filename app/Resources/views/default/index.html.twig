@@ -721,15 +721,19 @@
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>
 
     <script>
+        
         function initMap() {
-            var uluru = {lat: 5.331036, lng: -4.0009177};
+            var uluru = {lat: 5.331017, lng: -3.998667};
             var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 16,
             center: uluru
             });
             var marker = new google.maps.Marker({
                 position: uluru,
-                map: map
+                map: map,
+                title: '{{ site.name|lower|title }}',
+                animation: google.maps.Animation.DROP,
+                label:"C"
             });
         }
 

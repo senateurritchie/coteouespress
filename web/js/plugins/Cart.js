@@ -9,9 +9,10 @@ var AdminManager = AdminManager || {};
             this.currentDragged = null;
 
 	       this.vars({
-                entries:".catalog-cart-entry",
+                entries:".cart-entry",
                 container:"#cart",
-                storageKey:"catalog-cart"
+                storageKey:"catalog-cart",
+                audio:null
             });
 		};
 
@@ -26,6 +27,14 @@ var AdminManager = AdminManager || {};
 		Cart.prototype.controller = function(){
 
             var container = $(this.params.container);
+
+            var audio = document.createElement('audio');
+            audio.addEventListener('canplay',(e)=>{
+                this.vars({audio:audio})
+            },false)
+
+            audio.src = '/sounds/cart_entry_new.mp3';
+
             var body = $("body");
 
             // initialisation des evenements
@@ -47,22 +56,6 @@ var AdminManager = AdminManager || {};
             });
 
             container.on({
-                dragenter:e=>{
-                    body.addClass('cart-dragenter');
-                    e.preventDefault();
-                },
-                dragover:e=>{
-                    body.addClass('cart-dragenter');
-                    e.preventDefault();
-                },
-                dragleave:e=>{
-                    e.preventDefault();
-                    body.removeClass('cart-dragenter');
-                },
-                dragend:e=>{
-                    e.preventDefault();
-                    body.removeClass('cart-dragenter');
-                },
                 drop:e=>{
                     e.preventDefault();
                     body.removeClass('cart-dragenter');
@@ -85,6 +78,9 @@ var AdminManager = AdminManager || {};
                         var entry = {name:name,id:id,image:src};
                         this.render([entry]);
                         this.emit(new nsp.Event('insert',{model:entry}));
+
+                        if(this.params.audio)
+                            audio.play();
                     }
                 }
             });
@@ -92,39 +88,26 @@ var AdminManager = AdminManager || {};
 
             document.addEventListener("dragenter",e=>{
                 e.preventDefault();
-                if(e.currentTarget == document){
+                if(this.currentDragged && e.currentTarget == document){
                     body.addClass('cart-dragenter');
                 }
             });
 
-            document.addEventListener("dragover",e=>{
+            document.addEventListener("drop",e=>{
                 e.preventDefault();
             });
 
-            document.addEventListener("dragleave",e=>{
-                e.preventDefault();
-                var obj = $(e.target);
 
-                if(!body.has(obj).length && !container.has(obj).length && container.get()[0] != obj.get()[0] ) {
-                    console.log('on quite')
-                    body.removeClass('cart-dragenter');
-                }
-            });
-            document.addEventListener("dragend",e=>{
-                e.preventDefault();
-                body.removeClass('cart-dragenter');
-            });
-           
             body.on("dragstart",this.params.entries,e=>{
-                var obj = $(e.target);
+                var obj = $(e.currentTarget);
                 var evt = e.originalEvent;
-                evt.dataTransfer.setData("text/plain","");
+                evt.dataTransfer.setData("text/plain",obj.attr('href'));
                 this.currentDragged = obj;
             });
 
             body.on("dragend",this.params.entries,e=>{
+                this.currentDragged = null;
                 var evt = e.originalEvent;
-                e.preventDefault();
                 body.removeClass('cart-dragenter');
                 e.stopPropagation();
             });

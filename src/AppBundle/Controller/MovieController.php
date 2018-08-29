@@ -87,6 +87,14 @@ class MovieController extends Controller{
                     if($response['status'] == 200){
                         $e = array_map(function($el){
                             $code = array_slice(explode("/", $el['uri']),-1)[0];
+
+                            $el['download'] = array_map(function($e){
+                                $size = $e["size"]/1024;
+                                $size /= 1024;
+                                $e['size'] = round($size,2);
+                                return $e;
+                            }, $el['download']);
+
                             return array(
                                 "code"=>$code,
                                 "name"=>$el['name'],
@@ -104,6 +112,7 @@ class MovieController extends Controller{
                                 "privacy"=>$el['privacy'],
                                 "cover"=>preg_replace("#(\d+x\d+)#", "1920x1080",$el['pictures']["sizes"][0]['link']),
                                 "thumbnail"=>$el['pictures']["sizes"][0]['link'],
+                                "download"=>$el['download'],
                             );
 
                         },$response['body']['data']);

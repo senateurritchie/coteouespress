@@ -39,8 +39,8 @@ header #master-cover{
 	/*height: 458px;*/
 	height: 600px;
 	overflow: hidden;
-	background: url('../img/photo1.jpg') no-repeat left top / cover;
-	background-color: #f6f6f6;
+	background: #f6f6f6 no-repeat left top / cover;
+	/*background: url('../img/photo1.jpg') no-repeat left top / cover;*/
 }
 
 @media (max-width: 576px) { 

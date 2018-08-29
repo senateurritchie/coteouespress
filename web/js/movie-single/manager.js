@@ -217,7 +217,7 @@ var AdminManager = AdminManager || {};
                 });
 
                 let opts = {
-                    loop:true,
+                    loop:false,
                     //margin:3,
                 };
 
@@ -241,7 +241,7 @@ var AdminManager = AdminManager || {};
 
                     opts.items = 1;
                     opts.autoplay = true;
-                    opts.loop = true;
+                    opts.loop = false;
 
                 }
 
@@ -297,8 +297,8 @@ var AdminManager = AdminManager || {};
 
             $('[data-toggle=tooltip]').tooltip();
 
-            var votePlug = new nsp.plugins.Voting();
-            votePlug.init();
+            /*var votePlug = new nsp.plugins.Voting();
+            votePlug.init();*/
 
             if( Vimeo && $("#movie-player").length ){
                 var player = AdminManager.container.get('VimeoPlayer');

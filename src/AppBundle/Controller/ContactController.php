@@ -33,12 +33,13 @@ class ContactController extends Controller{
     		}
 
     		$department = $clientMail->getDepartment();
+            $adminInfo = $this->getParameter("admin");
+
 
     		if(!$department){
 	        	$department = new Department();
-	        	$admin = $this->getParameter("admin");
-	        	$department->setName($admin["department"]);
-	        	$department->setEmail($admin["email"]);
+	        	$department->setName($adminInfo["department"]);
+	        	$department->setEmail($adminInfo["email"]);
 	        	$clientMail->setDepartment($department);
 	        }
 
@@ -60,6 +61,7 @@ class ContactController extends Controller{
 	        $message2 = (new \Swift_Message($clientMail->getSubject()))
 	        ->setFrom([$clientMail->getEmail()=>$from_name])
 	        ->setTo($department->getEmail())
+            ->addCc($adminInfo["email"])
 	        ->setBody(
 	            $this->renderView(
 	                'contact/email/webmaster.html.twig',
@@ -68,8 +70,13 @@ class ContactController extends Controller{
 	            'text/html'
 	        );
 
-	    	$mailer->send($message);
-	    	$mailer->send($message2);
+            try {
+                $mailer->send($message);
+                $mailer->send($message2);
+            } catch (\Exception $e) {
+                
+            }
+	    	
 	    	$em = $this->getDoctrine()->getManager();
 
 	    	if(!$department->getId()){

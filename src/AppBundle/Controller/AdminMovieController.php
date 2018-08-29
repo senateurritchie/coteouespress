@@ -492,14 +492,14 @@ class AdminMovieController extends Controller
             foreach ($episodes as $key => $e) {
                 if(in_array($e->getId(), $db)) continue;
 
+                $pos = $key+1;
+
                 $item->addEpisode($e);
                 $e->setMovie($item);
+                $e->setPos($pos);
                 $em->persist($e);
             }
-
-
            $item = $form->getData();
-
            // gestion des suppressions
             foreach ($originalEpisodes as $episode) {
                 if (false === $item->getEpisodes()->contains($episode)) {

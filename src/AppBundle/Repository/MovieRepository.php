@@ -11,6 +11,7 @@ use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieProducer;
 use AppBundle\Entity\MovieCountry;
 use AppBundle\Entity\MovieActor;
+use AppBundle\Entity\MovieCatalog;
 use AppBundle\Entity\Language;
 
 /**
@@ -105,6 +106,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         // recherche par pays
         if(@$params["country"]){
             $this->whereCountry($qb,@$params["country"]);
+        }
+
+        // recherche par catalogue
+        if(@$params["catalog"]){
+            $this->whereCatalog($qb,@$params["catalog"]);
         }
 
         // recherche par année
@@ -406,6 +412,33 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
       	)
       	->setParameter("country",$value);
   	}
+
+    public function whereCatalog(QueryBuilder $qb,$value){
+        $qb2 = $this->_em->createQueryBuilder();
+
+        $qb2->select("x6.id")
+        ->from(MovieCatalog::class,"x6")
+        ->innerJoin("x6.movie","xm6")
+        ->innerJoin("x6.catalog","xc6")
+        ->where("m.id = xm6.id");
+
+        if(is_numeric($value)){
+            $qb2->andWhere("xc6.id = :catalog");
+        }
+        else if(is_array($value)){
+            $qb2->andWhere($qb->expr()->in("xc6.id",":catalog"));
+        }
+        else{
+            $qb2->andWhere("xc6.slug = :catalog");
+        }
+       
+        $qb->andWhere(
+            $qb->expr()->exists($qb2)
+        )
+        ->setParameter("catalog",$value);
+    }
+
+    
 
   	/*public function count(){
 		return $this->createQueryBuilder('m')

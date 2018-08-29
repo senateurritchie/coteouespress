@@ -94,7 +94,7 @@ class MovieType extends AbstractType
             "required"=>false,
         ))
         ->add('hasExclusivity',CheckboxType::class,array(
-            "label"=>"Production à plébiciter",
+            "label"=>"Production à la une",
             "required"=>false,
         ))
         ->add('isPublished',CheckboxType::class,array(

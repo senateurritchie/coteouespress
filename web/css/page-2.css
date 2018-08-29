@@ -1,9 +1,9 @@
 header #master-cover{
 	/*height: 290px;*/
 	height: 458px;
-	background-color: #f6f6f6;
 	overflow: hidden;
-	background: url('../img/photo1.jpg') no-repeat left top / cover;
+	background: #f6f6f6 no-repeat left top / cover;
+	/*background: url('../img/photo1.jpg') no-repeat left top / cover;*/
 }
 
 

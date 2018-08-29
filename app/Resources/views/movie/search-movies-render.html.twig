@@ -9,7 +9,8 @@
             {% if movie.portraitImg %}
                 <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('upload/public/'~movie.portraitImg) }}" >
             {% else %}
-                <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
+                {#<img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >#}
+                <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="img/vignette.png" >
             {% endif %}
 
             <div class="media-overlay d-none d-md-block"></div>
@@ -36,13 +37,13 @@
                     {{ movie.name|lower|title }} 
                 </h2>
 
-                <small class="d-none d-md-block movie-rank">
+                {#<small class="d-none d-md-block movie-rank">
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="fas fa-star"></i>
                     <i class="far fa-star"></i>
                     <i class="far fa-star"></i>
-                </small>
+                </small>#}
             </div>
         </div>
 
