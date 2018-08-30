@@ -81,8 +81,9 @@
 
                 <div class="modal-body">
                     <table class="table table-striped">
+                    
                         <tbody>
-                            {% for key,rsrc in vimeoRsrc %}
+                            {% for key,rsrc in vimeoRsrc  %}
                                 <tr>
                                     <td>
                                         <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
@@ -90,10 +91,17 @@
                                     <td>
                                         {{ rsrc.name|lower|title }}<br><small>
                                         
-                                        {% for i in rsrc.download %}
-                                        <div>
-                                            <a href="{{ i.link }}" download="{{ rsrc.name|lower|title }}">{{ i.quality }}&nbsp;-&nbsp;{{ i.height }}p&nbsp;&nbsp;-&nbsp;{{ i.width }} x {{ i.height }}&nbsp;-&nbsp;&nbsp;{{ i.size }}Mo </a>
-                                        </div>
+                                        {% for i in rsrc.download if i.quality != 'source' %}
+
+                                            
+                                            <div>
+                                                <a href="{{ i.link }}" download="{{ rsrc.name|lower|title }}">
+                                                    <i class="fas fa-download text-danger"></i>&nbsp;.&nbsp;{{ i.quality|upper }}&nbsp;.&nbsp;{{ i.height }}p&nbsp;&nbsp;.&nbsp;{{ i.width }} x {{ i.height }}&nbsp;.&nbsp;&nbsp;{{ i.size }}Mo 
+                                                </a>
+
+                                            </div>
+
+
                                         {% endfor %}
                                     </td>
                                    
@@ -309,6 +317,12 @@
             <div class="col-md-9 col-sm-12">
 
                 <section id="movie-title">
+                    
+                    {% if vimeoRsrc|length %}
+                        <button class="btn btn-danger btn-lg float-right" data-toggle="modal" data-target="#download-list">
+                            <i class="fas fa-download"></i> Télécharger les videos
+                        </button>
+                    {% endif %}
 
                     <h2 class="text-nowrap text-truncate">{{ programme.name|lower|title }}</h2>
 
@@ -344,44 +358,52 @@
                             </div>
                         </div>
                     </div>#}
+
                 </section>
                 
                 {% if vimeoRsrc.trailer is defined %}
-                    <section style="padding: 15px" id="movie-player">
+                    <section style="padding: 15px;" id="movie-player">
                         <div class="row">
-                            <div class="col-md-12 coa-player p-0">
-                                <div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-background="false"></div>
+                            <div class="col-md-12 coa-player p-0 m-0" style="background:#000000;text-align:center">
+                                {#<div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-height="480px" data-vimeo-background="false"></div>#}
+                                <div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
         
-                                <div class="coa-player-thumbnail fix d-none sleep-target">
-                                    <div class="list-group">
+                                <div class="coa-player-thumbnail fix d-none sleep-target text-left">
+                                    <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
+                                        <div class="mb-4">
+                                            <button class="btn btn-info btn-sm btn">
+                                                <i class="fas fa-times"></i> Fermer la playlist 
+                                            </button>
+                                        </div>
+
+                                        <div class="list-group">
+                                            
+                                            {% for key,rsrc in vimeoRsrc %}
+                                                <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
+
+                                                    <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
+                                                    
+                                                    &nbsp; 
+                                                    <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
+                                                </a>
+                                            {% endfor %}
+                                        </div>
+
                                         
-                                        {% for key,rsrc in vimeoRsrc %}
-                                            <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
-
-                                                <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
-                                                
-                                                &nbsp; 
-                                                <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
-                                            </a>
-                                        {% endfor %}
                                     </div>
 
-                                    <div class="mt-4">
-                                        <button class="btn btn-info btn-sm btn-block">
-                                            <i class="fas fa-times"></i> Fermer la playlist 
-                                        </button>
-                                    </div>
+                                    
                                 </div>
                             </div>
                         </div>
 
 
 
-                        <div class="d-flex flex-row justify-content-end">
-                            <button class="btn btn-light btn-lg" data-toggle="modal" data-target="#download-list">
+                        {#<div class="d-flex flex-row justify-content-end">
+                            <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#download-list">
                                 <i class="fas fa-download"></i> Télécharger
                             </button>
-                        </div>
+                        </div>#}
                     </section>
                 {% endif %}
 
@@ -963,6 +985,7 @@
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/slimscroll/jquery.slimscroll.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/movie-single/manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/plugins/Voting.js','js') }}"></script>

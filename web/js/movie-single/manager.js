@@ -307,7 +307,17 @@ var AdminManager = AdminManager || {};
                     list:$(".coa-player .coa-player-thumbnail div > a")
                 });
             }
-            
+
+            var toSlim = $(".coa-player-thumbnail > div:first");
+
+            toSlim.slimscroll({
+                color:"#dc3545",
+                height:"100%",
+            })
+            .on('slimscroll', function(e, pos){
+                console.log(pos)
+            });
+
 			return this;
 		}
 		return MovieSingleView;

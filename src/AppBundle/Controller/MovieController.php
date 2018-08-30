@@ -78,8 +78,13 @@ class MovieController extends Controller{
             }
 
 
-            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib){
+            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib,&$token){
                 $endpoint = '/videos';
+
+                $videos = array_filter($videos,function($el){
+                    return preg_match("#/coteouestv/#", $el)?false:true;
+                });
+
                 $links = implode(",", $videos);
 
                 if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
