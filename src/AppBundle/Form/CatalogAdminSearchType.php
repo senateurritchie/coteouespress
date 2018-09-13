@@ -235,23 +235,20 @@ class CatalogAdminSearchType extends AbstractType
     /**
      * {@inheritdoc}
      */
-    public function configureOptions(OptionsResolver $resolver)
-    {
+    public function configureOptions(OptionsResolver $resolver){
         $resolver->setDefaults(array(
             'data_class' => Catalog::class
         ));
     }
 
-    public function getParent()
-    {
+    public function getParent(){
         return CatalogType::class;
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function getBlockPrefix()
-    {
+    * {@inheritdoc}
+    */
+    public function getBlockPrefix(){
         return null;
     }
 

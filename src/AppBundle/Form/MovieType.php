@@ -33,6 +33,8 @@ use AppBundle\Entity\Language;
 use AppBundle\Entity\OriginalLanguage;
 use AppBundle\Entity\Genre;
 use AppBundle\Entity\Country;
+use AppBundle\Entity\CatalogSection;
+use AppBundle\Entity\CatalogSectionCategory;
 
 use AppBundle\Form\ResourceType;
 use AppBundle\Form\MovieEpisodeType;
@@ -145,6 +147,30 @@ class MovieType extends AbstractType
         ->add('language',EntityType::class,array(
             "class"=>OriginalLanguage::class,
             "placeholder"=>"version original...",
+            "required"=>false,
+            "choice_label"=>function($item,$key,$index){
+                return $item->getName();
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+        ))
+        ->add('section',EntityType::class,array(
+            "class"=>CatalogSection::class,
+            "placeholder"=>"section...",
+            "required"=>false,
+            "choice_label"=>function($item,$key,$index){
+                return $item->getName();
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+        ))
+        ->add('sectionCategory',EntityType::class,array(
+            "class"=>CatalogSectionCategory::class,
+            "placeholder"=>"section catégorie...",
             "required"=>false,
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
@@ -391,6 +417,8 @@ class MovieType extends AbstractType
                 ->remove('mention')
                 ->remove('state')
                 ->remove('language')
+                ->remove('section')
+                ->remove('sectionCategory')
                 ->remove('trailer')
                 ->remove('episode1')
                 ->remove('episode2')

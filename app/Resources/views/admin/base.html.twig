@@ -389,10 +389,17 @@
                                 </a>
                             </li>
 
-                             <li class="{{ route == 'admin_trailer_index' ? 'active': ''}}">
+                            {#<li class="{{ route == 'admin_trailer_index' ? 'active': ''}}">
                                 <a  href="{{ path('admin_trailer_index') }}">
                                     <i class="fa fa-folder"></i> 
                                     <span>Trailers</span>
+                                </a>
+                            </li>#}
+
+                            <li class="{{ route == 'admin_catalog_index' ? 'active': ''}}">
+                                <a href="{{ path('admin_catalog_index') }}">
+                                    <i class="fa fa-folder"></i> 
+                                    <span>Catalogues</span>
                                 </a>
                             </li>
                             
@@ -402,6 +409,8 @@
                                     <span>Programmes</span>
                                 </a>
                             </li>
+
+                            
                         {% endif %}
                     </ul>
                     <!-- /.sidebar-menu -->

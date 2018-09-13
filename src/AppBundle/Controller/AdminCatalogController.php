@@ -10,8 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 
-use AppBundle\Entity\Movie;
-use AppBundle\Entity\Catalog;
+use AppBundle\Entity\CatalogStatic;
+
+use AppBundle\Form\CatalogStaticType;
+use AppBundle\Form\CatalogStaticAdminSearchType;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
@@ -23,11 +25,220 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 class AdminCatalogController extends Controller
 {
     /**
-    * @Route("/", name="index")
-    * @Method({"GET"})
+    * @Route("/{catalog_id}", requirements={"catalog_id":"(\d+)?"}, name="index")
     */
-    public function indexAction(Request $request){
+    public function indexAction(Request $request,$catalog_id=null){
 
+        if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(CatalogStatic::class);
+        $date = new \Datetime();
+
+        $limit = intval($request->query->get('limit',20));
+        $offset = intval($request->query->get('offset',0));
+
+        $limit = $limit > 20 ? 20 : $limit;
+        $offset = $offset < 0 ? 0 : $offset;
+
+        if($catalog_id){
+            $request->query->set('id',intval($catalog_id));
+        }
+
+        $params = $request->query->all();
+        if(!@$params['order_id']){
+            $params['order_id'] = "DESC";
+        }
+
+        $data = $rep->search($params,$limit,$offset);
+
+        // requete ajax
+        if($request->isXmlHttpRequest()){
+
+            $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
+            
+            if(intval(@$params['id'])){
+                if(empty($data)){
+                    throw $this->createNotFoundException("Element introuvable");
+                }
+                $data = $data[0];
+            }
+
+
+            $result = array();
+            $json = json_decode($this->get("serializer")->serialize($data,'json',array('groups' => array('group1'))),true);
+            $result['model'] = $json;
+            $result['view'] = "";
+            $view;
+
+            if(is_array($data)){
+                $view = $this->render('admin/catalog/item-render.html.twig',array(
+                    "data"=>$data,
+                ));
+            }
+            else{
+
+                $form2 = $this->createForm(CatalogStaticType::class,$data,[
+                    'upload_dir' => $this->getParameter('documents_directory'),
+                    "action"=>$this->generateUrl("admin_catalog_update",["catalog_id"=>$data->getId()])
+                ]);
+
+                $em->refresh($data);
+
+                $view = $this->render('admin/catalog/selected-view.html.twig',array(
+                    "data"=>$data,
+                    "form"=>$form2->createView(),
+                ));
+            }
+
+            if ($acceptHeader->has('text/html')) {
+                $item = $acceptHeader->get('text/html');
+                return $view;
+            }
+            
+            $result['view'] = $view->getContent();
+
+            $json = json_encode($result);
+            $response = new Response($json);
+            $response->headers->set('Content-Type', 'application/json');
+            return $response;
+        }
+
+
+        // soumission de formulaire
+        $item = new CatalogStatic();
+        $form = $this->createForm(CatalogStaticType::class,$item,[
+            'upload_dir' => $this->getParameter('documents_directory'),
+        ]);
+
+        $form->handleRequest($request);
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $em->persist($item);
+            $em->flush();
+            $this->addFlash('notice-success',"Votre catalogue a été ajouté avec succes");
+            return $this->redirectToRoute("admin_catalog_index");
+        }
+        else{
+
+            foreach ($form->all() as $child) {
+                if (!$child->isValid() && count($child->getErrors())) {
+                    $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                    $this->addFlash('notice-error',$formatted);
+                }
+            }
+        }
+        
+        $catalogue = new CatalogStatic();
+        $form_search = $this->createForm(CatalogStaticAdminSearchType::class,$catalogue,[
+            'upload_dir' => $this->getParameter('documents_directory'),
+        ]);
+
+        return $this->render('admin/catalog/index.html.twig',array(
+            "data"=>$data,
+            "form"=>$form->createView(),
+            "form_search"=>$form_search->createView(),
+        ));
+    }
+
+    /**
+    * @Route("/{catalog_id}/update", requirements={"catalog_id":"\d+"}, name="update")
+    * @Method("POST")
+    */
+    public function updateAction(Request $request,$catalog_id){
+        // protection par role
+        if($this->isGranted('ROLE_CATALOG_INSERT'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous ne pouvez pas éffectuer cette action");
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(CatalogStatic::class);
+        $result = ["status"=>false];
+
+        if(!($item = $rep->find($catalog_id))){
+            throw $this->createNotFoundException();
+        }
+
+        $cloned = clone($item);
+
+        $oldFile = $item->getFile();
+
+        $form = $this->createForm(CatalogStaticType::class,$item,[
+            'upload_dir' => $this->getParameter('documents_directory'),
+        ]);
+
+        $form->handleRequest($request);
+        
+        foreach ($form->all() as $child) {
+            if (!$child->isValid() && count($child->getErrors())) {
+                $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
+                $this->addFlash('notice-error',$formatted);
+            }
+        }
+
+
+        if($form->isSubmitted() && $form->isValid()){
+            $date = new \Datetime();
+            $em->merge($item);
+
+            if(!$item->getFile() && $oldFile){
+                $item->setFile($oldFile);
+            }
+
+
+            if($cloned->getCatalog()->getId() != $item->getCatalog()->getId()){
+                $el = $cloned->getCatalog();
+                $nbr = intval($el->getMovieNbr())-1;
+                $el->setMovieNbr($nbr);
+
+                $el = $item->getCatalog();
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+
+            $em->flush();
+
+            if($oldFile && $item->getFile() && $item->getFile() != $oldFile){
+                $path = $this->getParameter('documents_directory').'/'.basename($oldFile);
+                unlink($path);
+            }
+
+            $this->addFlash('notice-success',"Votre catalog a été mise à jour avec succes");
+            return $this->redirectToRoute('admin_catalog_index',["catalog_id"=>$item->getId(),"modal"=>1]);
+        }
+
+        return $this->redirectToRoute('admin_catalog_index',["catalog_id"=>$item->getId(),"modal"=>1]);
+    }
+
+    /**
+    * @Route("/{catalog_id}/delete", requirements={"catalog_id":"\d+"}, name="delete")
+    * @Method("POST")
+    */
+    public function deleteAction(Request $request,$catalog_id){
+
+        // protection par role
+        $this->denyAccessUnlessGranted('ROLE_SUPER_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+
+        $em = $this->getDoctrine()->getManager();
+        $rep = $em->getRepository(CatalogStatic::class);
+        $result = ["status"=>false];
+
+        if(!($item = $rep->find($catalog_id))){
+            throw $this->createNotFoundException();
+        }
+
+        $em->remove($item);
+        $em->flush();
+        $result['status'] = true;
+        $result['message'] = "modification effectuée avec succès";
+        $result["data"] = json_decode($this->get("serializer")->serialize($item,'json',array("groups"=>["group1"])),true);
+
+        return $this->json($result);
     }
 
     /**

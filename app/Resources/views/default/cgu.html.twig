@@ -1,0 +1,513 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
+    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css','css') }}">
+
+    <style>
+        header #master-cover{
+            height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        }
+
+        .p-ul{
+            padding-left:20px;
+        }
+
+        section{
+            margin-bottom: 40px;
+        }
+    </style>
+
+
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+
+        <div id="master-cover"></div>
+
+        <div id="master-cover-overlay"></div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-md-3 order-2 d-none d-xl-block d-md-block d-lg-block">
+
+                <div class="bd-toc section-nav">
+                    <ul class="list-unstyled">
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-1">Préambule</a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-2">
+                                Changements relatifs aux Conditions Générales d'Utilisation
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-3">
+                                Interprétation des termes
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-4">
+                                Divisibilité
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-5">
+                                Description du Service
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-6">
+                                Utilisation de l’application MyNina
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-7">
+                                Propriété intellectuelle
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-8">
+                                Prix et promotions
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-9">
+                                Obligations et Responsabilités
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-10">
+                                Données personnelles et confidentialité
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-11">
+                                Récupération des données utilisateur
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-12">
+                                Sécurité
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-13">
+                                Cookies
+                            </a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-14">
+                                Droit applicable et juridiction compétente
+                            </a>
+                        </li>
+
+                        
+                    </ul>
+                </div>
+                
+            </div>
+
+            <div class="col-md-9 order-1">
+
+                <h1 class="text-nowrap text-truncate">
+                    Conditions Générales d'Utilisation
+                </h1>
+
+                <br>
+
+                <section id="anchor-1">
+                   <h4>Préambule</h4>
+
+                    <p>
+                        Nous vous prions de prendre connaissance des présentes Conditions Générales d’Utilisation (ci-après « CGU ») avec une attention particulière car l'utilisation de l’application mobile MyNina de MAGIC MOVIES, suppose leur acceptation entière et sans réserve. 
+                        L’application mobile MyNina de MAGIC MOVIES est un ensemble de contenu hébergé sur Internet et exploité par MAGIC MOVIES, Société à Responsabilité Limitée de droit mauricien, immatriculée au registre du commerce de Maurice sous le numéro C14123185 dont le siège social est situé 31 Cybercity, EBENE, Ile Maurice.
+                        Les termes « Vous » et « Souscripteur ou Utilisateur » désignent l'utilisateur final accédant à l’application mobile MyNina. Les termes autour du pronom personnel « nous ou MAGIC MOVIES » désignent MAGIC MOVIES et ses partenaires. Le terme « MyNina » ou « Plateforme » désigne l’application mobile Android.
+                    </p>
+                </section>
+
+                <section id="anchor-2">
+                    
+                    <h4>
+                        Changements relatifs aux Conditions Générales d'Utilisation
+                    </h4>
+
+                    <p>
+                        MAGIC MOVIES se réserve le droit de modifier les présentes CGU, à tout moment et sans préavis, compte tenu notamment du rajout de nouvelles fonctionnalités, ou pour toute autre raison. Par souci d'équité, toutes les modifications substantielles apportées ne s'appliqueront pas rétroactivement. Il appartient en conséquence à l'Utilisateur de consulter et d'accepter les CGU au moment où il effectue une souscription ou un paiement, notamment afin de s'assurer des dispositions en vigueur. 
+                    </p>
+
+                    <p>
+                        Chaque utilisation des services proposés dans l’application par les Utilisateurs constitue l'acceptation de la dernière version des CGU publiées sur le Site. 
+                    </p>
+                </section>
+                
+                
+                <section id="anchor-3">
+                    <h4>
+                        Interprétation des termes
+                    </h4>
+
+                    <p>
+                        Dans les présentes CGU, les mots écrits au singulier peuvent se comprendre au pluriel et vice-versa. De même, les mots soulignant un genre – masculin ou féminin – s’entendent indifféremment dans les deux genres. Les termes « notamment », « comprend » et « y compris » sont réputés suivie de l'expression « sans limitation ». 
+                    </p>
+                </section>
+
+                <section id="anchor-4">
+                    <h4>
+                        Divisibilité
+                    </h4>
+
+                    <p>
+                        Si une ou plusieurs clauses des présentes CGU devait être reconnue comme invalide, inapplicable ou contraire au droit par une juridiction, ces clauses seront réputées non écrites et les clauses restantes continueront à produire leurs effets. 
+                    </p>
+                </section>
+
+
+                <section id="anchor-5">
+                    <h4>
+                        Description du Service
+                    </h4>
+
+                    <p>
+                        MAGIC MOVIES, met à la disposition du grand public un service de vidéos à la demande (VOD) avec un catalogue riche de plus de 500 heures de Télénovelas et un flux live de sa chaîne de TV Nina TV. 
+                    </p>
+
+                    <p>
+                        Les Utilisateurs ont la possibilité de télécharger gratuitement l’application MyNina depuis Playstore, de l’installer et de voir tout le contenu mis à sa disponible. 
+                        L’Utilisateur a le choix entre différentes catégories qui sont : le flux live de la chaîne MyNina, le contenu mis à disposition en replay et le contenu mis à la disposition en VOD. 
+                        Pour avoir accès à ce contenu, Il a le choix entre une souscription journalière et mensuelle qui lui donne le droit de regarder toutes les vidéos de son choix et sans limite de visionnage durant sa période de souscription. 
+
+                    </p>
+                </section>
+
+                <section id="anchor-6">
+                    <h4>
+                        Utilisation de l’application MyNina
+                    </h4>
+
+                    <p>
+                        Lors de la procédure de connexion à l’application, l’Utilisateur renseigne son nom d’utilisateur (qui sera uniquement un numéro de téléphone) et son mot de passe. L’Utilisateur est responsable du maintien de la confidentialité de ses accès de connexion à l’application, et est entièrement responsable de toutes les activités liées à son compte.
+                    </p>
+
+                    <p>
+                        A cette fin, vous vous engagez à : 
+                    </p>
+
+                    <ol >
+                        <li>
+                            aviser immédiatement  MAGIC MOVIES, de toute utilisation frauduleuse de son compte ou de toute autre violation de sécurité;
+                        </li>
+
+                        <li>
+                            s’assurer qu’il quitte son compte à la fin de chaque session d'utilisation. Il évitera ainsi que des personnes accèdent à ses informations personnelles en cas de partage ou de perte de son smatphone/tablette, ou de travail dans un espace professionnel ou dans un lieu public.
+                        </li>
+                    </ol>
+
+                    <p>
+                        En cas d’utilisation frauduleuse de vos données, ou de vos identifiants vous devrez immédiatement informer MAGIC MOVIES. De même en cas de perte ou votre mot de passe vous êtes tenu d'en avertir MAGIC MOVIES sans délai en réinitialisant votre mot de passe, ou par message électronique en précisant votre nom d'utilisateur (numéro MSISDN), à l'adresse suivante : vod@nina.tv
+                    </p>
+
+                    <p>
+                        L’Utilisateur s’engage à utiliser l’application uniquement pour afficher des données appropriées et exécuter toutes les actions relatives à son expériences utilisateur sur notre application. L’Utilisateur s’engage cependant à ne pas :
+                    </p>
+
+                    <ol >
+                       <li>
+                            Diffamer, abuser, harceler, traquer, menacer ou violer les droits individuels ;
+                        </li>
+                        <li>
+                            Publier, afficher, télécharger, distribuer ou disséminer tout sujet inapproprié, vulgaire, diffamatoire, obscène, indécent ou illégal ; nom, élément ou information personnels ;
+                        </li>
+
+                        <li>
+                            Violer tout code de conduite ou autres directives, qui peuvent être applicables pour ou à un service particulier ;
+                        </li>
+
+                        <li>
+                            Transgresser les lois ou règlements applicables au sein ou en dehors de la Côte d’Ivoire ; et
+                        </li>
+
+                        <li>
+                            Porter atteinte à aucun des termes et conditions des présentes CGU ou tous autres termes et conditions d'utilisation du Site existants ou à venir ...
+                        </li>
+                    </ol>
+                </section>
+
+                <section id="anchor-7">
+                    <h4>Propriété intellectuelle</h4>
+
+                    <p>
+                        L’application et tout le contenu qui la composent sont la propriété exclusive MAGIC MOVIES Audiovisuel. Ainsi donc, MAGIC MOVIES conserve la propriété intellectuelle de ses données aux travers des différents contrats de cession établis avec les ayants droits. 
+                    </p>
+
+                    <p>
+                        La mise à disposition de l’application ne serait être analysée comme un transfert de propriété aux bénéfices de l’utilisateur. 
+                    </p>
+
+                    <p>
+                        L’utilisateur n’est pas autorisé à décompiler ou désassembler l’application, reproduire, représenter, modifier, traduire, adapter, partiellement ou totalement sans l’accord préalable écrit de MAGIC MOVIES.
+                    </p>
+
+                    <p>
+                        MAGIC MOVIES concède aux Utilisateurs de son application un droit limité conformément à ses Conditions Générales de Vente. 
+                    </p>
+
+                    <p>
+                        Les Utilisateurs s'engagent à ne pas utiliser l’application MyNina à des fins commerciales, d'en monnayer l'accès pour eux-mêmes ou au profit d'un tiers ; s'interdit de publier tout message ou lien à caractère publicitaire visant à vendre ou assurer la promotion de produits ou de services commercialisés à l'extérieur de l’application. 
+                    </p>
+
+                    <p>
+                        Lorsque l’utilisateur souscrit à une offre de l’application MyNina, il reconnait et accepte : 
+                    </p>
+
+                    <ol >
+                        <li>
+                            Qu’il sera identifié publiquement via son identifiant (ici appelé numéro MSISDN), en association avec les commentaires qu’il publie.
+                        </li>
+
+                        <li>
+                            Qu’il s’abstiendra de fournir à MAGIC MOVIES des contenus dont il ne possèderait pas les droits, ou qui contreviendraient aux droits de la propriété intellectuelle de tiers ou aux présentes CGU
+                        </li>
+
+                        <li>
+                            Que les informations qu'il fournit à MAGIC MOVIES pourront être librement exploités par MAGIC MOVIES et les visiteurs de l’application, en relation avec la promotion.
+                        </li>
+
+                        <li>
+                            Que la consultation des commentaires laissés dans l’application est entièrement libre 
+                        </li>
+
+                        <li>
+                            Que tous les commentaires allant contre les intérêts de MAGIC MOVIES, pourront être supprimés sans préavis. 
+                        </li>
+
+                        <li>
+                            Qu’il est consentant dans l’utilisation de tout ou partie de l’application.
+                        </li>
+
+                        <li>
+                            Qu’il autorise MAGIC MOVIES à supprimer, corriger, éditer, modifier, copier, reproduire, traduire, reformater, réduire, ou couper tout commentaire qu’il aura fourni dans l’application.
+                        </li>
+
+                        <li>
+                            Qu’il est pleinement et entièrement responsable des commentaires qu’il publiera dans l’application MyNina; MAGIC MOVIES ne pourra en aucun cas être tenu responsable envers les Utilisateurs des erreurs, omissions, ou falsifications, résultant des publications, des informations ou des contenus fournis par l’utilisateur.
+                        </li>
+                    </ol>
+
+                    <p>
+                        MAGIC MOVIES ne peut contrôler toutes les informations utilisateurs aux fins de publications dans MyNina. Il ne peut garantir l’authenticité des informations publiées par les utilisateurs dans son application. L’Utilisateur reconnaît donc qu’il peut être exposé, par le simple fait d’utiliser l’application, à des informations inexactes , ou qui peuvent lui paraître choquants, indécents ou répréhensibles de toute autre manière et renonce expressément à tous les droits et recours qu’il pourrait détenir en vertu de la loi ou de l’équité à l’encontre de  MAGIC MOVIES, par rapport à la présence en ligne de ces commentaires; L’utilisateur est néanmoins invité à signaler tous les commentaires qui lui semblerait inconvenant en motivant sa demande par mail à xxx@magicmovies.mu. 
+                    </p>
+
+                </section>
+
+                <section id="anchor-8">
+                    <h4>
+                        Prix et promotions
+                    </h4>
+
+                    <p>
+                        L’application MyNina peut proposer des concours à des périodes différentes et limités. Les conditions de ces concours seront disponibles uniquement pour les personnes s’étant enregistrées et ayants souscrites à une offre de l’application MyNina. 
+                    </p>
+                </section>
+
+                <section id="anchor-9">
+                    <h4>
+                        Obligations et Responsabilités
+                    </h4>
+
+                    <p>
+                        <h6><strong>1) Utilisateur</strong></h6>
+                    </p>
+
+                    <p>
+                        L’Utilisateur s'engage à : 
+                    </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            Ne pas véhiculer des propos ou contenus illicites ou illégaux, violents, pornographiques ou portant atteinte à la dignité humaine, à l'incitation à la haine raciale ;
+                        </li>
+
+                        <li>
+                            Défendre et indemniser MAGIC MOVIES contre toute conséquence pécuniaire liées à de tels comportements ;
+                        </li>
+
+                        <li>
+                            Ne pas se présenter comme porte-parole de MAGIC MOVIES ;
+                        </li>
+
+                        <li>
+                            Notifier à MAGIC MOVIES, membre de MAGIC MOVIES, tout changement relatif à son compte Mobile Money ;
+                        </li>
+
+                        <li>
+                            Autoriser l'utilisation par MAGIC MOVIES, de données enregistrées. Toutefois l'Utilisateur garde le droit de modifier ou supprimer les données le concernant.
+                        </li>
+
+                    </ul>
+
+                    <p>
+                        <h6><strong>2) MAGIC MOVIES</strong></h6>
+                    </p>
+
+                    <p>MAGIC MOVIES engage: </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            À transmettre à l'Utilisateur sur demande un relevé comprenant la liste des souscriptions effectuées. 
+                        </li>
+
+                        <li>
+                            À toujours rendre disponible le contenu auquel a souscrit l’utilisateur 
+                        </li>
+
+                        <li>
+                            À alerter l’utilisateur en cas de lancement de nouveaux programmes
+                        </li>
+                    </ul>
+
+                    <p>
+                        Pour l’ensemble de ses prestations, MAGIC MOVIES est soumise à une obligation de moyens et de résultats. 
+                    </p>
+
+                    <p>
+                        En cas de décès, d’incapacité, d’accident le compte du souscripteur sera clôturé après réception par Email des informations attestant le décès. 
+                    </p>
+                </section>
+
+                <section id="anchor-10">
+                    <h4>
+                        Données personnelles et confidentialité
+                    </h4>
+
+                    <p>
+                        La protection des données de votre vie privée est un principe important pour nous. Nous recueillons des renseignements à des fins nécessaires à la bonne utilisation de l’application. En soumettant des données à la plateforme de l’application de MAGIC MOVIES, vous consentez à notre utilisation de vos données tel que décrit ci-après. Vous pouvez visiter et naviguer sur certaines pages de l’application sans avoir à fournir de renseignements personnels. 
+                    </p>
+
+                    <p>
+                        MAGIC MOVIES peut : 
+                    </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            Recueillir des informations sur le formulaire d'inscription tel que votre nom, adresse Email, numéro de téléphone mobile, détails de paiement, carte bancaire ou de coordonnées bancaires. 
+                        </li>
+
+                        <li>
+                            Utiliser vos données afin de vous transmettre des informations relatives à ses produits. 
+                        </li>
+
+                        <li>
+                            Utiliser vos renseignements personnels pour avis et études de marché. Vos données sont anonymes et ne seront utilisées qu'à des fins statistiques. 
+                        </li>
+                    </ul>
+
+                    <p>
+                        MAGIC MOVIES ne partagera aucune de vos informations personnelles avec des tiers sans votre consentement explicite. De la même manière, MAGIC MOVIES ne vends ni ne loue vos informations personnelles à des tiers pour des fins de marketing sans votre consentement explicite. Si vous préférez ne recevoir aucune des informations supplémentaires détaillées dans le présent paragraphe (ou toute partie de celui-ci) cliquez s'il vous plaît sur le lien "désinscription" dans n'importe quel email que vous sera envoyé.
+                    </p>
+                </section>
+
+                <section id="anchor-11">
+                    <h4>
+                        Récupération des données utilisateur
+                    </h4>
+
+                    <p>
+                        Nous pouvons collecter des informations de nature diverses. Nous avons besoin de ces informations, notamment afin de confirmer le don à un talent.
+                    </p> 
+
+                    <p>
+                        Nous collectons, stockons et traitons vos données pour permettre la bonne utilisation du site Web. Nous pouvons recueillir des informations sur le formulaire d'inscription tel que votre nom, adresse Email, , numéro de téléphone mobile, détails de paiement, carte bancaire ou de coordonnées bancaires. 
+                    </p>
+                </section>
+
+                <section id="anchor-12">
+                    <h4>
+                        Sécurité
+                    </h4>
+
+                    <p>
+                        MAGIC MOVIES a mis en place des mesures techniques appropriées de sécurité pour empêcher l'accès non autorisé ou illégal à vos informations. MAGIC MOVIES stocke et traite vos informations sur des serveurs protégés par des dispositifs technologiques et humains de sécurité. Lorsque MAGIC MOVIES recueille des données à travers MyNina, vos données personnelles sont stockés sur un serveur sécurisé et des pare-feu sont utilisés sur ses serveurs. Lorsque MAGIC MOVIES recueille des informations relatives aux cartes de paiement électronique, le cryptage utilisant la technologie Secure Socket Layer (SSL) de codage est utilisé. Il est fortement recommandé de ne pas envoyer tous les détails de carte de crédit ou de débit dans les communications électroniques non cryptés avec nous. Il est néanmoins précisé que vous êtes seul responsable de la protection contre l'accès non autorisé à votre mot de passe et à votre ordinateur. 
+                    </p>
+                </section>
+
+                <section id="anchor-13">
+                    <h4>
+                        Cookies
+                    </h4>
+
+                    <p>
+                        L'acceptation des cookies n'est pas nécessaire pour visiter MyNina. Cependant, MAGIC MOVIES souligne que pour assurer la bonne utilisation de MyNina les cookies sont nécessaires. Les cookies sont des fichiers texte qui servent à identifier votre appareil mobile lorsque vous parcourez notre application et ils sont stockés dans la mémoire de votre appareil mobile. Les cookies peuvent être utilisés pour reconnaître votre adresse de protocole Internet, et vous permettent d'économiser du temps lorsque vous revenez sur certaines vues de MyNina. L’application utilise des services propres à elle travers lesquels des données sont collectées et stockées à des fins de marketing et d'optimisation des données. 
+                    </p>
+                </section>
+
+                <section id="anchor-14">
+                    <h4>
+                        Droit applicable et juridiction compétente
+                    </h4>
+
+                    <p>
+                        Il est expressément stipulé que les présentes CGV sont régies par la loi Mauricienne. Tout litige qui naîtrait à l’occasion de l’exécution de présentes CGV sera soumis aux tribunaux compétents de l’Ile Maurice.
+                    </p>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            let mainMenu = $("#master-menu");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 230){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        mainMenu.removeClass('active');
+                    }
+                }
+            });
+
+            $(".anchor").on({
+                click:function(e){
+                    e.preventDefault();
+
+                    let obj = $(this);
+                    let id = obj.attr("href");
+
+                    $("html, body").animate({ scrollTop: $(id).offset().top - 100}, 1000);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% for item in data %}
+	<tr class="data-item" data-id="{{ item.id }}">
+		
+		<td class="data-item-name" valign="top">
+			<a href="" class="edit" style="display:block">
+				{{ item.catalog.name|lower|title }}
+			</a>
+			
+		</td>
+
+		<td class="data-item-link" style="text-align:center" valign="top">
+			<a download href="{{ asset('documents/'~item.file) }}">
+				affichier
+			</a> 
+		</td>
+
+		<td class="data-item-year" style="text-align:center" width="100" valign="top">
+
+			<span class="label label-default">
+				{{ item.year|date("Y") }}
+			</span>
+
+		</td>
+
+		<td class="data-item-exclusivity" style="text-align:center" width="100" valign="top">
+			{% if item.published %}
+				<span class="label bg-green">
+					Oui
+				</span> 
+			{% else %}
+				<span class="label label-default">
+					Non
+				</span> 
+			{% endif %}
+		</td>
+
+		<td class="data-item-download-count" style="text-align:center" width="100" valign="top">
+			{{ item.downloadNbr }}
+		</td>
+
+		<td  valign="top" style="text-align:center">
+			{{ item.createAt|date("d/m/Y à H:i") }}
+		</td>
+	</tr>
+{% else %}
+	{% if use_modal is defined %}
+		<tr>
+			<td colspan="12">
+				<div class="alert alert-dismissible">
+		        	<button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+		        	<h4><i class="icon fa fa-warning"></i> Oops!</h4>
+		        	Aucun resultat ne correspont à votre recherche.
+		        	<br>
+		        	Veuillez réessayer
+		      	</div>
+			</td>
+		</tr>
+		
+	{% endif %}
+{% endfor %}

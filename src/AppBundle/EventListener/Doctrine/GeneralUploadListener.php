@@ -13,6 +13,7 @@ use AppBundle\Entity\MovieTrailer;
 use AppBundle\Entity\Movie;
 use AppBundle\Entity\MovieScene;
 use AppBundle\Entity\Metadata;
+use AppBundle\Entity\CatalogStatic;
 use AppBundle\Entity\User;
 
 use AppBundle\Services\FileUploader;
@@ -28,10 +29,15 @@ class GeneralUploadListener{
     * @var AppBundle\Services\FileUploader
     */
     private $pvtUploader;
+    /**
+    * @var AppBundle\Services\FileUploader
+    */
+    private $docUploader;
 
     public function __construct(ContainerInterface $container){
         $this->uploader = $container->get('app.uploader');
         $this->pvtUploader = $container->get('app.prv_uploader');
+        $this->docUploader = $container->get('app.doc_uploader');
     }
 
     public function prePersist(LifecycleEventArgs $args){
@@ -137,6 +143,15 @@ class GeneralUploadListener{
                     $entity->setFile($fileName);
                     $entity->setSize($file->getClientSize());
                     $entity->setStatus(Metadata::STATUS_PREMODERATE);
+                }
+            }
+        }
+        else if($entity instanceof CatalogStatic){
+            if(($file = $entity->getFile())){
+                // only upload new files
+                if ($file instanceof UploadedFile) {
+                    $fileName = $this->docUploader->upload($file);
+                    $entity->setFile($fileName);
                 }
             }
         }

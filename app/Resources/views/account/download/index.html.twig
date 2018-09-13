@@ -1,11 +1,69 @@
 {% extends 'account/base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+
+    <style>
+        .account-app-menu{
+            display: block;
+            height:180px;
+            overflow:hidden;
+            text-align: center;
+            color: #ffffff;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card > a {
+            text-decoration:none;
+            color:#212529;
+        }
+    </style>
+{% endblock %}
+
+
 {% block content %}
-    <div class="jumbotron">
-		<h1 class="display-4">Desolé!</h1>
-		<p class="lead">
-		  	Cette page est en construction
-		</p>
-		<hr class="my-4">
-	</div>
+    <section style="min-height:600px;">
+        <h3 class="text-nowrap text-truncate">
+            Nos Catalogues
+        </h3>
+        <hr>
+		
+		{% set pages = (catalogs|length)//3 + 1 %}
+
+
+
+
+		{% for pos in 0..pages-1 %}
+
+	        <div class="card-group">
+	        	{% for item in catalogs|slice(pos*3,3) %}
+		            <div class="card">
+		                <a href="{{ path('account_download_catalog',{'token':item.token}) }}" class="d-block clearfix">
+		                    <div class="account-app-menu bg-secondary">
+		                        <i class="fas fa-cloud-download-alt fa-6x"></i>
+		                    </div>
+		                    
+		                    <div class="card-body">
+		                        <h5 class="card-title">
+		                            {{ item.catalog.name|upper }}
+		                        </h5>
+
+		                        <p class="card-text">
+		                           {{ item.description|truncate(200) }}
+		                        </p>
+		                    </div>
+		                </a>
+		            </div>
+	            {% endfor %}
+	        </div>
+
+		   	<hr>
+		   
+		{% endfor %}
+
+    </section>
 {% endblock %}

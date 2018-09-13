@@ -57,6 +57,24 @@ class Movie implements Translatable
     private $language;
 
     /**
+    * @var AppBundle\Entity\CatalogSection
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSection", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $section;
+
+    /**
+    * @var AppBundle\Entity\CatalogSectionCategory
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSectionCategory", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $sectionCategory;
+
+    /**
     * @var string
     *
     * @Groups({"group1","group2"})
@@ -369,12 +387,35 @@ class Movie implements Translatable
     * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieScene", mappedBy="movie")
     */
     private $scenes;
+     /**
+    * @Groups({"group2"})
+    * @ORM\OneToMany(targetEntity="AppBundle\Entity\MovieEpisode", mappedBy="movie", cascade={"persist","remove"})
+    * @ORM\OrderBy({"pos":"ASC"})
+    */
+    private $episodes;
     /**
     * @Gedmo\Locale
     * Used locale to override Translation listener`s locale
     * this is not a mapped field of entity metadata, just a simple property
     */
     private $locale;
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->genres = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->languages = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->actors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->producers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->directors = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->catalogs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->scenes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->episodes = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
 
     
@@ -1089,6 +1130,36 @@ class Movie implements Translatable
     }
 
     /**
+     * Add episode
+     *
+     * @param \AppBundle\Entity\MovieEpisode $episode
+     *
+     * @return Movie
+     */
+    public function addEpisode(\AppBundle\Entity\MovieEpisode $episode){
+        $this->episodes[] = $episode;
+        return $this;
+    }
+
+    /**
+     * Remove episode
+     *
+     * @param \AppBundle\Entity\MovieEpisode $episode
+     */
+    public function removeEpisode(\AppBundle\Entity\MovieEpisode $episode){
+        $this->episodes->removeElement($episode);
+    }
+
+    /**
+    * Get episodes
+    *
+    * @return \Doctrine\Common\Collections\Collection
+    */
+    public function getEpisodes(){
+        return $this->episodes;
+    }
+
+    /**
      * Set isPublished
      *
      * @param boolean $isPublished
@@ -1460,5 +1531,40 @@ class Movie implements Translatable
     public function getApprovedAt()
     {
         return $this->approvedAt;
+    }
+    
+
+    /**
+     * Add catalog
+     *
+     * @param \AppBundle\Entity\MovieCatalog $catalog
+     *
+     * @return Movie
+     */
+    public function addCatalog(\AppBundle\Entity\MovieCatalog $catalog)
+    {
+        $this->catalogs[] = $catalog;
+
+        return $this;
+    }
+
+    /**
+     * Remove catalog
+     *
+     * @param \AppBundle\Entity\MovieCatalog $catalog
+     */
+    public function removeCatalog(\AppBundle\Entity\MovieCatalog $catalog)
+    {
+        $this->catalogs->removeElement($catalog);
+    }
+
+    /**
+     * Get catalogs
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCatalogs()
+    {
+        return $this->catalogs;
     }
 }

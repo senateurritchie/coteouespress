@@ -6,6 +6,7 @@ parameters:
     private_upload_directory: '%kernel.project_dir%/web/upload/private'
     watch_link_dir: '%kernel.project_dir%/web/watch_link'
     geoip_db_path: '%kernel.project_dir%/web/GeoLite2/GeoLite2-City.mmdb'
+    documents_directory: '%kernel.project_dir%/web/documents'
 
 services:
     # default configuration for services in *this* file
@@ -72,6 +73,12 @@ services:
         public: true
         arguments:
             $targetDirectory: '%private_upload_directory%'
+
+    app.doc_uploader:
+        class: AppBundle\Services\FileUploader
+        public: true
+        arguments:
+            $targetDirectory: '%documents_directory%'
 
     AppBundle\Services\FileUploader: '@app.uploader'
 

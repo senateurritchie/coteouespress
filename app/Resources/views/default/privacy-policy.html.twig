@@ -1,0 +1,360 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
+    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css','css') }}">
+
+    <style>
+        header #master-cover{
+            height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+        }
+
+        .p-ul{
+            padding-left:20px;
+        }
+
+        section{
+            margin-bottom: 40px;
+        }
+    </style>
+
+
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+
+        <div id="master-cover"></div>
+
+        <div id="master-cover-overlay"></div>
+    </header>
+
+    <div class="container">
+        <div class="row justify-content-center">
+
+            <div class="col-md-3 order-2 d-none d-xl-block d-md-block d-lg-block">
+
+                <div class="bd-toc section-nav">
+                    <ul class="list-unstyled">
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-1">Introduction</a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-2">
+                                Collecte des renseignements personnels
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-3">
+                                Comment sont utilisées vos informations personnelles ?
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-4">
+                                Base légale pour le traitement des données personnelles
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-5">
+                                Comment nous protégeons les informations personnelles
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-6">
+                                Conservation des données
+                            </a>
+                        </li>
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-7">Vos actions</a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-8">Transferts internationaux</a>
+                        </li>
+
+                        <li class="toc-entry toc-h2">
+                            <a class="anchor" href="#anchor-9">Changements et contact</a>
+                        </li>
+
+                        
+                    </ul>
+                </div>
+                
+            </div>
+
+            <div class="col-md-9 order-1">
+
+                <h1 class="text-nowrap text-truncate">
+                    Politique de Confidentialité
+                </h1>
+
+                <br>
+
+                <section id="anchor-1">
+                    <h4>Introduction</h4>
+                
+                    <p>
+                        Devant le développement des nouveaux outils de communication, il est nécessaire de porter une attention particulière à la protection de la vie privée. 
+                        C'est pourquoi, MAGIC MOVIES s’engage à respecter et protéger la confidentialité des informations personnelles que nous collectons. 
+                        Les informations personnelles sont des données associées à un individu identifié ou identifiable. 
+                        La présente Politique de confidentialité décrit le type d’informations personnelles que nous recueillons ou recevons, la façon dont nous utilisons, partageons et protégeons vos informations personnelles, la façon dont nous utilisons les cookies et les technologies similaires ainsi que vos droits et vos options.
+                    </p>
+                </section>
+
+                <section id="anchor-2">
+                    
+                    <h4>Collecte des renseignements personnels</h4>
+                    
+                    <p>
+                        <em>Les informations que vous fournissez</em>
+                    </p>
+
+                    <p>
+                        Nous collectons les renseignements suivants : 
+                    </p>
+
+                    <div>
+                         <ul class="p-ul" >
+                            <li>Nom + Prénom</li>
+                            <li>Adresse électronique</li>
+                            <li>Numéro de mobile (MSISDN)</li>
+                            <li>Type d’appareil</li>
+                            <li>Pays</li>
+                            <li>Type de souscription</li>
+                        </ul>
+                    </div>
+                    
+                
+                    <p>
+                        Les renseignements personnels que nous collectons sont recueillis au travers du formulaire d’inscription et grâce à l'interactivité établie entre vous et notre application mobile « MyNina ». Nous utilisons également, comme indiqué dans la section suivante, des fichiers témoins et/ou journaux logs pour réunir des informations vous concernant. 
+                    </p>
+                    
+                    <p>
+                        <em>Les informations que nous recueillons automatiquement</em>
+                    </p>
+
+                    <p>
+                        En plus des informations personnelles que vous nous fournissez, notre application collecte automatiquement d’autres informations techniques par le biais des cookies et d’autres technologies de suivi similaires. 
+                        Collecter des informations nous permet de mieux comprendre les utilisateurs de notre application, d’où ils viennent et quel contenu de notre application les intéresse. Nous utilisons ces informations à des fins d’analyse interne et pour améliorer la qualité et la pertinence de notre application pour les utilisateurs.
+                    </p>
+                </section>
+                
+                
+                <section id="anchor-3">
+                    <h4>
+                        Comment sont utilisées vos informations personnelles ?
+                    </h4>
+
+                    <p>
+                        Nous utiliserons les informations personnelles que nous collectons auprès de vous seulement aux fins décrites dans la présente Politique de confidentialité ou aux fins que nous vous avons expliquées au moment de collecter vos informations personnelles.  Nous utilisons vos informations pour :
+                    </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            Authentifier le paiement à un service ;
+                        </li>
+
+                        <li>
+                            Vous fournir les produits, les services ou les solutions que vous achetez, respecter les conditions de nos accords contenus dans les Condition Générales de Vente ;
+                        </li>
+
+                        <li>
+                            Envoyer des notifications importantes au sujet de nos modalités, conditions et politiques ;
+                        </li>
+
+                        <li>
+                            Exercer nos activités, évaluer et améliorer notre entreprise (notamment développer de nouveaux produits ; optimiser et améliorer nos services ; analyser nos produits) ;
+                        </li>
+
+                        <li>
+                            Mener des vérifications de référence de crédit et d’autres devoirs de précaution financière appropriés ;  
+                        </li>
+
+                        <li>
+                            Exercer des fonctions de comptabilité, d’audit, de rapprochement et collecte de factures ainsi que d’autres fonctions commerciales internes ;
+                        </li>
+
+                        <li>
+                            Effectuer des analyses et des traitements de données (y compris des études de marché et de consommation, des études relatives à la satisfaction de la clientèle, des analyses des tendances, des analyses financières) ;
+                        </li>
+
+                        <li>
+                            Protéger contre la fraude et les autres activités illégales, revendications et responsabilités infondées, établir, exercer et défendre les droits juridiques et respecter nos obligations juridiques et réglementaires en vertu des lois en vigueur ;
+                        </li>
+
+                        <li>
+                            Vous informer des prochains événements, des mises à jour, des nouvelles et des derniers produits, services et solutions ainsi que d’autres offres conformément à vos préférences de communication ;
+                        </li>
+                    </ul>
+                    
+                    <p>
+                        Nous   pouvons   également   utiliser   vos   informations   sous   une   forme   anonyme afin d’évaluer et d’améliorer nos offres.
+                    </p>
+                </section>
+
+                <section id="anchor-4">
+                    <h4>
+                        Base légale pour le traitement des données personnelles
+                    </h4>
+
+                    <p>
+                        Nous recueillons des informations personnelles auprès de vous seulement quand :
+                    </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            vous nous avez donné votre consentement en cliquant sur la case à cocher à l’inscription ; 
+                        </li>
+
+                        <li>
+                            nous avons besoin de vos informations personnelles pour fournir  un  service  ou  exécuter un contrat ou un accord conclu avec vous ; ou  
+                        </li>
+
+                        <li>
+                            quand le traitement est dans nos intérêts légitimes et qu’il n’est pas supplanté par vos intérêts en matière de protection des données ou par vos droits et libertés fondamentaux.  
+                        </li>
+                    </ul>
+
+
+                </section>
+
+
+                <section id="anchor-5">
+                    <h4>
+                        Comment nous protégeons les informations personnelles
+                    </h4>
+
+                    <p>
+                        Nous prenons la protection des données et de la vie privée de nos utilisateurs au sérieux.  Nous maintenons en place des systèmes de protection à la pointe de la technologie en vue de protéger les informations personnelles contre la destruction, la perte, l’altération, l’accès, la divulgation et l’utilisation accidentels, illégaux ou non autorisés. 
+                    </p>
+                </section>
+
+                <section id="anchor-6">
+                    <h4>
+                        Conservation des données
+                    </h4>
+
+                    <p>
+                        Nous conservons des informations personnelles que nous collectons auprès de vous lorsque nous en avons un besoin commercial légitime continu (par exemple, pour vous fournir un service ou une solution ou pour nous conformer à des obligations juridiques, fiscales et comptables). Lorsque nous n’avons aucun besoin commercial légitime de traiter vos informations personnelles, nous les supprimerons ou nous les anonymiserons ou, si cela n’est pas possible (par exemple, parce que vos informations personnelles sont stockées dans des archives de sauvegarde), alors nous stockerons vos informations personnelles de manière sécurisée et nous les isolerons de tout autre traitement jusqu’à ce qu'il soit possible de les supprimer.
+                    </p>
+                </section>
+
+                <section id="anchor-7">
+                    <h4>
+                        Vos actions
+                    </h4>
+
+                    <p>
+                        Il vous est possible :
+                    </p>
+
+                    <ul class="p-ul">
+                        <li>
+                            d'accéder à toutes vos informations personnelles et d’en obtenir une copie;
+                        </li>
+                        <li>
+                            de mettre à jour ou de corriger l’inexactitude de ces informations ;
+                        </li>
+                        <li>
+                            de contester l'utilisation que nous faisons de vos renseignements personnels ;  
+                        </li>
+                        <li>
+                            de supprimer vos informations personnelles de notre base de données en supprimant votre compte utilisateur ;
+                        </li>
+                        <li>
+                            de nous demander de restreindre le traitement de vos informations personnelles
+                        </li>
+                    </ul>
+
+                    <p>
+                        Vous avez aussi le droit de refuser de recevoir les communications marketing que nous vous envoyons à certains moments dans le but de nos actions marketing.  Vous pouvez exercer ce droit en cliquant sur les liens de désabonnement dans les e-mails marketing que nous vous envoyons.  
+                    </p>
+
+                    <p>
+                        Vous avez le droit de déposer une plainte auprès de votre autorité locale de protection des données contre la collecte et l'utilisation que nous faisons de vos informations   personnelles.   Pour   plus   d’informations, veuillez contacter votre autorité de protection des données.
+                    </p>
+
+                    <p>
+                        Pour exercer ces droits, veuillez contacter vod@nina.tv, et nous prendrons en compte votre requête conformément aux règles établies par l’UE et communément appelé RGPD.
+                        Afin de protéger votre privée et maintenir la sécurité, nous pouvons prendre des mesures pour vérifier votre identité avant de vous octroyer l’accès aux informations.
+
+                    </p>
+
+                </section>
+
+                <section id="anchor-8">
+                    <h4>
+                        Transferts internationaux
+                    </h4>
+
+                    <p>
+                        Vos informations personnelles peuvent être transférées et traitées dans des pays autres que votre pays de résidence.  Ces pays peuvent avoir des lois sur la protection des données différentes des lois de votre pays (et, dans certains cas, peuvent ne pas être aussi protectrices).
+                    </p>
+
+                    <p>
+                        Nous avons cependant pris les précautions appropriées pour exiger que vos informations personnelles restent protégées conformément avec le présent Avis de confidentialité. 
+                        Plus détails peuvent être fournis sur demande en nous contactant à l’adresse contact@nina.tv
+
+                    </p>
+                </section>
+
+                <section id="anchor-9">
+                    <h4>
+                        Changements et contact
+                    </h4>
+
+                    <p>
+                        Il est possible que nous mettions à jour la présente Politique de confidentialité en réponse à des évolutions légales, techniques ou commerciales. Il est donc de votre responsabilité de visiter périodiquement la présente politique de confidentialité afin de vous maintenir informés des éventuelles mises à jour. Nous obtiendrons tacitement votre consentement à tous changements significatifs de la Politique de confidentialité si et quand cela est exigé par les lois sur la protection des données en vigueur.
+                    </p>
+                </section>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            let mainMenu = $("#master-menu");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 230){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        mainMenu.removeClass('active');
+                    }
+                }
+            });
+
+            $(".anchor").on({
+                click:function(e){
+                    e.preventDefault();
+
+                    let obj = $(this);
+                    let id = obj.attr("href");
+
+                    $("html, body").animate({ scrollTop: $(id).offset().top - 100}, 1000);
+                }
+            });
+
+        });
+    </script>
+{% endblock %}

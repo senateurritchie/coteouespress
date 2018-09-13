@@ -57,6 +57,24 @@ class Movie implements Translatable
     private $language;
 
     /**
+    * @var AppBundle\Entity\CatalogSection
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSection", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $section;
+
+    /**
+    * @var AppBundle\Entity\CatalogSectionCategory
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSectionCategory", inversedBy="movies")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $sectionCategory;
+
+    /**
     * @var string
     *
     * @Groups({"group1","group2"})
@@ -1548,5 +1566,53 @@ class Movie implements Translatable
     public function getCatalogs()
     {
         return $this->catalogs;
+    }
+
+    /**
+     * Set section
+     *
+     * @param \AppBundle\Entity\CatalogSection $section
+     *
+     * @return Movie
+     */
+    public function setSection(\AppBundle\Entity\CatalogSection $section = null)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Get section
+     *
+     * @return \AppBundle\Entity\CatalogSection
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    /**
+     * Set sectionCategory
+     *
+     * @param \AppBundle\Entity\CatalogSectionCategory $sectionCategory
+     *
+     * @return Movie
+     */
+    public function setSectionCategory(\AppBundle\Entity\CatalogSectionCategory $sectionCategory = null)
+    {
+        $this->sectionCategory = $sectionCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get sectionCategory
+     *
+     * @return \AppBundle\Entity\CatalogSectionCategory
+     */
+    public function getSectionCategory()
+    {
+        return $this->sectionCategory;
     }
 }

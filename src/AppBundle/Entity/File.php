@@ -43,53 +43,53 @@ class File
     private $extension;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="type", type="string", length=15, options={"comment":"le type du fichier uploadé"}, columnDefinition="ENUM('image','office doc','video','other','music','pdf')", nullable=true)
-     */
+    * @var string
+    *
+    * @ORM\Column(name="type", type="string", length=15, options={"comment":"le type du fichier uploadé"}, columnDefinition="ENUM('image','office doc','video','other','music','pdf')", nullable=true)
+    */
     private $type;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="mime", type="string", length=30, options={"comment":"le mime type du fichier"})
-     */
+    * @var string
+    *
+    * @ORM\Column(name="mime", type="string", length=30, options={"comment":"le mime type du fichier"})
+    */
     private $mime;
 
     /**
-     * @var int
-     *
-     * @ORM\Column(name="size", type="integer", options={"comment":"la taille du fichier en octet"})
-     */
+    * @var int
+    *
+    * @ORM\Column(name="size", type="integer", options={"comment":"la taille du fichier en octet"})
+    */
     private $size;
 
    
 
     /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="create_at", type="datetime", options={"comment":"la date d'upload du fichier sur la plateforme"})
-     */
+    * @var \DateTime
+    *
+    * @ORM\Column(name="create_at", type="datetime", options={"comment":"la date d'upload du fichier sur la plateforme"})
+    */
     private $createAt;
 
 
     /**
-     * Get id
-     *
-     * @return int
-     */
+    * Get id
+    *
+    * @return int
+    */
     public function getId()
     {
         return $this->id;
     }
 
     /**
-     * Set originalName
-     *
-     * @param string $originalName
-     *
-     * @return File
-     */
+    * Set originalName
+    *
+    * @param string $originalName
+    *
+    * @return File
+    */
     public function setOriginalName($originalName)
     {
         $this->originalName = $originalName;
@@ -98,22 +98,22 @@ class File
     }
 
     /**
-     * Get originalName
-     *
-     * @return string
-     */
+    * Get originalName
+    *
+    * @return string
+    */
     public function getOriginalName()
     {
         return $this->originalName;
     }
 
     /**
-     * Set extension
-     *
-     * @param string $extension
-     *
-     * @return File
-     */
+    * Set extension
+    *
+    * @param string $extension
+    *
+    * @return File
+    */
     public function setExtension($extension)
     {
         $this->extension = $extension;
@@ -122,22 +122,22 @@ class File
     }
 
     /**
-     * Get extension
-     *
-     * @return string
-     */
+    * Get extension
+    *
+    * @return string
+    */
     public function getExtension()
     {
         return $this->extension;
     }
 
     /**
-     * Set type
-     *
-     * @param string $type
-     *
-     * @return File
-     */
+    * Set type
+    *
+    * @param string $type
+    *
+    * @return File
+    */
     public function setType($type)
     {
         $this->type = $type;
@@ -146,22 +146,22 @@ class File
     }
 
     /**
-     * Get type
-     *
-     * @return string
-     */
+    * Get type
+    *
+    * @return string
+    */
     public function getType()
     {
         return $this->type;
     }
 
     /**
-     * Set mime
-     *
-     * @param string $mime
-     *
-     * @return File
-     */
+    * Set mime
+    *
+    * @param string $mime
+    *
+    * @return File
+    */
     public function setMime($mime)
     {
         $this->mime = $mime;

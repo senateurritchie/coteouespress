@@ -16,6 +16,8 @@ use AppBundle\Entity\Movie;
 use AppBundle\Entity\ActorCountry;
 use AppBundle\Entity\DirectorCountry;
 use AppBundle\Entity\ProducerCountry;
+use AppBundle\Entity\CatalogDownload;
+use AppBundle\Entity\CatalogStatic;
 
 class GeneralListener{
 
@@ -65,7 +67,12 @@ class GeneralListener{
                 $nbr = intval($el->getMovieNbr())+1;
                 $el->setMovieNbr($nbr);
             }
-            
+        }
+        else if ($entity instanceof MovieCatalog) {
+            if(($el = $entity->getCatalog())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof ActorCountry) {
             if(($el = $entity->getCountry())){
@@ -92,6 +99,23 @@ class GeneralListener{
                 $el->setMovieNbr($nbr);
             }
         }
+        else if ($entity instanceof CatalogDownload) {
+
+            if(($el = $entity->getCatalog())){
+                $nbr = intval($el->getDownloadNbr())+1;
+                $el->setDownloadNbr($nbr);
+
+                if(($el2 = $el->getCatalog())){
+                    $nbr = intval($el2->getDownloadNbr())+1;
+                    $el2->setDownloadNbr($nbr);
+                }
+            }
+        }
+        else if ($entity instanceof CatalogStatic) {
+            $entity->setToken(\AppBundle\Entity\User::generateToken(64));
+        }
+
+
     }
 
     public function preRemove(LifecycleEventArgs $args){

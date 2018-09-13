@@ -102,9 +102,6 @@ class DefaultController extends Controller{
             
         }
 
-        
-
-
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
@@ -114,6 +111,7 @@ class DefaultController extends Controller{
             "vimeoRsrc"=>$vimeoRsrc,
         ));
     }
+
 
     /**
      * @Route("/a-propos-de-nous/", name="presentation")
@@ -130,6 +128,20 @@ class DefaultController extends Controller{
         $response = $this->redirect($request->server->get("HTTP_REFERER"));
         $response->headers->setCookie($cookie);
         return $response;
+    }
+
+    /**
+    * @Route("/conditions-generales-d-utilisation", name="cgu")
+    */
+    public function cguAction(){
+        return $this->render('default/cgu.html.twig');
+    }
+
+    /**
+    * @Route("/politique-de-confidentialite", name="privacy_policy")
+    */
+    public function privacyPolicyAction(){
+        return $this->render('default/privacy-policy.html.twig');
     }
 
     public function renderFooter(){

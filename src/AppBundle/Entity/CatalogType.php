@@ -47,9 +47,17 @@ class CatalogType
     * @var int
     * 
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="movieNbr", type="integer", nullable=true)
+    * @ORM\Column(name="movie_nbr", type="integer", nullable=true)
     */
     private $movieNbr = 0;
+    /**
+    * @var int
+    * 
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="download_nbr", type="integer", nullable=true,options={"comment":"le nombre de fois le catalogue a été téléchargé espace client"})
+    */
+    private $downloadNbr = 0;
+    
 
     /**
     * @var \DateTime
@@ -63,7 +71,7 @@ class CatalogType
     /**
     * Get id
     *
-    * @return int
+    * @return integer
     */
     public function getId()
     {
@@ -135,11 +143,35 @@ class CatalogType
     /**
     * Get movieNbr
     *
-    * @return int
+    * @return integer
     */
     public function getMovieNbr()
     {
         return $this->movieNbr;
+    }
+
+    /**
+    * Set downloadNbr
+    *
+    * @param integer $downloadNbr
+    *
+    * @return CatalogType
+    */
+    public function setDownloadNbr($downloadNbr)
+    {
+        $this->downloadNbr = $downloadNbr;
+
+        return $this;
+    }
+
+    /**
+    * Get downloadNbr
+    *
+    * @return integer
+    */
+    public function getDownloadNbr()
+    {
+        return $this->downloadNbr;
     }
 
     /**
@@ -166,4 +198,3 @@ class CatalogType
         return $this->createAt;
     }
 }
-
