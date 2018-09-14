@@ -156,8 +156,28 @@ class CatalogAdminSearchType extends AbstractType
                 }
                 return $attrs;
             },
-            'group_by' => function($value, $key, $index) {
-                return strtoupper($value->getSlug()[0]);
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+            "mapped"=>false,
+        ))
+       ->add('section',EntityType::class,array(
+            "required"=>false,
+            "placeholder"=>"section...",
+            "label"=>"Section",
+            "class"=>\AppBundle\Entity\CatalogSection::class,
+            "choice_label"=>"name",
+            "choice_value"=>"slug",
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                $query = $request->query->get("section");
+
+                if($query == $value->getSlug() || (is_array($query) && in_array($value->getSlug(), $query))){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
             },
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
@@ -165,7 +185,29 @@ class CatalogAdminSearchType extends AbstractType
             },
             "mapped"=>false,
         ))
+       ->add('sectionCategory',EntityType::class,array(
+            "required"=>false,
+            "placeholder"=>"section catégory...",
+            "label"=>"Section catégorie",
+            "class"=>\AppBundle\Entity\CatalogSectionCategory::class,
+            "choice_label"=>"name",
+            "choice_value"=>"slug",
+            'choice_attr' => function($value, $key, $index) {
+                $attrs = [];
+                $request = $this->requestStack->getCurrentRequest();
+                $query = $request->query->get("sectionCategory");
 
+                if($query == $value->getSlug() || (is_array($query) && in_array($value->getSlug(), $query))){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+            "mapped"=>false,
+        ))
        ->add('order_name',ChoiceType::class,array(
             "required"=>false,
             "placeholder"=>"ordre alphabetique...",

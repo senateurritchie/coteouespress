@@ -60,7 +60,7 @@ class Movie implements Translatable
     * @var AppBundle\Entity\CatalogSection
     *
     * @Groups({"group1","group2"})
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSection", inversedBy="movies")
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSection")
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
     private $section;
@@ -69,7 +69,7 @@ class Movie implements Translatable
     * @var AppBundle\Entity\CatalogSectionCategory
     *
     * @Groups({"group1","group2"})
-    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSectionCategory", inversedBy="movies")
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CatalogSectionCategory")
     * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
     */
     private $sectionCategory;

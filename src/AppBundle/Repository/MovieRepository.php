@@ -113,6 +113,16 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereCatalog($qb,@$params["catalog"]);
         }
 
+        // recherche par section
+        if(@$params["section"]){
+            $this->whereCatalogSection($qb,@$params["section"]);
+        }
+
+        // recherche par sectionCategory
+        if(@$params["sectionCategory"]){
+            $this->whereCatalogSectionCategory($qb,@$params["sectionCategory"]);
+        }
+
         // recherche par année
         if(@$params["year"] && @$params["year_end"]){
             $this->whereYearRange($qb,$params["year"],$params["year_end"]);
@@ -159,7 +169,12 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 		->leftJoin("m.category","category")
 		->addSelect("category")
         ->leftJoin("m.language","language")
-        ->addSelect("language");
+        ->addSelect("language")
+        ->leftJoin("m.section","section")
+        ->addSelect("section")
+        ->leftJoin("m.sectionCategory","sectionCategory")
+        ->addSelect("sectionCategory")
+        ;
 
         $this->addWhereClause($qb,$params);
 
@@ -438,6 +453,33 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         ->setParameter("catalog",$value);
     }
 
+    public function whereCatalogSection(QueryBuilder $qb,$value){
+
+        if(is_numeric($value)){
+            $qb->andWhere("section.id = :section");
+        }
+        else if(is_array($value)){
+            $qb->andWhere($qb->expr()->in("section.id",":section"));
+        }
+        else{
+            $qb->andWhere("section.slug = :section");
+        }
+        $qb->setParameter("section",$value);
+    }
+
+    public function whereCatalogSectionCategory(QueryBuilder $qb,$value){
+
+        if(is_numeric($value)){
+            $qb->andWhere("sectionCategory.id = :sectionCategory");
+        }
+        else if(is_array($value)){
+            $qb->andWhere($qb->expr()->in("sectionCategory.id",":sectionCategory"));
+        }
+        else{
+            $qb->andWhere("sectionCategory.slug = :sectionCategory");
+        }
+        $qb->setParameter("sectionCategory",$value);
+    }
     
 
   	/*public function count(){
@@ -453,6 +495,8 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         $qb
         ->leftJoin("m.category","category")
         ->leftJoin("m.language","language")
+        ->leftJoin("m.section","section")
+        ->leftJoin("m.sectionCategory","sectionCategory")
         ->select('count(m.id)');
 
         $this->addWhereClause($qb, $params);
