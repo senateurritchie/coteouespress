@@ -166,9 +166,6 @@ abstract class Metadata extends EventDispatcher{
 		    echo 'Unable to set locale to '.$locale." - reverting to en_us<br />\n";
 		}
 
-		
-		
-		
 
 		$sheetname = $this->getDefaultSheetname();
 
@@ -181,7 +178,9 @@ abstract class Metadata extends EventDispatcher{
             $name = $stat['name'];
             $ext = array_slice(explode(".", $name),-1)[0];
 
-            if(in_array($ext, ['xls','xlsx'])){
+            if(in_array($ext, ['xls','xlsx','xlsm','xlsxm'])){
+
+
 
                 $tmpfname = tempnam(null, self::TEMPNAME_PREFIX);
                 $data = $za->getFromName($name);
@@ -282,7 +281,8 @@ abstract class Metadata extends EventDispatcher{
 
 			                	if($curr_header[0] == "@" && $value){
 
-			                		$multiples = explode(";", $value);
+			                		$multiples = preg_split("#[;,/]#",  $value);
+
 			                		$multiples = array_map(function($el){
 										return strip_tags(trim($el));
 									}, $multiples);

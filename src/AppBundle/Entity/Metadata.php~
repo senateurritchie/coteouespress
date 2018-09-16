@@ -3,6 +3,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Metadata
@@ -12,6 +13,10 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Metadata
 {
+    const STATUS_PREMODERATE = "pre-moderate";
+    const STATUS_BAN = "ban";
+    const STATUS_VALIDATED = "validated";
+
     /**
      * @var int
      *
@@ -20,13 +25,22 @@ class Metadata
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    /**
+    * @var AppBundle\Entity\MetadataType
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\MetadataType")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $type;
 
     /**
     * @var string
     *
     * @ORM\Column(name="file", type="string", length=255, unique=true, options={"comment":"le nom du fichier uploadé"})
+    * @assert\File(maxSize="2Mi", mimeTypes="application/zip")
     */
     private $file;
+   
 
     /**
     * @var integer
@@ -38,14 +52,14 @@ class Metadata
     /**
     * @var string
     *
-    * @ORM\Column(name="status", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('ban','pre-moderate','validated')", nullable=true)
+    * @ORM\Column(name="status", type="string", length=15, options={"comment":"le status de la moderation"}, columnDefinition="ENUM('ban','pre-moderate','approved')", nullable=true)
     */
     private $status;
 
     /**
     * @var \DateTime
-    * @Gedmo\Timestampable(on="change", field="status", value="validated")    
-    * @ORM\Column(name="moderate_at", type="datetime", options={"comment":"la date de moderation"})
+    * @Gedmo\Timestampable(on="change", field="status", value="approved")    
+    * @ORM\Column(name="moderate_at", type="datetime", options={"comment":"la date de moderation"}, nullable=true)
     */
     private $moderateAt;
 

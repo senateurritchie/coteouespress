@@ -33,6 +33,9 @@ use AppBundle\Entity\MovieDirector;
 use AppBundle\Entity\MovieScene;
 use AppBundle\Entity\MovieCatalog;
 
+use AppBundle\Entity\CatalogSection;
+use AppBundle\Entity\CatalogSectionCategory;
+
 class CatalogMetadata extends Metadata{
 
 	public function __construct($path,$options){
@@ -44,6 +47,11 @@ class CatalogMetadata extends Metadata{
 		$bodyValidators 	= [
 			new TextFieldValidator("TitreExploitation",["nullable"=>false,"filters"=>[new TitleFilter()]]),
 			new TextFieldValidator("TitreVO",["nullable"=>false,"filters"=>[new TitleFilter()]]),
+
+            new EntityFieldValidator("Section",["nullable"=>false,"class"=>CatalogSection::class,"entity_manager"=>$em,"table_name"=>"Sections"]),
+
+            new EntityFieldValidator("Section Categorie",["nullable"=>false,"class"=>CatalogSectionCategory::class,"entity_manager"=>$em,"table_name"=>"Sections Catégorie"]),
+
 			new EntityFieldValidator("Categorie",["nullable"=>false,"class"=>Category::class,"entity_manager"=>$em,"table_name"=>"Catégories"]),
 			new EntityFieldValidator("Langue",["class"=>OriginalLanguage::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Langues d'origine"]),
 			new IntegerFieldValidator("NombreEpisodes",["nullable"=>false]),
@@ -120,6 +128,15 @@ class CatalogMetadata extends Metadata{
                    
 
                     switch ($field) {
+
+                        case 'Section':
+                            $movie->setSection($choice);
+                        break;
+
+                        case 'Section Categorie':
+                            $movie->setSectionCategory($choice);
+                        break;
+
                 		case 'Categorie':
                 			$movie->setCategory($choice);
                 		break;

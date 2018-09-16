@@ -9,6 +9,7 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\File;
 
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 use AppBundle\Entity\Metadata;
 
@@ -18,6 +19,13 @@ class MetadataType extends AbstractType{
      */
     public function buildForm(FormBuilderInterface $builder, array $options){
         $builder
+        ->add('type',EntityType::class,array(
+            "required"=>false,
+            "placeholder"=>"source de données...",
+            "label"=>"Source",
+            "class"=>\AppBundle\Entity\MetadataType::class,
+            "choice_label"=>"name",
+        ))
         ->add('file',FileType::class,array(
             "required"=>true
         ))

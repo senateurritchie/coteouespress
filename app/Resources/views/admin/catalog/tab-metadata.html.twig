@@ -2,7 +2,6 @@
 <div class="box box-primary" style="border-top:none">
 	<div class="box-header">
 
-
   		<h2 class="box-title">
             {% if catalogLink %}
                 Lien de visionnage (<small><i><a href="{{ catalogLink }}" target="_blank">{{ catalogLink }}</a></i></small>)
@@ -12,13 +11,33 @@
   		</h2>
 
   		<div class="box-tools pull-right">
-			<a href="{{ path('admin_catalog_preview',exportData) }}" class="btn btn-primary btn-sm">
-				Exporter maintenant
-			</a>
+			<form method="POST" action="{{ path('admin_catalog_preview',exportData) }}">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<select class="form-control input-sm" name="dump_format">
+							<option value="">Format d'exportation</option>
+							<option value="webm">Webmaster</option>
+							<option value="com-v1">Communication v1</option>
+							<option value="com-v2" selected="">Communication v2</option>
+						</select>
+					</div>
+
+					<div class="col-md-6">
+						<button class="btn btn-primary btn-sm" type="submit">
+							Exporter maintenant
+						</button>
+					</div>
+				</div>
+			</form>
+			
+  		
   		</div>
 	</div>
 
 	<div class="box-body table-responsive no-padding">
+
+
 		<table class="table table-striped table-bordered">
 		    <thead>
 		    	<tr>
@@ -35,7 +54,7 @@
 	  			<tr>
 	  				<td>{{ el.uniqueKey }}</td>
 
-	  				<td>-</td>
+	  				<td>{{ el.section ? el.section : '-' }}</td>
 
 	  				<td>
 	  					{{ el.originalName|lower|title }}
@@ -51,7 +70,6 @@
 	  				<td>
 	  					{{ el.mention|upper }}
 	  				</td>
-
 
 	  				<td>
 	  					{{ el.format }}
@@ -71,7 +89,9 @@
 	  					{% endfor %}
 	  				</td>
 
-	  				<td>-</td>
+	  				<td>
+	  					{{ el['section categorie'] ? el['section categorie'] : '-' }}
+	  				</td>
 					
 	  				<td>
 	  					{% for item in el.genres %}
@@ -181,24 +201,15 @@
 	  				<td>{{ el.episode1 }}</td>
 	  				<td>{{ el.episode2 }}</td>
 	  				<td>{{ el.episode3 }}</td>
+					
+					<td>-</td>
 
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
-	  				<td>-</td>
+	  				<td>
+	  					{% for item in el.catalogues %}
+	  						{{ item|lower|title }}{{ loop.last ?'':', ' }}
+	  					{% endfor %}
+	  				</td>
+	  				
 	  			</tr>
 	  		{% endfor %}
 			</tbody>

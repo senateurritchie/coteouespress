@@ -1091,7 +1091,7 @@ class AdminMovieController extends Controller
 
 
     /**
-    * @Route("/metadata/upload/{model}", name="metadata_upload", requirements={"model":"webmaster|catalog"}, defaults={"model":"webmaster"} )
+    * @Route("/metadata/upload", name="metadata_upload")
     * @Method({"POST"})
     */
     public function metadataUploadAction(Request $request,$model = "webmaster"){
@@ -1114,45 +1114,67 @@ class AdminMovieController extends Controller
             if (!$child->isValid() && count($child->getErrors())) {
                 $formatted = '['.$child->getName().']: '.$child->getErrors()[0]->getMessage();
                 $result['errors'][] = $formatted;
+                $this->addFlash('notice-error',$formatted);
             }
         }
 
         if($form->isSubmitted() && $form->isValid()){
             $em->persist($metadata);
-            $em->flush();
             $result['file_download_ok'] = true;
             //$this->addFlash('notice-success',"opération éffectuée avec succès");
         }
-       
+
+        $metadata = $form->getData();
+
+        $reader_class = null;
+
+        switch (strtolower($metadata->getType()->getName())) {
+            case 'communication v1':
+                $reader_class = '\\AppBundle\\Utils\\Metadata\\CatalogMetadata';
+            break;
+
+            case 'communication v2':
+                $reader_class = '\\AppBundle\\Utils\\Metadata\\CatalogV2Metadata';
+            break;
+            
+            default:
+                $reader_class = '\\AppBundle\\Utils\\Metadata\\WebmasterMetadata';
+            break;
+        }
+
 
         $zip_path = $upload_dir.'/'.$metadata->getFile();
         $translator = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
-        $reader = new \AppBundle\Utils\Metadata\CatalogMetadata($zip_path,array(
+        $reader = new $reader_class($zip_path,array(
             "entity_manager"=>$em,
             "translator"=>$translator,
             'upload_dir' => $this->getParameter('public_upload_directory'),
         ));
 
-
         $reader
         ->on("error",function($event)use(&$result){
             $result['errors'] = $event->getValue();
+            $this->addFlash('notice-error',$event->getValue());
         });
 
         try {
             $reader->process();
             $em->flush();
             $result['message'] = "opération effectuée avec succes";
+            $this->addFlash('notice-success',"opération effectuée avec succes");
 
         } catch (\Exception $e) {
             $result['errors'][] = $e->getMessage();
+            $this->addFlash('notice-error',$e->getMessage());
         }
 
-        if(count(@$result['errors'])){
+        return $this->redirectToRoute('admin_movie_index');
+
+        /*if(count(@$result['errors'])){
             return $this->json($result,200);
         }
 
-        return $this->json($result,201);
+        return $this->json($result,201);*/
     }
 }

@@ -11,6 +11,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Cookie;
 
 use AppBundle\Entity\CatalogStatic;
+use AppBundle\Entity\Catalog;
+use AppBundle\Entity\Movie;
 
 use AppBundle\Form\CatalogStaticType;
 use AppBundle\Form\CatalogStaticAdminSearchType;
@@ -243,7 +245,6 @@ class AdminCatalogController extends Controller
 
     /**
     * @Route("/preview", name="preview")
-    * @Method({"GET"})
     */
     public function previewAction(Request $request){
         if($this->isGranted('ROLE_CATALOG_INSERT') || $this->isGranted('ROLE_OBSERVER_CATALOG') || $this->isGranted('ROLE_OBSERVER'));
@@ -283,7 +284,19 @@ class AdminCatalogController extends Controller
         $limit = @$params['limit'] ? intval($params['limit']) : -1;
         $data = $rep->search($params, $limit);
 
-        $cHeader = new \AppBundle\Utils\Metadata\HeaderValidator\CatalogHeaderValidator();
+        $cHeader = null;
+
+        switch ($request->request->get('dump_format')) {
+            case 'webm':
+                $cHeader = new \AppBundle\Utils\Metadata\HeaderValidator\WebmasterHeaderValidator();
+            break;
+
+            default:
+                $cHeader = new \AppBundle\Utils\Metadata\HeaderValidator\CatalogV2HeaderValidator();
+            break;
+        }
+
+
         $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
         $cFields = $cHeader->getFields();
@@ -302,10 +315,16 @@ class AdminCatalogController extends Controller
             }
 
             $translations = $repository->findTranslations($el);
+
+            $section = $el->getSection() ? $el->getSection()->getName() : null;
+            $section_cat = $el->getSectionCategory() ? $el->getSectionCategory()->getName() : null;
         
             $item = [
                 "uniqueKey"=>\AppBundle\Entity\User::generateToken(10),
                 "name"=>$el->getName(),
+                "section"=>$section,
+                "section categorie"=>$section_cat,
+
                 "originalName"=>$el->getOriginalName(),
                 "category"=>$el->getCategory()->getName(),
                 "mention"=>$el->getMention(),
@@ -317,6 +336,8 @@ class AdminCatalogController extends Controller
                 "countries"=>[],
                 "directors"=>[],
                 "casting"=>[],
+                "catalogues"=>[],
+                "gallery"=>[],
 
                 "yearStart"=>$el->getYearStart()?$el->getYearStart()->format('Y'):null,
                 "yearEnd"=>$el->getYearEnd()?$el->getYearEnd()->format('Y'):null,
@@ -337,6 +358,9 @@ class AdminCatalogController extends Controller
                 "award"=>$el->getAward(),
                 "audience"=>$el->getAudience(),
                 "image"=>$el->getPortraitImg(),
+                "coverImg"=>$el->getCoverImg(),
+                "landscapeImg"=>$el->getLandscapeImg(),
+                "portraitImg"=>$el->getPortraitImg(),
                 "language"=>$el->getLanguage()?$el->getLanguage()->getName():null,
 
                 "versions"=>[],
@@ -344,6 +368,10 @@ class AdminCatalogController extends Controller
                 "episode1"=>$el->getEpisode1(),
                 "episode2"=>$el->getEpisode2(),
                 "episode3"=>$el->getEpisode3(),
+
+                "inTheather"=>$el->getInTheather(),
+                "exclusivity"=>$el->getHasExclusivity(),
+                "published"=>$el->getIsPublished(),
             ];
 
             // les produceurs
@@ -371,52 +399,133 @@ class AdminCatalogController extends Controller
                 $item["versions"][] = $e->getLanguage()->getName();
             }
 
+            // les catalogues
+            foreach ($el->getCatalogs() as $e) {
+                $item["catalogues"][] = $e->getCatalog()->getName();
+            }
+
+            // les scenes
+            foreach ($el->getScenes() as $e) {
+                $item["gallery"][] = $e->getImage();
+            }
+
             $formattedData[] = $item;
         }
+
 
 
         if($request->query->has('dump')){
             $entryCount = count($cFields);
 
-            $excelData = array_map(function($item)use(&$entryCount,&$cFields){
+            $excelData = array_map(function($item)use(&$entryCount,&$cFields,&$request){
+
                 $itemExcel = array_fill(0,$entryCount,'-');
 
                 // formattage des données excel
-                $itemExcel[array_search("Cle_unique", $cFields)] = $item['uniqueKey'];
-                $itemExcel[array_search("TitreVO", $cFields)] = $item['originalName'];
-                $itemExcel[array_search("TitreExploitation", $cFields)] = $item['name'];
-                $itemExcel[array_search("Categorie", $cFields)] = $item['category'];
-                $itemExcel[array_search("Mention", $cFields)] = $item['mention'];
-                $itemExcel[array_search("Format", $cFields)] = $item['format'];
-                $itemExcel[array_search("Durée", $cFields)] = $item['duration'];
-                $itemExcel[array_search("NombreEpisodes", $cFields)] = $item['episodeNbr'];
-                $itemExcel[array_search("Producteur", $cFields)] = implode(", ",$item['producers']);
-                $itemExcel[array_search("Genre", $cFields)] = implode(", ",$item['genres']);
-                $itemExcel[array_search("OrigineProduction", $cFields)] = implode(", ",$item['countries']);
-                $itemExcel[array_search("AnneeProduction", $cFields)] = $item['yearStart'].($item['yearEnd'] && $item['yearEnd'] != $item['yearStart'] ?'-'.$item['yearEnd']:'');
-                $itemExcel[array_search("Realisateur", $cFields)] = implode(", ",$item['directors']);
-                $itemExcel[array_search("Synopsis_fr", $cFields)] = $item['synopsis'];
-                $itemExcel[array_search("tagline_fr", $cFields)] = $item['tagline'];
-                $itemExcel[array_search("logline_fr", $cFields)] = $item['logline'];
+                
+                switch ($request->request->get('dump_format')) {
+                    
+                    case "webm":
+                        $itemExcel[array_search("Section", $cFields)] = $item['section'];
+                        $itemExcel[array_search("Section Category", $cFields)] = $item['section categorie'];
 
-                $itemExcel[array_search("Synopsis_en", $cFields)] = $item['synopsis_en'];
-                $itemExcel[array_search("tagline_en", $cFields)] = $item['tagline_en'];
-                $itemExcel[array_search("logline_en", $cFields)] = $item['logline_en'];
+                        $itemExcel[array_search("Name", $cFields)] = $item['name'];
+                        $itemExcel[array_search("OriginalName", $cFields)] = $item['originalName'];
+                        $itemExcel[array_search("Category", $cFields)] = $item['category'];
+                        $itemExcel[array_search("Language", $cFields)] = $item['language'];
+                        $itemExcel[array_search("EpisodeNbr", $cFields)] = $item['episodeNbr'];
+                        $itemExcel[array_search("Duration", $cFields)] = $item['duration'];
+                        $itemExcel[array_search("Mention", $cFields)] = $item['mention'];
+                        $itemExcel[array_search("Year", $cFields)] = $item['yearStart'].($item['yearEnd'] && $item['yearEnd'] != $item['yearStart'] ?'-'.$item['yearEnd']:'');
+                        $itemExcel[array_search("Trailer", $cFields)] = $item['trailer'];
 
-                $itemExcel[array_search("Synopsis_arabe", $cFields)] = $item['synopsis_ar'];
-                $itemExcel[array_search("tagline_ar", $cFields)] = $item['tagline_ar'];
-                $itemExcel[array_search("logline_ar", $cFields)] = $item['logline_ar'];
-                $itemExcel[array_search("Casting", $cFields)] = implode(", ",$item['casting']);
-                $itemExcel[array_search("Recompenses", $cFields)] = $item['reward'];
-                $itemExcel[array_search("Audience", $cFields)] = $item['audience'];
-                $itemExcel[array_search("PrixNomination", $cFields)] = $item['award'];
-                $itemExcel[array_search("@adresseImages", $cFields)] = $item['image'];
-                $itemExcel[array_search("Langue", $cFields)] = $item['language'];
-                $itemExcel[array_search("Version", $cFields)] = implode(", ",$item['versions']);
-                $itemExcel[array_search("Trailer", $cFields)] = $item['trailer'];
-                $itemExcel[array_search("Ep1", $cFields)] = $item['episode1'];
-                $itemExcel[array_search("Ep2", $cFields)] = $item['episode2'];
-                $itemExcel[array_search("Ep3", $cFields)] = $item['episode3'];
+                        $epsKey = array_search("Episodes", $cFields);
+
+                        $itemExcel[$epsKey] = [$item['episode1'],$item['episode2'],$item['episode3']];
+
+                        $itemExcel[$epsKey] = array_filter($itemExcel[$epsKey],function($el){
+                            return trim($el);
+                        });
+
+                        $itemExcel[$epsKey] = implode(", ",$itemExcel[$epsKey]);
+
+                        $itemExcel[array_search("Synopsis", $cFields)] = $item['synopsis'];
+                        $itemExcel[array_search("Synopsis_en", $cFields)] = $item['synopsis_en'];
+                        $itemExcel[array_search("Synopsis_ar", $cFields)] = $item['synopsis_ar'];
+
+                        $itemExcel[array_search("Tagline", $cFields)] = $item['tagline'];
+                        $itemExcel[array_search("Tagline_en", $cFields)] = $item['tagline_en'];
+                        $itemExcel[array_search("Tagline_ar", $cFields)] = $item['tagline_ar'];
+
+                        $itemExcel[array_search("Logline", $cFields)] = $item['logline'];
+                        $itemExcel[array_search("Logline_en", $cFields)] = $item['logline_en'];
+                        $itemExcel[array_search("Logline_ar", $cFields)] = $item['logline_ar'];
+
+                        $itemExcel[array_search("Rewards", $cFields)] = $item['reward'];
+                        $itemExcel[array_search("Awards", $cFields)] = $item['award'];
+                        $itemExcel[array_search("Audiences", $cFields)] = $item['audience'];
+                        $itemExcel[array_search("Versions", $cFields)] = implode(", ",$item['versions']);
+                        $itemExcel[array_search("Genres", $cFields)] = implode(", ",$item['genres']);
+                        $itemExcel[array_search("Countries", $cFields)] = implode(", ",$item['countries']);
+                        $itemExcel[array_search("Casting", $cFields)] = implode(", ",$item['casting']);
+                        $itemExcel[array_search("Producers", $cFields)] = implode(", ",$item['producers']);
+                        $itemExcel[array_search("Directors", $cFields)] = implode(", ",$item['directors']);
+                        $itemExcel[array_search("Catalogues", $cFields)] = implode(", ",$item['catalogues']);
+                        
+                        $itemExcel[array_search("@CoverImg", $cFields)] = $item['coverImg'];
+                        $itemExcel[array_search("@LandscapeImg", $cFields)] = $item['landscapeImg'];
+                        $itemExcel[array_search("@PortraitImg", $cFields)] = $item['portraitImg'];
+                        $itemExcel[array_search("@Gallery", $cFields)] =  implode(", ",$item['gallery']);
+
+                        $itemExcel[array_search("InTheather", $cFields)] = $item['inTheather']?'yes':'no';
+                        $itemExcel[array_search("Exclusivity", $cFields)] = $item['exclusivity']?'yes':'no';
+                        $itemExcel[array_search("Published", $cFields)] = $item['published']?'yes':'no';
+
+                    break;
+
+                    default:
+                        $itemExcel[array_search("Cle_unique", $cFields)] = $item['uniqueKey'];
+                        $itemExcel[array_search("Section", $cFields)] = $item['section'];
+                        $itemExcel[array_search("Section Categorie", $cFields)] = $item['section categorie'];
+                        $itemExcel[array_search("TitreVO", $cFields)] = $item['originalName'];
+                        $itemExcel[array_search("TitreExploitation", $cFields)] = $item['name'];
+                        $itemExcel[array_search("Categorie", $cFields)] = $item['category'];
+                        $itemExcel[array_search("Mention", $cFields)] = $item['mention'];
+                        $itemExcel[array_search("Format", $cFields)] = $item['format'];
+                        $itemExcel[array_search("Durée", $cFields)] = $item['duration'];
+                        $itemExcel[array_search("NombreEpisodes", $cFields)] = $item['episodeNbr'];
+                        $itemExcel[array_search("Producteur", $cFields)] = implode(", ",$item['producers']);
+                        $itemExcel[array_search("Genre", $cFields)] = implode(", ",$item['genres']);
+                        $itemExcel[array_search("OrigineProduction", $cFields)] = implode(", ",$item['countries']);
+                        $itemExcel[array_search("AnneeProduction", $cFields)] = $item['yearStart'].($item['yearEnd'] && $item['yearEnd'] != $item['yearStart'] ?'-'.$item['yearEnd']:'');
+                        $itemExcel[array_search("Realisateur", $cFields)] = implode(", ",$item['directors']);
+                        $itemExcel[array_search("Synopsis_fr", $cFields)] = $item['synopsis'];
+                        $itemExcel[array_search("tagline_fr", $cFields)] = $item['tagline'];
+                        $itemExcel[array_search("logline_fr", $cFields)] = $item['logline'];
+
+                        $itemExcel[array_search("Synopsis_en", $cFields)] = $item['synopsis_en'];
+                        $itemExcel[array_search("tagline_en", $cFields)] = $item['tagline_en'];
+                        $itemExcel[array_search("logline_en", $cFields)] = $item['logline_en'];
+
+                        $itemExcel[array_search("Synopsis_arabe", $cFields)] = $item['synopsis_ar'];
+                        $itemExcel[array_search("tagline_ar", $cFields)] = $item['tagline_ar'];
+                        $itemExcel[array_search("logline_ar", $cFields)] = $item['logline_ar'];
+                        $itemExcel[array_search("Casting", $cFields)] = implode(", ",$item['casting']);
+                        $itemExcel[array_search("Recompenses", $cFields)] = $item['reward'];
+                        $itemExcel[array_search("Audience", $cFields)] = $item['audience'];
+                        $itemExcel[array_search("PrixNomination", $cFields)] = $item['award'];
+                        $itemExcel[array_search("@adresseImages", $cFields)] = $item['image'];
+                        $itemExcel[array_search("Langue", $cFields)] = $item['language'];
+                        $itemExcel[array_search("Version", $cFields)] = implode(", ",$item['versions']);
+                        $itemExcel[array_search("Trailer", $cFields)] = $item['trailer'];
+                        $itemExcel[array_search("Ep1", $cFields)] = $item['episode1'];
+                        $itemExcel[array_search("Ep2", $cFields)] = $item['episode2'];
+                        $itemExcel[array_search("Ep3", $cFields)] = $item['episode3'];
+                        $itemExcel[array_search("Catalogues", $cFields)] = implode(", ",$item['catalogues']);
+                    break;
+                }
+
+                
                 
                 return $itemExcel;
             }, $formattedData);

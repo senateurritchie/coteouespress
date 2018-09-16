@@ -144,8 +144,9 @@ var AdminManager = AdminManager || {};
 
 			var formData = new FormData();
 			formData.append('file',file);
+			formData.append('type',_model);
 			formData.append('_token',_token);
-			var url = `/admin/movies/metadata/upload/${_model}`;
+			var url = `/admin/movies/metadata/upload`;
 
 			return new Promise((resolve,reject)=>{
 
@@ -934,7 +935,7 @@ var AdminManager = AdminManager || {};
 			// upload par metadonnées
 			$("#modal-metadata .dropzone").on('drop',e=>{
 
-				e.preventDefault();
+				/*e.preventDefault();
 				$(document.body).removeClass('dragenter');		
 				var dropper = $(e.currentTarget);
 				var modal = dropper.parents("#modal-metadata");
@@ -1027,11 +1028,12 @@ var AdminManager = AdminManager || {};
 					});
 
 					var _token  = dropper.find('input[name=_token]').val();
+					var _model  = modal.find('input[name=type]').val();
 
 					this.emit(new nsp.UploadMetadataEvent({
 						state:'start',
 						file:file,
-						_model:"webmaster",
+						_model:_model,
 						_token:_token,
 					}));
 
@@ -1039,7 +1041,7 @@ var AdminManager = AdminManager || {};
 
 					dropper.addClass('dropped');
 					dropper.addClass("uploading");
-				}
+				}*/
 			});
 
 			$("#modal-metadata .dropzone").on('click',e=>{

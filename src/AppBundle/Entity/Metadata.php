@@ -25,6 +25,13 @@ class Metadata
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+    /**
+    * @var AppBundle\Entity\MetadataType
+    *
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\MetadataType")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $type;
 
     /**
     * @var string
@@ -33,6 +40,7 @@ class Metadata
     * @assert\File(maxSize="2Mi", mimeTypes="application/zip")
     */
     private $file;
+   
 
     /**
     * @var integer
@@ -216,5 +224,29 @@ class Metadata
     public function getModerateAt()
     {
         return $this->moderateAt;
+    }
+
+    /**
+     * Set type
+     *
+     * @param \AppBundle\Entity\MetadataType $type
+     *
+     * @return Metadata
+     */
+    public function setType(\AppBundle\Entity\MetadataType $type = null)
+    {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * Get type
+     *
+     * @return \AppBundle\Entity\MetadataType
+     */
+    public function getType()
+    {
+        return $this->type;
     }
 }
