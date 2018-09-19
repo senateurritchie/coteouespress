@@ -37,8 +37,8 @@
 	}
 
 	.movie-vignette{
-		width:180px;
-		height:180px;
+		width:200px;
+		height:200px;
 		overflow:hidden;
 		border:1px solid #d4d4d4;
 	}
@@ -92,12 +92,12 @@
 					<tbody>	
 						{% for el in formattedData|slice(pos, step) %}
 							<tr>
-								<td style="width:180px;padding-bottom:20px" valign="top">
+								<td style="width:200px;padding-bottom:20px" valign="top">
 									<div class="movie-vignette">
 										{% if el.image %}
-											<img width="180" src="{{ asset('upload/public/'~el.image) }}" alt="">
+											<img width="200" src="{{ asset('upload/public/'~el.image) }}" alt="">
 										{% else %}
-											<img width="180" src="{{ asset('img/vignette.png') }}" alt="">
+											<img width="200" src="{{ asset('img/vignette.png') }}" alt="">
 										{% endif %}
 										
 									</div>
@@ -105,7 +105,15 @@
 
 								<td  valign="top" style="padding-top:0px;padding-bottom:30px">
 									<h3 style="margin-top:0px;font-weight:bold">
-										{{ el.name|upper }} <small><i>({{ el.originalName|upper }})</i></small>
+										<span style="font-size:30px;">
+											{{ el.name|upper }} 
+										</span>
+
+										<small>
+											<i>
+												({{ el.originalName|upper }})
+											</i>
+										</small>
 									</h3>
 									
 									<div class="program-description">
@@ -146,8 +154,8 @@
 											{% endspaceless %}
 										</div>
 
-										<p style="margin-top:20px">
-											{{ el.synopsis|truncate(480,'...') }}
+										<p style="margin-top:10px">
+											{{ el.synopsis|truncate(1000,'...') }}
 										</p>
 									</div>
 								</td>
@@ -156,10 +164,10 @@
 					</tbody>
 				</table>
 				
-				<footer style="text-align:center;" >
-					<small >
-						<strong>&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
-						<div style="font-size:8px">
+				<footer>
+					<small class="text-center">
+						<strong style="font-size:7px">&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
+						<div style="font-size:5px">
 							Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande
 						</div>
 					</small>

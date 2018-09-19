@@ -20,6 +20,8 @@ use AppBundle\Form\CatalogStaticAdminSearchType;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
+use AppBundle\Utils\ExcelReader;
+
 
 /**
 * @Route("/admin/catalog", name="admin_catalog_")
@@ -660,5 +662,49 @@ class AdminCatalogController extends Controller
         }
 
         return $this->json($result);
+    }
+
+
+    /**
+    * @Route("/generate", name="generate")
+    */
+    public function generateOnTheFlyAction(Request $request){
+        if($this->isGranted('ROLE_CATALOG_INSERT'));
+        else{
+            $this->denyAccessUnlessGranted('ROLE_ADMIN', null, "Vous n'êtes as autorisé à consulter cette page");
+        }
+
+        if(!$request->files->has('file')){
+            throw new \Exception("Veuillez envoyer le fichier à générer");
+        }
+
+        $file = $request->files->get('file');
+
+        if(!in_array($file->guessExtension(), ["xlsx","xls","xlsm"])){
+            throw new \Exception("Veuillez envoyer un fichier type Excel");
+        }
+
+        $fileName = md5(uniqid()).'.'.$file->guessExtension();
+        $file->move($this->getParameter('public_upload_directory'), $fileName);
+        $file_path = $this->getParameter('public_upload_directory').'/'.$fileName;
+
+        $reader = new ExcelReader($file_path);
+
+        $reader
+        ->on("data",function($e) {
+            $data = array_combine($e->getHeader(),$e->getValue());
+            var_dump($data);
+        })
+        ->on("error",function($event){
+            $this->addFlash('notice-error',$event->getValue());
+        });
+
+        try {
+            $reader->process();
+        } catch (\Exception $e) {
+            $this->addFlash('notice-error',$e->getMessage());
+        }
+
+        return new Response('ok');
     }
 }

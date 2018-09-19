@@ -90,6 +90,62 @@
 	    {{ include('admin/catalog/selected-view.html.twig') }}
     </div>
 
+
+    <div class="modal modal-danger fade" id="modal-downloads">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Les Téléchargements...</h4>
+                </div>
+          
+                <div class="modal-body">
+                    
+                    <div style="text-align:center" class="loading">
+                        <i  class="fa fa-spinner fa-spin fa-3x"></i>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- generation -->
+    <div class="modal modal-primary fade" id="modal-generate">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h4 class="modal-title">Générer un catalogue...</h4>
+                </div>
+                
+                <form action="{{ path('admin_catalog_generate') }}" enctype="multipart/form-data" method="POST">
+                    <div class="modal-body">
+                        <input name="file" type="file" accept="application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,  
+application/vnd.ms-excel.sheet.macroEnabled.12"  >
+
+                    </div>
+
+                    <div class="modal-footer">
+                        
+                        <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">
+                            Annuler
+                        </button>
+
+                        <button type="submit" class="btn btn-outline">Envoyer</button>
+
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+    </div>
+
     {% for notice in app.flashes('notice-success') %}
         <div class="alert alert-info alert-dismissible">
             <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -113,14 +169,15 @@
 
 	<div class="row">
     	<div class="col-xs-12 col-md-12">
-
-
     		<div class="row">
     			<div class="col-md-12">
     				<button  data-toggle="modal" data-backdrop="static" data-target="#modal-insert" class="btn btn-sm btn-primary">
-		  				<i class="fa fa-plus"></i> Nouveau
+		  				<i class="fa fa-plus"></i>&nbsp;&nbsp;Nouveau
 		  			</button>
-                    
+
+                    <button  data-toggle="modal" data-backdrop="static" data-target="#modal-generate" class="btn btn-sm btn-primary">
+                        <i class="fa fa-file"></i>&nbsp;&nbsp;Générer
+                    </button>
     			</div>
     		</div>
 

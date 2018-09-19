@@ -41,7 +41,7 @@
 
 			footer{
 				position: absolute;
-				bottom: 5%;
+				bottom: 0;
 				left: 0;
 				right: 0;
 				display:flex;
@@ -51,8 +51,8 @@
 			}
 
 			.movie-vignette{
-				width:180px;
-				height:180px;
+				width:200px;
+				height:200px;
 				overflow:hidden;
 				border:1px solid #d4d4d4;
 			}
@@ -81,6 +81,17 @@
 					width: 29.7cm !important;
 					height: 21cm !important;
 				}
+
+				footer{
+					position: absolute !important;
+					bottom: 0 !important;
+					left: 0 !important;
+					right: 0 !important;
+					display:flex;
+					flex-direction: column;
+					justify-content:center;
+					align-items:center;
+				}
 			}
 
 		</style>
@@ -107,20 +118,28 @@
 								<tbody>	
 									{% for el in formattedData|slice(pos, step) %}
 										<tr>
-											<td style="width:180px;padding-bottom:20px" valign="top">
+											<td style="width:200px;padding-bottom:20px" valign="top">
 												<div class="movie-vignette">
 													{% if el.image %}
-														<img width="180" src="{{ asset('upload/public/'~el.image) }}" alt="">
+														<img width="200" src="{{ asset('upload/public/'~el.image) }}" alt="">
 													{% else %}
-														<img width="180" src="{{ asset('img/vignette.png') }}" alt="">
+														<img width="200" src="{{ asset('img/vignette.png') }}" alt="">
 													{% endif %}
 													
 												</div>
 											</td>
 
 											<td  valign="top" style="padding-top:0px;padding-bottom:30px">
-												<h3 style="margin-top:0px;font-weight:bold">
-													{{ el.name|upper }} <small><i>({{ el.originalName|upper }})</i></small>
+												<h3 style="margin-top:0px;font-weight:bold;">
+													<span style="font-size:30px;">
+														{{ el.name|upper }}
+													</span> 
+
+													<small>
+														<i>
+															({{ el.originalName|upper }})
+														</i>
+													</small>
 												</h3>
 												
 												<div class="program-description">
@@ -173,8 +192,8 @@
 							
 							<footer>
 								<small class="text-center">
-									<strong>&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
-									<div style="font-size:8px">
+									<strong style="font-size:7px">&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
+									<div style="font-size:5px">
 										Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande
 									</div>
 								</small>
