@@ -20,6 +20,7 @@ class AppExtension extends AbstractExtension{
             new TwigFilter('dateDiff', array($this, 'dateDiffFilter')),
             new TwigFilter('truncate', array($this, 'truncateFilter')),
             new TwigFilter('basename', array($this, 'basenameFilter')),
+            new TwigFilter('validPathOrReplace', array($this, 'validPathOrReplaceFilter')),
             new TwigFilter(
                 'md2html',
                 array($this, 'markdownToHtml'),
@@ -47,6 +48,19 @@ class AppExtension extends AbstractExtension{
     public function basenameFilter($value){
         return basename($value);
     }
+
+    public function validPathOrReplaceFilter($value,$default_value){
+
+        if(!file_exists($value)){
+            $value = explode("/", $value);
+            $value[count($value) -1] = $default_value;
+            $value = implode("/", $value);
+        }
+        
+        return $value;
+    }
+
+
 
     public function markdownToHtml($content){
         return $this->parser->toHtml($content);

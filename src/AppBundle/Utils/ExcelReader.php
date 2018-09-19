@@ -123,7 +123,6 @@ class ExcelReader extends EventDispatcher{
 	            	$this->emit($dataEvent);
 	            }
 	        }
-
 	        break;
         }
 	}
