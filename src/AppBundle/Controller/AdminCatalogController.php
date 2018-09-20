@@ -700,6 +700,9 @@ class AdminCatalogController extends Controller
         ->on("data",function($e)use(&$pages,&$storage,&$pagesView,&$category) {
             $data = array_combine($e->getHeader(),$e->getValue());
 
+            $data["Synopsis_fr"] = strip_tags(trim( $data["Synopsis_fr"]));
+            $data["Synopsis_en"] = strip_tags(trim( $data["Synopsis_en"]));
+            
             $data["Genre"] = explode(";", $data["Genre"]);
             $data["Version"] = explode(";", $data["Version"]);
             $data["Casting"] = implode(", ",explode(";", $data["Casting"]));

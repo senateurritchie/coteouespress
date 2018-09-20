@@ -50,6 +50,7 @@ twig:
     globals:
         site: '%app.site%'
         vimeo: '%app.vimeo%'
+        imagesbank: '%imagesbank_directory%'
 
 # Doctrine Configuration
 doctrine:

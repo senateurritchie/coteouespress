@@ -1,20 +1,19 @@
 {% set defaultImg = asset('img/vignette.png') %}
 
-<div>
-	<div style="height:30px" class="hidden-print"></div>
-	<div class="print-mine category" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px">
 
-		<h1 style="font-size:100px;word-wrap: break-word;text-align:center">{{ category|upper }}</h1>
-					
-		<footer>
-			<small class="text-center">
-				<strong style="font-size:7px">&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
-				<div style="font-size:7px">
-					Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande
-				</div>
-			</small>
+<div class="print-mine category" style="display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px">
 
-			<span>{{ pageNum}}</span>
-		</footer>
-	</div>
+	<h1 style="font-size:120px;word-wrap: break-word;text-align:center;font-weight:bold">{{ category|upper }}</h1>
+				
+	<footer>
+		<small class="text-center">
+			<strong style="font-size:7px">&copy; Copyright COTE OUEST 2017: Reproduction interdite</strong>
+			<div style="font-size:7px">
+				Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande
+			</div>
+		</small>
+
+		<span>{{ pageNum}}</span>
+	</footer>
+
 </div>

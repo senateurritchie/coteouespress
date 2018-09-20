@@ -11,7 +11,8 @@
         <!-- Bootstrap CSS -->
         <link rel="stylesheet" href="{{ asset('admin/bootstrap/css/bootstrap.min.css') }}">
         <link rel="stylesheet" href="{{ asset('admin/dist/css/AdminLTE.min.css') }}">
-
+        <link media="print" type="text/css" rel="stylesheet" href="{{ asset('css/catalogue-print.css') }}">
+		
 
         <style>
 			.table-borderless > tbody > tr > td,
@@ -28,20 +29,24 @@
 			}
 
 			.print-mine {
+				margin-top: 20px;
 				background: #fff;
 				padding: 10px;
-				padding-top: 20px;
+				padding-top: 30px;
+				padding-left: 30px;
+				padding-right: 20px;
 				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
-				width: 29.7cm !important;
-				height: 21cm !important;
+				width: 29cm !important;
+				height: 20cm !important;
 				position: relative;
-				overflow: hidden;
-				page-break-before: always;
+				overflow: visible;
+				text-align: justify;
+
 			}
 
 			footer{
 				position: absolute;
-				bottom: 0;
+				bottom: 20px;
 				left: 0;
 				right: 0;
 				display:flex;
@@ -55,51 +60,7 @@
 				height:200px;
 				overflow:hidden;
 				border:.1em solid #d4d4d4;
-			}
-
-	
-			
-			@media print{
-				.print-mine{
-					margin: 0px;
-					padding: 10px;
-					padding-top: 1.2cm;
-					padding-right: 1cm;
-					padding-bottom: 1cm;
-					overflow: hidden;
-					/* page-break-inside: avoid; */
-				}
-
-				.print-mine.category{
-					padding: 0px !important;
-					padding-right: 0cm !important;
-				}
-
-				@page { 
-					size: landscape; 
-				}
-
-				.container {
-				    padding: 0px !important;
-				    margin-right: 0px !important;
-				    margin-left: 0px !important;
-				}
-
-				body,html{
-					width: 29.7cm !important;
-					height: 21cm !important;
-				}
-
-				footer{
-					position: absolute !important;
-					bottom: 0 !important;
-					left: 0 !important;
-					right: 0 !important;
-					display:flex;
-					flex-direction: column;
-					justify-content:center;
-					align-items:center;
-				}
+				padding: 0px;
 			}
 		</style>
     </head>
@@ -179,7 +140,7 @@
 
 
 
-    <body style="background:#bfbfbf;padding-bottom:40px" >
+    <body style="background:#bfbfbf;padding-bottom:40px;" >
     	<div class="container">
     		<div class="row-fluid">
     			<div class="col-md-12 mb-5">
