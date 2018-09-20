@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="baeVqGZ" resname="Genre">
+        <source>Genre</source>
+        <target>Genre</target>
+      </trans-unit>
+      <trans-unit id="LzQ2Zqq" resname="Format">
+        <source>Format</source>
+        <target>Format</target>
+      </trans-unit>
+      <trans-unit id="AuNJkgK" resname="Origine de production">
+        <source>Origine de production</source>
+        <target>Origine de production</target>
+      </trans-unit>
+      <trans-unit id="_3ihYTf" resname="Année de production">
+        <source>Année de production</source>
+        <target>Année de production</target>
+      </trans-unit>
+      <trans-unit id="X2uqtNv" resname="Langue">
+        <source>Langue</source>
+        <target>Langue</target>
+      </trans-unit>
+      <trans-unit id="F8kjELN" resname="Versions disponibles">
+        <source>Versions disponibles</source>
+        <target>Versions disponibles</target>
+      </trans-unit>
+      <trans-unit id="OI367Wt" resname="Acteurs">
+        <source>Acteurs</source>
+        <target>Acteurs</target>
+      </trans-unit>
+      <trans-unit id="WgDLhYa" resname="Réalisateurs">
+        <source>Réalisateurs</source>
+        <target>Réalisateurs</target>
+      </trans-unit>
+      <trans-unit id="OHbSX8b" resname="cr.title">
+        <source>cr.title</source>
+        <target>Copyright COTE OUEST 2018: Reproduction interdite</target>
+      </trans-unit>
+      <trans-unit id="Sdyejuy" resname="cr.desc">
+        <source>cr.desc</source>
+        <target>Cette présentation de programme ne constitue en aucun cas une offre de droits. la disponibilité des droits souhaités, pour le territoire souhaité vous sera donc confirmée sur demande</target>
+      </trans-unit>
+      <trans-unit id="ZM.xMZ0" resname="Action">
+        <source>Action</source>
+        <target>Action</target>
+      </trans-unit>
+      <trans-unit id="HdEPJEp" resname="Animation">
+        <source>Animation</source>
+        <target>Animation</target>
+      </trans-unit>
+      <trans-unit id="cQtmryS" resname="Arts martiaux">
+        <source>Arts martiaux</source>
+        <target>Arts martiaux</target>
+      </trans-unit>
+      <trans-unit id="ntiZ22Y" resname="Astrologie">
+        <source>Astrologie</source>
+        <target>Astrologie</target>
+      </trans-unit>
+      <trans-unit id="kEHebUb" resname="Aventure">
+        <source>Aventure</source>
+        <target>Aventure</target>
+      </trans-unit>
+      <trans-unit id="V4_c_J1" resname="Comedie">
+        <source>Comedie</source>
+        <target>Comedie</target>
+      </trans-unit>
+      <trans-unit id="aBT.qaN" resname="Cuisine">
+        <source>Cuisine</source>
+        <target>Cuisine</target>
+      </trans-unit>
+      <trans-unit id="dVzt1ji" resname="Biographie">
+        <source>Biographie</source>
+        <target>Biographie</target>
+      </trans-unit>
+      <trans-unit id="UdeirkM" resname="Culture">
+        <source>Culture</source>
+        <target>Culture</target>
+      </trans-unit>
+      <trans-unit id="sO6VTqN" resname="Divertissement">
+        <source>Divertissement</source>
+        <target>Divertissement</target>
+      </trans-unit>
+      <trans-unit id="UjL1VAx" resname="Documentaire">
+        <source>Documentaire</source>
+        <target>Documentaire</target>
+      </trans-unit>
+      <trans-unit id="uacq.H7" resname="Drame">
+        <source>Drame</source>
+        <target>Drame</target>
+      </trans-unit>
+      <trans-unit id="USqzxrm" resname="Education">
+        <source>Education</source>
+        <target>Education</target>
+      </trans-unit>
+      <trans-unit id="H.w5okx" resname="Enfant">
+        <source>Enfant</source>
+        <target>Enfant</target>
+      </trans-unit>
+      <trans-unit id="whFducy" resname="Enquête">
+        <source>Enquête</source>
+        <target>Enquête</target>
+      </trans-unit>
+      <trans-unit id="jJXJaBX" resname="Environnement">
+        <source>Environnement</source>
+        <target>Environnement</target>
+      </trans-unit>
+      <trans-unit id="polGpsv" resname="Epouvante">
+        <source>Epouvante</source>
+        <target>Epouvante</target>
+      </trans-unit>
+      <trans-unit id="8UtdafL" resname="Famille">
+        <source>Famille</source>
+        <target>Famille</target>
+      </trans-unit>
+      <trans-unit id="iugIKo9" resname="Fantaisie">
+        <source>Fantaisie</source>
+        <target>Fantaisie</target>
+      </trans-unit>
+      <trans-unit id="CJw29RC" resname="Fantastique">
+        <source>Fantastique</source>
+        <target>Fantastique</target>
+      </trans-unit>
+      <trans-unit id="76mjcp1" resname="Fiction">
+        <source>Fiction</source>
+        <target>Fiction</target>
+      </trans-unit>
+      <trans-unit id="oQkw.yl" resname="Foi">
+        <source>Foi</source>
+        <target>Foi</target>
+      </trans-unit>
+      <trans-unit id="t9hZMTP" resname="Guerre">
+        <source>Guerre</source>
+        <target>Guerre</target>
+      </trans-unit>
+      <trans-unit id="fFdP4l1" resname="Histoire">
+        <source>Histoire</source>
+        <target>Histoire</target>
+      </trans-unit>
+      <trans-unit id="9ObtSLy" resname="Horreur">
+        <source>Horreur</source>
+        <target>Horreur</target>
+      </trans-unit>
+      <trans-unit id="IwCKmnO" resname="Humour">
+        <source>Humour</source>
+        <target>Humour</target>
+      </trans-unit>
+      <trans-unit id="A_2fCas" resname="Jeunesse">
+        <source>Jeunesse</source>
+        <target>Jeunesse</target>
+      </trans-unit>
+      <trans-unit id="X5dA3Xh" resname="Justice">
+        <source>Justice</source>
+        <target>Justice</target>
+      </trans-unit>
+      <trans-unit id=".sgL7w2" resname="Medical">
+        <source>Medical</source>
+        <target>Medical</target>
+      </trans-unit>
+      <trans-unit id="XiPsajA" resname="Mode">
+        <source>Mode</source>
+        <target>Mode</target>
+      </trans-unit>
+      <trans-unit id="XvkyhXL" resname="Musique">
+        <source>Musique</source>
+        <target>Musique</target>
+      </trans-unit>
+      <trans-unit id="_AG6nWD" resname="Mystère">
+        <source>Mystère</source>
+        <target>Mystère</target>
+      </trans-unit>
+      <trans-unit id="Lv7usBM" resname="Police">
+        <source>Police</source>
+        <target>Police</target>
+      </trans-unit>
+      <trans-unit id="L47qntk" resname="Politique">
+        <source>Politique</source>
+        <target>Politique</target>
+      </trans-unit>
+      <trans-unit id="KiFDhHF" resname="Réligion">
+        <source>Réligion</source>
+        <target>Réligion</target>
+      </trans-unit>
+      <trans-unit id="O8NWen." resname="Romance">
+        <source>Romance</source>
+        <target>Romance</target>
+      </trans-unit>
+      <trans-unit id="nZSMc_C" resname="Science">
+        <source>Science</source>
+        <target>Science</target>
+      </trans-unit>
+      <trans-unit id="GUN.9kX" resname="Sci-Fi">
+        <source>Sci-Fi</source>
+        <target>Sci-Fi</target>
+      </trans-unit>
+      <trans-unit id="Lh7jivv" resname="Sitcom">
+        <source>Sitcom</source>
+        <target>Sitcom</target>
+      </trans-unit>
+      <trans-unit id="8bdQWvp" resname="Social">
+        <source>Social</source>
+        <target>Social</target>
+      </trans-unit>
+      <trans-unit id="5AjAjGu" resname="Société">
+        <source>Société</source>
+        <target>Société</target>
+      </trans-unit>
+      <trans-unit id="mghd2FT" resname="Sport">
+        <source>Sport</source>
+        <target>Sport</target>
+      </trans-unit>
+      <trans-unit id="95l0vVr" resname="Suspense">
+        <source>Suspense</source>
+        <target>Suspense</target>
+      </trans-unit>
+      <trans-unit id="k2BATk8" resname="Thriller">
+        <source>Thriller</source>
+        <target>Thriller</target>
+      </trans-unit>
+      <trans-unit id="9nMh2sC" resname="Vengeance">
+        <source>Vengeance</source>
+        <target>Vengeance</target>
+      </trans-unit>
+      <trans-unit id="19Lw.7A" resname="Western">
+        <source>Western</source>
+        <target>Western</target>
+      </trans-unit>
+      <trans-unit id="fRyNceC" resname="Santé">
+        <source>Santé</source>
+        <target>Santé</target>
+      </trans-unit>
+      <trans-unit id="9pKHFlU" resname="Jeu télévisé">
+        <source>Jeu télévisé</source>
+        <target>Jeu télévisé</target>
+      </trans-unit>
+      <trans-unit id="BSzHCMN" resname="Spectacle">
+        <source>Spectacle</source>
+        <target>Spectacle</target>
+      </trans-unit>
+      <trans-unit id="adhmHUD" resname="Amour">
+        <source>Amour</source>
+        <target>Amour</target>
+      </trans-unit>
+      <trans-unit id="r4z4IqI" resname="Télé Réalité">
+        <source>Télé Réalité</source>
+        <target>Télé Réalité</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title></title>
+        
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+			<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{{ asset('admin/bootstrap/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('admin/dist/css/AdminLTE.min.css') }}">
+
+
+        <style>
+			.table-borderless > tbody > tr > td,
+			.table-borderless > tbody > tr > th,
+			.table-borderless > tfoot > tr > td,
+			.table-borderless > tfoot > tr > th,
+			.table-borderless > thead > tr > td,
+			.table-borderless > thead > tr > th {
+			    border: none;
+			}
+
+			.program-description{
+				font-size: 12px;
+			}
+
+			.print-mine {
+				background: #fff;
+				padding: 10px;
+				padding-top: 20px;
+				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.12), 0 2px 4px 0 rgba(0,0,0,0.08);
+				width: 29.7cm !important;
+				height: 21cm !important;
+				position: relative;
+				overflow: hidden;
+				page-break-before: always;
+			}
+
+			footer{
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				right: 0;
+				display:flex;
+				flex-direction: column;
+				justify-content:center;
+				align-items:center;
+			}
+
+			.movie-vignette{
+				width:200px;
+				height:200px;
+				overflow:hidden;
+				border:.1em solid #d4d4d4;
+			}
+
+	
+			
+			@media print{
+				.print-mine{
+					margin: 0px;
+					padding: 10px;
+					padding-top: 1.2cm;
+					padding-right: 1cm;
+					padding-bottom: 1cm;
+					overflow: hidden;
+					/* page-break-inside: avoid; */
+				}
+
+				.print-mine.category{
+					padding: 0px !important;
+					padding-right: 0cm !important;
+				}
+
+				@page { 
+					size: landscape; 
+				}
+
+				.container {
+				    padding: 0px !important;
+				    margin-right: 0px !important;
+				    margin-left: 0px !important;
+				}
+
+				body,html{
+					width: 29.7cm !important;
+					height: 21cm !important;
+				}
+
+				footer{
+					position: absolute !important;
+					bottom: 0 !important;
+					left: 0 !important;
+					right: 0 !important;
+					display:flex;
+					flex-direction: column;
+					justify-content:center;
+					align-items:center;
+				}
+			}
+		</style>
+    </head>
+	
+	{#{{ 'Action'|trans({},'catalogueGeneration') }}
+	{{ 'Animation'|trans({},'catalogueGeneration') }}
+	{{ 'Arts martiaux'|trans({},'catalogueGeneration') }}
+	{{ 'Astrologie'|trans({},'catalogueGeneration') }}
+	{{ 'Aventure'|trans({},'catalogueGeneration') }}
+	{{ 'Comedie'|trans({},'catalogueGeneration') }}
+	{{ 'Cuisine'|trans({},'catalogueGeneration') }}
+	{{ 'Biographie'|trans({},'catalogueGeneration') }}
+	{{ 'Culture'|trans({},'catalogueGeneration') }}
+	{{ 'Divertissement'|trans({},'catalogueGeneration') }}
+	{{ 'Documentaire'|trans({},'catalogueGeneration') }}
+	{{ 'Drame'|trans({},'catalogueGeneration') }}
+	{{ 'Education'|trans({},'catalogueGeneration') }}
+	{{ 'Enfant'|trans({},'catalogueGeneration') }}
+	{{ 'Enquête'|trans({},'catalogueGeneration') }}
+	{{ 'Environnement'|trans({},'catalogueGeneration') }}
+	{{ 'Epouvante'|trans({},'catalogueGeneration') }}
+	{{ 'Famille'|trans({},'catalogueGeneration') }}
+	{{ 'Fantaisie'|trans({},'catalogueGeneration') }}
+	{{ 'Fantastique'|trans({},'catalogueGeneration') }}
+	{{ 'Fiction'|trans({},'catalogueGeneration') }}
+	{{ 'Foi'|trans({},'catalogueGeneration') }}
+	{{ 'Guerre'|trans({},'catalogueGeneration') }}
+	{{ 'Histoire'|trans({},'catalogueGeneration') }}
+	{{ 'Horreur'|trans({},'catalogueGeneration') }}
+	{{ 'Humour'|trans({},'catalogueGeneration') }}
+	{{ 'Jeunesse'|trans({},'catalogueGeneration') }}
+	{{ 'Justice'|trans({},'catalogueGeneration') }}
+	{{ 'Medical'|trans({},'catalogueGeneration') }}
+	{{ 'Mode'|trans({},'catalogueGeneration') }}
+	{{ 'Musique'|trans({},'catalogueGeneration') }}
+	{{ 'Mystère'|trans({},'catalogueGeneration') }}
+	{{ 'Police'|trans({},'catalogueGeneration') }}
+	{{ 'Politique'|trans({},'catalogueGeneration') }}
+	{{ 'Réligion'|trans({},'catalogueGeneration') }}
+	{{ 'Romance'|trans({},'catalogueGeneration') }}
+	{{ 'Science'|trans({},'catalogueGeneration') }}
+	{{ 'Sci-Fi'|trans({},'catalogueGeneration') }}
+	{{ 'Sitcom'|trans({},'catalogueGeneration') }}
+	{{ 'Social'|trans({},'catalogueGeneration') }}
+	{{ 'Société'|trans({},'catalogueGeneration') }}
+	{{ 'Sport'|trans({},'catalogueGeneration') }}
+	{{ 'Suspense'|trans({},'catalogueGeneration') }}
+	{{ 'Thriller'|trans({},'catalogueGeneration') }}
+	{{ 'Vengeance'|trans({},'catalogueGeneration') }}
+	{{ 'Western'|trans({},'catalogueGeneration') }}
+	{{ 'Santé'|trans({},'catalogueGeneration') }}
+	{{ 'Jeu télévisé'|trans({},'catalogueGeneration') }}
+	{{ 'Spectacle'|trans({},'catalogueGeneration') }}
+	{{ 'Amour'|trans({},'catalogueGeneration') }}
+	{{ 'Télé Réalité'|trans({},'catalogueGeneration') }} 
+
+
+	{{ 'Anglais'|trans({},'catalogueGeneration') }}
+	{{ 'Darija'|trans({},'catalogueGeneration') }}
+	{{ 'Français'|trans({},'catalogueGeneration') }}
+	{{ 'Version Darija doublée'|trans({},'catalogueGeneration') }}
+	{{ 'Version Originale'|trans({},'catalogueGeneration') }}
+	{{ 'Version Originale doublée Anglais'|trans({},'catalogueGeneration') }}
+	{{ 'Version Originale doublée Français'|trans({},'catalogueGeneration') }}
+	{{ 'VOST Anglais'|trans({},'catalogueGeneration') }}
+	{{ 'VOST Français'|trans({},'catalogueGeneration') }}
+	{{ 'VOST Portugais'|trans({},'catalogueGeneration') }}
+	{{ 'Version Originale doublée Portugais'|trans({},'catalogueGeneration') }}#}
+
+
+
+
+
+
+
+
+
+
+
+    <body style="background:#bfbfbf;padding-bottom:40px" >
+    	<div class="container">
+    		<div class="row-fluid">
+    			<div class="col-md-12 mb-5">
+    				<!--pages-->
+    			</div>
+    		</div>
+    	</div>
+    </body>
+</html>
+
+
+
+
+
+
+

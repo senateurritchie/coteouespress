@@ -1,0 +1,78 @@
+{% set defaultImg = asset('img/vignette.png') %}
+
+<div>
+	<div style="height:30px" class="hidden-print"></div>
+	<div class="print-mine">
+
+		<table class="table table-borderless" >
+			<tbody>	
+				{% for el in data %}
+					<tr>
+						<td style="width:200px;padding-bottom:20px" valign="top">
+							<div class="movie-vignette">
+								<img width="200" height="200" src="{{ asset('imagesbank/'~el['adresseImages'])|validPathOrReplace(defaultImg) }}" alt="">								
+							</div>
+						</td>
+
+						<td  valign="top" style="padding-top:0px;padding-bottom:30px">
+							<h3 style="margin-top:0px;font-weight:bold;">
+								<span style="font-size:26px;">
+									{{ el.TitreExploitation|upper }}
+								</span> 
+
+								<small>
+									<i>
+										({{ el.TitreVO|upper }})
+									</i>
+								</small>
+							</h3>
+							
+							<div class="program-description">
+								<div class="sub-title">
+									{% spaceless %}
+										<strong>{{ 'Genre'|trans({},'catalogueGeneration') }}: </strong>
+					  					{% for item in el.Genre %}
+					  						{{ item|trans({},'catalogueGeneration')|upper }}{{ loop.last ?'':', ' }}
+					  					{% endfor %}
+										/&nbsp;<strong>{{ 'Format'|trans({},'catalogueGeneration') }}: </strong>{{ el['NombreEpisodes'] }} x {{ el['Durée'] }}'&nbsp;/&nbsp;<strong>{{ 'Origine de production'|trans({},'catalogueGeneration') }}: </strong>
+					  					{{ el.OrigineProduction|upper }}
+										&nbsp;/&nbsp;<strong>{{ 'Année de production'|trans({},'catalogueGeneration') }}: </strong>
+					  					{{ el.AnneeProduction }}
+										&nbsp;/&nbsp;<strong>{{ 'Langue'|trans({},'catalogueGeneration') }}: </strong>
+					  					{{ el.Langue|upper }}
+										&nbsp;/&nbsp;<strong>{{ 'Versions disponibles'|trans({},'catalogueGeneration') }}: </strong>
+					  					{% for item in el.Version %}
+					  						{{ item|trans({},'catalogueGeneration')|upper }}{{ loop.last ?'':', ' }}
+					  					{% endfor %}
+										&nbsp;/&nbsp;<strong>{{ 'Acteurs'|trans({},'catalogueGeneration') }}: </strong>
+					  					{{ el.Casting|upper }}
+										&nbsp;/&nbsp;<strong>{{ 'Réalisateurs'|trans({},'catalogueGeneration') }}: </strong>
+					  					{{ el.Realisateur|upper }}
+									{% endspaceless %}
+								</div>
+
+								<p style="margin-top:20px">
+									{% if app.request.locale == 'en' %}
+										{{ (el.Synopsis_en ? el.Synopsis_en : el.Synopsis_fr)|truncate(700) }}
+									{% else %}
+										{{ (el.Synopsis_fr ? el.Synopsis_fr : el.Synopsis_en)|truncate(700) }}
+									{% endif %}
+								</p>
+							</div> <!-- -->
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		
+		<footer>
+			<small class="text-center">
+				<strong style="font-size:7px">&copy; {{ 'cr.title'|trans({},'catalogueGeneration') }}</strong>
+				<div style="font-size:7px">
+					{{ 'cr.desc'|trans({},'catalogueGeneration') }}
+				</div>
+			</small>
+			<span>{{ pageNum}}</span>
+		</footer>
+	</div>
+</div>
