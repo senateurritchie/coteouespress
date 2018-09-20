@@ -690,10 +690,39 @@ class AdminCatalogController extends Controller
 
         $reader = new ExcelReader($file_path);
 
+        $pagesView = '';
+
+        $storage = [];
+        $pages = 0;
+        $category = null;
+
         $reader
-        ->on("data",function($e) {
+        ->on("data",function($e)use(&$pages,&$storage,&$pagesView,&$category) {
             $data = array_combine($e->getHeader(),$e->getValue());
-            var_dump($data);
+
+            $data["Genre"] = explode(";", $data["Genre"]);
+            $data["Version"] = explode(";", $data["Version"]);
+            $data["Casting"] = implode(", ",explode(";", $data["Casting"]));
+            $data["Realisateur"] = implode(", ",explode(";", $data["Realisateur"]));
+            $data["OrigineProduction"] = implode(", ",explode(";", $data["OrigineProduction"]));
+
+            $storage[] = $data;
+
+            $data["Section Categorie"] = strip_tags(trim($data["Section Categorie"]));
+
+            if($data["Section Categorie"] && $category != $data["Section Categorie"]){
+                $pages++;
+                $category = $data["Section Categorie"];
+                $pagesView .= $this->renderView('catalogue/page-category.html.twig',["category"=>$category,"pageNum"=>$pages]);
+
+            }
+
+            if(count($storage) == 3){
+                $pages++;
+                $pagesView .= $this->renderView('catalogue/page.html.twig',
+                    ["data"=>$storage,"pageNum"=>$pages]);
+                $storage = [];
+            }
         })
         ->on("error",function($event){
             $this->addFlash('notice-error',$event->getValue());
@@ -705,6 +734,19 @@ class AdminCatalogController extends Controller
             $this->addFlash('notice-error',$e->getMessage());
         }
 
-        return new Response('ok');
+        if(count($storage)){
+            $pages++;
+            $pagesView .= $this->renderView('catalogue/page.html.twig',
+                    ["data"=>$storage,"pageNum"=>$pages]);
+            $storage = [];
+        }
+
+        $viewBody = $this->renderView('catalogue/body.html.twig');
+
+        $viewBody = preg_replace("#<!--pages-->#", $pagesView, $viewBody);
+
+        @unlink($file_path);
+
+        return new Response($viewBody);
     }
 }

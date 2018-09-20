@@ -25,6 +25,10 @@
         <source>Equipe de production</source>
         <target>__Equipe de production</target>
       </trans-unit>
+      <trans-unit id="WgDLhYa" resname="Réalisateurs">
+        <source>Réalisateurs</source>
+        <target>__Réalisateurs</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

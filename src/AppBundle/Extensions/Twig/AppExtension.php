@@ -50,13 +50,9 @@ class AppExtension extends AbstractExtension{
     }
 
     public function validPathOrReplaceFilter($value,$default_value){
-
         if(!file_exists($value)){
-            $value = explode("/", $value);
-            $value[count($value) -1] = $default_value;
-            $value = implode("/", $value);
+            $value = $default_value;
         }
-        
         return $value;
     }
 

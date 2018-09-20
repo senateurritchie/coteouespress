@@ -41,6 +41,10 @@
         <source>sign.up</source>
         <target>Sign up</target>
       </trans-unit>
+      <trans-unit id="5OesQ5R" resname="Inscrivez-vous">
+        <source>Inscrivez-vous</source>
+        <target>__Inscrivez-vous</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

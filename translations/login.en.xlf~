@@ -33,6 +33,18 @@
         <source>cliquez ici</source>
         <target>click here</target>
       </trans-unit>
+      <trans-unit id="z7GsDIB" resname="Inscription">
+        <source>Inscription</source>
+        <target>Register</target>
+      </trans-unit>
+      <trans-unit id="0tp0Ujd" resname="sign.up">
+        <source>sign.up</source>
+        <target>Sign up</target>
+      </trans-unit>
+      <trans-unit id="5OesQ5R" resname="Inscrivez-vous">
+        <source>Inscrivez-vous</source>
+        <target>__Inscrivez-vous</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
