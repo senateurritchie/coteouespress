@@ -54,5 +54,36 @@ class UserMailingRegistration{
         );
 
         $mailer->send($message);
+
+        // message a envoyer au webmaster
+        $user_type = $entity->getUserType();
+
+        $appsite = $this->container->getParameter('app.site');
+        $message = (new \Swift_Message("Création de compte [".$user_type->getName()."]"))
+        ->setFrom([$appsite["email"] => $appsite["name"]])
+        ->setTo([$appsite["email"] => $appsite["name"]])
+        ->addCc("communication@coteouest.tv")
+        ->setBody(
+            $twig->render(
+                'admin/user/email/registration-self-notice.html.twig',
+                [
+                    "user_type"=>$user_type->getName(),
+                    "username"=>"Zacharie A. Assagou",
+                    "email"=>"zakeszako@yahoo.fr",
+                    "department"=>['name'=>"Acquisition"]
+                ]
+            ),
+            'text/html'
+        );
+
+        if($user_type->getSlug() == "client") {
+            $message->addCc("sales@coteouest.tv");
+            //$message->addCc("zakeszako@gmail.com");
+        }
+        else if (in_array($user_type->getSlug(), array("producteur","réalisateur"))) {
+            $message->addCc("acquisition@coteouest.tv");
+        }
+        
+        $mailer->send($message);
     }
 }

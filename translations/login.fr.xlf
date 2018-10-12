@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit id="5OesQ5R" resname="Inscrivez-vous">
         <source>Inscrivez-vous</source>
-        <target>__Inscrivez-vous</target>
+        <target>Inscrivez-vous</target>
       </trans-unit>
     </body>
   </file>

@@ -53,7 +53,7 @@
                         <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                         <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
                         
-                        Votre inscription à bien été enregistrée, veuillez vous rendre à boite email pour confirmer votre abonnement.
+                        {{ 'Votre inscription à bien été enregistrée, veuillez vous rendre à boite email pour confirmer votre inscription.'|trans({},'registration') }}
 
                     </div>
 
@@ -65,6 +65,7 @@
                         <legend>{{ 'Inscrivez-vous'|trans({},'login') }}</legend>
                         <hr>    
 
+                        {{ form_row(form.userType) }}
                         {{ form_row(form.username) }}
                         {{ form_row(form.email) }}
 

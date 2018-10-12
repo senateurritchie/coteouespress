@@ -249,6 +249,17 @@ class AdminUserController extends Controller
     	]);
     }
 
+    /**
+    * @Route("/email-registration-self-notice", name="email_registration_")
+    */
+    public function selfNoticeRegistrationAction(Request $request){
+        return $this->render('admin/user/email/registration-self-notice.html.twig',[
+            "user_type"=>"Producteur",
+            "username"=>"Zacharie A. Assagou",
+            "email"=>"zakeszako@yahoo.fr",
+        ]);
+    }
+
 
 
 

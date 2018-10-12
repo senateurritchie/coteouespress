@@ -25,15 +25,19 @@
                 </div>
 
                 <a href="{{ path('account_index') }}" class="list-group-item list-group-item-action {{ route == 'account_index' ? 'active' : ''}}">
-                    <i class="fas fa-home"></i>&nbsp;Accueil
+                    <i class="fas fa-home"></i>&nbsp;&nbsp;Accueil
+                </a>
+
+                <a href="{{ path('movie_index') }}" class="list-group-item list-group-item-action {{ route == 'movie_index' ? 'active' : ''}}">
+                    <i class="fas fa-search"></i>&nbsp;&nbsp;Programmes
                 </a>
 
                 <a href="{{ path('account_profile') }}" class="list-group-item list-group-item-action {{ route == 'account_profile' ? 'active' : ''}}">
-                    <i class="fas fa-user"></i>&nbsp;Mon profil
+                    <i class="fas fa-user"></i>&nbsp;&nbsp;Mon profil
                 </a>
 
                 <a href="{{ path('account_settings') }}" class="list-group-item list-group-item-action disabled{{ route == 'account_settings' ? 'active' : ''}}">
-                    <i class="fas fa-cogs"></i>&nbsp;Paramètres du compte
+                    <i class="fas fa-cogs"></i>&nbsp;&nbsp;Paramètres du compte
                 </a>
 
                 {#<a href="{{ path('account_inbox') }}" class="list-group-item d-flex justify-content-between align-items-center {{ route == 'account_inbox' ? 'active' : ''}}">
@@ -43,22 +47,22 @@
                 </a>#}
 
                 <a href="{{ path('admin_index') }}" class="list-group-item list-group-item-action {{ route == 'admin_index' ? 'active' : ''}}">
-                    <i class="fas fa-tachometer-alt"></i>&nbsp;Espace d'administration
+                    <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Espace d'administration
                 </a>
 
                 {% if route !=  "account_index" %}
 
                     <a href="{{ path('account_cgu') }}" class="list-group-item list-group-item-action {{ route == 'account_cgu' ? 'active' : ''}}">
-                        <i class="fas fa-bullhorn"></i>&nbsp;Conditions générales d'utilisation
+                        <i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Conditions générales d'utilisation
                     </a>
 
                     <a href="{{ path('account_privacy_policy') }}" class="list-group-item list-group-item-action {{ route == 'account_privacy_policy' ? 'active' : ''}}">
-                        <i class="fas fa-user-secret"></i>&nbsp;Politique de confidentialité
+                        <i class="fas fa-user-secret"></i>&nbsp;&nbsp;Politique de confidentialité
                     </a>
 
                     {% if is_granted('ROLE_PRODUCER') %}
                         <a href="{{ path('account_producer_index') }}" class="list-group-item list-group-item-action {{ route == 'account_producer_index' ? 'active' : ''}}">
-                            <i class="fab fa-stack-exchange"></i>&nbsp;Formulaire d'acquisition
+                            <i class="fab fa-stack-exchange"></i>&nbsp;&nbsp;Formulaire d'acquisition
                         </a>
                     {% endif %}
 
@@ -68,7 +72,7 @@
                 {% endif %}
 
                 <a href="{{ logout_path() }}" class="list-group-item list-group-item-action">
-                    <i class="fas fa-power-off"></i>&nbsp;Se deconnecter
+                    <i class="fas fa-power-off"></i>&nbsp;&nbsp;Se deconnecter
                 </a>
               
             </div>

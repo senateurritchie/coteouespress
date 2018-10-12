@@ -30,6 +30,13 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $id;
 
     /**
+    * @Groups({"group1"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserType", inversedBy="users")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $userType;
+
+    /**
     * @var string
     * @Groups({"group1"})
     * @Assert\NotBlank
@@ -569,5 +576,29 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getLocale()
     {
         return $this->locale;
+    }
+
+    /**
+     * Set emailVerified
+     *
+     * @param boolean $emailVerified
+     *
+     * @return User
+     */
+    public function setEmailVerified($emailVerified)
+    {
+        $this->emailVerified = $emailVerified;
+
+        return $this;
+    }
+
+    /**
+     * Get emailVerified
+     *
+     * @return boolean
+     */
+    public function getEmailVerified()
+    {
+        return $this->emailVerified;
     }
 }

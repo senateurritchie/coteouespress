@@ -26,11 +26,20 @@ class Director
     private $id;
 
     /**
+    * @var AppBundle\Entity\User
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $user;
+
+    /**
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @assert\Length(min=3, max=50)
-    * @ORM\Column(name="name", type="string", length=50)
+    * @assert\Length(min=3, max=100)
+    * @ORM\Column(name="name", type="string", length=100)
     */
     private $name;
 
@@ -38,7 +47,7 @@ class Director
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="description", type="string", length=254)
+    * @ORM\Column(name="description", type="text", nullable=true)
     */
     private $description;
 
@@ -54,8 +63,9 @@ class Director
     /**
     * @var string
     *
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=200,maxWidth=200, minHeight=180,maxHeight=180,allowPortrait=false)
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
 
@@ -63,7 +73,7 @@ class Director
     * @var integer
     *
     * @Groups({"group1","group2"})
-    * @ORM\Column(name="movie_nbr", type="integer")
+    * @ORM\Column(name="movie_nbr", type="integer", nullable=true)
     */
     private $movieNbr = 0;
 
@@ -71,6 +81,7 @@ class Director
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime")
     */
     private $createAt;
@@ -87,4 +98,234 @@ class Director
 
     
    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->countries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->movies = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get id
+     *
+     * @return integer
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Director
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Director
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set slug
+     *
+     * @param string $slug
+     *
+     * @return Director
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * Get slug
+     *
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set image
+     *
+     * @param string $image
+     *
+     * @return Director
+     */
+    public function setImage($image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return string
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Director
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
+    }
+
+    /**
+     * Set createAt
+     *
+     * @param \DateTime $createAt
+     *
+     * @return Director
+     */
+    public function setCreateAt($createAt)
+    {
+        $this->createAt = $createAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createAt
+     *
+     * @return \DateTime
+     */
+    public function getCreateAt()
+    {
+        return $this->createAt;
+    }
+
+    /**
+     * Add country
+     *
+     * @param \AppBundle\Entity\DirectorCountry $country
+     *
+     * @return Director
+     */
+    public function addCountry(\AppBundle\Entity\DirectorCountry $country)
+    {
+        $this->countries[] = $country;
+
+        return $this;
+    }
+
+    /**
+     * Remove country
+     *
+     * @param \AppBundle\Entity\DirectorCountry $country
+     */
+    public function removeCountry(\AppBundle\Entity\DirectorCountry $country)
+    {
+        $this->countries->removeElement($country);
+    }
+
+    /**
+     * Get countries
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCountries()
+    {
+        return $this->countries;
+    }
+
+    /**
+     * Add movie
+     *
+     * @param \AppBundle\Entity\MovieDirector $movie
+     *
+     * @return Director
+     */
+    public function addMovie(\AppBundle\Entity\MovieDirector $movie)
+    {
+        $this->movies[] = $movie;
+
+        return $this;
+    }
+
+    /**
+     * Remove movie
+     *
+     * @param \AppBundle\Entity\MovieDirector $movie
+     */
+    public function removeMovie(\AppBundle\Entity\MovieDirector $movie)
+    {
+        $this->movies->removeElement($movie);
+    }
+
+    /**
+     * Get movies
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getMovies()
+    {
+        return $this->movies;
+    }
 }

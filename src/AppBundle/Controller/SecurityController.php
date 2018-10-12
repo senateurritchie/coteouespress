@@ -56,7 +56,6 @@ class SecurityController extends Controller{
     public function registrationAction(Request $request){
         
         $em = $this->getDoctrine()->getManager();
-        $rep_movie = $em->getRepository(Movie::class);
 
         if($this->isGranted('IS_AUTHENTICATED_FULLY')){
             return $this->redirectToRoute('account_index');
@@ -85,11 +84,10 @@ class SecurityController extends Controller{
             $em->flush();
 
             $this->addFlash("notice-success",1);
-            $this->redirectToRoute("security_registration");
+            return $this->redirectToRoute("security_registration");
         }
 
         return $this->render('security/registration.html.twig', array(
-            "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
             "form"=>$form->createView(),
         ));
     }
@@ -107,7 +105,7 @@ class SecurityController extends Controller{
         }
 
         if($user->getState() == "pending"){
-            $user->setState("activate");
+            // $user->setState("activate");
             $user->setEmailVerified(1);
             $em->persist($user);
             $em->flush();

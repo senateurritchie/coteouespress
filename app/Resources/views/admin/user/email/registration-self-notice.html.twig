@@ -1,0 +1,28 @@
+{% extends 'contact/email/base.html.twig' %}
+
+{% block title %}
+	{{username}}
+{% endblock %}
+
+{% block message %}
+	<h3><center>Inscription</center></h3>
+	&nbsp;
+	
+	<p>
+		Un compte <strong>{{ user_type}}</strong> chez <a href="{{ site.url }}">{{ site.name|lower|title}}</a> à été crée mais reste encore inactif. Veuillez verifier l'identité du demandeur puis le confirmer par mail aux webmasters pour l'activation du compte.
+	</p>
+	
+	<h4>Demandeur</h4>
+	<p>
+		<strong>Compte</strong>: {{ user_type }}
+		<br>
+		<strong>Nom</strong>: {{ username }}
+		<br>
+		<strong>Email</strong>: {{ email }}
+	</p>
+
+    <br><p>L'équipe Côte Ouest DevCenter.</p>
+{% endblock %}
+
+
+

@@ -30,6 +30,13 @@ class User implements UserInterface, EquatableInterface, \Serializable
     private $id;
 
     /**
+    * @Groups({"group1"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\UserType", inversedBy="users")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $userType;
+
+    /**
     * @var string
     * @Groups({"group1"})
     * @Assert\NotBlank
@@ -593,5 +600,29 @@ class User implements UserInterface, EquatableInterface, \Serializable
     public function getEmailVerified()
     {
         return $this->emailVerified;
+    }
+
+    /**
+     * Set userType
+     *
+     * @param \AppBundle\Entity\UserType $userType
+     *
+     * @return User
+     */
+    public function setUserType(\AppBundle\Entity\UserType $userType = null)
+    {
+        $this->userType = $userType;
+
+        return $this;
+    }
+
+    /**
+     * Get userType
+     *
+     * @return \AppBundle\Entity\UserType
+     */
+    public function getUserType()
+    {
+        return $this->userType;
     }
 }

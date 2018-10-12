@@ -14,7 +14,11 @@
 				{{ item.username|lower|title }}
 			</a>
 		</td>
+		
 		<td>{{ item.email }}</td>
+
+		<td>{{ item.userType ? item.userType.name : '-' }}</td>
+
 
 		<td>
     		{{ item.createAt|date('d M Y à H:i') }}
