@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\AcceptHeader;
 
+use AppBundle\Entity\User;
 use AppBundle\Entity\Country;
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\ProducerCountry;
@@ -183,6 +184,22 @@ class AdminProducerController extends Controller
         }
 
         if($form->isSubmitted() && $form->isValid()){
+
+            if(($email = $form->get('email')->getData())){
+                $rep_user = $em->getRepository(User::class);
+                if(!($user = $rep_user->findOneByEmail($email))){
+                    $this->addFlash('notice-error',"Ce compte utilisateur entré n'existe pas");
+                    return $this->redirectToRoute('admin_director_index');
+                }
+
+                if(!$user->getUserType() || $user->getUserType()->getSlug() != "producteur"){
+                    $this->addFlash('notice-error',"Cet email ne peut être associée à un compte producteur");
+                    return $this->redirectToRoute('admin_director_index');
+                }
+
+                $item->setUser($user);
+            }
+
             $em->merge($item);
 
             if(!$item->getImage() && $oldImage){

@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 use AppBundle\Entity\Director;
 use AppBundle\Entity\Country;
@@ -79,6 +80,15 @@ class DirectorType extends AbstractType
                 $opts['multiple'] = false;
                 $type = $field->getType()->getInnerType(); 
                 $builder->add('pays', $type, $opts);*/
+            }
+
+            if( $model->getId() && !$model->getUser()){
+                $form->add('email', EmailType::class,[
+                    "required"=>false,
+                    "mapped"=>false,
+                    "label"=>"Associé un compte utilisateur",
+                    "attr"=>["placeholder"=>"Adresse email...","class"=>"input-sm"]
+                ]);
             }
 
             if($model->getImage()){

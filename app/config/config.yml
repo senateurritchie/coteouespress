@@ -30,7 +30,7 @@ framework:
     assets:
         packages:
             css:
-                version: 'v=1.0.0'
+                version: 'v=1.0.2'
             js:
                 version: 'v=1.0.0'
 

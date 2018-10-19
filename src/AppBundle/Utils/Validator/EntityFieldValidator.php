@@ -15,6 +15,7 @@ class EntityFieldValidator extends FieldValidator{
 		"search_by"=>"slug",
 		"multiple"=>false,
 		"table_name"=>null,
+		"createIfNotExists"=>false,
 	);
 
 	public function __construct($field,$options){
@@ -47,24 +48,46 @@ class EntityFieldValidator extends FieldValidator{
 					return $this->generateSlug($el);
 				}, $values);
 
-
 				$method = 'findBy'.ucfirst($this->options['search_by']);
 			}
 			else{
 				$slug = $this->generateSlug($value);
 				$method = 'findOneBy'.ucfirst($this->options['search_by']);
+				$slug = $slug;
 			}
 
 			try {
 
 				if(!($data = $rep->$method($slug))){
 					if(count($values) > 1){
-						$values = implode(", ", $values);
-						$msg = "'$values' sont inconnus";
-						throw new ValidatorException($msg);
+
+						if($this->options['createIfNotExists'] == true){
+							foreach ($values as $el) {
+								$autoCreated = new $ec();
+								$autoCreated->setName(trim($el));
+								$em->persist($autoCreated);
+								$data[] = $autoCreated;
+							}
+						}
+						else{
+							$values = implode(", ", $values);
+							$msg = "'$values' sont inconnus";
+							throw new ValidatorException($msg);
+						}
 					}
-					$msg =  "'$value' est inconnu";
-					throw new ValidatorException($msg);
+					else{
+						if($this->options['createIfNotExists'] == true){
+							$autoCreated = new $ec();
+							$autoCreated->setName(trim($value));
+							$em->persist($autoCreated);
+							$data = $autoCreated;
+						}
+						else{
+							$msg =  "'$value' est inconnu";
+							throw new ValidatorException($msg);
+						}
+					}
+					
 				}
 
 				if(is_array($data)){
@@ -79,9 +102,19 @@ class EntityFieldValidator extends FieldValidator{
 						}
 
 						if($is_exists === false){
-							$missing = $values[$i];		
-							$msg =  "'$missing' est inconnu";
-							throw new ValidatorException($msg);
+
+							if($this->options['createIfNotExists'] == true){
+								$autoCreated = new $ec();
+								$autoCreated->setName(trim($values[$i]));
+								$em->persist($autoCreated);
+								$is_exists = true;
+								$data[] = $autoCreated;
+							}
+							else{
+								$missing = $values[$i];		
+								$msg =  "'$missing' est inconnu";
+								throw new ValidatorException($msg);
+							}
 						}
 					}
 				}

@@ -10,8 +10,8 @@ class CatalogV2HeaderValidator extends HeaderValidator{
 			"Format","Durée","NombreEpisodes","Producteur","Section Categorie","Genre","OrigineProduction",
 			"AnneeProduction","Realisateur","Synopsis_fr","tagline_fr","logline_fr","Synopsis_en",
 			"tagline_en","logline_en","Synopsis_arabe","tagline_ar","logline_ar","Casting",
-			"Recompenses","Audience","PrixNomination","PlusInfos","@adresseImages","Langue",
-			"Version","Territoire","FULL","Trailer","Extrait","Ep1","Ep2","Ep3","liens","Catalogues"
+			"Recompenses","Audience","PrixNomination","PlusInfos","adresseImages","Langue",
+			"Version","Territoire","FULL","Trailer","Extrait","Ep1","Ep2","Ep3","liens","Catalogues","@ImagesWeb"
 		];
 		
 		parent::__construct($fields);

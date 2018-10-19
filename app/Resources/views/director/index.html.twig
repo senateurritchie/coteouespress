@@ -173,7 +173,7 @@
                                             <div class="media-btn-wrapper">
                                                 <ul class="d-block">
                                                     <li>
-                                                        <a data-vbtype="video" href="{{ item.trailer }}" class="venobox movie-trailer-link" >
+                                                        <a data-vbtype="video" href="{{ item.trailer }}" class="{{ item.trailer ? '' : 'my-disabled' }} venobox movie-trailer-link" >
                                                             {{ 'Bande annonce'|trans({},'movies') }}
                                                         </a>
                                                     </li>

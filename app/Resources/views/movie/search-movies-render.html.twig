@@ -10,7 +10,7 @@
                 <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('upload/public/'~movie.portraitImg) }}" >
             {% else %}
                 {#<img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >#}
-                <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="img/vignette.png" >
+                <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/vignette.png') }}" >
             {% endif %}
 
             <div class="media-overlay d-none d-md-block"></div>
@@ -19,7 +19,7 @@
                 <ul>
 
                     <li>
-                        <a data-vbtype="video" href="https://www.youtube.com/embed/V_aDojXG8cM" class="venobox movie-trailer-link" >
+                        <a data-vbtype="video" href="{{ movie.trailer }}" class="{{ movie.trailer ? '' : 'my-disabled' }} venobox movie-trailer-link"  >
                             {{ 'Bande annonce'|trans({},'movies') }}
                         </a>
                     </li>

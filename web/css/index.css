@@ -10,7 +10,7 @@
 }
 .cb-slideshow:after { 
     content: '';
-    background: transparent url('https://tympanus.net/Tutorials/CSS3FullscreenSlideshow/images/pattern.png') repeat top left; 
+    background: transparent repeat top left; 
 }
 
 .cb-slideshow li span { 
@@ -46,29 +46,21 @@
     line-height: 200px; 
 }
 
+.cb-slideshow li:nth-child(1) span { }
 
-
-.cb-slideshow li:nth-child(1) span { 
-    background-image: url('https://www.francetvpro.fr/sites/default/files/styles/ftvpro_medium_16_9/public/images/2018/02/15/HOSPITAL%20IT_4.jpg?h=f9b43b68&v=796-524-0-76&itok=SoaqD6CO&v=796-524-0-76') 
-}
 .cb-slideshow li:nth-child(2) span { 
-    background-image: url('https://www.francetvinfo.fr/image/75ipiimwq-b96c/1200/450/14594794.jpg');
     animation-delay: 6s; 
 }
 .cb-slideshow li:nth-child(3) span { 
-    background-image: url('https://i2.wp.com/www.socialnews.xyz/wp-content/uploads/2018/01/12/taruns-idi-naa-love-story-trailer-Reaches-One-Million-Views-.jpg?quality=80&ssl=1');
     animation-delay: 12s; 
 }
 .cb-slideshow li:nth-child(4) span { 
-    background-image: url('https://seriesblog.tv/wp-content/uploads/2015/12/2015-0508-Upfront2015-HotBothered-KeyArt-1920x1080-CC.jpg');
     animation-delay: 18s; 
 }
 .cb-slideshow li:nth-child(5) span { 
-    background-image: url('https://www.rostercon.com/wp-content/uploads/2017/11/enchere-2.jpg');
     animation-delay: 24s; 
 }
 .cb-slideshow li:nth-child(6) span { 
-    background-image: url('http://ekladata.com/RYloMQL97H6MqPF8P5KNEL9_cwY.jpg');
     animation-delay: 30s; 
 }
 

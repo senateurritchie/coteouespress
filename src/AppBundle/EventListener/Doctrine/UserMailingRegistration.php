@@ -68,8 +68,8 @@ class UserMailingRegistration{
                 'admin/user/email/registration-self-notice.html.twig',
                 [
                     "user_type"=>$user_type->getName(),
-                    "username"=>"Zacharie A. Assagou",
-                    "email"=>"zakeszako@yahoo.fr",
+                    "username"=>$entity->getUsername(),
+                    "email"=>$entity->getEmail(),
                     "department"=>['name'=>"Acquisition"]
                 ]
             ),
@@ -77,8 +77,8 @@ class UserMailingRegistration{
         );
 
         if($user_type->getSlug() == "client") {
-            $message->addCc("sales@coteouest.tv");
-            //$message->addCc("zakeszako@gmail.com");
+            //$message->addCc("sales@coteouest.tv");
+            $message->addCc("zakeszako@gmail.com");
         }
         else if (in_array($user_type->getSlug(), array("producteur","réalisateur"))) {
             $message->addCc("acquisition@coteouest.tv");

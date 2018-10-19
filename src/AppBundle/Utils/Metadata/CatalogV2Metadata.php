@@ -56,7 +56,7 @@ class CatalogV2Metadata extends Metadata{
 			new IntegerFieldValidator("NombreEpisodes",["nullable"=>false]),
 			new IntegerFieldValidator("Durée",["nullable"=>false]),
 			new ChoiceFieldValidator("Mention",["4k","2k","HD","SD"]),
-			new DateFieldValidator("AnneeProduction",["nullable"=>false]),
+			new DateFieldValidator("AnneeProduction",["nullable"=>true]),
             new UrlFieldValidator("Trailer"),
             new UrlFieldValidator("Extrait"),
             new UrlFieldValidator("Ep1"),
@@ -65,11 +65,11 @@ class CatalogV2Metadata extends Metadata{
 			new EntityFieldValidator("Version",["class"=>Language::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Langues"]),
         	new EntityFieldValidator("Genre",["class"=>Genre::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Genres"]),
         	new EntityFieldValidator("OrigineProduction",["class"=>Country::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Pays"]),
-        	new EntityFieldValidator("Casting",["class"=>Actor::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Casting"]),
-        	new EntityFieldValidator("Producteur",["class"=>Producer::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Producteurs"]),
-            new EntityFieldValidator("Realisateur",["class"=>Director::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Réalisateurs"]),
+        	new EntityFieldValidator("Casting",["class"=>Actor::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Casting","createIfNotExists"=>true]),
+        	new EntityFieldValidator("Producteur",["class"=>Producer::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Producteurs","createIfNotExists"=>true]),
+            new EntityFieldValidator("Realisateur",["class"=>Director::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Réalisateurs","createIfNotExists"=>true]),
             new EntityFieldValidator("Catalogues",["class"=>\AppBundle\Entity\CatalogType::class,"entity_manager"=>$em,"multiple"=>true,"table_name"=>"Catalogues"]),
-        	new ImageFieldValidator("@adresseImages",["width"=>270,"height"=>360]),
+        	new ImageFieldValidator("@ImagesWeb",["width"=>270,"height"=>360]),
 		];
 
 		parent::__construct($path,$headerValidators,$bodyValidators,$options);
@@ -117,7 +117,7 @@ class CatalogV2Metadata extends Metadata{
                 imagedestroy($image);
                 
                 switch ($field) {
-            		case '@adresseImages':
+            		case '@ImagesWeb':
             			$movie->setPortraitImg($fileName);
             		break;
             	}                 
@@ -338,7 +338,7 @@ class CatalogV2Metadata extends Metadata{
 
             // gestion des catalogues
             $db = [];
-            foreach ($directors as $key => $el) {
+            foreach ($catalogs as $key => $el) {
                 $e = new MovieCatalog();
                 $e->setMovie($movie);
                 $e->setCatalog($el);

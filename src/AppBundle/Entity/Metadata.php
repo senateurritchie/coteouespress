@@ -37,7 +37,7 @@ class Metadata
     * @var string
     *
     * @ORM\Column(name="file", type="string", length=255, unique=true, options={"comment":"le nom du fichier uploadé"})
-    * @assert\File(maxSize="2Mi", mimeTypes="application/zip")
+    * @assert\File(maxSize="100Mi", mimeTypes="application/zip")
     */
     private $file;
    

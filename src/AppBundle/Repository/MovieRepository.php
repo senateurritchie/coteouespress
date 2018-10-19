@@ -240,7 +240,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         $terms_1 = $value;
 
 		$qb->andWhere($qb->expr()->orX(
-            "(MATCH_AGAINST(m.name,m.synopsis, :terms_1) > 0",
+            "(MATCH_AGAINST(m.name,m.originalName,m.synopsis, :terms_1) > 0",
 			"m.slug LIKE :terms_2)"
 		))
 	    ->setParameter("terms_1",$value)
@@ -314,7 +314,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
         /*$qb->leftJoin("m.category","category")
         ->addSelect("category")*/
-        $qb->andWhere("category.slug = :category")
+        $qb->andWhere("sectionCategory.slug = :category")
 		->setParameter("category",$value);
   	}
 

@@ -18,11 +18,18 @@ use AppBundle\Entity\DirectorCountry;
 use AppBundle\Entity\ProducerCountry;
 use AppBundle\Entity\CatalogDownload;
 use AppBundle\Entity\CatalogStatic;
+use AppBundle\Entity\User;
+use AppBundle\Entity\Role;
+use AppBundle\Entity\UserRole;
+use AppBundle\Entity\OriginalLanguage;
+
+
 
 class GeneralListener{
 
     public function prePersist(LifecycleEventArgs $args){
         $entity = $args->getEntity();
+        $em = $args->getEntityManager();
 
         if($entity instanceof MovieActor) {
             if(($el = $entity->getActor())){
@@ -98,6 +105,16 @@ class GeneralListener{
                 $nbr = intval($el->getMovieNbr())+1;
                 $el->setMovieNbr($nbr);
             }
+
+            if(($el = $entity->getLanguage())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
+
+            if(($el = $entity->getSection())){
+                $nbr = intval($el->getMovieNbr())+1;
+                $el->setMovieNbr($nbr);
+            }
         }
         else if ($entity instanceof CatalogDownload) {
 
@@ -113,6 +130,33 @@ class GeneralListener{
         }
         else if ($entity instanceof CatalogStatic) {
             $entity->setToken(\AppBundle\Entity\User::generateToken(64));
+        }
+        else if ($entity instanceof User){
+            $rep = $em->getRepository(Role::class);
+            $role = null;
+
+            if($entity->getUserType()->getSlug() == "client"){
+                $role = "ROLE_CUSTOMER";
+            }
+            else if($entity->getUserType()->getSlug() == "producteur"){
+                $role = "ROLE_PRODUCER";
+            }
+            else if($entity->getUserType()->getSlug() == "realisateur"){
+                $role = "ROLE_DIRECTOR";
+            }
+            else if($entity->getUserType()->getSlug() == "employe"){
+                $role = "ROLE_SUBSCRIBER";
+            }
+
+           
+            if($role){
+                if(($role = $rep->findOneBy(["label"=>$role]))){
+                    $userrole = new UserRole();
+                    $userrole->setUser($entity);
+                    $userrole->setRole($role);
+                    $em->persist($userrole);
+                }
+            }
         }
 
 

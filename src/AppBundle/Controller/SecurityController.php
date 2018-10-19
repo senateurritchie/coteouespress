@@ -73,14 +73,6 @@ class SecurityController extends Controller{
 
             $user->setState('pending');
             $em->persist($user);
-
-            $rep = $em->getRepository(Role::class);
-            if(($role = $rep->findOneBy(["label"=>"ROLE_SUBSCRIBER"]))){
-                $userrole = new UserRole();
-                $userrole->setUser($user);
-                $userrole->setRole($role);
-                $em->persist($userrole);
-            }
             $em->flush();
 
             $this->addFlash("notice-success",1);

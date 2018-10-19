@@ -79,6 +79,8 @@
             background: rgba(0,0,0,.6) !important;
         }
 
+        
+
     </style>
 
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
@@ -265,19 +267,20 @@
                                         </div>
                                     </nav>
                                 </div>
-
-                                <div class="mt-4" >
-                                    {% for tag in genres %}
-                                        {% if has_url_cat %}
-                                             <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1">
-                                        {% else %}
-                                            <a href="{{ path('genre_index',{'slug':tag.slug}) }}" class="badge badge-pill badge-info p-2 mb-1">
-                                        {% endif %}
-                                            {{tag.name|lower|title}} <span class="badge badge-light">{{tag.movieNbr|lower|title}}</span>
-                                        </a>
-                                    {% endfor %}
-                                </div>
-
+                                
+                                {% if has_url_cat or has_url_genre %}
+                                    <div class="mt-4" >
+                                        {% for tag in genres %}
+                                            {% if has_url_cat %}
+                                                <a href="?genre={{tag.slug}}" class="badge badge-pill badge-info p-2 mb-1">
+                                            {% else %}
+                                                <a href="{{ path('genre_index',{'slug':tag.slug}) }}" class="badge badge-pill badge-info p-2 mb-1">
+                                            {% endif %}
+                                                {{tag.name|lower|title}}{#<span class="badge badge-light">{{tag.movieNbr|lower|title}}</span>#}
+                                            </a>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
                                
                             </aside>
                         </div>

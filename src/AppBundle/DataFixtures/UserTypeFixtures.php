@@ -9,7 +9,7 @@ class UserTypeFixtures extends Fixture{
 
     public function load(ObjectManager $manager){
 
-        $repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
+        /*$repository = $manager->getRepository('Gedmo\\Translatable\\Entity\\Translation');
 
         $data = array(
             array(
@@ -50,7 +50,7 @@ class UserTypeFixtures extends Fixture{
             $manager->persist($item);
         }
 
-        $manager->flush();
+        $manager->flush();*/
     }
 }
 

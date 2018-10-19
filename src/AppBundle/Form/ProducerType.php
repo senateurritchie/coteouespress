@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 use AppBundle\Entity\Producer;
 use AppBundle\Entity\Country;
@@ -75,6 +76,15 @@ class ProducerType extends AbstractType
             if(@$options["use_for"] == "update"){
 
                 
+            }
+
+            if( $model->getId() && !$model->getUser()){
+                $form->add('email', EmailType::class,[
+                    "required"=>false,
+                    "mapped"=>false,
+                    "label"=>"Associé un compte utilisateur",
+                    "attr"=>["placeholder"=>"Adresse email...","class"=>"input-sm"]
+                ]);
             }
 
             if($model->getImage()){

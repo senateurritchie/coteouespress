@@ -13,12 +13,12 @@ class CatalogSectionCategoryFixtures extends Fixture{
 
         $data = array(
             array(
-                "french_text"=>"Animation",
+                "french_text"=>"Animations",
                 "english_text"=>"Animated",
                 "english_slug"=>"animated",
             ),
             array(
-                "french_text"=>"Documentaire",
+                "french_text"=>"Documentaires",
                 "english_text"=>"Documentary",
                 "english_slug"=>"documentary",
             ),
@@ -35,6 +35,36 @@ class CatalogSectionCategoryFixtures extends Fixture{
             ),
             array(
                 "french_text"=>"Telenovelas & Soapies",
+            ),
+            array(
+                "french_text"=>"MAGAZINE - TALK & SHORT",
+                "english_text"=>"",
+                "english_slug"=>"",
+            ),
+            array(
+                "french_text"=>"NOLLY DTV",
+                "english_text"=>"",
+                "english_slug"=>"",
+            ),
+            array(
+                "french_text"=>"NIGERIAN FEATURE FILMS",
+                "english_text"=>"",
+                "english_slug"=>"",
+            ),
+            array(
+                "french_text"=>"INSPIRATIONAL FAITH BASE MOVIES",
+                "english_text"=>"",
+                "english_slug"=>"",
+            ),
+            array(
+                "french_text"=>"SOUTH AFRICAN DTV",
+                "english_text"=>"",
+                "english_slug"=>"",
+            ),
+            array(
+                "french_text"=>"AFRICAN DIAPORA MOVIES",
+                "english_text"=>"",
+                "english_slug"=>"",
             ),
         );
 

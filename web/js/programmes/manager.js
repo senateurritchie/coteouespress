@@ -101,15 +101,37 @@ var AdminManager = AdminManager || {};
             });
             genrePrintHook();
 
-             /* 09. VENOBOX JS */
-            $('.venobox').venobox({
+            $(document).on('click', '.venobox', function(e){
+            	var obj = $(e.target);
+
+            	if(!obj.hasClass('venobox-clicked')){
+
+	        		obj.venobox({
+		                numeratio: true,
+		                titleattr: 'data-title',
+		                titlePosition: 'top',
+		                spinner: 'wandering-cubes',
+		                spinColor: '#007bff',
+		                autoplay:true,
+		            });
+
+		            obj.addClass('venobox-clicked');
+		            e.preventDefault();
+		            obj.click();
+            	}
+            	
+    		});
+
+
+            /* 09. VENOBOX JS */
+           /* $('.venobox').venobox({
                 numeratio: true,
                 titleattr: 'data-title',
                 titlePosition: 'top',
                 spinner: 'wandering-cubes',
                 spinColor: '#007bff',
                 autoplay:true,
-            });
+            });*/
 
             $('[data-toggle="tooltip"]').tooltip();
 			

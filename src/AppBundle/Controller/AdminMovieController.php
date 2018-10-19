@@ -1165,6 +1165,8 @@ class AdminMovieController extends Controller
             $this->addFlash('notice-success',"opération effectuée avec succes");
 
         } catch (\Exception $e) {
+
+            //throw $e;
             $result['errors'][] = $e->getMessage();
             $this->addFlash('notice-error',$e->getMessage());
         }

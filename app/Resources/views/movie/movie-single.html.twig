@@ -234,7 +234,7 @@
 
                         <tr>
                             <td>
-                                <strong>{{'Langue'|trans({},'catalogue')}}</strong>
+                                <strong>{{'Versions'|trans({},'catalogue')}}</strong>
                             </td>
 
                             <td class="text-right">
@@ -318,7 +318,7 @@
 
                 <section id="movie-title">
                     
-                    {% if vimeoRsrc|length %}
+                    {% if vimeoRsrc|length and is_granted('IS_AUTHENTICATED_FULLY') %}
                         <button class="btn btn-danger btn-lg float-right" data-toggle="modal" data-target="#download-list">
                             <i class="fas fa-download"></i> Télécharger les videos
                         </button>
@@ -369,33 +369,36 @@
                                 {#<div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-height="480px" data-vimeo-background="false"></div>#}
                                 
                                 <div data-vimeo-url="{{ vimeoRsrc.trailer.link }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
-        
-                                <div class="coa-player-thumbnail fix d-none sleep-target text-left">
-                                    <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
-                                        <div class="mb-4">
-                                            <button class="btn btn-info btn-sm btn">
-                                                <i class="fas fa-times"></i> Fermer la playlist 
-                                            </button>
-                                        </div>
+                                
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                    
+                                    <div class="coa-player-thumbnail fix d-none sleep-target text-left">
+                                        <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
+                                            <div class="mb-4">
+                                                <button class="btn btn-info btn-sm btn">
+                                                    <i class="fas fa-times"></i> Fermer la playlist 
+                                                </button>
+                                            </div>
 
-                                        <div class="list-group">
+                                            <div class="list-group">
+                                                
+                                                {% for key,rsrc in vimeoRsrc %}
+                                                    <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
+
+                                                        <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
+                                                        
+                                                        &nbsp; 
+                                                        <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
+                                                    </a>
+                                                {% endfor %}
+                                            </div>
+
                                             
-                                            {% for key,rsrc in vimeoRsrc %}
-                                                <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
-
-                                                    <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
-                                                    
-                                                    &nbsp; 
-                                                    <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
-                                                </a>
-                                            {% endfor %}
                                         </div>
 
                                         
                                     </div>
-
-                                    
-                                </div>
+                                {% endif %}
                             </div>
                         </div>
 
@@ -873,7 +876,7 @@
                                         <div class="media-btn-wrapper">
                                             <ul class="d-block">
                                                 <li>
-                                                    <a data-vbtype="video" href="{{ item.trailer }}" class="venobox movie-trailer-link" >
+                                                    <a data-vbtype="video" href="{{ item.trailer }}" class="{{ item.trailer ? '' : 'my-disabled' }} venobox movie-trailer-link" >
                                                         {{ 'Bande annonce'|trans({},'movies') }}
                                                     </a>
                                                 </li>

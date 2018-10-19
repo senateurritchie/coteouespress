@@ -79,6 +79,18 @@
 						                <i class="fa fa-plus"></i> ajouter
 						            </a>
 						        </div>
+
+						        {% if use_modal != 'insert' %}
+									{% if data.user == null %}
+										<hr>
+										{{ form_row(form.email) }}
+									{% else %}
+										<div class="label label-success">
+											<i class="fa fa-check"></i> Compte utilisateur
+										</div>
+									{% endif %}
+								{% endif %}
+								
 	            			</div>
 	            			
 	            		</div>

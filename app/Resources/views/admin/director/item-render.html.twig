@@ -18,6 +18,14 @@
 		</td>
 
 		<td style="text-align:center">
+			{% if item.user %}
+				<span class="label label-success">Oui</span>
+			{% else %}
+				-
+			{% endif %}
+		</td>
+
+		<td style="text-align:center">
 			{{ item.movieNbr }}
 		</td>
 	</tr>

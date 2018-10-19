@@ -12,22 +12,65 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="{{ asset('css/index.css','css') }}" type="text/css" />
 {% endblock %}
 
 {% block body %}
     
-    <header id="header">
+    <header id="header" >
         {{ include('main-menu.html.twig') }}
 
-        <ul class="cb-slideshow">
-            <li><span>Image 01</span><div><h3></h3></div></li>
-            <li><span>Image 02</span><div><h3></h3></div></li>
-            <li><span>Image 03</span><div><h3></h3></div></li>
-            <li><span>Image 04</span><div><h3></h3></div></li>
-            <li><span>Image 05</span><div><h3></h3></div></li>
-            <li><span>Image 06</span><div><h3></h3></div></li>
-        </ul>
+
+        <div id="bxslider-baner">
+            <div>
+                <img src="{{ asset('img/bannieres/the-river.jpg') }}" title="the river">
+            </div>
+            <div>
+                <img src="{{ asset('img/bannieres/mr-brau.jpg') }}" alt="mr brau">
+            </div>
+            <div>
+                <img src="{{ asset('img/bannieres/edge-of-desire.jpg') }}" alt="edge of desire">
+            </div>
+        </div>
+
+        {#<ul class="cb-slideshow">
+            <li>
+                <a href="">
+                <span style="background-image: url({{ asset('img/bannieres/the-river.jpg') }})">Image 01</span>
+
+                <div><h3></h3></div></a>
+            </li>
+
+            <li>
+                <a href=""><span style="background-image: url({{ asset('img/bannieres/mr-brau.jpg') }})">Image 02</span>
+                <div><h3></h3></div></a>
+            </li>
+
+            <li>
+                <a href=""><span style="background-image: url({{ asset('img/bannieres/edge-of-desire.jpg') }})">Image 03</span>
+                <div><h3></h3></div></a>
+            </li>
+
+            <li>
+                <a href=""><span style="background-image: url({{ asset('img/bannieres/the-river.jpg') }})">Image 04</span>
+
+                <div><h3></h3></div></a>
+            </li>
+
+            <li>
+                <a href=""><span style="background-image: url({{ asset('img/bannieres/mr-brau.jpg') }})">Image 05</span>
+                <div><h3></h3></div></a>
+            </li>
+
+            <li>
+                <a href=""><span style="background-image: url({{ asset('img/bannieres/edge-of-desire.jpg') }})">Image 06</span>
+                <div><h3></h3></div></a>
+            </li>
+
+        </ul>#}
 
         {#<div id="master-cover"></div>
 
@@ -53,7 +96,7 @@
                             <div class="media-btn-wrapper">
                                 <ul>
                                     <li>
-                                        <a data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="{{movie.trailer}}" class="venobox">
+                                        <a data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="{{movie.trailer}}" class="{{ movie.trailer ? '' : 'my-disabled' }} venobox">
                                            {{ 'Bande annonce'|trans({},'movies') }}
                                         </a>
                                     </li>
@@ -71,13 +114,13 @@
                                     {{ movie.name|lower|title }}
                                 </h2>
 
-                                <small class="text-white">
+                                {#<small class="text-white">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="far fa-star"></i>
                                     <i class="far fa-star"></i>
-                                </small>
+                                </small>#}
                             </div>
 
                             {#<!--div class="media-info align-items-center justify-content-center">  
@@ -133,7 +176,7 @@
                                     {% if original_cover.landscapeImg %}
                                         <img class="img-fluid" src="{{ asset('upload/public/'~original_cover.landscapeImg) }}" alt="{{ original_cover.name|lower|title}}">
                                     {% else %}
-                                        <img class="img-fluid"  src="{{ asset('img/trailer1.jpg')}}" alt="{{ movie.name|lower|title}}" >
+                                        <img class="img-fluid"  src="{{ asset('img/vignette-landscape.png')}}" alt="{{ original_cover.name|lower|title}}" >
                                     {% endif %}
 
                                     <i class="video-icon video-popup-control"></i>
@@ -159,7 +202,7 @@
                                                 <div class="media-btn-wrapper">
                                                     <ul class="d-block">
                                                         <li>
-                                                            <a class="venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="{{movie.trailer}}">
+                                                            <a class="{{ movie.trailer ? '' : 'my-disabled' }} venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="{{movie.trailer}}">
                                                                {{ 'Bande annonce'|trans({},'movies') }}
                                                             </a>
                                                         </li>
@@ -637,6 +680,7 @@
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
     <script>
         $(document).ready(function($){
@@ -710,6 +754,14 @@
                 spinner: 'wandering-cubes',
                 spinColor: '#007bff',
                 autoplay:true
+            });
+
+
+            $('#bxslider-baner').bxSlider({
+                mode: 'fade',
+                captions: false,
+                auto:true,
+                easing:'ease-in-out',
             });
 
         });

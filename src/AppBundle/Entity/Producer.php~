@@ -24,30 +24,30 @@ class Producer
     * @ORM\GeneratedValue(strategy="AUTO")
     */
     private $id;
+    /**
+    * @var AppBundle\Entity\User
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $user;
 
     /**
     * @var string
     *
     * @Groups({"group1","group2"})
-    * @assert\Length(min=3, max=50)
-    * @ORM\Column(name="name", type="string", length=30)
+    * @assert\Length(min=3, max=100)
+    * @ORM\Column(name="name", type="string", length=100)
     */
     private $name;
 
-    /**
-    * @var string
-    *
-    * @Groups({"group1","group2"})
-    * @ORM\Column(name="description", type="string", length=254)
-    */
-    private $description;
-
-   /**
+     /**
     * @var string
     *
     * @Groups({"group1","group2"})
     * @Gedmo\Slug(fields={"name"})
-    * @ORM\Column(name="slug", type="string", length=30, unique=true, nullable=true)
+    * @ORM\Column(name="slug", type="string", length=100, unique=true, nullable=true)
     */
     private $slug;
 
@@ -55,8 +55,16 @@ class Producer
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @ORM\Column(name="description", type="text", nullable=true)
+    */
+    private $description;
+
+    /**
+    * @var string
+    *
+    * @Groups({"group1","group2"})
     * @ORM\Column(name="image", type="string", length=255, nullable=true)
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=200,maxWidth=400, minHeight=180,maxHeight=400,allowPortrait=false)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=640,maxWidth=640, minHeight=360,maxHeight=360)
     */
     private $image;
 
@@ -72,6 +80,7 @@ class Producer
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Timestampable(on="create")
     * @ORM\Column(name="create_at", type="datetime")
     */
     private $createAt;
@@ -295,5 +304,29 @@ class Producer
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set movieNbr
+     *
+     * @param integer $movieNbr
+     *
+     * @return Producer
+     */
+    public function setMovieNbr($movieNbr)
+    {
+        $this->movieNbr = $movieNbr;
+
+        return $this;
+    }
+
+    /**
+     * Get movieNbr
+     *
+     * @return integer
+     */
+    public function getMovieNbr()
+    {
+        return $this->movieNbr;
     }
 }

@@ -297,7 +297,8 @@ abstract class Metadata extends EventDispatcher{
 			                		if(count($multiples) == 1){
 
 			                			if(($rscrStat = $za->statName($value)) === false){
-					                		throw new ArchiveFileNotFoundException($value,$cellToProcess);
+			                				$value = null;
+					                		// throw new ArchiveFileNotFoundException($value,$cellToProcess);
 					                	}
 					                	else{
 					          				$rawRsrc = $za->getFromName($value);

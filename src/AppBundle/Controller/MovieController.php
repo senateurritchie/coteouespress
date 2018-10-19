@@ -57,26 +57,25 @@ class MovieController extends Controller{
             // use the token
             $lib->setToken($token);
             
-
-
             $links = [];
 
             if(($url = $programme->getTrailer())){
                 $links[] = $url;
             }
 
-            if(($url = $programme->getEpisode1())){
-                $links[] = $url;
-            }
+            if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+                if(($url = $programme->getEpisode1())){
+                    $links[] = $url;
+                }
 
-            if(($url = $programme->getEpisode2())){
-                $links[] = $url;
-            }
+                if(($url = $programme->getEpisode2())){
+                    $links[] = $url;
+                }
 
-            if(($url = $programme->getEpisode3())){
-                $links[] = $url;
+                if(($url = $programme->getEpisode3())){
+                    $links[] = $url;
+                }
             }
-
 
             $links = array_filter($links,function($el){
                 return preg_match("#/coteouestv/#", $el)?false:true;
@@ -142,30 +141,31 @@ class MovieController extends Controller{
             };
 
 
-            try {
-                $requestVimeo2($links,function($data)use(&$vimeoRsrc){
+            if(count($links)){
+                try {
+                    $requestVimeo2($links,function($data)use(&$vimeoRsrc){
 
-                    foreach ($data as $i => $el) {
-                        $label = "";
-                        switch ($i) {
-                            case 0:
-                                $label = 'trailer';
-                            break;
-                            
-                            default:
-                                $label = 'lien '.$i;
-                            break;
+                        foreach ($data as $i => $el) {
+                            $label = "";
+                            switch ($i) {
+                                case 0:
+                                    $label = 'trailer';
+                                break;
+                                
+                                default:
+                                    $label = 'lien '.$i;
+                                break;
+                            }
+
+                            $vimeoRsrc[$label] = $el;
                         }
-
-                        $vimeoRsrc[$label] = $el;
-                    }
+                        
+                    });
+                } catch (\Exception $e) {
                     
-                });
-            } catch (\Exception $e) {
-                
+                }
             }
             
-
     		return $this->render('movie/movie-single.html.twig',array(
                 "programme"=>$programme,
                 "vimeoRsrc"=>$vimeoRsrc,
@@ -213,12 +213,18 @@ class MovieController extends Controller{
 
 
     	//  on charge les categories
-    	$rep = $em->getRepository(Category::class);
+    	$rep = $em->getRepository(\AppBundle\Entity\CatalogSectionCategory::class);
     	$categories = $rep->findBy([],["name"=>"asc"]);
 
     	//  on charge les genres
     	$rep = $em->getRepository(Genre::class);
-    	$genres = $rep->findBy([],["name"=>"asc"]);
+        $params = [];
+
+        
+        if($request->query->get('category')){
+            $params["with_program_category"] = strip_tags(trim($request->query->get('category')));
+        }
+    	$genres = $rep->search($params,20);
 
     	return $this->render('movie/search.html.twig',array(
     		"form"=>$form->createView(),

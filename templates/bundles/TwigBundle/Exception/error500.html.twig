@@ -1,0 +1,148 @@
+{% extends 'base.html.twig' %}
+
+
+{% block stylesheets %}
+    {{ parent() }}
+
+    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
+
+    <style>
+
+        header#header{
+            position: static !important;
+        }
+		header #master-cover{
+			height: 200px;
+            background-image: url({{asset('img/illustrator-banner.jpg')}});
+		}
+
+        form input:focus[type], form select:focus,form textarea:focus{
+            outline:none !important;
+            box-shadow:none !important;
+        }
+
+        #contact-form label{
+            font-size: 14px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+   
+    <header id="header">
+        {{ include('main-menu.html.twig') }}
+    </header>
+
+    
+    <div id="map" style="margin-top:70px"></div>
+
+    <section class="block animation-none" id="contacts" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="widget">
+                        <h4 class="mblock-title mblock-title-info">{{'Nos contacts'|trans({},'contact')}}</h4>
+                        <br>
+                        <address>
+                            <strong>Abidjan, Cote d'Ivoire</strong><br>
+                            BP 4715, Rue Viviane A23 Val Doyen Cocody.
+                        </address>
+
+                        <p>
+                            <i class="fas fa-phone"></i> 
+                            (225) 22 48 76 00 - (225) 22 48 75 06 <br>
+                            <i class="fas fa-envelope"></i> contact@coteouest.tv
+                        </p>
+
+                        <br>
+
+                        <address>
+                            <strong>Ebene, Mauritius</strong><br>
+
+                            3rd Floor, Citius Building 31 Cybercity.
+                        </address>
+
+                        <p>
+                            <i class="fas fa-phone"></i> 
+                            (230) 454 78 20 - (230) 454 75 71 <br>
+                            <i class="fas fa-envelope"></i> contact@coteouest.mu
+                        </p>
+
+                    </div>
+                </div>
+
+                <div class="col-md-8" id="contact-form">
+
+                    <div class="alert alert-light fade show shadow-effect2" role="alert">
+					  	<h4 class="alert-heading">Oops!</h4>
+					  	
+					  	<p>
+					  		{{ "Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement"|trans({}) }}
+					  	</p>
+
+					  	<hr>
+					  	<p class="mb-0">
+					  		Si vous pensez que cette erreur est dû a un bug, <a href="mailto:webmaster@coteouest.ci">cliquez içi pour nous ecrire</a>.
+					  	</p>
+
+					  	<!-- We could not find the page you were looking for. Meanwhile, you may return to dashboard or try using the search form. -->
+					</div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    
+    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+
+     <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>
+
+    <script>
+        $(document).ready(function($){
+
+            $('#master-menu').addClass('active').css('z-index',10);
+
+            let mainMenu = $("#master-menu");
+            var win = $(window);
+
+            win.on({
+                scroll:function(e){
+
+                    let pos = $(this).scrollTop();
+                    if(pos >= 230){
+                        mainMenu.addClass('active');
+                    }
+                    else if(pos <= 120){
+                        $('#master-menu').addClass('active').css('z-index',10);
+                    }
+                }
+            });
+        });
+    </script>
+
+    <script>
+        function initMap() {
+            var uluru = {lat: 5.331017, lng: -3.998667};
+            var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 16,
+            center: uluru
+            });
+            var marker = new google.maps.Marker({
+                position: uluru,
+                map: map,
+                title: '{{ site.name|lower|title }}',
+                animation: google.maps.Animation.DROP,
+                label:"C"
+            });
+        }
+
+       
+    </script>
+{% endblock %}

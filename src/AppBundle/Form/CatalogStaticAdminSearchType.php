@@ -18,7 +18,6 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 
 
-use AppBundle\Entity\CatalogType;
 use AppBundle\Entity\CatalogStatic;
 use AppBundle\Form\CatalogStaticType;
 

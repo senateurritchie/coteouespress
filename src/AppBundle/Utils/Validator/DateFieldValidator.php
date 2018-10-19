@@ -11,6 +11,8 @@ class DateFieldValidator extends FieldValidator{
 	public function validate($value){
 		try {
 			$values = explode("-", $value);
+			$values = preg_split("#[/-]#",  $value);
+
 
 			$values = array_filter($values,function($el){
 				return trim($el);

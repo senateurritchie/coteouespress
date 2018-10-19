@@ -24,6 +24,14 @@ class Producer
     * @ORM\GeneratedValue(strategy="AUTO")
     */
     private $id;
+    /**
+    * @var AppBundle\Entity\User
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\ManyToOne(targetEntity="AppBundle\Entity\User")
+    * @ORM\JoinColumn(nullable=true, onDelete="SET NULL")
+    */
+    private $user;
 
     /**
     * @var string
@@ -320,5 +328,29 @@ class Producer
     public function getMovieNbr()
     {
         return $this->movieNbr;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Producer
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
     }
 }

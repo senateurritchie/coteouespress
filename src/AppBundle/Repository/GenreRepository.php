@@ -27,6 +27,11 @@ class GenreRepository extends \Doctrine\ORM\EntityRepository
 		if(@$params["id"]){
 			$this->whereId($qb,@$params["id"]);
 		}
+
+		// recherche par with_program_category
+		if(@$params["with_program_category"]){
+			$this->whereWithProgramCategory($qb,@$params["with_program_category"]);
+		}
 		
 		$qb->orderBy("u.id","DESC");
 
@@ -50,6 +55,26 @@ class GenreRepository extends \Doctrine\ORM\EntityRepository
 	public function whereId(QueryBuilder $qb,$value){
 		$qb->andWhere($qb->expr()->eq("u.id", ":id"))
 	    ->setParameter("id",$value);
+	}
+
+	public function whereWithProgramCategory(QueryBuilder $qb,$value){
+
+		$qb2 = $this->_em->createQueryBuilder();
+
+        $qb2->select("mg.id")
+        ->from(\AppBundle\Entity\MovieGenre::class,"mg")
+        ->innerJoin("mg.movie","m")
+        ->innerJoin("mg.genre","g")
+        ->innerJoin("m.sectionCategory","c")
+        ->where($qb->expr()->andX(
+        	"g.id = u.id",
+        	"c.slug = :with_program_category"
+        ));
+       
+        $qb->andWhere(
+      		$qb->expr()->exists($qb2)
+      	)
+      	->setParameter("with_program_category",$value);
 	}
 
 
