@@ -329,7 +329,7 @@ class AdminMovieController extends Controller
                 $item->setPortraitImg($oldPortraitImg);
             }
 
-            if($cloned->getCategory()->getId() != $item->getCategory()->getId()){
+            /*if($cloned->getCategory()->getId() != $item->getCategory()->getId()){
                 $el = $cloned->getCategory();
                 $nbr = intval($el->getMovieNbr())-1;
                 $el->setMovieNbr($nbr);
@@ -337,7 +337,7 @@ class AdminMovieController extends Controller
                 $el = $item->getCategory();
                 $nbr = intval($el->getMovieNbr())+1;
                 $el->setMovieNbr($nbr);
-            }
+            }*/
 
             
             // gestion des genres

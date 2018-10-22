@@ -147,10 +147,10 @@ class MovieType extends AbstractType
         ->add('language',EntityType::class,array(
             "class"=>OriginalLanguage::class,
             "placeholder"=>"version original...",
-            "required"=>false,
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
             },
+            "choice_value"=>"slug",
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
                 ->orderBy('u.name', 'ASC');
@@ -163,6 +163,7 @@ class MovieType extends AbstractType
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
             },
+            "choice_value"=>"slug",
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
                 ->orderBy('u.name', 'ASC');
@@ -171,10 +172,10 @@ class MovieType extends AbstractType
         ->add('sectionCategory',EntityType::class,array(
             "class"=>CatalogSectionCategory::class,
             "placeholder"=>"section catégorie...",
-            "required"=>false,
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
             },
+            "choice_value"=>"slug",
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('u')
                 ->orderBy('u.name', 'ASC');
@@ -298,7 +299,6 @@ class MovieType extends AbstractType
             "allow_add"=>true,
             "allow_delete"=>true,
             "label"=>"Versions disponibles",
-            "required"=>false,
             "mapped"=>false,
         ))
         ->add('countries',CollectionType::class,array(

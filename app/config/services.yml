@@ -63,6 +63,13 @@ services:
         tags:
             - {name: doctrine.event_listener, event: prePersist}
 
+    app.user_password_reset_mailer:
+        class: AppBundle\EventListener\Doctrine\UserMailingPasswordReset
+        arguments:
+            - "@service_container"
+        tags:
+            - {name: doctrine.event_listener, event: prePersist}
+
     app.uploader:
         class: AppBundle\Services\FileUploader
         public: true

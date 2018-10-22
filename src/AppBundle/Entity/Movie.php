@@ -11,7 +11,7 @@ use Gedmo\Translatable\Translatable;
 /**
  * Movie
  *
- * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"name","originalName","synopsis"},flags={"fulltext"}),@ORM\Index(columns={"name"},flags={"fulltext"}),@ORM\Index(columns={"synopsis"},flags={"fulltext"}),@ORM\Index(columns={"originalName"},flags={"fulltext"})})
+ * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"name","original_name","synopsis"},flags={"fulltext"}),@ORM\Index(columns={"name"},flags={"fulltext"}),@ORM\Index(columns={"synopsis"},flags={"fulltext"}),@ORM\Index(columns={"original_name"},flags={"fulltext"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
  * @ORM\HasLifecycleCallbacks()
  */

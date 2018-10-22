@@ -87,7 +87,7 @@
                             {% if movie.portraitImg %}
                                 <img width="150px" src="{{ asset('upload/public/'~movie.portraitImg) }}" alt="{{ movie.name|lower|title}}">
                             {% else %}
-                                <img width="150px" src="{{ asset('img/'~random(['other-movie-8','other-movie-9','other-movie-10','other-movie-7'])~'.jpg') }}" alt="{{ movie.name|lower|title}}">
+                                <img width="150px" src="{{ asset('img/vignette.png') }}" alt="{{ movie.name|lower|title}}">
                             {% endif %}
                            
 
@@ -171,7 +171,7 @@
 
                         <div class="row">
                             <div class="col-md-6 mb-2">
-                                <a class="vid-hover position-relative venobox" data-vbtype="video" data-title="on affiche le titre de la video ici " data-autoplay="true" href="{{original_cover.trailer}}" >
+                                <div class="position-relative has-media-detail d-inline-block" >
 
                                     {% if original_cover.landscapeImg %}
                                         <img class="img-fluid" src="{{ asset('upload/public/'~original_cover.landscapeImg) }}" alt="{{ original_cover.name|lower|title}}">
@@ -179,8 +179,30 @@
                                         <img class="img-fluid"  src="{{ asset('img/vignette-landscape.png')}}" alt="{{ original_cover.name|lower|title}}" >
                                     {% endif %}
 
-                                    <i class="video-icon video-popup-control"></i>
-                                </a>
+                                    <div class="media-overlay"></div>
+
+                                    <div class="media-btn-wrapper">
+                                        <ul class="d-block" style="top:40%">
+                                            <li>
+                                                <a class="{{ original_cover.trailer ? '' : 'my-disabled' }} venobox"  data-vbtype="video" data-autoplay="true" data-title="on affiche le titre de la video ici " href="{{original_cover.trailer}}">
+                                                   {{ 'Bande annonce'|trans({},'movies') }}
+                                                </a>
+                                            </li>
+
+                                            <li>
+                                                <a href="{{ path('movie_index',{'slug':original_cover.slug}) }}">
+                                                    {{ 'Details'|trans({},'movies') }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                    <div class="movie-f">
+                                        <h2 class="text-truncate">
+                                            {{ original_cover.name|lower|title }}  
+                                        </h2>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="col-md-6">
@@ -287,7 +309,7 @@
                                                     {{ i.genre.name|lower|title }}{{ loop.last ? '' : ','}}
                                                 {% endfor %}
                                             </li>
-                                            <li>Note :&nbsp;&nbsp;
+                                            {#<li>Note :&nbsp;&nbsp;
                                                 <span class="text-info">
                                                     <i class="fas fa-star"></i>
                                                     <i class="fas fa-star"></i>
@@ -296,7 +318,7 @@
                                                     <i class="far fa-star"></i>
                                                 </span>
                                                 
-                                            </li>
+                                            </li>#}
                                         </ul>
                                         <h2>
                                             {% if inTheather %}
@@ -307,7 +329,7 @@
                                             
                                             
                                         </h2>
-                                        <p>Sortie en salle le, 25 decembre 2018</p>
+                                        {#<p>Sortie en salle le, 25 decembre 2018</p>#}
                                     </div>
                                 </a>
                             </div>
