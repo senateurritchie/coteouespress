@@ -17,6 +17,8 @@ class ProducersController extends Controller{
 	/**
     * @Route("/{slug}", requirements={"slug":"[\w-]+"}, name="index")
     */
+
+
     public function indexAction($slug){
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Producer::class);

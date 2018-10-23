@@ -45,21 +45,21 @@ header #master-cover{
 
 @media (max-width: 576px) { 
 
-	header #master-menu{
-    	position: absolute !important;
+	/* header #master-menu{
+	    	position: absolute !important;
 	}
-
-  	#master-cover,.cb-slideshow,.cb-slideshow:after {
-    	height: 258px !important;
+	
+	  	#master-cover,.cb-slideshow,.cb-slideshow:after {
+	    	height: 258px !important;
 	}
-
+	
 	.cb-slideshow li div {
-    	bottom: 10% !important;
+	    	bottom: 10% !important;
 	}
-
+	
 	.cb-slideshow li div h3{
 		font-size: 50px !important;
-	}
+	} */
 
 
 }

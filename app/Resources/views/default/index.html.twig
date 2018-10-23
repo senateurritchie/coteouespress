@@ -5,10 +5,6 @@
 {% set four_movie_2 = programmes|slice(5,4) %}
 
 
-{% block title %}
-    Intégration html + css  | page 1
-{% endblock %}
-
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
@@ -157,11 +153,11 @@
                         <br>
 
                         <div style="margin-left: auto;" class="d-flex">
-                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
 
-                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </div>
@@ -469,7 +465,7 @@
                             {% for item in vimeoRsrc %}
                                 <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
 
-                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="" data-autoplay="true" data-gall="myGallery2" data-title="{{ item.name }}" >
+                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="{{item.name }}" data-autoplay="true" data-gall="myGallery2" >
                                         <img  class="img-fluid" src="{{ item.thumbnail }}" alt="">
                                         <i class="video-icon video-popup-control"></i>
                                     </a>
@@ -507,7 +503,7 @@
                         <img src="{{ asset('img/div.png')}}" alt="">
                     </div>
                     <div class="cite-content">
-                        <div>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Corporis dolore dignissimos, non iste, ea assumenda perferendis dolor incidunt dolorum eos, autem ut beatae illo quibusdam numquam fuga sed in! Dolores!</div>
+                        Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs. 
                     </div>
                     <div class="cite-divider">
                         <img src="{{ asset('img/div.png')}}" alt="">
@@ -523,11 +519,11 @@
                         <br><br>
 
                         <div style="margin-left: auto;" class="d-flex">
-                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
 
-                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
                         </div>
@@ -539,13 +535,13 @@
                             <div class="col-md-5 mb-2" >
 
                                 <div class="position-relative">
-                                    {% if producer.image %}
-                                        <img  class="img-fluid" src="{{ asset('upload/public/'~producer.image) }}" alt="">
+                                    {% if director_exclusivity.image %}
+                                        <img  class="img-fluid" src="{{ asset('upload/public/'~director_exclusivity.image) }}" alt="">
                                     {% else %}
                                         <img  class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}" alt="">
                                     {% endif %}
 
-                                    <a href="{{ path('producer_index',{'slug':producer.slug}) }}" class="bg-circle detail-producer">
+                                    <a href="{{ path('director_index',{'slug':director_exclusivity.slug}) }}" class="bg-circle detail-producer">
 
                                         <span class=" d-flex flex-row justify-content-end align-items-center">
                                             <span class="text-white mr-auto pl-2" style="font-size: 12px">

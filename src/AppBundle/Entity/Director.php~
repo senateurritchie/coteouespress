@@ -78,6 +78,22 @@ class Director
     private $movieNbr = 0;
 
     /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un réalisateur est à l'affiche ou non"}, nullable=true)
+    */
+    private $inTheather = 0;
+
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un réalisateur comme etant à la une"}, nullable=true)
+    */
+    private $hasExclusivity = 0;
+
+    /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
@@ -327,5 +343,53 @@ class Director
     public function getMovies()
     {
         return $this->movies;
+    }
+
+    /**
+     * Set user
+     *
+     * @param \AppBundle\Entity\User $user
+     *
+     * @return Director
+     */
+    public function setUser(\AppBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \AppBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set inTheather
+     *
+     * @param boolean $inTheather
+     *
+     * @return Director
+     */
+    public function setInTheather($inTheather)
+    {
+        $this->inTheather = $inTheather;
+
+        return $this;
+    }
+
+    /**
+     * Get inTheather
+     *
+     * @return boolean
+     */
+    public function getInTheather()
+    {
+        return $this->inTheather;
     }
 }

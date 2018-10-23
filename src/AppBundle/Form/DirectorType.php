@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+
 
 use AppBundle\Entity\Director;
 use AppBundle\Entity\Country;
@@ -65,6 +67,14 @@ class DirectorType extends AbstractType
             "label"=>"Photo",
             "attr"=>["accept"=>"image/png, image/jpeg, image/jpg","class"=>"hide"]
         ))
+        ->add('inTheather',CheckboxType::class,array(
+            "label"=>"A l'affiche",
+            "required"=>false,
+        ))
+        ->add('hasExclusivity',CheckboxType::class,array(
+            "label"=>"A la une",
+            "required"=>false,
+        ))
         ->addEventListener(FormEvents::PRE_SET_DATA,function(FormEvent $event)use(&$options,&$builder){
             $model = $event->getData();
             $form = $event->getForm();
@@ -95,6 +105,9 @@ class DirectorType extends AbstractType
                 $path = $options['upload_dir'].'/'.basename($model->getImage());
                 $model->setImage(new File($path));
             }
+
+            $model->setInTheather($model->getInTheather()?true:false);
+            $model->setHasExclusivity($model->getHasExclusivity()?true:false);
         });
     }
     /**

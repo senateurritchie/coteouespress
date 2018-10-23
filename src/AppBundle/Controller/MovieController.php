@@ -82,16 +82,23 @@ class MovieController extends Controller{
             });
 
 
+
             $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib,&$token){
                 $endpoint = '/videos';
 
                 $links = implode(",", $videos);
 
-                if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>""], 'GET'))){
+
+
+                if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>"","weak_search"=>true], 'GET'))){
+
+
 
                     if($response['status'] == 200){
+
                         $e = array_map(function($el){
                             $code = array_slice(explode("/", $el['uri']),-1)[0];
+
 
                             $el['download'] = array_map(function($e){
                                 $size = $e["size"]/1024;
@@ -99,6 +106,7 @@ class MovieController extends Controller{
                                 $e['size'] = round($size,2);
                                 return $e;
                             }, $el['download']);
+
 
                             return array(
                                 "code"=>$code,
@@ -126,7 +134,12 @@ class MovieController extends Controller{
 
                         foreach ($videos as $el) {
                             foreach ($e as $key => $el2) {
-                                if($el == $el2['link']){
+
+                                // pour contourner les liens personalisés
+                                // il faut se referer au code vimeo de la video plutot que le link
+                                preg_match("#https:\/\/vimeo.com/(.+)/.+#", $el,$code);
+
+                                if($el == $el2['link'] || @$code[1] == @$el2['code']){
                                     $data[] = $el2;
                                     break;
                                 }
@@ -142,10 +155,14 @@ class MovieController extends Controller{
 
 
             if(count($links)){
+
+
                 try {
                     $requestVimeo2($links,function($data)use(&$vimeoRsrc){
 
                         foreach ($data as $i => $el) {
+
+
                             $label = "";
                             switch ($i) {
                                 case 0:
@@ -174,7 +191,7 @@ class MovieController extends Controller{
     	}
 
     	$catalogue = new Catalog();
-    	$form = $this->createForm(CatalogType::class,$catalogue);
+    	$form = $this->createForm(CatalogType::class,$catalogue,["use_for_mode"=>"program_page"]);
     	$params = $request->query->all();
 
         $params["locale"] = $request->getLocale();

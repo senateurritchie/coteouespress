@@ -66,8 +66,6 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereState($qb,@$params["state"]);
         }
 
-        
-
         // recherche par mention
         if(@$params["mention"]){
             $this->whereMention($qb,@$params["mention"]);
@@ -86,6 +84,11 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         // recherche par language
         if(@$params["language"]){
             $this->whereLanguage($qb,@$params["language"]);
+        }
+
+        // recherche par version disponible
+        if(@$params["available_version"]){
+            $this->whereAvailableVersion($qb,@$params["available_version"]);
         }
 
         // recherche par director
@@ -338,6 +341,28 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         $qb->andWhere("language.slug = :language")
         ->setParameter("language",$value);
   	}
+
+    public function whereAvailableVersion(QueryBuilder $qb,$value){
+        $qb2 = $this->_em->createQueryBuilder();
+
+        $qb2->select("ml.id")
+        ->from(MovieLanguage::class,"ml")
+        ->innerJoin("ml.movie","mlm")
+        ->innerJoin("ml.language","mll")
+        ->where("m.id = mlm.id");
+        
+        if(is_numeric($value)){
+            $qb2->andWhere("mll.id = :available_version");
+        }
+        else{
+            $qb2->andWhere("mll.slug = :available_version");
+        }
+
+        $qb->andWhere(
+            $qb->expr()->exists($qb2)
+        )
+        ->setParameter("available_version",$value);
+    }
 
 
   	public function whereDirector(QueryBuilder $qb,$value){

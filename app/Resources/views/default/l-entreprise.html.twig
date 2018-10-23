@@ -1,5 +1,15 @@
 {% extends 'base.html.twig' %}
 
+{% block title %}
+   Histoire de la compagnie Côte Ouest Audiovisuel 
+{% endblock %}
+
+{% block meta_description %}
+
+    <meta name="description" content="En tant que premier distributeur d'œuvre audiovisuelle en Afrique depuis 1997, Côte Ouest incite et inspire ces partenaires à faire preuve d'innovation et de créativité. Nous apportions des solutions durables aux défis de notre industrie.">
+    
+{% endblock %}
+
 {% block stylesheets %}
     {{ parent() }}
 
@@ -9,7 +19,8 @@
     <style>
 		header #master-cover{
 			height: 200px;
-            background-image: url({{asset('img/illustrator-banner.jpg')}});
+            background-image: url("{{asset('img/bannieres/slim/'~random(['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg']))}}"); 
+            /* background-image: url("{{asset('img/illustrator-banner.jpg')}}"); */
 		}
     </style>
 
@@ -375,10 +386,12 @@
 {% block javascripts %}
     {{ parent() }}
     
+    <script src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
 
-     <script async defer
+    <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>
 
     <script>
@@ -457,6 +470,20 @@
                 }
             });
             genrePrintHook();
+
+
+            var slider = new AdminManager.plugins.SlimBanerSlide();
+    
+            slider.subscribe(event=>{
+                
+            });
+
+            slider.init({
+                container:'header #master-cover',
+                data:['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg'],
+                delay:7000,
+                current:0,
+            });
 
 
         });

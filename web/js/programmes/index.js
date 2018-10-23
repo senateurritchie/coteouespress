@@ -31,4 +31,18 @@ $(document).ready(function($){
             });
         }
     });
+
+
+    var slider = new nsp.plugins.SlimBanerSlide();
+    
+    slider.subscribe(event=>{
+        
+    });
+
+    slider.init({
+        container:'header #master-cover',
+        data:['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg'],
+        delay:5000,
+        current:0,
+    });
 });

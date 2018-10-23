@@ -12,7 +12,8 @@
             height: 200px;
             background-color: #f6f6f6;
             overflow: hidden;
-            background: url("{{asset('img/illustrator-banner.jpg')}}") no-repeat left top / cover;
+            background-image: url("{{asset('img/bannieres/slim/'~random(['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg']))}}"); 
+            /* background-image: url("{{asset('img/illustrator-banner.jpg')}}"); */
         }
 
         @media (max-width: 576px) { 
@@ -154,7 +155,7 @@
                                 </a>
                             </div>
                         </div>
-
+                        
                         <div class="block-content" >
 
                             <div class="text-left owl-carousel">
@@ -219,9 +220,13 @@
 {% block javascripts %}
     {{ parent() }}
     
+
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+
+    <script src="{{ asset('js/admin/manager.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
 
     <script>
         $(document).ready(function($){
@@ -289,7 +294,18 @@
                 autoplay:true,
             });
 
+            var slider = new AdminManager.plugins.SlimBanerSlide();
+    
+            slider.subscribe(event=>{
+                
+            });
 
+            slider.init({
+                container:'header #master-cover',
+                data:['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg'],
+                delay:7000,
+                current:0,
+            });
 
         });
     </script>

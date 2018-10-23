@@ -22,7 +22,13 @@
 
 
 {% block title %}
-   Intégration html + css  | movies search
+   Dernières entrées du catalogue Audiovisuel de Côte Ouest
+{% endblock %}
+
+{% block meta_description %}
+
+   <meta name="description" content="Côte Ouest  possède un catalogue de plus de 22 000 heures de programmes dont les trois piliers sont les séries africaines, les télénovelas et les séries studios">
+    
 {% endblock %}
 
 {% block stylesheets %}
@@ -33,7 +39,8 @@
     <style>
         header #master-cover{
             height: 200px;
-            background-image: url("{{asset('img/illustrator-banner.jpg')}}");
+            background-image: url("{{asset('img/bannieres/slim/'~random(['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg']))}}"); 
+            /* background-image: url("{{asset('img/illustrator-banner.jpg')}}"); */
         }
 
         
@@ -98,7 +105,6 @@
         <div id="master-cover-overlay" class="{{app.request.query.get('category') or  app.request.query.get('genre') ? 'has_category' : ''}}"></div>
 
        
-
         <div id="gender-print">
 
             {% if has_url_cat %}
@@ -117,7 +123,7 @@
                     <h1 class="display-4 text-light">{{item.name|upper}}</h1>
                 {% endfor %}
             {% else %}
-                <h1 class="display-4 text-light">Programmes</h1>
+                {#<h1 class="display-4 text-light">Programmes</h1>#}
             {% endif %}
         </div>
         
@@ -173,13 +179,10 @@
                             </div>
 
                             <div class="col-md-2 col-sm-6">
-                                {#<div class="form-group">
-                                    {{ form_widget(form.year, {"attr":{"class":"form-control-sm","min":2000},"placeholder":'Année'|trans({},'catalogue')}) }}
-                                </div>#}
-
                                 <div class="form-group">
-                                    {{ form_widget(form.language, {"attr":{"class":"form-control-sm custom-select","placeholder":'Langue'|trans({},'catalogue')}}) }}
+                                    {{ form_widget(form.available_version, {"attr":{"class":"form-control-sm custom-select","placeholder":'Version disponible'|trans({},'catalogue')}}) }}
                                 </div>
+
                             </div>
                                 
                            
@@ -433,6 +436,8 @@
     <script src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script src="{{ asset('js/programmes/manager.js','js') }}"></script>
     <script src="{{ asset('js/programmes/index.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
+
 
 {% endblock %}
 

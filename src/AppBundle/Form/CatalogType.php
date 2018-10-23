@@ -170,6 +170,25 @@ class CatalogType extends AbstractType
             },
             "mapped"=>false,
         ))
+        ->add('available_version',EntityType::class,array(
+            "required"=>false,
+            "placeholder"=>$this->translator->trans("Version disponible",array(),"catalogue"),
+            "class"=>Language::class,
+            "choice_label"=>"name",
+            "choice_value"=>"slug",
+            'choice_attr' => function($value, $key, $index)use(&$request) {
+                $attrs = [];
+                if($request->query->get("available_version") == $value->getSlug()){
+                    $attrs["selected"] = "selected";
+                }
+                return $attrs;
+            },
+            'query_builder' => function (EntityRepository $er) {
+                return $er->createQueryBuilder('u')
+                ->orderBy('u.name', 'ASC');
+            },
+            "mapped"=>false,
+        ))
         ->add('producer',EntityType::class,array(
             "required"=>false,
             "placeholder"=>$this->translator->trans("Producteur",array(),"catalogue"),
@@ -231,13 +250,17 @@ class CatalogType extends AbstractType
             )
         ))
         ->add('bntSearch', SubmitType::class, array("label"=>"Recherche"))
-        ->addEventListener(FormEvents::PRE_SET_DATA ,function(FormEvent $event){
+        ->addEventListener(FormEvents::PRE_SET_DATA ,function(FormEvent $event)use(&$options){
 
             $category = $event->getData();
             $form = $event->getForm();
 
             if (!$category) {
                 return;
+            }
+
+            if($options["use_for_mode"] == "program_page"){
+                $form->remove("language");
             }
         });
 
@@ -248,6 +271,7 @@ class CatalogType extends AbstractType
      */
     public function configureOptions(OptionsResolver $resolver){
         $resolver->setDefaults(array(
+            "use_for_mode"=>"anywhere",
             'data_class' => Catalog::class
         ));
     }

@@ -37,12 +37,10 @@ class DefaultController extends Controller{
 
         //  on charge les realisateurs
         $rep = $em->getRepository(Director::class);
-        $directors = $rep->findBy([],["id"=>"desc"],6);
+        $directors = $rep->findBy(["inTheather"=>1],["id"=>"desc"],6);
 
         //  on charge les producteurs
-        $rep = $em->getRepository(Producer::class);
-        $producer = $rep->findOneBy([],["id"=>"desc"]);
-
+        $director_exclusivity = $rep->findOneBy(["hasExclusivity"=>1],["id"=>"desc"]);
 
         // video à voir
         $vimeo_p = $this->getParameter('app.vimeo');
@@ -59,7 +57,7 @@ class DefaultController extends Controller{
         $requestVimeo2 = function (callable $fn = null)use(&$lib){
             $endpoint = '/me/videos';
 
-            if(($response = $lib->request($endpoint, ["query"=>"#trailer","direction"=>"desc","page"=>1,"per_page"=>4,"sort"=>"date"], 'GET'))){
+            if(($response = $lib->request($endpoint, ["query"=>"Trailer TRAILER trailer","direction"=>"desc","page"=>1,"per_page"=>4,"weak_search"=>true], 'GET'))){
 
                 if($response['status'] == 200){
                     $e = array_map(function($el){
@@ -107,7 +105,7 @@ class DefaultController extends Controller{
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
             "actors"=>$actors,
             "directors"=>$directors,
-            "producer"=>$producer,
+            "director_exclusivity"=>$director_exclusivity,
             "vimeoRsrc"=>$vimeoRsrc,
         ));
     }

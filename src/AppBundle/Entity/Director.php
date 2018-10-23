@@ -78,6 +78,22 @@ class Director
     private $movieNbr = 0;
 
     /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="in_theather", type="boolean", options={"comment":"valide si un réalisateur est à l'affiche ou non"}, nullable=true)
+    */
+    private $inTheather = 0;
+
+    /**
+    * @var boolean
+    *
+    * @Groups({"group1","group2"})
+    * @ORM\Column(name="has_exclusivity", type="boolean", options={"comment":"marque un réalisateur comme etant à la une"}, nullable=true)
+    */
+    private $hasExclusivity = 0;
+
+    /**
     * @var \DateTime
     *
     * @Groups({"group1","group2"})
@@ -351,5 +367,53 @@ class Director
     public function getUser()
     {
         return $this->user;
+    }
+
+    /**
+     * Set inTheather
+     *
+     * @param boolean $inTheather
+     *
+     * @return Director
+     */
+    public function setInTheather($inTheather)
+    {
+        $this->inTheather = $inTheather;
+
+        return $this;
+    }
+
+    /**
+     * Get inTheather
+     *
+     * @return boolean
+     */
+    public function getInTheather()
+    {
+        return $this->inTheather;
+    }
+
+    /**
+     * Set hasExclusivity
+     *
+     * @param boolean $hasExclusivity
+     *
+     * @return Director
+     */
+    public function setHasExclusivity($hasExclusivity)
+    {
+        $this->hasExclusivity = $hasExclusivity;
+
+        return $this;
+    }
+
+    /**
+     * Get hasExclusivity
+     *
+     * @return boolean
+     */
+    public function getHasExclusivity()
+    {
+        return $this->hasExclusivity;
     }
 }

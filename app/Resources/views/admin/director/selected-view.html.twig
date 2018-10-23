@@ -90,20 +90,33 @@
 										</div>
 									{% endif %}
 								{% endif %}
-
-								
-
-						  
 	            			</div>
-	            			
 	            		</div>
 
 	            		<div class="col-md-9">
-	            			{{ form_row(form.name)}}
-	            			{{ form_row(form.description,{'attr':{'rows':15},"label":"Biographie"})}}
+	            			{{ form_row(form.name) }}
 
+	            			{{ form_row(form.description,{'attr':{'rows':15},"label":"Biographie"}) }}
 
-	            			
+	            			<div class="form-group">
+					            {{ form_label(form.inTheather) }}
+					            {{ form_errors(form.inTheather) }}
+					            {{ form_widget(form.inTheather) }}
+					            <p class="help-block">
+					                Les réalisateurs à l'affiche apparaissent sur la page d'accueil du site.
+					            </p>
+					        </div> 
+
+					        <div class="form-group">
+					            {{ form_label(form.hasExclusivity) }}
+					            {{ form_errors(form.hasExclusivity) }}
+					            {{ form_widget(form.hasExclusivity) }}
+					            <p class="help-block">
+					                Il ne peut y avoir qu'un seul réalisateur à la une sur le site.
+					                <br>
+					                il apparait en grand poster sous le titre de <strong>Réalisateur à la une</strong>
+					            </p>
+					        </div> 
 	            		</div>
 	            	</div>
 	            </div>
