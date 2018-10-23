@@ -20,9 +20,18 @@
 {% set has_url_cat = app.request.query.get('category') %}
 {% set has_url_genre = app.request.query.get('genre') %}
 
-
 {% block title %}
-   Dernières entrées du catalogue Audiovisuel de Côte Ouest
+    {% if has_url_cat %}
+        {% for item in categories if item.slug == has_url_cat %}
+            {{item.name|upper}} 
+        {% else %}
+            Dernières entrées du catalogue Audiovisuel de Côte Ouest
+        {% endfor %}
+    {% else %}
+        Dernières entrées du catalogue Audiovisuel de Côte Ouest
+    {% endif %}
+
+    
 {% endblock %}
 
 {% block meta_description %}

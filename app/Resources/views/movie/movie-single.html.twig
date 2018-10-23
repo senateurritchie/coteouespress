@@ -1,7 +1,14 @@
 {% extends 'base.html.twig' %}
 
+
 {% block title %}
-   Intégration html + css  | movie single
+   {{ programme.name|lower|title }}
+{% endblock %}
+
+{% block meta_description %}
+
+   <meta name="description" content="{{ programme.synopsis|truncate(250,'...') }}">
+    
 {% endblock %}
 
 {% block stylesheets %}
