@@ -339,10 +339,6 @@
                                     {% else %}
                                         -
                                     {% endif %}
-
-                                    <a href="{{ path('movie_index',{'slug':inTheather.slug}) }}">
-                                        <small>lire la suite</small>
-                                    </a>
                                 </div>
 
                                 <br>
@@ -389,7 +385,8 @@
                                 </a>#}
 
                                 <a class="btn btn-sm btn-primary" href="{{ path('movie_index',{'slug':inTheather.slug}) }}">
-                                    voir la fiche &nbsp;<i class="fas fa-angle-right"></i>
+                                    {{ "Voir la fiche"|trans({},"homepage") }}
+                                     &nbsp;<i class="fas fa-angle-right"></i>
                                 </a>
                             </div>
                         </div>
@@ -469,7 +466,7 @@
 
                                         <span class=" d-flex flex-row justify-content-end align-items-center">
                                             <span class="text-white mr-auto pl-2" style="font-size: 12px">
-                                                {{ 'savoir plus'|trans({},'movies') }}
+                                                {{ 'Voir plus'|trans({},'homepage') }}
                                             </span>
 
                                             &nbsp;

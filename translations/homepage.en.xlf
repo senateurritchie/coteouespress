@@ -11,7 +11,7 @@
       </trans-unit>
       <trans-unit id="_OIqsnH" resname="Nos projets">
         <source>Nos projets</source>
-        <target>Our projets</target>
+        <target>Our projects</target>
       </trans-unit>
       <trans-unit id="CYR3xPu" resname="Réalisateurs / Créateurs">
         <source>Réalisateurs / Créateurs</source>
@@ -30,6 +30,14 @@
       <trans-unit id="fZ85fKU" resname="Premier Distributeur et Créateur de Contenu pour l'Afrique">
         <source>Premier Distributeur et Créateur de Contenu pour l'Afrique</source>
         <target>Premier Content Creator and Distributor for and from Africa</target>
+      </trans-unit>
+      <trans-unit id="rJ1m.Hm" resname="Voir la fiche">
+        <source>Voir la fiche</source>
+        <target>Read more</target>
+      </trans-unit>
+      <trans-unit id="3x5Xsog" resname="Voir plus">
+        <source>Voir plus</source>
+        <target>Read more</target>
       </trans-unit>
     </body>
   </file>

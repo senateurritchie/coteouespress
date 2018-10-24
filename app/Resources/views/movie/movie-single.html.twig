@@ -174,7 +174,7 @@
 
                         <tr>
                             <td>
-                                <strong>{{'Genre'|trans({},'catalogue')}}</strong>
+                                <strong>Genre(s)</strong>
                             </td>
 
                             <td class="text-right">
@@ -202,7 +202,7 @@
 
                         <tr>
                             <td>
-                                <strong>{{'Année'|trans({},'catalogue')}}</strong>
+                                <strong>Date</strong>
                             </td>
 
                             {% set p_yearStart = programme.yearStart|date("Y") %}
@@ -225,7 +225,7 @@
 
                         <tr>
                             <td>
-                                <strong>{{'Pays'|trans({},'catalogue')}}</strong>
+                                <strong>{{'Origine'|trans({},'catalogue')}}</strong>
                             </td>
 
                             <td class="text-right">
@@ -241,7 +241,9 @@
 
                         <tr>
                             <td>
-                                <strong>{{'Versions'|trans({},'catalogue')}}</strong>
+                                <strong>
+                                    Version(s)
+                                </strong>
                             </td>
 
                             <td class="text-right">
@@ -255,23 +257,11 @@
                                 {% endfor %}
                             </td>
                         </tr>
-
-                        {#<tr>
-                            <td>
-                                <strong>{{'Version'|trans({},'catalogue')}}</strong>
-                            </td>
-
-                            <td class="text-right">
-                                <div class="badge badge-secondary">
-                                    2
-                                </div>
-                            </td>
-                        </tr>#}
                     </table>
 
 
                     <h3 class="block-title mblock-title mblock-title-info" style="font-size:14px">
-                        {{'Réalisateur'|transchoice(2,{},'catalogue')}}
+                        {{'Réalisateurs / Créateurs'|trans({},'homepage')}}
                     </h3>
                     <br>
 
@@ -438,18 +428,20 @@
                                 {{ programme.synopsis|md2html }}
                             {% else %}
                                 <div class="alert alert-light" role="alert">
-                                    <h5 class="alert-heading">Information indisponible</h5>
+                                    <h5 class="alert-heading">
+                                        {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                    </h5>
                                   
-                                    <p>
+                                   {# <p>
                                         Faites une requete de modification pour cette section.
                                     </p>
-                                  
+                                                                      
                                     <hr>
                                     <p class="mb-0">
                                         <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                             Cliquez ici.
                                         </a>
-                                    </p>
+                                    </p> #}
                                 </div>
                             {% endif %}
                         </div>
@@ -514,9 +506,11 @@
                         {% else %}
 
                             <div class="alert alert-light" role="alert">
-                                <h5 class="alert-heading">Information indisponible</h5>
+                                <h5 class="alert-heading">
+                                    {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                </h5>
                               
-                                <p>
+                                {#<p>
                                     Faites une requete de modification pour cette section.
                                 </p>
                               
@@ -525,7 +519,7 @@
                                     <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                         Cliquez ici.
                                     </a>
-                                </p>
+                                </p>#}
                             </div>
                         {% endif %}
                     </div>
@@ -566,9 +560,11 @@
                                         {{ programme.reward|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Information indisponible</h4>
+                                            <h4 class="alert-heading">
+                                                {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                            </h4>
                                           
-                                            <p>
+                                            {#<p>
                                                 Faites une requete de modification pour cette section.
                                             </p>
                                           
@@ -577,7 +573,7 @@
                                                 <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                                     Cliquez ici.
                                                 </a>
-                                            </p>
+                                            </p>#}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -587,9 +583,11 @@
                                         {{ programme.award|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Information indisponible</h4>
+                                            <h4 class="alert-heading">
+                                                {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                            </h4>
                                           
-                                            <p>
+                                            {#<p>
                                                 Faites une requete de modification pour cette section.
                                             </p>
                                           
@@ -598,7 +596,7 @@
                                                 <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                                     Cliquez ici.
                                                 </a>
-                                            </p>
+                                            </p>#}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -608,9 +606,11 @@
                                         {{ programme.audience|nl2br }}
                                     {% else %}
                                        <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">Information indisponible</h4>
+                                            <h4 class="alert-heading">
+                                                {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                            </h4>
                                           
-                                            <p>
+                                            {#<p>
                                                 Faites une requete de modification pour cette section.
                                             </p>
                                           
@@ -619,7 +619,7 @@
                                                 <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                                     Cliquez ici.
                                                 </a>
-                                            </p>
+                                            </p>#}
                                         </div>
                                     {% endif %}
                                 </div>
@@ -826,9 +826,11 @@
                         {% else %}
 
                             <div class="alert alert-light" role="alert">
-                                <h4 class="alert-heading">Information indisponible</h4>
+                                <h4 class="alert-heading">
+                                    {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                </h4>
                               
-                                <p>
+                                {#<p>
                                     Faites une requete de modification pour cette section.
                                 </p>
                               
@@ -837,7 +839,7 @@
                                     <a href="{{ path('contact_index') }}"  class="btn btn-sm btn-light text-secondary">
                                         Cliquez ici.
                                     </a>
-                                </p>
+                                </p>#}
                             </div>
 
                         {% endif %}
@@ -914,11 +916,10 @@
                                 </div>
                             {% else %}
                                  <div class="alert alert-light" role="alert">
-                                    <h5 class="alert-heading">Information indisponible</h5>
-                                  
-                                    <p>
-                                        Aucun autre programme pour cette catégorie.
-                                    </p>
+                                    <h5 class="alert-heading">
+                                        {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                    </h5>
+                                
                                 </div>
                             {% endfor %}
                         </div>

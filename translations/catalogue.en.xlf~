@@ -13,13 +13,9 @@
         <source>Genre</source>
         <target>Genre</target>
       </trans-unit>
-      <trans-unit id=".nU._5u" resname="Pays">
-        <source>Pays</source>
-        <target>Country</target>
-      </trans-unit>
-      <trans-unit id="VhQI.8p" resname="Année">
-        <source>Année</source>
-        <target>Year</target>
+      <trans-unit id=".nU._5u" resname="Origine">
+        <source>Origine</source>
+        <target>From</target>
       </trans-unit>
       <trans-unit id="X2uqtNv" resname="Langue">
         <source>Langue</source>
@@ -132,6 +128,10 @@
       <trans-unit id="QaMg2KK" resname="Rechercher un programme">
         <source>Rechercher un programme</source>
         <target>Search</target>
+      </trans-unit>
+      <trans-unit id="sGFh4qL" resname="Version(s)">
+        <source>Version(s)</source>
+        <target>Version(s)</target>
       </trans-unit>
     </body>
   </file>
