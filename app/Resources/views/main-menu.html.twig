@@ -25,13 +25,13 @@
 
 						<li>
 							<a href="{{ path("presentation") }}">
-								{{'presentation'|trans({},'main-menu')}}
+								{{'Côte Ouest'|trans({},'main-menu')}}
 							</a>
 						</li>
 
 						<li class="nav-contacts">
 							<a href="{{ path("contact_index") }}">
-								{{'contacts'|trans({},'main-menu')}}
+								{{'Contacts'|trans({},'main-menu')}}
 							</a>
 						</li>
 					</ul>
@@ -44,7 +44,7 @@
 				</div>
 
 				<form  method="GET" action="{{ path('movie_index') }}" id="search" class="d-md-block d-none d-md-block align-self-center flex-grow-1">
-					<input  name="name" type="search" placeholder="Rechercher un programme..." value="{{ app.request.query.get('name') }}">
+					<input  name="name" type="search" placeholder="{{'Rechercher un programme'|trans({},'catalogue')}}..." value="{{ app.request.query.get('name') }}">
 				</form>
 			</div>
 

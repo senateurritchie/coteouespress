@@ -15,11 +15,11 @@
       </trans-unit>
       <trans-unit id="AuNJkgK" resname="Origine de production">
         <source>Origine de production</source>
-        <target>__Origine de production</target>
+        <target>Country of production</target>
       </trans-unit>
       <trans-unit id="_3ihYTf" resname="Année de production">
         <source>Année de production</source>
-        <target>__Année de production</target>
+        <target>Year of production</target>
       </trans-unit>
       <trans-unit id="X2uqtNv" resname="Langue">
         <source>Langue</source>
@@ -39,11 +39,11 @@
       </trans-unit>
       <trans-unit id="OHbSX8b" resname="cr.title">
         <source>cr.title</source>
-        <target>__cr.title</target>
+        <target>Copyright COTE OUEST 2018: Reproduction forbidden</target>
       </trans-unit>
       <trans-unit id="Sdyejuy" resname="cr.desc">
         <source>cr.desc</source>
-        <target>__cr.desc</target>
+        <target>This program presentation does not constitute an offer of rights. the availability of desired rights for the desired territory will be confirmed on request</target>
       </trans-unit>
       <trans-unit id="ZM.xMZ0" resname="Action">
         <source>Action</source>
@@ -248,6 +248,50 @@
       <trans-unit id="r4z4IqI" resname="Télé Réalité">
         <source>Télé Réalité</source>
         <target>REALITY SHOW</target>
+      </trans-unit>
+      <trans-unit id="VTZ47tP" resname="Anglais">
+        <source>Anglais</source>
+        <target>English</target>
+      </trans-unit>
+      <trans-unit id="uHBMUeV" resname="Darija">
+        <source>Darija</source>
+        <target>Darija</target>
+      </trans-unit>
+      <trans-unit id="5JXVO5Z" resname="Français">
+        <source>Français</source>
+        <target>French</target>
+      </trans-unit>
+      <trans-unit id="5yPAvyA" resname="Version Darija doublée">
+        <source>Version Darija doublée</source>
+        <target>Darija Dubbed Version</target>
+      </trans-unit>
+      <trans-unit id="DUzehoF" resname="Version Originale">
+        <source>Version Originale</source>
+        <target>Original version</target>
+      </trans-unit>
+      <trans-unit id="f_JJfb1" resname="Version Originale doublée Anglais">
+        <source>Version Originale doublée Anglais</source>
+        <target>Original Version dubbed in English</target>
+      </trans-unit>
+      <trans-unit id="pJthrBl" resname="Version Originale doublée Français">
+        <source>Version Originale doublée Français</source>
+        <target>Original Version dubbed in French</target>
+      </trans-unit>
+      <trans-unit id="qJGZNAD" resname="VOST Anglais">
+        <source>VOST Anglais</source>
+        <target>VOST English</target>
+      </trans-unit>
+      <trans-unit id="CjHNno_" resname="VOST Français">
+        <source>VOST Français</source>
+        <target>VOST French</target>
+      </trans-unit>
+      <trans-unit id="OpoZykC" resname="VOST Portugais">
+        <source>VOST Portugais</source>
+        <target>VOST portuguese</target>
+      </trans-unit>
+      <trans-unit id="YfyQ19s" resname="Version Originale doublée Portugais">
+        <source>Version Originale doublée Portugais</source>
+        <target>Original Version dubbed in portuguese</target>
       </trans-unit>
     </body>
   </file>

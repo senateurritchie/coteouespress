@@ -45,6 +45,10 @@
         <source>Inscrivez-vous</source>
         <target>__Inscrivez-vous</target>
       </trans-unit>
+      <trans-unit id="kJgi9GH" resname="Réinitialisation du mot de passe">
+        <source>Réinitialisation du mot de passe</source>
+        <target>__Réinitialisation du mot de passe</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

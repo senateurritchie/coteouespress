@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="TwScPD5" resname="Recherche detaillée">
         <source>Recherche detaillée</source>
-        <target>Detailed search</target>
+        <target>Search</target>
       </trans-unit>
       <trans-unit id="baeVqGZ" resname="Genre">
         <source>Genre</source>
@@ -120,6 +120,18 @@
       <trans-unit id="b8uouyz" resname="Nom du programme">
         <source>Nom du programme</source>
         <target>Movie name</target>
+      </trans-unit>
+      <trans-unit id="_J6icDa" resname="Versions">
+        <source>Versions</source>
+        <target>Versions</target>
+      </trans-unit>
+      <trans-unit id="bGkck16" resname="Version disponible">
+        <source>Version disponible</source>
+        <target>Available version</target>
+      </trans-unit>
+      <trans-unit id="QaMg2KK" resname="Rechercher un programme">
+        <source>Rechercher un programme</source>
+        <target>Search</target>
       </trans-unit>
     </body>
   </file>

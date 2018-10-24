@@ -25,6 +25,14 @@
         <source>Filmographie</source>
         <target>Filmography</target>
       </trans-unit>
+      <trans-unit id="VtEokzJ" resname="Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.">
+        <source>Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.</source>
+        <target>__Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.</target>
+      </trans-unit>
+      <trans-unit id="m2DbmtT" resname="Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement">
+        <source>Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement</source>
+        <target>__Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

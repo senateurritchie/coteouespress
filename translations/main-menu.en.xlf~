@@ -7,15 +7,15 @@
     <body>
       <trans-unit id="eEhyLnd" resname="Programmes">
         <source>Programmes</source>
-        <target>Catalogs</target>
+        <target>Programmes</target>
       </trans-unit>
-      <trans-unit id="v6wxT_." resname="presentation">
-        <source>presentation</source>
-        <target>Presentation</target>
+      <trans-unit id="f4c3qR7" resname="Côte Ouest">
+        <source>Côte Ouest</source>
+        <target>Côte Ouest</target>
       </trans-unit>
-      <trans-unit id="qlr0CE8" resname="contacts">
-        <source>contacts</source>
-        <target>Contact</target>
+      <trans-unit id="tFBkXev" resname="Contacts">
+        <source>Contacts</source>
+        <target>Contacts</target>
       </trans-unit>
     </body>
   </file>

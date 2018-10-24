@@ -7,27 +7,29 @@
     <body>
       <trans-unit id="79kGVXW" resname="Videos à voir">
         <source>Videos à voir</source>
-        <target>Movie in theatres</target>
+        <target>Highlights</target>
       </trans-unit>
-      <trans-unit id="nSYtAe0" resname="Producteurs et Réalisateurs">
-        <source>Producteurs et Réalisateurs</source>
-        <target>Producers and Directors</target>
+      <trans-unit id="_OIqsnH" resname="Nos projets">
+        <source>Nos projets</source>
+        <target>Our projets</target>
       </trans-unit>
-      <trans-unit id="OI367Wt" resname="Acteurs">
-        <source>Acteurs</source>
-        <target>Actors</target>
+      <trans-unit id="CYR3xPu" resname="Réalisateurs / Créateurs">
+        <source>Réalisateurs / Créateurs</source>
+        <target>Directors / Creators</target>
       </trans-unit>
-      <trans-unit id="sw2ZkqT" resname="Production à la une">
-        <source>Production à la une</source>
-        <target>__Production à la une</target>
+      <trans-unit id="zvfzy1Z" resname="Productions à l'affiche">
+        <source>Productions à l'affiche</source>
+        <target>New Product Entries</target>
       </trans-unit>
-      <trans-unit id="VBvfmNa" resname="Equipe de production">
-        <source>Equipe de production</source>
-        <target>__Equipe de production</target>
+      <trans-unit id="_TN9ot5" resname="Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs.">
+        <source>Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs.</source>
+        <target>
+          Our catalog, which is nearly 20,000 hours long, covers all genres; soap operas, series, films, documentaries, animations etc., mainly from Africa (or rather Africas), from South America, but do not exclude a few programs from elsewhere.
+        </target>
       </trans-unit>
-      <trans-unit id="WgDLhYa" resname="Réalisateurs">
-        <source>Réalisateurs</source>
-        <target>__Réalisateurs</target>
+      <trans-unit id="fZ85fKU" resname="Premier Distributeur et Créateur de Contenu pour l'Afrique">
+        <source>Premier Distributeur et Créateur de Contenu pour l'Afrique</source>
+        <target>Premier Content Creator and Distributor for and from Africa</target>
       </trans-unit>
     </body>
   </file>
