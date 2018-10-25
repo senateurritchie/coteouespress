@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit id="5OesQ5R" resname="Inscrivez-vous">
         <source>Inscrivez-vous</source>
-        <target>__Inscrivez-vous</target>
+        <target>Registration</target>
       </trans-unit>
       <trans-unit id="kJgi9GH" resname="Réinitialisation du mot de passe">
         <source>Réinitialisation du mot de passe</source>

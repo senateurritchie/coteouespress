@@ -145,6 +145,18 @@
         <source>Information indisponible pour ce programme</source>
         <target>Information not yet available for this program</target>
       </trans-unit>
+      <trans-unit id="zaqrRC0" resname="Télécharger">
+        <source>Télécharger</source>
+        <target>Download</target>
+      </trans-unit>
+      <trans-unit id="zFn4.qk" resname="Télécharger les vidéos">
+        <source>Télécharger les vidéos</source>
+        <target>Download videos</target>
+      </trans-unit>
+      <trans-unit id="cR5fLhm" resname="Fermer">
+        <source>Fermer</source>
+        <target>Close</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

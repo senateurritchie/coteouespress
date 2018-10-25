@@ -17,6 +17,30 @@
         <source>Contacts</source>
         <target>Contacts</target>
       </trans-unit>
+      <trans-unit id="KPRXHyi" resname="Mon compte">
+        <source>Mon compte</source>
+        <target>My account</target>
+      </trans-unit>
+      <trans-unit id="EgJslNb" resname="Espace d'administration">
+        <source>Espace d'administration</source>
+        <target>Dashboard</target>
+      </trans-unit>
+      <trans-unit id="UDmefsw" resname="Espace de téléchargement">
+        <source>Espace de téléchargement</source>
+        <target>Download space</target>
+      </trans-unit>
+      <trans-unit id="rTnqN0g" resname="Condition générale d'utilisation">
+        <source>Condition générale d'utilisation</source>
+        <target>General condition of use</target>
+      </trans-unit>
+      <trans-unit id="_HO33Mj" resname="Politique de confidentialité">
+        <source>Politique de confidentialité</source>
+        <target>Privacy policy</target>
+      </trans-unit>
+      <trans-unit id="Dvf5y03" resname="Se deconnecter">
+        <source>Se deconnecter</source>
+        <target>Sign out</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

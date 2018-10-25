@@ -13,7 +13,7 @@
         <source>Genre</source>
         <target>Genre</target>
       </trans-unit>
-      <trans-unit id=".nU._5u" resname="Origine">
+      <trans-unit id="s0ivbH." resname="Origine">
         <source>Origine</source>
         <target>From</target>
       </trans-unit>
@@ -132,6 +132,30 @@
       <trans-unit id="sGFh4qL" resname="Version(s)">
         <source>Version(s)</source>
         <target>Version(s)</target>
+      </trans-unit>
+      <trans-unit id=".nU._5u" resname="Pays">
+        <source>Pays</source>
+        <target>__Pays</target>
+      </trans-unit>
+      <trans-unit id="VhQI.8p" resname="Année">
+        <source>Année</source>
+        <target>__Année</target>
+      </trans-unit>
+      <trans-unit id="APYkkq1" resname="Information indisponible pour ce programme">
+        <source>Information indisponible pour ce programme</source>
+        <target>Information not yet available for this program</target>
+      </trans-unit>
+      <trans-unit id="zaqrRC0" resname="Télécharger">
+        <source>Télécharger</source>
+        <target>Download</target>
+      </trans-unit>
+      <trans-unit id="zFn4.qk" resname="Télécharger les vidéos">
+        <source>Télécharger les vidéos</source>
+        <target>Download videos</target>
+      </trans-unit>
+      <trans-unit id="cR5fLhm" resname="Fermer">
+        <source>Fermer</source>
+        <target>Close</target>
       </trans-unit>
     </body>
   </file>

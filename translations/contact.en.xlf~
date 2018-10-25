@@ -49,6 +49,14 @@
         <source>referer.message</source>
         <target>How did you hear about our website ?</target>
       </trans-unit>
+      <trans-unit id="46K_HID" resname="Service à contacter">
+        <source>Service à contacter</source>
+        <target>Service to contact</target>
+      </trans-unit>
+      <trans-unit id="63LhaDu" resname="Autre">
+        <source>Autre</source>
+        <target>Other</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

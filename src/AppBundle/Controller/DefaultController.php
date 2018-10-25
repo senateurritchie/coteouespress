@@ -92,6 +92,7 @@ class DefaultController extends Controller{
 
         $vimeo_cache_path = $this->getParameter('kernel.project_dir')."/var/cache/index_vimeo_cache.json";
 
+
         // on lit directement dans le fichier
         if(file_exists($vimeo_cache_path) && is_file($vimeo_cache_path)){
             $el = json_decode(file_get_contents($vimeo_cache_path),true);
@@ -107,7 +108,9 @@ class DefaultController extends Controller{
         }
         
         try {
-            $requestVimeo2(function($data)use(&$vimeoRsrc){
+
+            $requestVimeo2(function($data)use(&$vimeoRsrc,&$vimeo_cache_path){
+
                 foreach ($data as $i => $el) {
                     $vimeoRsrc[] = $el;
                 }
@@ -115,6 +118,7 @@ class DefaultController extends Controller{
                 if(count($vimeoRsrc)){
                     // on enregistre dans un fichier
                     if(!file_exists($vimeo_cache_path)){
+
                         file_put_contents($vimeo_cache_path, json_encode([
                             "timestamp"=>time(),
                             "data"=>$vimeoRsrc
@@ -123,7 +127,7 @@ class DefaultController extends Controller{
                 }
             });
         } catch (\Exception $e) {
-            
+
         }
         
         vimeo_cache_skip:

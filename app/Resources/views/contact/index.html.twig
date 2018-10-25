@@ -88,6 +88,7 @@
 
                     <h4>{{'Nous écrire'|trans({},'contact')}}</h4>
 
+
                     {{ form_start(form,{'attr':{'method':'POST'}}) }}
                         
                         {% for notice in app.flashes('notice-success') %}
@@ -98,7 +99,7 @@
 
                         <div class="row">
                             <div class="col col-md-12">
-                                {{ form_row(form.department) }}
+                                {{ form_row(form.department,{'label':'Service à contacter'|trans({},'contact')}) }}
                             </div>
                         </div>
 
@@ -229,6 +230,7 @@
                         e.preventDefault();
 
                     }
+
                     textCounter.html(textareaLength);
                 }
             });
@@ -242,7 +244,7 @@
                 "type":"text",
                 "class":"form-control form-control-sm col-12 col-sm-12 col-md-4 col-lg-4",
                 "name":"referer_message",
-                "placeholder":"Autre...",
+                "placeholder": '{{ "Autre"|trans({},"contact") }}'+"...",
             });
 
             linp.after(newLinp);

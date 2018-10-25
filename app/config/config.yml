@@ -38,7 +38,7 @@ framework:
         log: true
 
     profiler:
-        collect: true
+        collect: false
         only_exceptions: true
         only_master_requests: false
 

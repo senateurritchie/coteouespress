@@ -7,7 +7,27 @@
     <body>
       <trans-unit id="uO_WTTA" resname="Votre inscription à bien été enregistrée, veuillez vous rendre à boite email pour confirmer votre inscription.">
         <source>Votre inscription à bien été enregistrée, veuillez vous rendre à boite email pour confirmer votre inscription.</source>
-        <target>__Votre inscription à bien été enregistrée, veuillez vous rendre à boite email pour confirmer votre inscription.</target>
+        <target>Your registration is ok, please go to mailbox to confirm your registration</target>
+      </trans-unit>
+      <trans-unit id="wA4rYMv" resname="Félicitation">
+        <source>Félicitation</source>
+        <target>Congratulations</target>
+      </trans-unit>
+      <trans-unit id="cxp3kWs" resname="En cliquant sur s’inscrire, vous acceptez les %tag_open_1% Conditions générales d’utilisation %tag_close_1%, la %tag_open_2% Politique de confidentialité %tag_close_1%, et la Politique relative aux cookies">
+        <source>En cliquant sur s’inscrire, vous acceptez les %tag_open_1% Conditions générales d’utilisation %tag_close_1%, la %tag_open_2% Politique de confidentialité %tag_close_1%, et la Politique relative aux cookies</source>
+        <target>By clicking Register, you agree to the %tag_open_1% Terms and Conditions %tag_close_1%, the %tag_open_2% Privacy Policy %tag_close_1%, and the Cookie Policy</target>
+      </trans-unit>
+      <trans-unit id="oul8QES" resname="Je suis un...">
+        <source>Je suis un...</source>
+        <target>I'am a...</target>
+      </trans-unit>
+      <trans-unit id="ssEkU20" resname="Nom">
+        <source>Nom</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="szwn32b" resname="Adresse email">
+        <source>Adresse email</source>
+        <target>Email Adress</target>
       </trans-unit>
     </body>
   </file>

@@ -103,30 +103,25 @@
 
 			                           
 			                    		<a href="{{ path('account_index')}}" class="btn btn-danger btn-primary btn-sm">
-			                        		Mon compte
+			                        		<i class="fas fa-user"></i>&nbsp;&nbsp; {{ "Mon compte"|trans({},"main-menu") }}
 			                        	</a>
 
-			                           
 			                        </div>
 			                    </div>
 			                </div>
 
 			               
-
 			                <div role="separator" class="dropdown-divider"></div>
 
 			                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_TRANSLATOR') or is_granted('ROLE_CATALOG') %}
 			            		<a class="dropdown-item" href="{{ path('admin_index')}}">
-			               			<i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Espace d'administration
+			               			<i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;{{ "Espace d'administration"|trans({},"main-menu") }}
 			               		</a>
 			            	{% endif %}
-			                
-			                <a class="dropdown-item" href="{{ path('account_profile')}}">
-			                	<i class="fas fa-user"></i>&nbsp;&nbsp;Mon profil
-			                </a>
+			               
 
 			                <a class="dropdown-item" href="{{ path('account_download_index')}}">
-			               		<i class="fas fa-cloud-download-alt"></i>&nbsp;&nbsp;Téléchargement
+			               		<i class="fas fa-cloud-download-alt"></i>&nbsp;&nbsp;{{ "Espace de téléchargement"|trans({},"main-menu") }}
 			               	</a>
 
 			               	{% if is_granted('ROLE_PRODUCER') %}
@@ -138,18 +133,18 @@
 			                <div role="separator" class="dropdown-divider"></div>
 
 			                <a class="dropdown-item" href="{{ path('account_cgu')}}">
-			               		<i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Conditions générale d'utilisation
+			               		<i class="fas fa-bullhorn"></i>&nbsp;&nbsp;{{ "Condition générale d'utilisation"|trans({},"main-menu") }}
 			               	</a>
 
 			               	<a class="dropdown-item" href="{{ path('account_privacy_policy')}}">
-			               		<i class="fas fa-user-secret"></i>&nbsp;&nbsp;Politique de confidentialité
+			               		<i class="fas fa-user-secret"></i>&nbsp;&nbsp;{{ "Politique de confidentialité"|trans({},"main-menu") }}
 			               	</a>
 
 			               
 			                <div role="separator" class="dropdown-divider"></div>
 
 			                <a class="dropdown-item" href="{{ logout_path() }}">
-			                	<i class="fa fa-power-off"></i>&nbsp;&nbsp;Se deconnecter
+			                	<i class="fa fa-power-off"></i>&nbsp;&nbsp;{{ "Se deconnecter"|trans({},"main-menu") }}
 			                </a>
 			            </div>
 					</div>

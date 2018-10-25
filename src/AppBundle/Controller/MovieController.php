@@ -58,41 +58,81 @@ class MovieController extends Controller{
             $lib->setToken($token);
             
             $links = [];
+            $vimeo_cache_path = $this->getParameter('kernel.project_dir')."/var/cache/vimeo_cache_$slug.json";
+
+            $cachedData = [];
+
+            // on lit directement dans le fichier cache
+            if(file_exists($vimeo_cache_path) && is_file($vimeo_cache_path)){
+                $cachedData = json_decode(file_get_contents($vimeo_cache_path),true);
+
+                $elapsedTime = time() - $cachedData["timestamp"];
+                $elapsedMonths =  (((($elapsedTime / 60)/60)/24)/30);
+
+                // 3 mois pour le cache
+                /*if($elapsedMonths <= 3){
+                    $vimeoRsrc = $el['data'];
+                    goto vimeo_cache_skip;
+                }*/
+            }
+
 
             if(($url = $programme->getTrailer())){
-                $links[] = $url;
+
+                if(!isset($cachedData["data"])){
+                    $links[] = $url;
+                }
+                else{
+                    $vimeoRsrc["trailer"] = $cachedData["data"][$url];
+                }
             }
 
             if($this->isGranted('IS_AUTHENTICATED_FULLY')){
                 if(($url = $programme->getEpisode1())){
-                    $links[] = $url;
+                    if(!isset($cachedData["data"])){
+                        $links[] = $url;
+                    }
+                    else{
+                        $vimeoRsrc["lien 1"] = $cachedData["data"][$url];
+                    }
                 }
 
                 if(($url = $programme->getEpisode2())){
-                    $links[] = $url;
+                    if(!isset($cachedData["data"])){
+                        $links[] = $url;
+                    }
+                    else{
+                        $vimeoRsrc["lien 2"] = $cachedData["data"][$url];
+                    }
                 }
 
                 if(($url = $programme->getEpisode3())){
-                    $links[] = $url;
+                    if(!isset($cachedData["data"])){
+                        $links[] = $url;
+                    }
+                    else{
+                        $vimeoRsrc["lien 3"] = $cachedData["data"][$url];
+                    }
                 }
             }
+
+            if(!empty($vimeoRsrc)){
+                goto vimeo_cache_skip;
+            }
+
+            
 
             $links = array_filter($links,function($el){
                 return preg_match("#/coteouestv/#", $el)?false:true;
             });
 
 
-
-            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib,&$token){
+            $requestVimeo2 = function (array $videos,callable $fn = null)use(&$lib,&$token,&$cachedData,&$vimeo_cache_path){
                 $endpoint = '/videos';
 
                 $links = implode(",", $videos);
 
-
-
                 if(($response = $lib->request($endpoint, ["links"=>$links,"query"=>"","weak_search"=>true], 'GET'))){
-
-
 
                     if($response['status'] == 200){
 
@@ -141,11 +181,16 @@ class MovieController extends Controller{
 
                                 if($el == $el2['link'] || @$code[1] == @$el2['code']){
                                     $data[] = $el2;
+                                    $cachedData["data"][$el] = $el2;
                                     break;
                                 }
                             }
                         }
                         
+                        // on enregistre dans un fichier cache
+                        $cachedData["timestamp"] = time();
+                        file_put_contents($vimeo_cache_path, json_encode($cachedData));
+
                         if($fn){
                             $ret = call_user_func($fn,$data);
                         }
@@ -156,12 +201,10 @@ class MovieController extends Controller{
 
             if(count($links)){
 
-
                 try {
                     $requestVimeo2($links,function($data)use(&$vimeoRsrc){
 
                         foreach ($data as $i => $el) {
-
 
                             $label = "";
                             switch ($i) {
@@ -179,9 +222,12 @@ class MovieController extends Controller{
                         
                     });
                 } catch (\Exception $e) {
-                    
+                                
+
                 }
             }
+
+            vimeo_cache_skip:
             
     		return $this->render('movie/movie-single.html.twig',array(
                 "programme"=>$programme,
