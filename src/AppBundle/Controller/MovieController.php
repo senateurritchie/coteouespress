@@ -233,7 +233,7 @@ class MovieController extends Controller{
                 "programme"=>$programme,
                 "vimeoRsrc"=>$vimeoRsrc,
                 "otherMovies"=>$otherMovies,
-    		));
+    		)); // 
     	}
 
     	$catalogue = new Catalog();
