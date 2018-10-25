@@ -90,15 +90,44 @@ class DefaultController extends Controller{
             }
         };
 
+        $vimeo_cache_path = $this->getParameter('kernel.project_dir')."/var/cache/index_vimeo_cache.json";
+
+        // on lit directement dans le fichier
+        if(file_exists($vimeo_cache_path) && is_file($vimeo_cache_path)){
+            $el = json_decode(file_get_contents($vimeo_cache_path),true);
+
+            $elapsedTime = time() - $el["timestamp"];
+            $elapsedDays =  ((($elapsedTime / 60)/60)/24);
+
+            // 7 jour pour le cache
+            if($elapsedDays <= 7){
+                $vimeoRsrc = $el['data'];
+                goto vimeo_cache_skip;
+            }
+        }
+        
         try {
             $requestVimeo2(function($data)use(&$vimeoRsrc){
                 foreach ($data as $i => $el) {
                     $vimeoRsrc[] = $el;
                 }
+
+                if(count($vimeoRsrc)){
+                    // on enregistre dans un fichier
+                    if(!file_exists($vimeo_cache_path)){
+                        file_put_contents($vimeo_cache_path, json_encode([
+                            "timestamp"=>time(),
+                            "data"=>$vimeoRsrc
+                        ]));
+                    }
+                }
             });
         } catch (\Exception $e) {
             
         }
+        
+        vimeo_cache_skip:
+
 
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,

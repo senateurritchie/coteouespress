@@ -10,6 +10,10 @@ class RequestListener{
     public function onKernelRequest(GetResponseEvent $event){
     	$request = $event->getRequest();
 
+        if (!$event->isMasterRequest()) {
+            return;
+        }
+
     	if($request->query->has('_locale')){
     		$_locale = $request->query->get('_locale','fr');
     	}
