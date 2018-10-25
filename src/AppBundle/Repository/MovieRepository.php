@@ -243,10 +243,13 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
         $terms_1 = $value;
 
 		$qb->andWhere($qb->expr()->orX(
-            "(MATCH_AGAINST(m.name,m.originalName,m.synopsis, :terms_1) > 0",
-			"m.slug LIKE :terms_2)"
+            "m.name LIKE :terms_2",
+            "m.synopsis LIKE :terms_2",
+            "m.originalName LIKE :terms_2"
+            //"(MATCH_AGAINST(m.name,m.originalName,m.synopsis, :terms_1) > 0",
+			//"m.slug LIKE :terms_2)"
 		))
-	    ->setParameter("terms_1",$value)
+	    //->setParameter("terms_1",$value)
 	    ->setParameter("terms_2","%$value%");
 	}
 

@@ -51,7 +51,13 @@
 
         <div  class="position-relative has-media-detail vid-hover text-white mb-4 d-md-none d-sm-block d-block">
             <a class="movie-link" href="{{ path('movie_index',{'slug':movie.slug})}}">
-                <img class="{{ movie.name|lower|title }}" alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/'~random(['other-movie-10','other-movie-9','other-movie-8','other-movie-1','other-movie-2','other-movie-3','other-movie-4'])~'.jpg')}}" >
+
+                {% if movie.portraitImg %}
+                    <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('upload/public/'~movie.portraitImg) }}" >
+                {% else %}
+                    <img alt="{{ movie.name|lower|title }}" class="img-fluid movie-image" src="{{ asset('img/vignette.png') }}" >
+                {% endif %}
+
             </a>
         </div>
     </div>
