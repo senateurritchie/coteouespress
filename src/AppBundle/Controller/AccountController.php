@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 use AppBundle\Form\UserProfilType;
 
@@ -57,7 +58,7 @@ class AccountController extends Controller
     /**
     * @Route("/profile", name="profile")
     */
-    public function profileAction(Request $request){
+    public function profileAction(Request $request,TranslatorInterface $translator){
         $em = $this->getDoctrine()->getManager();
 
         $item = $this->getUser();
@@ -91,7 +92,7 @@ class AccountController extends Controller
 
             $em->flush();
 
-            $this->addFlash('notice-success',"modification éffectuée avec success");
+            $this->addFlash('notice-success',$translator->trans("modification éffectuée avec success",array(),"account-setting"));
             return $this->redirectToRoute("account_profile");
         }
 
@@ -102,7 +103,7 @@ class AccountController extends Controller
     * @Route("/password/update", name="pwd_update")
     * @Method("POST")
     */
-    public function pwdUpdateAction(Request $request, UserPasswordEncoderInterface $encoder){
+    public function pwdUpdateAction(Request $request, UserPasswordEncoderInterface $encoder,TranslatorInterface $translator){
 
         $em = $this->getDoctrine()->getManager();
         $user = $this->getUser();
@@ -113,23 +114,23 @@ class AccountController extends Controller
 
         
         if(!$old_pwd){
-            $this->addFlash('notice-error',"veuillez saisir l'ancien  mot de passe.");
+            $this->addFlash('notice-error',$translator->trans("veuillez saisir l'ancien mot de passe",array(),"account-setting"));
         }
         else if(!$new_pwd || !$new_cpwd){
-            $this->addFlash('notice-error',"veuillez saisir le nouveau mot de passe.");
+            $this->addFlash('notice-error',$translator->trans("veuillez saisir le nouveau mot de passe",array(),"account-setting"));
         }
         else if(!$encoder->isPasswordValid($user, $old_pwd)){
-            $this->addFlash('notice-error',"le mot de passe donné est incorrect. êtes-vous vraiment le depositaire de ce compte ?");
+            $this->addFlash('notice-error',$translator->trans("le mot de passe donné est incorrect. êtes-vous vraiment le depositaire de ce compte ?",array(),"account-setting"));
         }
         else if(strcmp($new_pwd, $new_cpwd) != 0){
-            $this->addFlash('notice-error',"les mots de passe donnés sont différents.");
+            $this->addFlash('notice-error',$translator->trans("les mots de passe donnés sont différents",array(),"account-setting"));
         }
         else{
             $encoded = $encoder->encodePassword($user, $new_pwd);
             $user->setPassword($encoded);
             $em->persist($user);
             $em->flush();
-            $this->addFlash('notice-success',"modification éffectuée avec success");
+            $this->addFlash('notice-success',$translator->trans("modification éffectuée avec success",array(),"account-setting"));
         }
 
         return $this->redirectToRoute("account_settings");

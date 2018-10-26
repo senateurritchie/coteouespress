@@ -8,7 +8,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header bg-primary">
-                    <h5 class="modal-title">Modifier ma fiche</h5>
+                    <h5 class="modal-title">{{ "modifier ma fiche"|trans({},"account-profile") }}</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -32,22 +32,23 @@
 
                                     <div style="position:absolute;bottom:0;left:0;right:0;padding:5px 10px 5px 10px;background:rgba(0,0,0,0.4);">
                                         <a class="user-image" href="" style="display:block;color:#ffffff;text-decoration:none">
-                                            <i class="fa fa-camera"></i>&nbsp;&nbsp;modifier l'image
+                                            <i class="fa fa-camera"></i>&nbsp;&nbsp;{{ "Modifier l'image"|trans({},"account-menu-left") }}
                                         </a>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="col-md-8">
-                                {{ form_row(form.username)}}
-                                {{ form_row(form.aboutme,{'attr':{'rows':15},"label":"Biographie"})}}
+                                {{ form_row(form.username,{'label':'Nom & Prénom'|trans({},'account-profile') } )}}
+                                {{ form_row(form.aboutme,{'attr':{'rows':15},"label":"Biographie"|trans({},'account-profile')})}}
                             </div>
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Quitter</button>
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Enregistrer</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">{{ 'Quitter'|trans({}) }}</button>
+
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> {{ 'Enregistrer'|trans({}) }}</button>
                     </div>
                 {{ form_end(form) }}
 
@@ -64,7 +65,7 @@
         {% for notice in app.flashes('notice-success') %}
             <div class="alert alert-info alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+                <h4><i class="icon fa fa-check"></i> {{ 'Félicitation'|trans({}) }}!</h4>
                 {{ notice }}
             </div>
         {% endfor %}
@@ -72,7 +73,7 @@
         {% for notice in app.flashes('notice-error') %}
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+                <h4><i class="icon fa fa-check"></i> {{ 'Attention'|trans({}) }}!</h4>
                 {{ notice }}
             </div>
         {% endfor %}
@@ -80,10 +81,10 @@
         <div class="biography shadow-effect2">
 
             <a href=""  class="btn btn-sm btn-light text-secondary float-right" data-toggle="modal" data-target="#profil-update">
-               <i class="fa fa-edit"></i> modifier ma fiche.
+               <i class="fa fa-edit"></i> {{ 'modifier ma fiche'|trans({},'account-profile') }}.
             </a>
 
-            <h2>A propos de moi</h2>
+            <h2>{{ 'A propos de moi'|trans({},'account-profile') }}</h2>
 
             {% if app.user.aboutme %}
                 {{ app.user.aboutme|md2html }}

@@ -28,42 +28,47 @@
 {% block content %}
     <section style="min-height:600px;">
         <h3 class="text-nowrap text-truncate">
-            Nos Catalogues
+            {{ "Espace de téléchargement"|trans({},"main-menu") }}
         </h3>
         <hr>
 		
-		{% set pages = (catalogs|length)//3 + 1 %}
 
+		{% if catalogs|length %}
+			{% set pages = (catalogs|length)//3 + 1 %}
 
+			{% for pos in 0..pages-1 %}
 
+		        <div class="card-group">
+		        	{% for item in catalogs|slice(pos*3,3) %}
+			            <div class="card">
+			                <a href="{{ path('account_download_catalog',{'token':item.token}) }}" class="d-block clearfix">
+			                    <div class="account-app-menu bg-secondary">
+			                        <i class="fas fa-cloud-download-alt fa-6x"></i>
+			                    </div>
+			                    
+			                    <div class="card-body">
+			                        <h5 class="card-title">
+			                            {{ item.catalog.name|upper }}
+			                        </h5>
 
-		{% for pos in 0..pages-1 %}
+			                        <p class="card-text">
+			                           {{ item.description|truncate(200) }}
+			                        </p>
+			                    </div>
+			                </a>
+			            </div>
+		            {% endfor %}
+		        </div>
 
-	        <div class="card-group">
-	        	{% for item in catalogs|slice(pos*3,3) %}
-		            <div class="card">
-		                <a href="{{ path('account_download_catalog',{'token':item.token}) }}" class="d-block clearfix">
-		                    <div class="account-app-menu bg-secondary">
-		                        <i class="fas fa-cloud-download-alt fa-6x"></i>
-		                    </div>
-		                    
-		                    <div class="card-body">
-		                        <h5 class="card-title">
-		                            {{ item.catalog.name|upper }}
-		                        </h5>
-
-		                        <p class="card-text">
-		                           {{ item.description|truncate(200) }}
-		                        </p>
-		                    </div>
-		                </a>
-		            </div>
-	            {% endfor %}
-	        </div>
-
-		   	<hr>
-		   
-		{% endfor %}
+			   	<hr>
+			{% endfor %}
+		{% else %}
+			<div class="alert alert-info" role="alert">
+                <h5 class="alert-heading">
+                    {{ "Information indisponible pour le moment"|trans({}) }}
+                </h5>
+            </div>
+		{% endif %}
 
     </section>
 {% endblock %}

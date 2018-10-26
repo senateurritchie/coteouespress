@@ -15,29 +15,29 @@
                         >
                             <h1 class="text-hide">{{ app.user.username|lower|title }}</h1>
 
-                            <div class="tools">
+                            {#<div class="tools">
                                 <a href="" class="btn-upload">
                                     <input type="file" name="image" class="d-none" />
-                                    <i class="fas fa-camera fa-2x"></i>&nbsp;&nbsp;<span style="vertical-align:super">Modifier l'image</span>
+                                    <i class="fas fa-camera fa-2x"></i>&nbsp;&nbsp;<span style="vertical-align:super">{{ "Modifier l'image"|trans({},"account-menu-left") }}</span>
                                 </a>
-                            </div>
+                            </div>#}
                     </div>
                 </div>
 
                 <a href="{{ path('account_index') }}" class="list-group-item list-group-item-action {{ route == 'account_index' ? 'active' : ''}}">
-                    <i class="fas fa-home"></i>&nbsp;&nbsp;Accueil
+                    <i class="fas fa-home"></i>&nbsp;&nbsp;{{ "Accueil"|trans({}) }}
                 </a>
 
                 <a href="{{ path('movie_index') }}" class="list-group-item list-group-item-action {{ route == 'movie_index' ? 'active' : ''}}">
-                    <i class="fas fa-search"></i>&nbsp;&nbsp;Programmes
+                    <i class="fas fa-search"></i>&nbsp;&nbsp;{{ "Programmes"|trans({},"account-menu-left") }}
                 </a>
 
                 <a href="{{ path('account_profile') }}" class="list-group-item list-group-item-action {{ route == 'account_profile' ? 'active' : ''}}">
-                    <i class="fas fa-user"></i>&nbsp;&nbsp;Mon profil
+                    <i class="fas fa-user"></i>&nbsp;&nbsp;{{ "Mon profil"|trans({},"account-menu-left") }}
                 </a>
 
                 <a href="{{ path('account_settings') }}" class="list-group-item list-group-item-action disabled{{ route == 'account_settings' ? 'active' : ''}}">
-                    <i class="fas fa-cogs"></i>&nbsp;&nbsp;Paramètres du compte
+                    <i class="fas fa-cogs"></i>&nbsp;&nbsp;{{ "Paramètres du compte"|trans({},"account-menu-left") }}
                 </a>
 
                 {#<a href="{{ path('account_inbox') }}" class="list-group-item d-flex justify-content-between align-items-center {{ route == 'account_inbox' ? 'active' : ''}}">
@@ -46,33 +46,37 @@
                     <span class="badge badge-primary badge-pill">2</span>
                 </a>#}
 
-                <a href="{{ path('admin_index') }}" class="list-group-item list-group-item-action {{ route == 'admin_index' ? 'active' : ''}}">
-                    <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;Espace d'administration
-                </a>
+                {% if is_granted('ROLE_SUPER_ADMIN') or is_granted('ROLE_ADMIN') or is_granted('ROLE_TRANSLATOR') or is_granted('ROLE_CATALOG') %}
+
+                    <a href="{{ path('admin_index') }}" class="list-group-item list-group-item-action {{ route == 'admin_index' ? 'active' : ''}}">
+                        <i class="fas fa-tachometer-alt"></i>&nbsp;&nbsp;{{ "Espace d'administration"|trans({},"main-menu") }}
+                    </a>
+
+                {% endif %}
 
                 {% if route !=  "account_index" %}
 
                     <a href="{{ path('account_cgu') }}" class="list-group-item list-group-item-action {{ route == 'account_cgu' ? 'active' : ''}}">
-                        <i class="fas fa-bullhorn"></i>&nbsp;&nbsp;Conditions générales d'utilisation
+                        <i class="fas fa-bullhorn"></i>&nbsp;&nbsp;{{ "Condition générale d'utilisation"|trans({},"main-menu") }}
                     </a>
 
                     <a href="{{ path('account_privacy_policy') }}" class="list-group-item list-group-item-action {{ route == 'account_privacy_policy' ? 'active' : ''}}">
-                        <i class="fas fa-user-secret"></i>&nbsp;&nbsp;Politique de confidentialité
+                        <i class="fas fa-user-secret"></i>&nbsp;&nbsp;{{ "Politique de confidentialité"|trans({},"main-menu") }}
                     </a>
 
                     {% if is_granted('ROLE_PRODUCER') %}
                         <a href="{{ path('account_producer_index') }}" class="list-group-item list-group-item-action {{ route == 'account_producer_index' ? 'active' : ''}}">
-                            <i class="fab fa-stack-exchange"></i>&nbsp;&nbsp;Formulaire d'acquisition
+                            <i class="fab fa-stack-exchange"></i>&nbsp;&nbsp;Acquisition
                         </a>
                     {% endif %}
 
                     <a href="{{ path('account_download_index') }}" class="list-group-item list-group-item-action {{ route == 'account_download_index' ? 'active' : ''}}">
-                        <i class="fas fa-cloud-download-alt"></i>&nbsp;Téléchargement
+                        <i class="fas fa-cloud-download-alt"></i>&nbsp;{{ "Espace de téléchargement"|trans({},"main-menu") }}
                     </a>
                 {% endif %}
 
                 <a href="{{ logout_path() }}" class="list-group-item list-group-item-action">
-                    <i class="fas fa-power-off"></i>&nbsp;&nbsp;Se deconnecter
+                    <i class="fas fa-power-off"></i>&nbsp;&nbsp;{{ "Se deconnecter"|trans({},"main-menu") }}
                 </a>
               
             </div>

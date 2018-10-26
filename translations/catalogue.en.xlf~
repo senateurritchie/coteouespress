@@ -135,11 +135,11 @@
       </trans-unit>
       <trans-unit id=".nU._5u" resname="Pays">
         <source>Pays</source>
-        <target>__Pays</target>
+        <target>From</target>
       </trans-unit>
       <trans-unit id="VhQI.8p" resname="Année">
         <source>Année</source>
-        <target>__Année</target>
+        <target>Year</target>
       </trans-unit>
       <trans-unit id="APYkkq1" resname="Information indisponible pour ce programme">
         <source>Information indisponible pour ce programme</source>

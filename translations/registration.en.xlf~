@@ -21,6 +21,14 @@
         <source>Je suis un...</source>
         <target>I'am a...</target>
       </trans-unit>
+      <trans-unit id="ssEkU20" resname="Nom">
+        <source>Nom</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="szwn32b" resname="Adresse email">
+        <source>Adresse email</source>
+        <target>Email Adress</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

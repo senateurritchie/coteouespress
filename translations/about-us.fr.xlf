@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="BCx7a3q" resname="about-us.text">
+        <source>about-us.text</source>
+        <target><![CDATA[
+          
+
+              <p>
+                  CÔTE OUEST est une entreprise Africaine indépendante, leader de la distribution de contenus audiovisuels en Afrique. Elle opère depuis 1993, et s’appuie sur un réseau de 93 collaborateurs répartis sur l’ensemble du Continent.<br>Si l’implantation principale de CÔTE OUEST se trouve à Abidjan (Côte d’Ivoire), l’entreprise est également présente à Ebène (Ile Maurice) et à Johannesburg (Afrique du Sud)
+              </p>
+
+              <p>
+                  <img width="250" class="float-left img-fluid rounded mr-2" src="%img_path%" alt="cote ouest audiovisuel. a propos de nous">
+
+                  Avec la création de CÔTE OUEST, Bernard Azria, l’un des meilleurs spécialistes en marketing et communication d’Afrique francophone, a ouvert la voie à un nouveau secteur d’activité, encore inexistant à l’époque dans cette région. Il fut donc le pionnier de cette activité sur le continent. Aujourd’hui, CÔTE OUEST distribue annuellement près de 20 000 heures de programmes, à plus de 100 clients, éditeurs de services linéaires et non linéaires, qui par tous les moyens de diffusion existants actuellement pénètrent 63 marchés principaux et le monde entier pour certains. Si historiquement l’activité de CÔTE OUEST a commencé par la distribution de contenu provenant de diverses Majors d’Hollywood telles que SPTI, MGM, TWDC, CBS, sur l’Afrique subsaharienne francophone, cette dernière a rapidement étendu son activité sur l’ensemble de l’Afrique francophone, la France et les DOM-TOM.<br>
+                  Pariant sur un bon accueil des Télénovelas sud-américaines, Côte Ouest fut encore pionnière dans l’introduction de ces programmes sur ces territoires, créant ainsi un véritable phénomène d’audience, voir un phénomène de société qui perdure encore aujourd’hui, ce qui a conduit l’entreprise à signer avec le géant Globo TV International, dès 1999, un accord de distribution exclusif pour l’Afrique Francophone et Anglophone, la France et les DOM-TOM, accord récemment reconduit jusqu’en 2023.
+                  <br><br>
+                  En parallèle, Côte ouest a progressivement étendu son activité au marché Anglophone. Marché sur lequel, l’entreprise s’impose, chaque jour un peu plus, comme un acteur important.<br>
+                  A l’aube des années 2 000, prenant acte de l’orientation de plus en plus marquée de la demande des téléspectateurs pour le contenu Africain, Côte Ouest une nouvelle fois pionnier a patiemment et systématiquement, construit le plus important des catalogues Africains existant sur le marché. Ce catalogue premier du genre, contient des programmes venant de toutes les parties du continent. Certains titres sont distribués dans leurs versions originales, qu’elles soient Françaises, Anglaises ou Angolaises.  De plus, Côte Ouest assure le doublage des meilleures d’entre eux afin de les distribuer hors de leur région d’origine , créant ainsi le première exercice de ce qu’elle nomma  la «  Cross Fertilization », c’est-à-dire permettre à des publics voisins de visionner les programmes de voisinage. Ici encore Côte ouest fut pionnière, avec « L’histoire d’une vie », doublée du Français à l’anglais et distribué dans 14 pays Anglophones, avec « Jacob Cross » doublé de l’Anglais au Français et distribué dans 45 pays francophones,  « Windeck » doublé de l’Angolais vers le Français et l’Anglais pour être distribué respectivement dans 40 pays francophones et 37 pays Anglophones. <br>
+                  Ainsi, le catalogue de Côte Ouest, riche de près de 20 000 heures englobe tous les genres; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, et des programmes à succès en provenance d’Hollywood. 
+              </p>
+
+
+          </p>
+        ]]></target>
+      </trans-unit>
+      <trans-unit id="RPN1Xei" resname="A propos de nous">
+        <source>A propos de nous</source>
+        <target>A propos de nous</target>
+      </trans-unit>
+      <trans-unit id="wyAfrW_" resname="Nos valeurs">
+        <source>Nos valeurs</source>
+        <target>Nos valeurs</target>
+      </trans-unit>
+      <trans-unit id="15NPzsR" resname="Notre positionnement">
+        <source>Notre positionnement</source>
+        <target>Notre positionnement</target>
+      </trans-unit>
+      <trans-unit id="zNPo345" resname="Notre vision">
+        <source>Notre vision</source>
+        <target>Notre vision</target>
+      </trans-unit>
+      <trans-unit id="gEVwWnl" resname="Notre catalogue">
+        <source>Notre catalogue</source>
+        <target>Notre catalogue</target>
+      </trans-unit>
+      <trans-unit id="eXx3qDS" resname="Notre ambition">
+        <source>Notre ambition</source>
+        <target>Notre ambition</target>
+      </trans-unit>
+      <trans-unit id="BpbrXoh" resname="Notre équipe">
+        <source>Notre équipe</source>
+        <target>Notre équipe</target>
+      </trans-unit>
+      <trans-unit id="zBuIEdK" resname="Nos Partenaires">
+        <source>Nos Partenaires</source>
+        <target>Nos Partenaires</target>
+      </trans-unit>
+      <trans-unit id="h_Nrrem" resname="Nous retrouver">
+        <source>Nous retrouver</source>
+        <target>Nous retrouver</target>
+      </trans-unit>
+      <trans-unit id="U2TXDI7" resname="nos.valeurs.text">
+        <source>nos.valeurs.text</source>
+        <target>
+          Nos valeurs mettent au-dessus de tout l’Ethique, l’Honnêteté, la Sincérité, la Modestie, et l’Engagement à servir de toutes nos forces nos clients qui s’appuient sur nous pour la réussite de leurs chaînes et les producteurs qui nous confient leur bien le plus précieux pour le faire prospérer.  
+        </target>
+      </trans-unit>
+      <trans-unit id="qQVAzR2" resname="notre.positionnement.text">
+        <source>notre.positionnement.text</source>
+        <target>
+           L’appétit des auditeurs à l’international pour des contenus originaux, nécessite de s’orienter vers les nouveaux marchés qu’offre le sud. Et nous sommes convaincus qu’un grand potentiel se cache dans la collaboration sud-sud, encore trop peu exploitée. En tant que distributeur, la plus value qu’apporte Côte Ouest est de sortir des sentiers battus et de proposer de nouvelles voies encore peu explorées. Ainsi Côte Ouest grâce à son expertise sur le marché de l’Amérique latine, l’Afrique et maintenant l’Australie, se positionne comme un fournisseur de contenu du Sud. 
+        </target>
+      </trans-unit>
+      <trans-unit id=".jVy.s_" resname="notre.vision.text">
+        <source>notre.vision.text</source>
+        <target>
+          <![CDATA[
+                <p>
+                    Que ce soit dans les arts, la littérature, la musique… dans tous les domaines, l’Afrique regorge de talents, et a donné énormément de ces talents au Monde. L’Afrique mérite une bien meilleure place dans le concert des nations et nous pensons qu’il est temps pour ces talents de servir les rêves et les ambitions de l’Afrique. It’s Time For Africa !           
+                </p>
+
+                <br>
+                <img class="img-fluid rounded" src="http://coteouest.tv/imgs/its-time-for-africa-def.jpg" alt="cote ouest audiovisuel. a propos de nous">
+
+                <br>
+                <br>
+
+                <p>
+                    En effet, nous croyons que le temps est venu pour les Africains de raconter leurs propres histoires. Nous pensons que la créativité africaine mérite une meilleure place sur la scène internationale. Nous sommes convaincus que la production africaine peut voyager à travers et au-delà des frontières géographiques de son continent. Nous aimons passionnément la singularité de chacune de ces Afriques, dont les frontières visibles et invisibles vont bien au-delà du continent. Nous savons à quels points toutes ces Afriques sont belles, riches et colorées, et nous avons la grande ambition de réunir l’ensemble de ces flamboyantes couleurs.             
+                </p>
+          ]]>
+        </target>
+      </trans-unit>
+      <trans-unit id="vWfYiDE" resname="notre.catalogue.text">
+        <source>notre.catalogue.text</source>
+        <target>
+            <![CDATA[
+                <p>
+                    Nous croyons fortement que l’Afrique ne pourra réussir qu’à la condition qu’elle abolisse les séparations qui furent historiquement érigées en son sein, et que ce faisant elle réunisse ces forces, et plaidons pour cette profession de foi sous le credo « UNITED COLORS OF AFRICA ».       
+                </p>
+
+               
+                <p>
+                   Nous avons nommé ainsi notre Catalogue qui réunit des programmes originaires de 17 pays africains et de leurs diasporas : UNITED CONTENT OF AFRICA             
+                </p>
+
+                <p>
+                    Ainsi, ce catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes US. 
+
+                </p>
+            ]]>
+        </target>
+      </trans-unit>
+      <trans-unit id="UrLH9iy" resname="notre.ambition.text">
+        <source>notre.ambition.text</source>
+        <target>
+            L’Afrique, c’est également une diaspora de plus de 200 millions de personnes répartie aux quatre coins de la planète. Une diaspora qui a soif de contenu africain. Le dynamisme de l’industrie audiovisuelle en Afrique, a permis et permet la création d’œuvres de qualité qui peuvent maintenant revendiquer leur place dans la programmation des chaînes de télévision à l’international. Notre ambition est donc de porter l’Afrique au-delà de ses frontières.
+        </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

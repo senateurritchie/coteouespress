@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="ssEkU20" resname="Nom">
+        <source>Nom</source>
+        <target>Name</target>
+      </trans-unit>
+      <trans-unit id="7rqjFBD" resname="ancien mot de passe">
+        <source>ancien mot de passe</source>
+        <target>old password</target>
+      </trans-unit>
+      <trans-unit id="z13Ex1n" resname="nouveau mot de passe">
+        <source>nouveau mot de passe</source>
+        <target>new password</target>
+      </trans-unit>
+      <trans-unit id="doOcE41" resname="confirmer le nouveau mot de passe">
+        <source>confirmer le nouveau mot de passe</source>
+        <target>confirm the new password</target>
+      </trans-unit>
+      <trans-unit id="Jr2o7oF" resname="veuillez saisir l'ancien mot de passe">
+        <source>veuillez saisir l'ancien mot de passe</source>
+        <target>please enter the old password</target>
+      </trans-unit>
+      <trans-unit id="9GDuUWg" resname="veuillez saisir le nouveau mot de passe">
+        <source>veuillez saisir le nouveau mot de passe</source>
+        <target>please enter the new password</target>
+      </trans-unit>
+      <trans-unit id="XKqkAlg" resname="le mot de passe donné est incorrect. êtes-vous vraiment le depositaire de ce compte ?">
+        <source>le mot de passe donné est incorrect. êtes-vous vraiment le depositaire de ce compte ?</source>
+        <target>the given password is incorrect. Are you really the depositary of this account?</target>
+      </trans-unit>
+      <trans-unit id="ZiNLAGA" resname="les mots de passe donnés sont différents">
+        <source>les mots de passe donnés sont différents</source>
+        <target>given passwords are different</target>
+      </trans-unit>
+      <trans-unit id="nxru.Rb" resname="modification éffectuée avec success">
+        <source>modification éffectuée avec success</source>
+        <target>change made with success</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

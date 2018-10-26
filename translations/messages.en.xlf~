@@ -19,7 +19,7 @@
       </trans-unit>
       <trans-unit id="f1MtLfm" resname="annuler le tri">
         <source>annuler le tri</source>
-        <target>__annuler le tri</target>
+        <target>cancel the sort</target>
       </trans-unit>
       <trans-unit id="UZkNe_2" resname="Filmographie">
         <source>Filmographie</source>
@@ -27,11 +27,43 @@
       </trans-unit>
       <trans-unit id="VtEokzJ" resname="Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.">
         <source>Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.</source>
-        <target>__Nous n'avons pas trouvé la page que vous cherchiez. En attendant, vous pouvez revenir à la page precedente ou essayer d’utiliser le formulaire de recherche.</target>
+        <target>We did not find the page you were looking for. In the meantime, you can go back to the previous page or try using the search form.</target>
       </trans-unit>
       <trans-unit id="m2DbmtT" resname="Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement">
         <source>Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement</source>
-        <target>__Une erreur est survenue pendant l'exécution de votre requête veuillez réessayer ultérieurement</target>
+        <target>An error occured while running your query please try again later</target>
+      </trans-unit>
+      <trans-unit id="wuuM2dl" resname="Attention">
+        <source>Attention</source>
+        <target>Warning</target>
+      </trans-unit>
+      <trans-unit id="UzFhc1Y" resname="Accueil">
+        <source>Accueil</source>
+        <target>Home</target>
+      </trans-unit>
+      <trans-unit id="5vfkbqo" resname="Information indisponible pour le moment">
+        <source>Information indisponible pour le moment</source>
+        <target>Information not available at the moment</target>
+      </trans-unit>
+      <trans-unit id="YSHyAf3" resname="Bienvenue">
+        <source>Bienvenue</source>
+        <target>Welcome</target>
+      </trans-unit>
+      <trans-unit id="wA4rYMv" resname="Félicitation">
+        <source>Félicitation</source>
+        <target>Congratulation</target>
+      </trans-unit>
+      <trans-unit id="SXQWHdh" resname="Quitter">
+        <source>Quitter</source>
+        <target>Close</target>
+      </trans-unit>
+      <trans-unit id="cdx0hz4" resname="Enregistrer">
+        <source>Enregistrer</source>
+        <target>Save</target>
+      </trans-unit>
+      <trans-unit id=".5yLjAZ" resname="Mot de passe">
+        <source>Mot de passe</source>
+        <target>Password</target>
       </trans-unit>
     </body>
   </file>

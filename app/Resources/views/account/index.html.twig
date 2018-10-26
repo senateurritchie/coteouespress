@@ -28,7 +28,7 @@
 {% block content %}
     <section style="min-height:600px;">
         <h3 class="text-nowrap text-truncate">
-            Bienvenue, {{ app.user.username|lower|title }}
+            {{ 'Bienvenue'|trans({}) }}, {{ app.user.username|lower|title }}
         </h3>
         <hr>
 
@@ -41,7 +41,7 @@
                     
                     <div class="card-body">
                         <h5 class="card-title">
-                            Conditions Générales d'Utilisation
+                           {{ "Condition générale d'utilisation"|trans({},"main-menu") }}
                         </h5>
 
                         <p class="card-text">
@@ -60,7 +60,9 @@
                     </div>
 
                     <div class="card-body">
-                        <h5 class="card-title">Politique de Confidentialité</h5>
+                        <h5 class="card-title">
+                            {{ "Politique de confidentialité"|trans({},"main-menu") }}
+                        </h5>
                         <p class="card-text">
                             Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quasi blanditiis, neque ipsum numquam odit, asperiores, hic dolor necessitatibus libero sequi amet voluptatibus ipsam velit qui harum, temporibus cum nemo iste!
                         </p>
@@ -94,7 +96,7 @@
                         </div>
                         <div class="card-body">
                             <h5 class="card-title">
-                                Espace de Téléchargement
+                                {{ "Espace de téléchargement"|trans({},"main-menu") }}
                             </h5>
 
                             <p class="card-text">

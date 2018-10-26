@@ -4,13 +4,13 @@
 
     <section style="min-height:600px;">
         <h1 class="text-nowrap text-truncate">
-            Paramètres du compte
+            {{ "Paramètres du compte"|trans({},"account-menu-left") }}
         </h1>
 
         {% for notice in app.flashes('notice-success') %}
             <div class="alert alert-info alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Félicitation!</h4>
+                <h4><i class="icon fa fa-check"></i> {{ 'Félicitation'|trans({}) }}!</h4>
                 {{ notice }}
             </div>
         {% endfor %}
@@ -18,7 +18,7 @@
         {% for notice in app.flashes('notice-error') %}
             <div class="alert alert-danger alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h4><i class="icon fa fa-check"></i> Attention!</h4>
+                <h4><i class="icon fa fa-check"></i> {{ 'Attention'|trans({}) }}!</h4>
                 {{ notice }}
             </div>
         {% endfor %}
@@ -37,7 +37,7 @@
 	        		<tr>
 	        			<td>
 	        				<strong>
-	        					Nom
+	        					{{ 'Nom'|trans({},'account-setting') }}
 	        				</strong>
 	        			</td>
 
@@ -61,7 +61,7 @@
 	        		<tr>
 	        			<td>
 	        				<strong>
-	        					A propos
+	        					{{ 'A propos de moi'|trans({},'account-profile') }}
 	        				</strong>
 	        			</td>
 
@@ -73,7 +73,7 @@
 	        		<tr>
 	        			<td>
 	        				<strong>
-	        					Mot de passe
+	        					{{ 'Mot de passe'|trans({}) }}
 	        				</strong>
 	        			</td>
 	        			
@@ -83,20 +83,20 @@
 	        					<div class="col-md-4">
 	        						<form action="{{ path('account_pwd_update') }}" method="POST">
 			        					<div class="form-group">
-			        						<input name="_old_pwd" class="form-control form-control-sm" type="password" placeholder="ancien mot de passe" />
+			        						<input name="_old_pwd" class="form-control form-control-sm" type="password" placeholder="{{ 'ancien mot de passe'|trans({},'account-setting') }}" />
 			        					</div>
 
 			        					<hr>
 
 			        					<div class="form-group">
-			        						<input name="_new_pwd" class="form-control form-control-sm" type="password" placeholder="Nouveau" />
+			        						<input name="_new_pwd" class="form-control form-control-sm" type="password" placeholder="{{ 'nouveau mot de passe'|trans({},'account-setting') }}" />
 
-			        						<input name="_new_cpwd" class="form-control form-control-sm" type="password" placeholder="confirmation" />
+			        						<input name="_new_cpwd" class="form-control form-control-sm" type="password" placeholder="{{ 'confirmer le nouveau mot de passe'|trans({},'account-setting') }}" />
 			        					</div>
 
 			        					<div class="form-group">
 			        						<button type="submit" class="btn btn-info btn-sm">
-			        							<i class="fas fa-save"></i> Enregistrer
+			        							<i class="fas fa-save"></i> {{ 'Enregistrer'|trans({}) }}
 			        						</button>
 			        					</div>
 			        				</form>

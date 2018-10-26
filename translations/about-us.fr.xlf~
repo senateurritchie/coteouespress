@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="BCx7a3q" resname="about-us.text">
+        <source>about-us.text</source>
+        <target><![CDATA[
+          
+
+              <p>
+                  CÔTE OUEST est une entreprise Africaine indépendante, leader de la distribution de contenus audiovisuels en Afrique. Elle opère depuis 1993, et s’appuie sur un réseau de 93 collaborateurs répartis sur l’ensemble du Continent. Si l’implantation principale de CÔTE OUEST se trouve à Abidjan (Côte d’Ivoire), l’entreprise est également présente à Ebène (Ile Maurice) et à Johannesburg (Afrique du Sud)
+              </p>
+
+              <p>
+                  <img width="250" class="float-left img-fluid rounded mr-2" src="%img_path%" alt="cote ouest audiovisuel. a propos de nous">
+
+                  Avec la création de CÔTE OUEST, Bernard Azria, l’un des meilleurs spécialistes en marketing et communication d’Afrique francophone, a ouvert la voie à un nouveau secteur d’activité, encore inexistant à l’époque dans cette région. Il fut donc le pionnier de cette activité sur le continent. Aujourd’hui, CÔTE OUEST distribue annuellement près de 20 000 heures de programmes, à plus de 100 clients, éditeurs de services linéaires et non linéaires, qui par tous les moyens de diffusion existants actuellement pénètrent 63 marchés principaux et le monde entier pour certains. Si historiquement l’activité de CÔTE OUEST a commencé par la distribution de contenu provenant de diverses Majors d’Hollywood telles que SPTI, MGM, TWDC, CBS, sur l’Afrique subsaharienne francophone, cette dernière a rapidement étendu son activité sur l’ensemble de l’Afrique francophone, la France et les DOM-TOM.<br>
+                  Pariant sur un bon accueil des Télénovelas sud-américaines, Côte Ouest fut encore pionnière dans l’introduction de ces programmes sur ces territoires, créant ainsi un véritable phénomène d’audience, voir un phénomène de société qui perdure encore aujourd’hui, ce qui a conduit l’entreprise à signer avec le géant Globo TV International, dès 1999, un accord de distribution exclusif pour l’Afrique Francophone et Anglophone, la France et les DOM-TOM, accord récemment reconduit jusqu’en 2023.
+                  <br><br>
+                  En parallèle, Côte ouest a progressivement étendu son activité au marché Anglophone. Marché sur lequel, l’entreprise s’impose, chaque jour un peu plus, comme un acteur important.<br>
+                  A l’aube des années 2 000, prenant acte de l’orientation de plus en plus marquée de la demande des téléspectateurs pour le contenu Africain, Côte Ouest une nouvelle fois pionnier a patiemment et systématiquement, construit le plus important des catalogues Africains existant sur le marché. Ce catalogue premier du genre, contient des programmes venant de toutes les parties du continent. Certains titres sont distribués dans leurs versions originales, qu’elles soient Françaises, Anglaises ou Angolaises.  De plus, Côte Ouest assure le doublage des meilleures d’entre eux afin de les distribuer hors de leur région d’origine , créant ainsi le première exercice de ce qu’elle nomma  la «  Cross Fertilization », c’est-à-dire permettre à des publics voisins de visionner les programmes de voisinage. Ici encore Côte ouest fut pionnière, avec « L’histoire d’une vie », doublée du Français à l’anglais et distribué dans 14 pays Anglophones, avec « Jacob Cross » doublé de l’Anglais au Français et distribué dans 45 pays francophones,  « Windeck » doublé de l’Angolais vers le Français et l’Anglais pour être distribué respectivement dans 40 pays francophones et 37 pays Anglophones. <br>
+                  Ainsi, le catalogue de Côte Ouest, riche de près de 20 000 heures englobe tous les genres; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, et des programmes à succès en provenance d’Hollywood. 
+              </p>
+
+
+          </p>
+        ]]></target>
+      </trans-unit>
+      <trans-unit id="RPN1Xei" resname="A propos de nous">
+        <source>A propos de nous</source>
+        <target>__A propos de nous</target>
+      </trans-unit>
+      <trans-unit id="wyAfrW_" resname="Nos valeurs">
+        <source>Nos valeurs</source>
+        <target>__Nos valeurs</target>
+      </trans-unit>
+      <trans-unit id="15NPzsR" resname="Notre positionnement">
+        <source>Notre positionnement</source>
+        <target>__Notre positionnement</target>
+      </trans-unit>
+      <trans-unit id="zNPo345" resname="Notre vision">
+        <source>Notre vision</source>
+        <target>__Notre vision</target>
+      </trans-unit>
+      <trans-unit id="gEVwWnl" resname="Notre catalogue">
+        <source>Notre catalogue</source>
+        <target>__Notre catalogue</target>
+      </trans-unit>
+      <trans-unit id="eXx3qDS" resname="Notre ambition">
+        <source>Notre ambition</source>
+        <target>__Notre ambition</target>
+      </trans-unit>
+      <trans-unit id="BpbrXoh" resname="Notre équipe">
+        <source>Notre équipe</source>
+        <target>__Notre équipe</target>
+      </trans-unit>
+      <trans-unit id="zBuIEdK" resname="Nos Partenaires">
+        <source>Nos Partenaires</source>
+        <target>__Nos Partenaires</target>
+      </trans-unit>
+      <trans-unit id="h_Nrrem" resname="Nous retrouver">
+        <source>Nous retrouver</source>
+        <target>__Nous retrouver</target>
+      </trans-unit>
+      <trans-unit id="U2TXDI7" resname="nos.valeurs.text">
+        <source>nos.valeurs.text</source>
+        <target>
+          Nos valeurs mettent au-dessus de tout l’Ethique, l’Honnêteté, la Sincérité, la Modestie, et l’Engagement à servir de toutes nos forces nos clients qui s’appuient sur nous pour la réussite de leurs chaînes et les producteurs qui nous confient leur bien le plus précieux pour le faire prospérer.  
+        </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

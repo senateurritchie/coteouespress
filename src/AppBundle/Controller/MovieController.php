@@ -83,7 +83,7 @@ class MovieController extends Controller{
                     $links[] = $url;
                 }
                 else{
-                    $vimeoRsrc["trailer"] = $cachedData["data"][$url];
+                    $vimeoRsrc[] = $cachedData["data"][$url];
                 }
             }
 
@@ -93,7 +93,7 @@ class MovieController extends Controller{
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc["lien 1"] = $cachedData["data"][$url];
+                        $vimeoRsrc[] = $cachedData["data"][$url];
                     }
                 }
 
@@ -102,7 +102,7 @@ class MovieController extends Controller{
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc["lien 2"] = $cachedData["data"][$url];
+                        $vimeoRsrc[] = $cachedData["data"][$url];
                     }
                 }
 
@@ -111,7 +111,7 @@ class MovieController extends Controller{
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc["lien 3"] = $cachedData["data"][$url];
+                        $vimeoRsrc[] = $cachedData["data"][$url];
                     }
                 }
             }
@@ -203,21 +203,8 @@ class MovieController extends Controller{
 
                 try {
                     $requestVimeo2($links,function($data)use(&$vimeoRsrc){
-
                         foreach ($data as $i => $el) {
-
-                            $label = "";
-                            switch ($i) {
-                                case 0:
-                                    $label = 'trailer';
-                                break;
-                                
-                                default:
-                                    $label = 'lien '.$i;
-                                break;
-                            }
-
-                            $vimeoRsrc[$label] = $el;
+                            $vimeoRsrc[] = $el;
                         }
                         
                     });

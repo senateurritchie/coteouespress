@@ -90,7 +90,7 @@
                     <table class="table table-striped">
                     
                         <tbody>
-                            {% for key,rsrc in vimeoRsrc  %}
+                            {% for rsrc in vimeoRsrc  %}
                                 <tr>
                                     <td>
                                         <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
@@ -99,8 +99,6 @@
                                         {{ rsrc.name|lower|title }}<br><small>
                                         
                                         {% for i in rsrc.download if i.quality != 'source' %}
-
-                                            
                                             <div>
                                                 <a href="{{ i.link }}" download="{{ rsrc.name|lower|title }}">
                                                     <i class="fas fa-download text-danger"></i>&nbsp;.&nbsp;{{ i.quality|upper }}&nbsp;.&nbsp;{{ i.height }}p&nbsp;&nbsp;.&nbsp;{{ i.width }} x {{ i.height }}&nbsp;.&nbsp;&nbsp;{{ i.size }}Mo 
@@ -128,8 +126,8 @@
             <div id="master-cover" style="background-image:url({{ asset('upload/public/'~programme.coverImg) }});background-position:left -100px;"></div>
         {% else %}
 
-            {% if vimeoRsrc.trailer is defined %}
-                <div id="master-cover" style="background-image:url({{ vimeoRsrc.trailer.cover }});background-position:left -100px;"></div>
+            {% if vimeoRsrc|length %}
+                <div id="master-cover" style="background-image:url({{ vimeoRsrc[0].cover }});background-position:left -100px;"></div>
             {% else %}
                 <div id="master-cover" style="background-image:none"></div>
                 {#<div id="master-cover" style="background-image:url({{ asset('img/vignette-cover-admin.png') }})"></div>#}
@@ -359,14 +357,14 @@
 
                 </section>
                 
-                {% if vimeoRsrc.trailer is defined %}
+                {% if vimeoRsrc|length %}
                     <section style="padding: 15px;" id="movie-player">
                         <div class="row">
                             <div class="col-md-12 coa-player p-0 m-0" style="background:#000000;text-align:center">
 
                                 {#<div data-vimeo-url="{{ programme.trailer }}" id="coa-player-cover" data-vimeo-width="820px" data-vimeo-height="480px" data-vimeo-background="false"></div>#}
                                 
-                                <div data-vimeo-url="{{ vimeoRsrc.trailer.link }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
+                                <div data-vimeo-url="{{ vimeoRsrc[0].link }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
                                 
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     
@@ -380,13 +378,13 @@
 
                                             <div class="list-group">
                                                 
-                                                {% for key,rsrc in vimeoRsrc %}
+                                                {% for rsrc in vimeoRsrc %}
                                                     <a data-id="{{ rsrc.code }}" href="" class="list-group-item list-group-item-action d-flex justify-content-start align-items-center {{ loop.first ? 'active' : ''}}">
 
                                                         <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}"> 
                                                         
                                                         &nbsp; 
-                                                        <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>{{ key|title }}</small></span>
+                                                        <span class="thumbnail-desc">{{ rsrc.name|lower|title }}<br><small>Lien {{ loop.index }}</small></span>
                                                     </a>
                                                 {% endfor %}
                                             </div>

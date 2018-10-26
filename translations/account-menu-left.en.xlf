@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="c4FGAm7" resname="Modifier l'image">
+        <source>Modifier l'image</source>
+        <target>Edit image</target>
+      </trans-unit>
+      <trans-unit id="eEhyLnd" resname="Programmes">
+        <source>Programmes</source>
+        <target>Our programs</target>
+      </trans-unit>
+      <trans-unit id="q0Uca0i" resname="Mon profil">
+        <source>Mon profil</source>
+        <target>My profil</target>
+      </trans-unit>
+      <trans-unit id="TGXq.NA" resname="Paramètres du compte">
+        <source>Paramètres du compte</source>
+        <target>Account settings</target>
+      </trans-unit>
+      <trans-unit id="cYDjaho" resname="Modifier ma fiche">
+        <source>Modifier ma fiche</source>
+        <target>__Modifier ma fiche</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

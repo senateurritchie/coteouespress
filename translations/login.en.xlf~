@@ -47,7 +47,11 @@
       </trans-unit>
       <trans-unit id="kJgi9GH" resname="Réinitialisation du mot de passe">
         <source>Réinitialisation du mot de passe</source>
-        <target>__Réinitialisation du mot de passe</target>
+        <target>Reset password</target>
+      </trans-unit>
+      <trans-unit id="PJFHFMB" resname="saisir votre adresse email">
+        <source>saisir votre adresse email</source>
+        <target>Your email</target>
       </trans-unit>
     </body>
   </file>

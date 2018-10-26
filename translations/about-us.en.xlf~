@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="en" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="RPN1Xei" resname="A propos de nous">
+        <source>A propos de nous</source>
+        <target>About us</target>
+      </trans-unit>
+      <trans-unit id="wyAfrW_" resname="Nos valeurs">
+        <source>Nos valeurs</source>
+        <target>Our values</target>
+      </trans-unit>
+      <trans-unit id="zNPo345" resname="Notre vision">
+        <source>Notre vision</source>
+        <target>Our vision</target>
+      </trans-unit>
+      <trans-unit id="gEVwWnl" resname="Notre catalogue">
+        <source>Notre catalogue</source>
+        <target>Our catalog</target>
+      </trans-unit>
+      <trans-unit id="eXx3qDS" resname="Notre ambition">
+        <source>Notre ambition</source>
+        <target>Our purpose</target>
+      </trans-unit>
+      <trans-unit id="BpbrXoh" resname="Notre équipe">
+        <source>Notre équipe</source>
+        <target>Our team</target>
+      </trans-unit>
+      <trans-unit id="zBuIEdK" resname="Nos Partenaires">
+        <source>Nos Partenaires</source>
+        <target>Our Partners</target>
+      </trans-unit>
+      <trans-unit id="h_Nrrem" resname="Nous retrouver">
+        <source>Nous retrouver</source>
+        <target>Find us</target>
+      </trans-unit>
+      <trans-unit id="15NPzsR" resname="Notre positionnement">
+        <source>Notre positionnement</source>
+        <target>Our position</target>
+      </trans-unit>
+      <trans-unit id="BCx7a3q" resname="about-us.text">
+        <source>about-us.text</source>
+        <target><![CDATA[ 
+          
+            <p>CÔTE OUEST is an independent African company, leader in the distribution of audiovisual content in Africa. CÔTE OUEST has been operating since 1993 and relies on a network of 93 collaborators across the continent.
+            With its headquarters located in Abidjan (Ivory Coast), the company also has an office in Ebène City (Mauritius),and sales representation in Johannesburg (South Africa), Lagos (Nigeria), Nairobi (Kenya). Bernard Azria is one of the best marketing and communications specialists in French-speaking Africa. By creating CÔTE OUEST, he has paved the way for a new business sector that was non-existent in this region.</p> 
+            
+            <p>
+            <img width="250" class="float-left img-fluid rounded mr-2" src="%img_path%" alt="cote ouest audiovisuel. a propos de nous">
+
+            Today, CÔTE OUEST holds a yearly average of 18,000 hours of programming (FY2015). We provide content to about 155 TV channels, spread across over 75 African countries. CÔTE OUEST started out providing sub-Saharan Africa with content from major Hollywood distributors such as SPTI, MGM, TWDC, CBS, etc, and rapidly expanded to French-speaking Africa, France and its overseas departments and territories.</p>
+
+            <p>Betting on audiences' warm response to South-American telenovelas, CÔTE OUEST was a pioneer in their introduction on the aforementioned territories. The resulting buzz created by CÔTE OUEST, a social phenomenon even, led to a collaboration with South-American giant Globo TV International. Today, CÔTE OUEST is the sole distributor of all Globo TV programs in both French and English-speaking Africa. This partnership was recently extended to 2019.
+            Meanwhile, CÔTE OUEST expanded its activity to the English market, on which the company's ever-growing presence made it a key figure.</p>
+
+            <p>Taking into account audiences' increasing demand of African content, CÔTE OUEST, slowly but surely, worked on acquiring one of the largest catalogues of African content currently available on the market. Our library contains programs from all over the continent. Some of our titles are available in their original version, be it French, English or Portuguese languages. Furthermore, CÔTE OUEST provides a dubbed version of African content, as well as telenovelas, in order to distribute them not only outside of their regions of origin, but also outside of the continent. Thus, enriched by 20,000 hours of content, our catalogue includes all types of programming: soaps, series, movies, documentaries, animation, etc., mostly made in Africa and South America, along with an ever-growing number of Hollywood blockbusters.</p> 
+
+          
+            
+          ]]></target>
+      </trans-unit>
+      <trans-unit id="U2TXDI7" resname="nos.valeurs.text">
+        <source>nos.valeurs.text</source>
+        <target>
+            Above all, we value Ethics, Honesty, Sincerity and Modesty. We are deeply committed to serving our customers who rely on us for the success of their channels, as well as producers who entrust us with their most prized possession. 
+        </target>
+      </trans-unit>
+      <trans-unit id="qQVAzR2" resname="notre.positionnement.text">
+        <source>notre.positionnement.text</source>
+        <target>
+            International audiences' yearning for original content are turning to new markets from the South Hemisphere. We believe that great potential lies within the collaboration of the "South". A partnership that has yet to be truly developed. As a distributor, the added value brought by CÔTE OUEST is to get off the beaten track and offer new opportunities that have yet to be tapped into. As such, and thanks to our expert assessment of the South American, African and Australian markets, we are able to position ourselves as a provider of content from the South.
+        </target>
+      </trans-unit>
+      <trans-unit id=".jVy.s_" resname="notre.vision.text">
+        <source>notre.vision.text</source>
+        <target>
+            Africa has many talents, be it in Art, Literature, Music, and so on. Africa has contributed to the emergence of many talents worldwide and deserves a better place on the international scene. At CÔTE OUEST, we believe the time has come for these talents to help bring forth Africa's dreams and ambitions. 
+        </target>
+      </trans-unit>
+      <trans-unit id="vWfYiDE" resname="notre.catalogue.text">
+        <source>notre.catalogue.text</source>
+        <target>__notre.catalogue.text</target>
+      </trans-unit>
+      <trans-unit id="UrLH9iy" resname="notre.ambition.text">
+        <source>notre.ambition.text</source>
+        <target>
+            Africa is also made up of a Diaspora of more than 200 million people, spread in every corner of the world. A diaspora that craves African content. The vibrancy of the audiovisual industry in Africa has been making way for the creation of quality work that can now claim their place in the programming of international TV channels. And so, our goal is to bring Africa beyond its borders. 
+        </target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
