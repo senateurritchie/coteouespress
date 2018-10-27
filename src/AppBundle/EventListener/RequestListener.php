@@ -14,6 +14,7 @@ class RequestListener{
             return;
         }
 
+
     	if($request->query->has('_locale')){
     		$_locale = $request->query->get('_locale','fr');
     	}

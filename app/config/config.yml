@@ -7,6 +7,13 @@ imports:
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: fr
+    app.locales: fr|en|
+
+# assetic:
+#     debug:          '%kernel.debug%'
+#     use_controller: '%kernel.debug%'
+#     filters:
+#         cssrewrite: ~
 
 framework:
     #esi: ~
@@ -38,9 +45,9 @@ framework:
         log: true
 
     profiler:
-        collect: false
+        collect: true
         only_exceptions: true
-        only_master_requests: false
+        only_master_requests: true
 
 
 # Twig Configuration
@@ -110,4 +117,3 @@ stof_doctrine_extensions:
             sluggable: true
             translatable: true
             timestampable: true
-

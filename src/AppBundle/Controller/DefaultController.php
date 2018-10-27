@@ -16,6 +16,8 @@ use AppBundle\Entity\Producer;
 use AppBundle\Entity\Director;
 
 class DefaultController extends Controller{
+
+
     /**
      * @Route("/", name="homepage")
      */
