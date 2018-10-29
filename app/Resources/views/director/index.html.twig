@@ -238,12 +238,23 @@
     {{ parent() }}
     
 
-    <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+    {#<script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
 
     <script src="{{ asset('js/admin/manager.js','js') }}"></script>
-    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>#}
+
+
+    {% javascripts 
+        'lib/owlcarousel/dist/owl.carousel.min.js' 
+        'lib/venobox/venobox.min.js' 
+        'js/main-menu-manager.js' 
+        'js/admin/manager.js' 
+        'js/plugins/SlimBanerSlide.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
     <script>
         $(document).ready(function($){

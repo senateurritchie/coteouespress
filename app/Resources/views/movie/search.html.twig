@@ -365,7 +365,7 @@
                                                 <h4 class="alert-heading">Oops</h4>
                                               
                                                 <p>
-                                                    Aucun resultat disponible pour ces critères de recherche, veuilleZ revoir votre selection pour des resultats plus pertinants.
+                                                    {{ "Aucun resultat disponible pour ces critères de recherche"|trans({},"movies") }}.
                                                 </p>
                                               
                                                 <hr>
@@ -439,14 +439,26 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
+    {#<script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     
     <script src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script src="{{ asset('js/programmes/manager.js','js') }}"></script>
     <script src="{{ asset('js/programmes/index.js','js') }}"></script>
-    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>#}
 
+
+    {% javascripts 
+        'js/main-menu-manager.js'
+        'lib/venobox/venobox.min.js'
+        'js/admin/manager.js'
+        'js/programmes/manager.js'
+        'js/programmes/index.js'
+        'js/plugins/SlimBanerSlide.js'
+
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 {% endblock %}
 

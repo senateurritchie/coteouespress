@@ -7,7 +7,7 @@
     <body>
       <trans-unit id="gavpyat" resname="Bande annonce">
         <source>Bande annonce</source>
-        <target>View Trailer</target>
+        <target>Watch Trailer</target>
       </trans-unit>
       <trans-unit id="RZid5J_" resname="Details">
         <source>Details</source>

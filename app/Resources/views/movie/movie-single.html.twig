@@ -992,16 +992,29 @@
     {{ parent() }}
 
     <script src="https://player.vimeo.com/api/player.js"></script>
-    
-    <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+
+    {#<script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
 
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
     <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('lib/slimscroll/jquery.slimscroll.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/movie-single/manager.js','js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/plugins/Voting.js','js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/movie-single/index.js','js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/movie-single/index.js','js') }}"></script>#}
+
+    {% javascripts 
+        'lib/owlcarousel/dist/owl.carousel.min.js' 
+        'js/main-menu-manager.js' 
+        'lib/venobox/venobox.min.js' 
+        'lib/slimscroll/jquery.slimscroll.js' 
+        'js/admin/manager.js' 
+        'js/movie-single/manager.js' 
+        'js/plugins/Voting.js' 
+        'js/movie-single/index.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 {% endblock %}

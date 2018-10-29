@@ -787,16 +787,23 @@
 {% block javascripts %}
 	{{ parent() }}
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.8.6/showdown.min.js"></script>
-    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+    {#<script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
 
 	<script src="{{ asset('admin/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
 	<script src="{{ asset('js/admin/manager.js','js') }}"></script>
 	<script src="{{ asset('js/admin/movie/manager.js','js') }}"></script>
 	<script src="{{ asset('js/admin/movie/index.js','js') }}"></script>
-	<script src="{{ asset('js/plugins/Cart.js','js') }}"></script>
+	<script src="{{ asset('js/plugins/Cart.js','js') }}"></script>#}
 	
-	<script>
-		
-	</script>
+	{% javascripts 
+        'lib/venobox/venobox.min.js' 
+        'admin/plugins/jQueryUI/jquery-ui.min.js' 
+        'js/admin/manager.js' 
+        'js/admin/movie/manager.js' 
+        'js/admin/movie/index.js' 
+        'js/plugins/Cart.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 

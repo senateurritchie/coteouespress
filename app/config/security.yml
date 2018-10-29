@@ -34,7 +34,7 @@ security:
                 default_target_path: account_index
 
             logout:
-                path: /security/logout
+                path: security_logout
                 target: /
                 handlers: 
                     - 'app.logout_listener'

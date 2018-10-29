@@ -1,0 +1,167 @@
+header #master-cover{
+	/*height: 290px;*/
+	height: 458px;
+	overflow: hidden;
+	background: #f6f6f6 no-repeat left top / cover;
+	/*background: url('../img/photo1.jpg') no-repeat left top / cover;*/
+}
+
+
+@media (max-width: 576px) { 
+  	#master-cover {
+    	height: 258px !important;
+	}
+}
+
+
+header #movie-profil{
+	top: 300px;
+	/*width: 20%;*/
+	width: 270px;
+	text-align: center;
+	position: absolute;
+	z-index: 1;
+	/*left: 100px;*/
+	left: 7.4%;
+	background: white;
+	/*box-shadow: 0 8px 6px -6px rgba(0,0,0,.125);*/
+	/*border: 1px solid #f1f0f0;*/
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	opacity: 1;
+
+	-webkit-transition:.4s linear all;
+	-moz-transition:.4s linear all;
+	-o-transition:.4s linear all;
+	transition:.4s linear all;
+}
+
+
+header #movie-profil.active{
+	-webkit-transition:.4s linear all;
+	-moz-transition:.4s linear all;
+	-o-transition:.4s linear all;
+	transition:.4s linear all;
+	position: fixed;
+	top: -30%;
+}
+
+header #movie-profil.active.reduced{
+	-webkit-transition:.4s linear all;
+	-moz-transition:.4s linear all;
+	-o-transition:.4s linear all;
+	transition:.4s linear all;
+	top: -100%;
+}
+
+#movie-title{
+	margin-top: 15px;
+}
+
+.movie-vote > i:hover:before{
+	content: "\f005" !important;
+}
+
+.coa-player{
+	overflow:hidden;
+}
+
+
+.coa-player .coa-player-thumbnail{
+	position: absolute;
+	top: 0;
+	right: -100%;
+	width: 350px;
+	bottom: 5px;
+	background: rgba(0,0,0,.5);
+	padding: 10px;
+	overflow: hidden;
+
+	-webkit-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	-moz-transition: all .5s linear;
+	transition: all .5s linear;
+}
+
+.coa-player .coa-player-thumbnail .list-group > .list-group-item img{
+	/* width: 50px;
+	height: 50px; */
+}
+
+.coa-player .coa-player-thumbnail .list-group > .list-group-item .thumbnail-desc{
+	margin-left: 10px;
+	width: 70%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.coa-player .coa-player-thumbnail.fix{
+	right: 5px;
+}
+
+.coa-player .coa-player-thumbnail button{
+	display: none;
+}
+.coa-player .coa-player-thumbnail.fix button{
+	display: block;
+}
+
+.coa-player-thumbnail a{
+	border:none !important;
+	background:none !important;
+	color:#ffffff !important;
+
+}
+.coa-player .coa-player-thumbnail a:hover{
+	box-shadow: 0 5px 35px rgba(255,255,255,0.3);
+}
+
+
+
+.coa-player-thumbnail a.active{
+	background: rgba(220,53,69,.4) !important;
+}
+
+
+.coa-player:hover .coa-player-thumbnail{
+	
+	-webkit-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	-moz-transition: all .5s linear;
+	transition: all .5s linear;
+	bottom: 10%;
+	right: 8%;
+}
+
+
+.coa-player:hover .coa-player-thumbnail.fix-rem{
+	
+	-webkit-transition: all .5s linear;
+	-ms-transition: all .5s linear;
+	-o-transition: all .5s linear;
+	-moz-transition: all .5s linear;
+	transition: all .5s linear;
+	right: -100%;
+}
+
+section{
+
+}
+
+.block{
+	padding: 0px !important;
+}
+
+.block#other-movies{
+	padding-left: 65px !important; 
+	margin-top: 0px;
+	margin-bottom: 10px;
+}
+
+.block#other-movies .block-header{
+	padding-right: 0px !important; 
+}

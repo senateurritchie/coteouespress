@@ -9,13 +9,15 @@ parameters:
     locale: fr
     app.locales: fr|en|
 
-# assetic:
-#     debug:          '%kernel.debug%'
-#     use_controller: '%kernel.debug%'
-#     filters:
-#         cssrewrite: ~
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~
 
 framework:
+    templating:
+        engines: ['twig']
     #esi: ~
     translator: { fallbacks: ['%locale%'] }
     secret: '%secret%'
@@ -45,9 +47,9 @@ framework:
         log: true
 
     profiler:
-        collect: true
+        collect: false
         only_exceptions: true
-        only_master_requests: true
+        only_master_requests: false
 
 
 # Twig Configuration

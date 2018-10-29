@@ -15,8 +15,6 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
-
     {#<style>
         header#header{
             height: auto !important;
@@ -126,28 +124,25 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
-    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
-
+    {#<script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="{{ asset('js/admin/manager.js','js') }}"></script>
-    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>#}
+
+
+    {% javascripts 
+        'js/main-menu-manager.js' 
+        'js/admin/manager.js' 
+        'js/plugins/SlimBanerSlide.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
 
 
     <script>
         $(document).ready(function($){
-            /* 09. VENOBOX JS */
-            $('.venobox').venobox({
-                numeratio: true,
-                titleattr: 'data-title',
-                titlePosition: 'top',
-                spinner: 'wandering-cubes',
-                spinColor: '#007bff',
-                autoplay:true
-            });
 
             var slider = new AdminManager.plugins.SlimBanerSlide();
-    
             slider.subscribe(event=>{
                 
             });

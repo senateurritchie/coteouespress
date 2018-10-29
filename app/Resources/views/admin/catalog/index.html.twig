@@ -299,9 +299,20 @@ application/vnd.ms-excel.sheet.macroEnabled.12"  >
 
 {% block javascripts %}
 	{{ parent() }}
-	<script src="{{ asset('admin/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
+	
+    {#<script src="{{ asset('admin/plugins/jQueryUI/jquery-ui.min.js') }}"></script>
 	<script src="{{ asset('js/admin/manager.js','js') }}"></script>
 	<script src="{{ asset('js/admin/catalog/manager.js','js') }}"></script>
-	<script src="{{ asset('js/admin/catalog/index.js','js') }}"></script>
+	<script src="{{ asset('js/admin/catalog/index.js','js') }}"></script>#}
+
+
+    {% javascripts 
+        'admin/plugins/jQueryUI/jquery-ui.min.js' 
+        'js/admin/manager.js' 
+        'js/admin/catalog/index.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
 {% endblock %}
 

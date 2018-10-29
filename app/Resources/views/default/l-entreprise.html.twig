@@ -13,8 +13,15 @@
 {% block stylesheets %}
     {{ parent() }}
 
-    <link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
-    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css','css') }}">
+    {#<link rel="stylesheet" href="{{ asset('css/page-2.css','css') }}">
+    <link rel="stylesheet" href="{{ asset('css/l-entreprise.css','css') }}">#}
+
+    {% stylesheets filter='cssrewrite' 
+        'css/page-2.css' 
+        'css/l-entreprise.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %} 
 
     <style>
 		header #master-cover{
@@ -382,10 +389,20 @@
 {% block javascripts %}
     {{ parent() }}
     
-    <script src="{{ asset('js/admin/manager.js','js') }}"></script>
+    {#<script src="{{ asset('js/admin/manager.js','js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
     <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
-    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>
+    <script src="{{ asset('js/plugins/SlimBanerSlide.js','js') }}"></script>#}
+
+
+    {% javascripts 
+        'js/admin/manager.js' 
+        'js/main-menu-manager.js' 
+        'lib/owlcarousel/dist/owl.carousel.min.js' 
+        'js/plugins/SlimBanerSlide.js' 
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 
     <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBFJv-Gz2nkIXlLGQlQYn9OPLsjkRdMmvM&callback=initMap"></script>

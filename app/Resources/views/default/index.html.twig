@@ -7,11 +7,22 @@
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+
+
+    {% stylesheets %}
+
+    {% endstylesheets %}
+    {#<link rel="stylesheet" href="{{ asset('lib/venobox/venobox.css') }}" type="text/css" media="screen" />
+    <link rel="stylesheet" href="{{ asset('css/index.css','css') }}" type="text/css" />#}
+
+    {% stylesheets filter='cssrewrite' 
+        'lib/venobox/venobox.css'
+        'css/index.css' %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %}
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
 
-    <link rel="stylesheet" href="{{ asset('css/index.css','css') }}" type="text/css" />
 {% endblock %}
 
 {% block body %}
@@ -526,10 +537,19 @@
 {% block javascripts %}
 
     {{ parent() }}
+
+    {% javascripts 
+        'lib/owlcarousel/dist/owl.carousel.min.js' 
+        'js/main-menu-manager.js'
+        'lib/venobox/venobox.min.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
     
-    <script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
+    {#<script src="{{ asset('lib/owlcarousel/dist/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('js/main-menu-manager.js','js') }}"></script>
-    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('lib/venobox/venobox.min.js') }}"></script>#}
     <script src="https://cdn.jsdelivr.net/bxslider/4.2.12/jquery.bxslider.min.js"></script>
 
     <script>

@@ -70,43 +70,11 @@ class CatalogType extends AbstractType
             },
             "mapped"=>false,
         ))
-        ->add('mention',ChoiceType::class,array(
-            "required"=>false,
-            "placeholder"=>$this->translator->trans("Définition",array(),"catalogue"),
-            "choices"=>[
-                "HD"=>"HD",
-                "SD"=>"SD",
-                "4k"=>"4k",
-                "2k"=>"2k",
-            ],
-            'choice_attr' => function($value, $key, $index) {
-                $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("mention") == $value){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            "mapped"=>false,
-        ))
+        
         ->add('country',CountryType::class,array(
             "required"=>false,
             "placeholder"=>$this->translator->trans("Pays",array(),"catalogue"),
-            /*"class"=>Country::class,
-            "choice_label"=>"name",
-            "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index) {
-                $attrs = [];
-                $request = $this->requestStack->getCurrentRequest();
-                if($request->query->get("country") == $value){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                ->orderBy('u.name', 'ASC');
-            },*/
+            
             'group_by' => function($value, $input, $index) {
                 $sep = "-";
                 $input = transliterator_transliterate('Any-Latin;NFD;[:Nonspacing Mark:] Remove; Lower();',$input);
@@ -151,25 +119,7 @@ class CatalogType extends AbstractType
             },
 
         ))
-        ->add('language',EntityType::class,array(
-            "required"=>false,
-            "placeholder"=>$this->translator->trans("Langue",array(),"catalogue"),
-            "class"=>OriginalLanguage::class,
-            "choice_label"=>"name",
-            "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index)use(&$request) {
-                $attrs = [];
-                if($request->query->get("language") == $value->getSlug()){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                ->orderBy('u.name', 'ASC');
-            },
-            "mapped"=>false,
-        ))
+        
         ->add('available_version',EntityType::class,array(
             "required"=>false,
             "placeholder"=>$this->translator->trans("Version disponible",array(),"catalogue"),
@@ -189,50 +139,7 @@ class CatalogType extends AbstractType
             },
             "mapped"=>false,
         ))
-        ->add('producer',EntityType::class,array(
-            "required"=>false,
-            "placeholder"=>$this->translator->trans("Producteur",array(),"catalogue"),
-            "class"=>Producer::class,
-            "choice_label"=>"name",
-            "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index)use(&$request) {
-                $attrs = [];
-                if($request->query->get("producer") == $value->getSlug()){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            'group_by' => function($value, $key, $index) {
-                return strtoupper($value->getSlug()[0]);
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                ->orderBy('u.name', 'ASC');
-            },
-            "mapped"=>false,
-        ))
-        ->add('director',EntityType::class,array(
-            "required"=>false,
-            "placeholder"=>$this->translator->transChoice("Réalisateur",1,array(),"catalogue"),
-            "class"=>Director::class,
-            "choice_label"=>"name",
-            "choice_value"=>"slug",
-            'choice_attr' => function($value, $key, $index)use(&$request) {
-                $attrs = [];
-                if($request->query->get("director") == $value->getSlug()){
-                    $attrs["selected"] = "selected";
-                }
-                return $attrs;
-            },
-            'group_by' => function($value, $key, $index) {
-                return strtoupper($value->getSlug()[0]);
-            },
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('u')
-                ->orderBy('u.name', 'ASC');
-            },
-            "mapped"=>false,
-        ))
+        
         ->add('name',TextType::class,array(
             "required"=>false,
             "mapped"=>false,
@@ -241,16 +148,9 @@ class CatalogType extends AbstractType
                 "placeholder"=>$this->translator->trans("Nom du programme",array(),"catalogue")
             )
         ))
-        ->add('year',IntegerType::class,array(
-            "required"=>false,
-            "mapped"=>false,
-            "data"=>$request->query->get("year")?intval($request->query->get("year")):null,
-            "attr"=>array(
-                "placeholder"=>$this->translator->trans("Année",array(),"catalogue")
-            )
-        ))
+        
         ->add('bntSearch', SubmitType::class, array("label"=>"Recherche"))
-        ->addEventListener(FormEvents::PRE_SET_DATA ,function(FormEvent $event)use(&$options){
+        ->addEventListener(FormEvents::PRE_SET_DATA ,function(FormEvent $event)use(&$options,&$request){
 
             $category = $event->getData();
             $form = $event->getForm();
@@ -259,11 +159,101 @@ class CatalogType extends AbstractType
                 return;
             }
 
-            if($options["use_for_mode"] == "program_page"){
-                $form->remove("language");
+
+            if($options["use_for_mode"] == "anywhere"){
+
+                $form->add('mention',ChoiceType::class,array(
+                    "required"=>false,
+                    "placeholder"=>$this->translator->trans("Définition",array(),"catalogue"),
+                    "choices"=>[
+                        "HD"=>"HD",
+                        "SD"=>"SD",
+                        "4k"=>"4k",
+                        "2k"=>"2k",
+                    ],
+                    'choice_attr' => function($value, $key, $index) {
+                        $attrs = [];
+                        $request = $this->requestStack->getCurrentRequest();
+                        if($request->query->get("mention") == $value){
+                            $attrs["selected"] = "selected";
+                        }
+                        return $attrs;
+                    },
+                    "mapped"=>false,
+                ))
+                ->add('language',EntityType::class,array(
+                    "required"=>false,
+                    "placeholder"=>$this->translator->trans("Langue",array(),"catalogue"),
+                    "class"=>OriginalLanguage::class,
+                    "choice_label"=>"name",
+                    "choice_value"=>"slug",
+                    'choice_attr' => function($value, $key, $index)use(&$request) {
+                        $attrs = [];
+                        if($request->query->get("language") == $value->getSlug()){
+                            $attrs["selected"] = "selected";
+                        }
+                        return $attrs;
+                    },
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                    },
+                    "mapped"=>false,
+                ))
+                ->add('producer',EntityType::class,array(
+                    "required"=>false,
+                    "placeholder"=>$this->translator->trans("Producteur",array(),"catalogue"),
+                    "class"=>Producer::class,
+                    "choice_label"=>"name",
+                    "choice_value"=>"slug",
+                    'choice_attr' => function($value, $key, $index)use(&$request) {
+                        $attrs = [];
+                        if($request->query->get("producer") == $value->getSlug()){
+                            $attrs["selected"] = "selected";
+                        }
+                        return $attrs;
+                    },
+                    'group_by' => function($value, $key, $index) {
+                        return strtoupper($value->getSlug()[0]);
+                    },
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                    },
+                    "mapped"=>false,
+                ))
+                ->add('director',EntityType::class,array(
+                    "required"=>false,
+                    "placeholder"=>$this->translator->transChoice("Réalisateur",1,array(),"catalogue"),
+                    "class"=>Director::class,
+                    "choice_label"=>"name",
+                    "choice_value"=>"slug",
+                    'choice_attr' => function($value, $key, $index)use(&$request) {
+                        $attrs = [];
+                        if($request->query->get("director") == $value->getSlug()){
+                            $attrs["selected"] = "selected";
+                        }
+                        return $attrs;
+                    },
+                    'group_by' => function($value, $key, $index) {
+                        return strtoupper($value->getSlug()[0]);
+                    },
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                        ->orderBy('u.name', 'ASC');
+                    },
+                    "mapped"=>false,
+                ))
+                ->add('year',IntegerType::class,array(
+                    "required"=>false,
+                    "mapped"=>false,
+                    "data"=>$request->query->get("year")?intval($request->query->get("year")):null,
+                    "attr"=>array(
+                        "placeholder"=>$this->translator->trans("Année",array(),"catalogue")
+                    )
+                ));
             }
         });
-
     }
 
     /**

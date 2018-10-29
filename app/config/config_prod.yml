@@ -22,13 +22,25 @@ monolog:
             process_psr_3_messages: false
 
 parameters:
+    database_host: coteouesbasetv.mysql.db
+    database_port: null
+    database_name: coteouesabasetv
+    database_user: coteouesabasetv
+    database_password: c0t30usT
+
+    mailer_transport: smtp
+    mailer_host: ssl0.ovh.net
+    mailer_user: webmaster@coteouest.ci
+    mailer_password: amitie2014
+
     admin:
         department: 'webmaster'
         email: 'webmaster@coteouest.ci'
     app.site: 
         name:   'Côte Ouest Audiovisuel'
         email:  'webmaster@coteouest.ci'
-        url:    'http://coteouest.tv/'
+        url:    'http://coteouest.mu/'
+
     app.vimeo:
         # mes propre acces
         # access_token: '95e6651dbfaf32ff95b86f047afa645b'

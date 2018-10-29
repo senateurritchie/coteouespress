@@ -15,19 +15,33 @@
         <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
 
         {% block stylesheets %}
-            <!-- Bootstrap 3.3.6 -->
-            <link rel="stylesheet" href="{{ asset('admin/bootstrap/css/bootstrap.min.css') }}">
+           
             <!-- Font Awesome -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
             <!-- Ionicons -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+
+
+
+
+            {#} <!-- Bootstrap 3.3.6 -->
+            <link rel="stylesheet" href="{{ asset('admin/bootstrap/css/bootstrap.min.css') }}">
             <!-- Theme style -->
             <link rel="stylesheet" href="{{ asset('admin/dist/css/AdminLTE.min.css') }}">
             <!-- AdminLTE Skins. We have chosen the skin-blue for this starter
                   page. However, you can choose any other skin. Make sure you
                   apply the skin class to the body tag so the changes take effect.
             -->
-            <link rel="stylesheet" href="{{ asset('admin/dist/css/skins/skin-blue.min.css') }}">
+            <link rel="stylesheet" href="{{ asset('admin/dist/css/skins/skin-blue.min.css') }}">#}
+
+
+            {% stylesheets filter='cssrewrite' 
+                'admin/bootstrap/css/bootstrap.min.css' 
+                'admin/dist/css/AdminLTE.min.css' 
+                'admin/dist/css/skins/skin-blue.min.css'
+            %}
+                <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+            {% endstylesheets %}
 
             <link href="https://fonts.googleapis.com/css?family=Barlow" rel="stylesheet"> 
 
@@ -544,13 +558,22 @@
         {% block javascripts %}
 
             <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
-            <!-- REQUIRED JS SCRIPTS -->
+            
+            {#<!-- REQUIRED JS SCRIPTS -->
             <!-- jQuery 2.2.3 -->
             <script src="{{ asset('admin/plugins/jQuery/jquery-2.2.3.min.js') }}"></script>
             <!-- Bootstrap 3.3.6 -->
             <script src="{{ asset('admin/bootstrap/js/bootstrap.min.js') }}"></script>
             <!-- AdminLTE App -->
-            <script src="{{ asset('admin/dist/js/app.min.js') }}"></script>
+            <script src="{{ asset('admin/dist/js/app.min.js') }}"></script>#}
+
+            {% javascripts 
+                'admin/plugins/jQuery/jquery-2.2.3.min.js' 
+                'admin/bootstrap/js/bootstrap.min.js' 
+                'admin/dist/js/app.min.js' 
+            %}
+                <script src="{{ asset_url }}"></script>
+            {% endjavascripts %}
 
         {% endblock %}
 

@@ -1,5 +1,15 @@
+{% set _forwarded = app.request.attributes.get('_forwarded') %}
+
 {% set _route = app.request.attributes.get('_route') %}
-{% set _route_params = app.request.attributes.get('_route_params') %}
+{% set _route_params = app.request.attributes.get('_route_params',{}) %}
+{% set _querystring = app.request.query.all() %}
+
+{% if _forwarded %}
+	{% set _route = _forwarded.get('_route') %}
+	{% set _route_params = _forwarded.get('_route_params',{}) %}
+	{% set _querystring = _querystring|merge({category:null,genre:null}) %}
+{% endif %}
+
 
 <style>
 	#master-menu{
@@ -41,9 +51,9 @@
 				</nav>
 
 				<div id="langs" class="d-none d-md-block">
-					<a href="{{ path(_route,_route_params|merge({'_locale':'fr'})|merge(app.request.query.all())) }}"><i class="flag flag-fr {{ app.request.getLocale() == 'fr'?'active':''}}"></i></a>
+					<a href="{{ path(_route,_route_params|merge({'_locale':'fr'})|merge(_querystring)) }}"><i class="flag flag-fr {{ app.request.getLocale() == 'fr'?'active':''}}"></i></a>
 					&nbsp;&nbsp;
-					<a href="{{ path(_route,_route_params|merge({'_locale':'en'})|merge(app.request.query.all())) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
+					<a href="{{ path(_route,_route_params|merge({'_locale':'en'})|merge(_querystring)) }}"><i class="flag flag-en {{ app.request.getLocale() == 'en'?'active':''}}"></i></a>
 				</div>
 
 				

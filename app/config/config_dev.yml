@@ -41,6 +41,17 @@ monolog:
 #    delivery_addresses: ['me@example.com']
 
 parameters:
+
+    database_host: 127.0.0.1
+    database_port: null
+    database_name: coa_symfony
+    database_user: root
+    database_password: null
+    mailer_transport: gmail
+    mailer_host: null
+    mailer_user: zakeszako@gmail.com
+    mailer_password: '@@ssZ@ck284520M@bintou'
+
     admin:
         department: 'webmaster'
         email: 'zakeszako@yahoo.fr'

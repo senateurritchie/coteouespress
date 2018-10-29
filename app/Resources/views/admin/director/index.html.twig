@@ -260,9 +260,17 @@
 {% block javascripts %}
 	{{ parent() }}
 
-	<script src="{{ asset('js/admin/manager.js') }}"></script>
+	{#<script src="{{ asset('js/admin/manager.js') }}"></script>
 	<script src="{{ asset('js/admin/director/manager.js') }}"></script>
-	<script src="{{ asset('js/admin/director/index.js') }}"></script>
+	<script src="{{ asset('js/admin/director/index.js') }}"></script> #}
+
+	{% javascripts 
+        'js/admin/manager.js' 
+        'js/admin/director/manager.js' 
+        'js/admin/director/index.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 	
 {% endblock %}
 

@@ -24,6 +24,8 @@ class MovieController extends Controller{
     */
     public function indexAction(Request $request,$slug=null){
 
+        $start_t = microtime(true);
+
     	$em = $this->getDoctrine()->getManager();
     	$rep = $em->getRepository(Movie::class);
 
@@ -33,10 +35,13 @@ class MovieController extends Controller{
         $limit = $limit > 20 ? 20 : $limit;
         $offset = $offset < 0 ? 0 : $offset;
 
+                    
+
     	if($slug){
     		if(!($programme = $rep->findOneBy(array("slug"=>$slug)))){
     			throw $this->createNotFoundException("Le programme recherché est introuvable");
     		}
+
 
             $category = $programme->getCategory();
             $otherMovies = $rep->findBy(array("category"=>$category),['id'=>"DESC"],12);
@@ -223,6 +228,7 @@ class MovieController extends Controller{
     		)); // 
     	}
 
+
     	$catalogue = new Catalog();
     	$form = $this->createForm(CatalogType::class,$catalogue,["use_for_mode"=>"program_page"]);
     	$params = $request->query->all();
@@ -231,6 +237,8 @@ class MovieController extends Controller{
         //$params["published"] = "yes";
 
     	$data = $rep->search($params,$limit,$offset);
+
+
 
         if($request->isXmlHttpRequest()){
 
