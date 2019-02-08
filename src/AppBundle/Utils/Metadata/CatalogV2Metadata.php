@@ -58,6 +58,7 @@ class CatalogV2Metadata extends Metadata{
 			new ChoiceFieldValidator("Mention",["4k","2k","HD","SD"]),
 			new DateFieldValidator("AnneeProduction",["nullable"=>true]),
             new UrlFieldValidator("Trailer"),
+            new UrlFieldValidator("Full"),
             new UrlFieldValidator("Extrait"),
             new UrlFieldValidator("Ep1"),
             new UrlFieldValidator("Ep2"),
@@ -82,6 +83,7 @@ class CatalogV2Metadata extends Metadata{
         $trans = $this->getOption("translator");
         $validator = $this->getOption("validator");
         $upload_dir = $this->getOption("upload_dir");
+        $img_links = $this->getOption("img_links");
 
     	$movie = new Movie();
 
@@ -115,6 +117,8 @@ class CatalogV2Metadata extends Metadata{
 
                 imagejpeg($image,$path);
                 imagedestroy($image);
+                $img_links[] = $path;
+                $this->setOption("img_links",$img_links);
                 
                 switch ($field) {
             		case '@ImagesWeb':
@@ -126,7 +130,6 @@ class CatalogV2Metadata extends Metadata{
                 $choices = $el->getChoices();
                 foreach ($choices as $i=>$choice) {
                    
-
                     switch ($field) {
 
                         case 'Section':
@@ -196,8 +199,16 @@ class CatalogV2Metadata extends Metadata{
             		    $movie->setMention($el->getValue());
             		break;
 
-            		case 'Trailer':
-            		    $movie->setTrailer($el->getValue());
+                    case 'Extrait':
+                    case 'Trailer':
+                        if($field == 'Extrait'){
+                            if(!$movie->getTrailer()){
+                                $movie->setTrailer($el->getValue());
+                            }
+                        }
+                        else{
+                            $movie->setTrailer($el->getValue());
+                        }
             		break;
                     case 'Ep1':
                         $movie->setEpisode1($el->getValue());
@@ -205,6 +216,8 @@ class CatalogV2Metadata extends Metadata{
                     case 'Ep2':
                         $movie->setEpisode2($el->getValue());
                     break;
+
+                    case 'Full':
                     case 'Ep3':
                         $movie->setEpisode3($el->getValue());
                     break;

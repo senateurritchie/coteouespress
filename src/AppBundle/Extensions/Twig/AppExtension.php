@@ -27,6 +27,7 @@ class AppExtension extends AbstractExtension{
             new TwigFilter('dateDiff', array($this, 'dateDiffFilter')),
             new TwigFilter('truncate', array($this, 'truncateFilter')),
             new TwigFilter('basename', array($this, 'basenameFilter')),
+            new TwigFilter('shuffle', array($this, 'shuffleFilter')),
             //new TwigFilter('validPathOrReplace', array($this, 'validPathOrReplaceFilter')),
             new TwigFilter(
                 'md2html',
@@ -54,6 +55,11 @@ class AppExtension extends AbstractExtension{
 
     public function basenameFilter($value){
         return basename($value);
+    }
+
+    public function shuffleFilter(array $value){
+        shuffle($value);
+        return $value;
     }
 
     public function fileExistsFunction($path){

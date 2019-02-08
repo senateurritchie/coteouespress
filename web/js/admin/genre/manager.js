@@ -36,7 +36,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/genres/${event.type}/${this.current.id}`,
+	  				url:`/fr/admin/genres/${event.type}/${this.current.id}`,
 	  				method:"POST",
 	  				data:event.params.model
 		  		})

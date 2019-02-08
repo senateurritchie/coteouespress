@@ -61,9 +61,9 @@
                         <li class="toc-entry toc-h2">
                             <a class="anchor" href="#anchor-values">{{'Nos valeurs'|trans({},"about-us")}}</a>
                         </li>
-                        <li class="toc-entry toc-h2">
+                        {#<li class="toc-entry toc-h2">
                             <a class="anchor" href="#anchor-position">{{'Notre positionnement'|trans({},"about-us")}}</a>
-                        </li>
+                        </li>#}
                         <li class="toc-entry toc-h2">
                             <a class="anchor" href="#anchor-vision">{{'Notre vision'|trans({},"about-us")}}</a>
                         </li>
@@ -111,7 +111,7 @@
                     </p>
                 </section>
 
-                <section style="margin-top:60px" id="anchor-position">
+                {#<section style="margin-top:60px" id="anchor-position">
                     <h3 class="mblock-title mblock-title-info">
                         {{'Notre positionnement'|trans({},"about-us")}}
                     </h3>
@@ -120,7 +120,7 @@
                     <p>
                         {{ 'notre.positionnement.text'|trans({},"about-us") }}      
                     </p>
-                </section>
+                </section>#}
 
                 <section style="margin-top:60px" id="anchor-vision">
                     <h3 class="mblock-title mblock-title-info">
@@ -149,7 +149,7 @@
                     <br>
 
                     <p>
-                        {{ 'notre.ambition.text'|trans({},"about-us") }}     
+                        {{ 'notre.ambition.text'|trans({},"about-us")|raw }}     
                     </p>
 
                 </section>
@@ -270,7 +270,7 @@
                                
                                 <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
                                     <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/4.jpg') }}" alt="Gilles N’Takpe. cote ouest audiovisuel. a propos de nous">
+                                        <img src="{{ asset('img/employees/4.png') }}" alt="Gilles N’Takpe. cote ouest audiovisuel. a propos de nous">
                                         <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
                                             <ul>
                                                 <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>

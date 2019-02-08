@@ -1061,7 +1061,7 @@ class AdminMovieController extends Controller
     }
 
     /**
-    * @Route("/{movie_id}/translations", requirements={"movie_id":"\d+"}, name="translations")
+    * @Route("/{movie_id}/translations/", requirements={"movie_id":"\d+"}, name="translations")
     * @Method("GET")
     */
     public function translationsAction(Request $request,$movie_id){
@@ -1150,12 +1150,14 @@ class AdminMovieController extends Controller
             "entity_manager"=>$em,
             "translator"=>$translator,
             'upload_dir' => $this->getParameter('public_upload_directory'),
+            'img_links' => array()
         ));
 
         $reader
-        ->on("error",function($event)use(&$result){
+        ->on("error",function($event)use(&$result,$reader){
             $result['errors'] = $event->getValue();
             $this->addFlash('notice-error',$event->getValue());
+            $result['img_links'] = $reader->getOption('img_links');
         });
 
         try {
@@ -1165,13 +1167,19 @@ class AdminMovieController extends Controller
             $this->addFlash('notice-success',"opération effectuée avec succes");
 
         } catch (\Exception $e) {
-
             //throw $e;
+            $result['img_links'] = $reader->getOption('img_links');
             $result['errors'][] = $e->getMessage();
             $this->addFlash('notice-error',$e->getMessage());
         }
 
-        return $this->redirectToRoute('admin_movie_index');
+        if(!empty(@$result['img_links'])){
+            foreach ($result['img_links'] as $key => $el) {
+                @unlink($el);
+            }
+        }
+
+        return $this->redirectToRoute('admin_movie_index',["bingo"=>1]);
 
         /*if(count(@$result['errors'])){
             return $this->json($result,200);

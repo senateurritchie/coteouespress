@@ -48,7 +48,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/users/${this.current.id}/${event.type}`,
+	  				url:`/fr/admin/users/${this.current.id}/${event.type}`,
 	  				method:"POST",
 	  				data:{
 	  					role_id:event.params.role_id

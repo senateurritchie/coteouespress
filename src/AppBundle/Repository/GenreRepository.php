@@ -65,7 +65,7 @@ class GenreRepository extends \Doctrine\ORM\EntityRepository
         ->from(\AppBundle\Entity\MovieGenre::class,"mg")
         ->innerJoin("mg.movie","m")
         ->innerJoin("mg.genre","g")
-        ->innerJoin("m.sectionCategory","c")
+        ->innerJoin("m.category","c")
         ->where($qb->expr()->andX(
         	"g.id = u.id",
         	"c.slug = :with_program_category"

@@ -1,8 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% set four_movie = programmes|slice(0,4) %}
-{% set original_cover = programmes|slice(4,1)[0] %}
-{% set four_movie_2 = programmes|slice(5,4) %}
+{% set programmes_rest = programmes|slice(4)|shuffle %}
+
+{% set original_cover = programmes_rest|slice(0,1)[0] %}
+{% set four_movie_2 = programmes_rest|slice(1,4) %}
 
 
 {% block stylesheets %}
@@ -43,48 +45,8 @@
             </div>
         </div>
 
-        {#<ul class="cb-slideshow">
-            <li>
-                <a href="">
-                <span style="background-image: url({{ asset('img/bannieres/the-river.jpg') }})">Image 01</span>
 
-                <div><h3></h3></div></a>
-            </li>
-
-            <li>
-                <a href=""><span style="background-image: url({{ asset('img/bannieres/mr-brau.jpg') }})">Image 02</span>
-                <div><h3></h3></div></a>
-            </li>
-
-            <li>
-                <a href=""><span style="background-image: url({{ asset('img/bannieres/edge-of-desire.jpg') }})">Image 03</span>
-                <div><h3></h3></div></a>
-            </li>
-
-            <li>
-                <a href=""><span style="background-image: url({{ asset('img/bannieres/the-river.jpg') }})">Image 04</span>
-
-                <div><h3></h3></div></a>
-            </li>
-
-            <li>
-                <a href=""><span style="background-image: url({{ asset('img/bannieres/mr-brau.jpg') }})">Image 05</span>
-                <div><h3></h3></div></a>
-            </li>
-
-            <li>
-                <a href=""><span style="background-image: url({{ asset('img/bannieres/edge-of-desire.jpg') }})">Image 06</span>
-                <div><h3></h3></div></a>
-            </li>
-
-        </ul>#}
-
-        {#<div id="master-cover"></div>
-
-        <div id="master-cover-overlay"></div>#}
-
-
-        <div id="thumbnail-cover" class="d-none d-md-block">
+        {#<div id="thumbnail-cover" class="d-none d-md-block">
             <ul>
 
                 {% for movie in four_movie %}
@@ -121,34 +83,16 @@
                                     {{ movie.name|lower|title }}
                                 </h2>
 
-                                {#<small class="text-white">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                    <i class="far fa-star"></i>
-                                </small>#}
+                               
                             </div>
 
-                            {#<!--div class="media-info align-items-center justify-content-center">  
-                                <span class="badge badge-light">
-                                    
-                                    {{
-                                        random(['Serie','Film','Telenovelas','Animation'])
-                                    }}
-                                </span>
-                                <br>
-                                <span class="badge badge-light">
-                                    11-02-2014
-                                </span>
-                                
-                            </div-->#}
+                            
                         </a>
                     </li>
                 {% endfor %}
             </ul>
             
-        </div>
+        </div>#}
     </header>
 
 
@@ -158,12 +102,12 @@
                 <section class="block has-carousel animation-none" id="block-originals">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
-                            {{"Productions à l'affiche"|trans({},'homepage')}}
+                            {{"à l'affiche"|trans({},'homepage')}}
                         </h3>
                         <br>
                         <br>
 
-                        <div style="margin-left: auto;" class="d-flex">
+                        {#<div style="margin-left: auto;" class="d-flex">
                             <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-p">
                                 <i class="fas fa-angle-left"></i>
                             </a>
@@ -171,7 +115,7 @@
                             <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-n ml-1">
                                 <i class="fas fa-angle-right"></i>
                             </a>
-                        </div>
+                        </div>#}
                     </div>
 
                     <div class="block-content" >
@@ -282,7 +226,7 @@
                 <section class="block has-carousel" id="block-production-a-laffiche">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
-                            {{ 'Nos projets'|trans({},'homepage') }}
+                            {{ 'En vedette'|trans({},'homepage') }}
                         </h3>
                         <br><br>
                     </div>
@@ -408,7 +352,7 @@
                 <section class="block animation-right" id="block-video-a-voir">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
-                            {{ 'Videos à voir'|trans({},'homepage') }}
+                            {{ 'Trailers / Extraits'|trans({},'homepage') }}
                         </h3>
                         <br><br>
                     </div>
@@ -417,11 +361,18 @@
 
                         <div class="row">
                             {% for item in vimeoRsrc %}
-                                <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center">
+                                <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center position-relative">
 
-                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="{{item.name }}" data-autoplay="true" data-gall="myGallery2" >
+                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="{{item.name }}" data-autoplay="true" data-gall="myGallery2" style="text-decoration:none">
                                         <img  class="img-fluid" src="{{ item.thumbnail }}" alt=" {{ item.name }}">
                                         <i class="video-icon video-popup-control"></i>
+
+                                        
+                                        <div  class="d-flex align-items-center justify-content-center">
+                                            <span class="badge badge-info">
+                                                {{item.name|lower|title}}
+                                            </span>
+                                        </div>
                                     </a>
                                 </div>
                             {% endfor %}
@@ -443,22 +394,12 @@
                     </div>
                 </section>
 
-                <section class="block  animation-top has-carousel" id="block-realisateurs">
+                {#<section class="block  animation-top has-carousel" id="block-realisateurs">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
                             {{ 'Réalisateurs / Créateurs'|trans({},'homepage') }}
                         </h3>
-                        <br><br>
-
-                        <div style="margin-left: auto;" class="d-flex">
-                            <a href="" title="{{'precedent'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-p">
-                                <i class="fas fa-angle-left"></i>
-                            </a>
-
-                            <a href="" title="{{'suivant'|trans({},'movies')}}" class="bg-circle bg-info slide-nav nav-n ml-1">
-                                <i class="fas fa-angle-right"></i>
-                            </a>
-                        </div>
+                        
                     </div>
 
                     <div class="block-content" >
@@ -521,7 +462,7 @@
                             </div>
                         </div>
                     </div>
-                </section>
+                </section>#}
             </div>
         </div>
     </div>

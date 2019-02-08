@@ -35,6 +35,10 @@ class MovieController extends Controller{
         $limit = $limit > 20 ? 20 : $limit;
         $offset = $offset < 0 ? 0 : $offset;
 
+       /* $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($this->getUser(),"demo");
+        var_dump($encoded);*/
+
                     
 
     	if($slug){
@@ -81,10 +85,9 @@ class MovieController extends Controller{
                 }*/
             }
 
-
             if(($url = $programme->getTrailer())){
 
-                if(!isset($cachedData["data"])){
+                if(!isset($cachedData["data"]) || !isset($cachedData["data"][$url])){
                     $links[] = $url;
                 }
                 else{
@@ -92,31 +95,49 @@ class MovieController extends Controller{
                 }
             }
 
-            if($this->isGranted('IS_AUTHENTICATED_FULLY')){
+            if(1){
+            //if($this->isGranted('IS_AUTHENTICATED_FULLY')){
                 if(($url = $programme->getEpisode1())){
-                    if(!isset($cachedData["data"])){
+                    if(!isset($cachedData["data"])) {
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc[] = $cachedData["data"][$url];
+                        if(isset($cachedData["data"][$url])){
+                            $vimeoRsrc[] = $cachedData["data"][$url];
+                        }
+                        else{
+                            $links[] = $url;
+                        }
                     }
                 }
 
                 if(($url = $programme->getEpisode2())){
-                    if(!isset($cachedData["data"])){
+                    if(!isset($cachedData["data"])) {
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc[] = $cachedData["data"][$url];
+                        if(isset($cachedData["data"][$url])) {
+                            $vimeoRsrc[] = $cachedData["data"][$url];
+                        }
+                        else{
+                            $vimeoRsrc = [];
+                            $links[] = $url;
+                        }
                     }
                 }
 
                 if(($url = $programme->getEpisode3())){
-                    if(!isset($cachedData["data"])){
+                    if(!isset($cachedData["data"])) {
                         $links[] = $url;
                     }
                     else{
-                        $vimeoRsrc[] = $cachedData["data"][$url];
+                        if(isset($cachedData["data"][$url])){
+                            $vimeoRsrc[] = $cachedData["data"][$url];
+                        }
+                        else{
+                            $vimeoRsrc = [];
+                            $links[] = $url;
+                        }
                     }
                 }
             }
@@ -182,7 +203,12 @@ class MovieController extends Controller{
 
                                 // pour contourner les liens personalisés
                                 // il faut se referer au code vimeo de la video plutot que le link
+
+
                                 preg_match("#https:\/\/vimeo.com/(.+)/.+#", $el,$code);
+                                if(!$code){
+                                    preg_match("#https:\/\/vimeo.com/(.+)$#", $el,$code);
+                                }
 
                                 if($el == $el2['link'] || @$code[1] == @$el2['code']){
                                     $data[] = $el2;
@@ -238,8 +264,6 @@ class MovieController extends Controller{
 
     	$data = $rep->search($params,$limit,$offset);
 
-
-
         if($request->isXmlHttpRequest()){
 
             $acceptHeader = AcceptHeader::fromString($request->headers->get('Accept'));
@@ -271,7 +295,7 @@ class MovieController extends Controller{
 
 
     	//  on charge les categories
-    	$rep = $em->getRepository(\AppBundle\Entity\CatalogSectionCategory::class);
+    	$rep = $em->getRepository(\AppBundle\Entity\Category::class);
     	$categories = $rep->findBy([],["name"=>"asc"]);
 
     	//  on charge les genres

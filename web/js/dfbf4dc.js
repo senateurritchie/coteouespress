@@ -527,7 +527,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/directors/${event.type}/${this.current.id}`,
+	  				url:`/fr/admin/directors/${event.type}/${this.current.id}`,
 	  				method:"POST",
 	  				data:event.params.model
 		  		})
@@ -544,7 +544,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/directors/${this.current.id}/country/${event.type}`,
+	  				url:`/fr/admin/directors/${this.current.id}/country/${event.type}`,
 	  				method:"POST",
 	  				data:{country_id:event.params.model.id}
 		  		})
@@ -566,7 +566,7 @@ var AdminManager = AdminManager || {};
 
 	  			this.request({
 	  				enctype: 'multipart/form-data',
-	  				url:`/admin/directors/${this.current.id}/image/${event.type}`,
+	  				url:`/fr/admin/directors/${this.current.id}/image/${event.type}`,
 	  				method:"POST",
 	  				data:formData,
 	  				processData: false,

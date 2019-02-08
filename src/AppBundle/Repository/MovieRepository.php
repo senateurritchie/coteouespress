@@ -320,7 +320,7 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
         /*$qb->leftJoin("m.category","category")
         ->addSelect("category")*/
-        $qb->andWhere("sectionCategory.slug = :category")
+        $qb->andWhere("category.slug = :category")
 		->setParameter("category",$value);
   	}
 

@@ -268,7 +268,8 @@
 
                         {% for item in programme.directors|slice(0,2) %}
                             <div class="col-sm-6" >
-                                <a href="{{ path('director_index',{'slug':item.director.slug}) }}" class="d-inline-block  has-detail text-white position-relative">
+                                {#<a href="{{ path('director_index',{'slug':item.director.slug}) }}" class="d-inline-block  has-detail text-white position-relative">#}
+                                <div class="d-inline-block  has-detail text-white position-relative">
 
                                     {% if item.director.image %}
                                         <img class="img-fluid" src="{{ asset('upload/public/'~item.director.image)}}"  alt="{{ item.director.name|lower|title }}">
@@ -281,12 +282,12 @@
                                             {{ item.director.name|lower|title }}
                                         </span>
                                     </div>
-
-                                </a>
+                                </div>
+                                {#</a>#}
                             </div>
                         {% else %}
                             <div class="alert alert-light" role="alert">
-                                <h5 class="alert-heading">Information indisponible</h5>
+                                <h6 class="alert-heading">Information indisponible</h6>
                               
                                 <p>
                                     Faites une requete de modification pour cette section.
@@ -366,7 +367,8 @@
                                 
                                 <div data-vimeo-url="{{ vimeoRsrc[0].link }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
                                 
-                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                                {% if 1 == 1 %}
+                                {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
                                     
                                     <div class="coa-player-thumbnail fix d-none sleep-target text-left">
                                         <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
@@ -427,9 +429,9 @@
                                 {{ programme.synopsis|md2html }}
                             {% else %}
                                 <div class="alert alert-light" role="alert">
-                                    <h5 class="alert-heading">
+                                    <h6 class="alert-heading">
                                         {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                    </h5>
+                                    </h6>
                                   
                                    {# <p>
                                         Faites une requete de modification pour cette section.
@@ -474,7 +476,9 @@
                             <div class="card-group owl-carousel">
                                 {% for item in programme.actors %}
                                     <div class="card">
-                                        <a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">
+                                        {#<a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">#}
+
+                                        <div class="d-block  has-detail text-white">
 
                                             {% if item.actor.image %}
                                                 <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
@@ -497,7 +501,8 @@
                                                     </small>
                                                 </p>
                                             </div>
-                                        </a>
+                                        </div>
+                                        {#</a>#}
                                     </div>                                
                                 {% endfor %}
                             </div>
@@ -505,9 +510,9 @@
                         {% else %}
 
                             <div class="alert alert-light" role="alert">
-                                <h5 class="alert-heading">
+                                <h6 class="alert-heading">
                                     {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                </h5>
+                                </h6>
                               
                                 {#<p>
                                     Faites une requete de modification pour cette section.
@@ -525,13 +530,13 @@
                 </section>
 
                 <section class="block animation-right" id="movie-disctinctions">
-                    <div class="block-header">
+                    {#<div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
                             {{'Recompenses et prix'|trans({},'catalogue')}}
                         </h3>
                         <br>
                         <br>
-                    </div>
+                    </div>#}
 
                     <div class="block-content d-block">
 
@@ -559,9 +564,9 @@
                                         {{ programme.reward|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">
+                                            <h6 class="alert-heading">
                                                 {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                            </h4>
+                                            </h6>
                                           
                                             {#<p>
                                                 Faites une requete de modification pour cette section.
@@ -582,9 +587,9 @@
                                         {{ programme.award|nl2br }}
                                     {% else %}
                                         <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">
+                                            <h6 class="alert-heading">
                                                 {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                            </h4>
+                                            </h6>
                                           
                                             {#<p>
                                                 Faites une requete de modification pour cette section.
@@ -605,9 +610,9 @@
                                         {{ programme.audience|nl2br }}
                                     {% else %}
                                        <div class="alert alert-light" role="alert">
-                                            <h4 class="alert-heading">
+                                            <h6 class="alert-heading">
                                                 {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                            </h4>
+                                            </h6>
                                           
                                             {#<p>
                                                 Faites une requete de modification pour cette section.
@@ -825,9 +830,9 @@
                         {% else %}
 
                             <div class="alert alert-light" role="alert">
-                                <h4 class="alert-heading">
+                                <h6 class="alert-heading">
                                     {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                </h4>
+                                </h6>
                               
                                 {#<p>
                                     Faites une requete de modification pour cette section.
@@ -916,9 +921,9 @@
                                 </div>
                             {% else %}
                                  <div class="alert alert-light" role="alert">
-                                    <h5 class="alert-heading">
+                                    <h6 class="alert-heading">
                                         {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
-                                    </h5>
+                                    </h6>
                                 
                                 </div>
                             {% endfor %}

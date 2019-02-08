@@ -1,21 +1,32 @@
 <footer>
 	<div id="footer-info">
 		<ul>
-			<li>
-				<div class="input-group">
+			<li id="mc_embed_signup">
+				<form action="https://coteouest.us7.list-manage.com/subscribe/post?u=3494494e82585da60a2af6049&amp;id=912594e678" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+					<div class="input-group mc-field-group">
 
-					<span class="fas fa-at position-absolute text-secondary" style="left: 5px;top:10px;"></span>
+						<span class="fas fa-at position-absolute text-secondary" style="left: 5px;top:10px;"></span>
 
-					<input class="pl-4" required type="email" placeholder="{{'newsletter.alert'|trans({},'footer')}}">
-					
-					<div class="input-group-prepend">
-						<button class="btn btn-sm btn-info">
-							<i class="fas fa-envelope"></i>
-						</button>
+						<input class="pl-4 required email" required type="email" placeholder="{{'newsletter.alert'|trans({},'footer')}}" id="mce-EMAIL" value="" name="EMAIL">
+
+						
+						<div class="input-group-prepend">
+							<button type="submit" class="btn btn-sm btn-info" name="subscribe" id="mc-embedded-subscribe">
+								<i class="fas fa-envelope"></i>
+							</button>
+						</div>
 					</div>
-				</div>
 
-				
+					<div id="mce-responses" class="clear">
+						<!--small class="response" id="mce-error-response" style="display:none"></small-->
+						<small class="response" id="mce-success-response" style="display:none"></small>
+					</div>  
+
+					<!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+		    		<div style="position: absolute; left: -5000px;" aria-hidden="true">
+		    			<input type="text" name="b_3494494e82585da60a2af6049_912594e678" tabindex="-1" value="">
+		    		</div>
+				</form>
 			</li>
 
 			<li id="footer-social" class="d-flex flex-row justify-content-arround">
@@ -42,7 +53,8 @@
 						<ul class="sitemap text-left">
 							{% for item in categories|slice(0,5) %}
 								<li>
-									<a href="{{ path('movie_index',{'category':item.slug}) }}">
+									{#<a href="{{ path('movie_index',{'category':item.slug}) }}">#}
+									<a href="">
 										{{ item.name|lower|title }}
 									</a>
 								</li>
@@ -54,7 +66,8 @@
 						<ul class="sitemap text-right">
 							{% for item in categories|slice(5,5) %}
 								<li>
-									<a href="{{ path('movie_index',{'category':item.slug}) }}">
+									{#<a href="{{ path('movie_index',{'category':item.slug}) }}">#}
+									<a href="">
 										{{ item.name|lower|title }}
 									</a>
 								</li>
@@ -85,3 +98,44 @@
 		{% endif %}
 	</div>
 </footer>
+
+<script type='text/javascript' src='//s3.amazonaws.com/downloads.mailchimp.com/js/mc-validate.js'></script>
+
+<script type='text/javascript'>
+	(function($) {
+		window.fnames = new Array(); 
+		window.ftypes = new Array();
+		fnames[0]='EMAIL';
+		ftypes[0]='email';
+		fnames[1]='FNAME';
+		ftypes[1]='text';
+		fnames[2]='LNAME';
+		ftypes[2]='text'; 
+		/*
+		 * Translated default messages for the $ validation plugin.
+		 * Locale: FR
+		 */
+		
+		$.extend($.validator.messages, {
+	        required: "Ce champ est requis.",
+	        remote: "Veuillez remplir ce champ pour continuer.",
+	        email: "Veuillez entrer une adresse email valide.",
+	        url: "Veuillez entrer une URL valide.",
+	        date: "Veuillez entrer une date valide.",
+	        dateISO: "Veuillez entrer une date valide (ISO).",
+	        number: "Veuillez entrer un nombre valide.",
+	        digits: "Veuillez entrer (seulement) une valeur numérique.",
+	        creditcard: "Veuillez entrer un numéro de carte de crédit valide.",
+	        equalTo: "Veuillez entrer une nouvelle fois la même valeur.",
+	        accept: "Veuillez entrer une valeur avec une extension valide.",
+	        maxlength: $.validator.format("Veuillez ne pas entrer plus de {0} caractères."),
+        	minlength: $.validator.format("Veuillez entrer au moins {0} caractères."),
+        	rangelength: $.validator.format("Veuillez entrer entre {0} et {1} caractères."),
+        	range: $.validator.format("Veuillez entrer une valeur entre {0} et {1}."),
+        	max: $.validator.format("Veuillez entrer une valeur inférieure ou égale à {0}."),
+        	min: $.validator.format("Veuillez entrer une valeur supérieure ou égale à {0}.")
+		});
+	}(jQuery));
+
+	var $mcj = jQuery.noConflict(true);
+</script>

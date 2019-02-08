@@ -61,7 +61,7 @@ var AdminManager = AdminManager || {};
 
 			return new Promise((resolve,reject)=>{
 	  			this.request({
-	  				url:`/admin/movies/${this.current.id}/${event.type}`,
+	  				url:`/fr/admin/movies/${this.current.id}/${event.type}`,
 	  				method:METHOD,
 	  				data:event.params.model
 		  		})
@@ -84,10 +84,10 @@ var AdminManager = AdminManager || {};
 			formData.append('gallery[]',file);
 			formData.append('_token',_token);
 
-			var url = `/admin/movies/${this.current.id}/image/${event.type}`;
+			var url = `/fr/admin/movies/${this.current.id}/image/${event.type}`;
 
 			if(_target == "gallery"){
-				url = `/admin/movies/${this.current.id}/gallery/${event.type}`
+				url = `/fr/admin/movies/${this.current.id}/gallery/${event.type}`
 			}
 			else{
 				formData.append('_target',_target);
@@ -146,7 +146,7 @@ var AdminManager = AdminManager || {};
 			formData.append('file',file);
 			formData.append('type',_model);
 			formData.append('_token',_token);
-			var url = `/admin/movies/metadata/upload`;
+			var url = `/fr/admin/movies/metadata/upload`;
 
 			return new Promise((resolve,reject)=>{
 

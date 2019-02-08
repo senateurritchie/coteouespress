@@ -47,10 +47,17 @@ parameters:
     database_name: coa_symfony
     database_user: root
     database_password: null
-    mailer_transport: gmail
-    mailer_host: null
-    mailer_user: zakeszako@gmail.com
-    mailer_password: '@@ssZ@ck284520M@bintou'
+    
+    # mailer_transport: gmail
+    # mailer_host: null
+    # mailer_user: zakeszako@gmail.com
+    # mailer_password: '@@ssZ@ck284520M@bintou'
+
+    mailer_transport: smtp
+    mailer_host: ssl0.ovh.net
+    mailer_user: webmaster@coteouest.ci
+    mailer_password: amitie1987
+    mailer_port: 587
 
     admin:
         department: 'webmaster'
