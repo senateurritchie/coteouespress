@@ -22,6 +22,8 @@ use AppBundle\Entity\Language;
  */
 class MovieRepository extends \Doctrine\ORM\EntityRepository
 {
+    private $myCurrentParams;
+
     public function addWhereClause(&$qb,&$params){
 
         if(@$params["q"]){
@@ -137,6 +139,26 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $this->whereYearEnd($qb,$params["year_end"]);
         }
 
+        // si le trailer existe ou pas
+        if(isset($params["is_trailer_exists"])) {
+            $this->whereIsTrailerExists($qb,@$params["is_trailer_exists"]);
+        }
+
+        // si l'image paysage existe ou pas
+        if(isset($params["is_landscape_img_exists"])) {
+            $this->whereIsLandscapeImgExists($qb,@$params["is_landscape_img_exists"]);
+        }
+
+        // si l'image portrait existe ou pas
+        if(isset($params["is_portrait_img_exists"])) {
+            $this->whereIsPortraitImgExists($qb,@$params["is_portrait_img_exists"]);
+        }
+
+        // si l'image de couverture existe ou pas
+        if(isset($params["is_cover_img_exists"])) {
+            $this->whereIsCoverImgExists($qb,@$params["is_cover_img_exists"]);
+        }
+
 
         // ordre d'affichage par id
         if(@$params['order_id']){
@@ -166,6 +188,8 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 
 	public function search($params = array(),$limit = 20,$offset=0){
 		$qb = $this->_em->createQueryBuilder();
+
+        $this->myCurrentParams = $params;
 
 		$qb->select("m")
 		->from(Movie::class,"m")
@@ -242,15 +266,18 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
 	public function whereTerms(QueryBuilder $qb,$value){
         $terms_1 = $value;
 
-		$qb->andWhere($qb->expr()->orX(
-            "m.name LIKE :terms_2",
-            "m.synopsis LIKE :terms_2",
-            "m.originalName LIKE :terms_2"
-            //"(MATCH_AGAINST(m.name,m.originalName,m.synopsis, :terms_1) > 0",
-			//"m.slug LIKE :terms_2)"
-		))
-	    //->setParameter("terms_1",$value)
-	    ->setParameter("terms_2","%$value%");
+        if(@$this->myCurrentParams['_search_mode'] == "google"){
+            $qb->andWhere("(MATCH_AGAINST(m.name,m.originalName, :terms_1) > 0)")
+            ->setParameter("terms_1",$value);
+        }
+        else{
+            $qb->andWhere($qb->expr()->andX($qb->expr()->orX(
+                "m.name LIKE :terms_2",
+                "m.slug LIKE :terms_2",
+                "m.originalName LIKE :terms_2"
+            )))
+            ->setParameter("terms_2","%$value%");
+        }
 	}
 
     public function whereInTheater(QueryBuilder $qb,$value){
@@ -507,6 +534,22 @@ class MovieRepository extends \Doctrine\ORM\EntityRepository
             $qb->andWhere("sectionCategory.slug = :sectionCategory");
         }
         $qb->setParameter("sectionCategory",$value);
+    }
+
+    public function whereIsTrailerExists(QueryBuilder $qb,$value){
+        $qb->andWhere($value ? $qb->expr()->isNotNull("m.trailer") : $qb->expr()->isNull("m.trailer"));
+    }
+
+    public function whereIsCoverImgExists(QueryBuilder $qb,$value){
+        $qb->andWhere($value ? $qb->expr()->isNotNull("m.coverImg") : $qb->expr()->isNull("m.coverImg"));
+    }
+
+    public function whereIsPortraitImgExists(QueryBuilder $qb,$value){
+        $qb->andWhere($value ? $qb->expr()->isNotNull("m.portraitImg") : $qb->expr()->isNull("m.portraitImg"));
+    }
+
+    public function whereIsLandscapeImgExists(QueryBuilder $qb,$value){
+        $qb->andWhere($value ? $qb->expr()->isNotNull("m.landscapeImg") : $qb->expr()->isNull("m.landscapeImg"));
     }
     
 

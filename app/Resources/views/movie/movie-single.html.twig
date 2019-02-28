@@ -67,6 +67,15 @@
         .vp_center_slider .has-media-detail a,.movie-gallery a{
             top: 50%;
         }
+
+
+        body #download-loading-list{
+            display: none;
+        }
+
+        body.download-list-active #download-loading-list{
+            display: block;
+        }
         
 
     </style>
@@ -87,7 +96,14 @@
             
 
                 <div class="modal-body">
-                    <table class="table table-striped">
+
+                    <div style="text-align:center" id="download-loading-list">
+                        <i  class="fa fa-spinner fa-spin fa-3x"></i>
+                    </div>
+
+                    <div id="download-list-container"></div>
+
+                    {#<table class="table table-striped">
                     
                         <tbody>
                             {% for rsrc in vimeoRsrc  %}
@@ -105,15 +121,13 @@
                                                 </a>
 
                                             </div>
-
-
                                         {% endfor %}
                                     </td>
                                    
                                 </tr>
                             {% endfor %}
                         </tbody>
-                    </table>
+                    </table>#}
                 </div>
             </div>
         </div>
@@ -269,20 +283,20 @@
                         {% for item in programme.directors|slice(0,2) %}
                             <div class="col-sm-6" >
                                 {#<a href="{{ path('director_index',{'slug':item.director.slug}) }}" class="d-inline-block  has-detail text-white position-relative">#}
-                                <div class="d-inline-block  has-detail text-white position-relative">
+                                    <div class="d-inline-block  has-detail text-white position-relative">
 
-                                    {% if item.director.image %}
-                                        <img class="img-fluid" src="{{ asset('upload/public/'~item.director.image)}}"  alt="{{ item.director.name|lower|title }}">
-                                    {% else %}
-                                        <img class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}"  alt="{{ item.director.name|lower|title }}">
-                                    {% endif %}
+                                        {% if item.director.image %}
+                                            <img class="img-fluid" src="{{ asset('upload/public/'~item.director.image)}}"  alt="{{ item.director.name|lower|title }}">
+                                        {% else %}
+                                            <img class="img-fluid" src="{{ asset('img/vignette-landscape.png')}}"  alt="{{ item.director.name|lower|title }}">
+                                        {% endif %}
 
-                                    <div class="media-info align-items-center justify-content-center">
-                                        <span class="badge badge-light">
-                                            {{ item.director.name|lower|title }}
-                                        </span>
+                                        <div class="media-info align-items-center justify-content-center">
+                                            <span class="badge badge-light">
+                                                {{ item.director.name|lower|title }}
+                                            </span>
+                                        </div>
                                     </div>
-                                </div>
                                 {#</a>#}
                             </div>
                         {% else %}
@@ -309,7 +323,7 @@
         </div>
     </header>
 
-    <div class="container">
+    <div class="container" data-movie-id="{{ programme.slug }}" data-lang-id="{{ app.request.attributes.get('_locale') }}">
         <div class="row justify-content-end">
             <div class="col-md-9 col-sm-12">
 
@@ -367,8 +381,8 @@
                                 
                                 <div data-vimeo-url="{{ vimeoRsrc[0].link }}" id="coa-player-cover" data-vimeo-width="825" data-vimeo-height="480"  data-vimeo-portrait="false" data-vimeo-byline="false" data-vimeo-color="dc3545"  data-vimeo-background="false" data-vimeo-title="false"></div>
                                 
-                                {% if 1 == 1 %}
-                                {#{% if is_granted('IS_AUTHENTICATED_FULLY') %}#}
+                                {#{% if 1 == 1 %}#}
+                                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                     
                                     <div class="coa-player-thumbnail fix d-none sleep-target text-left">
                                         <div style="position:absolute;top:0;bottom:0;left:0;right:0;">
@@ -399,8 +413,6 @@
                                 {% endif %}
                             </div>
                         </div>
-
-
 
                         {#<div class="d-flex flex-row justify-content-end">
                             <button class="btn btn-danger btn-lg" data-toggle="modal" data-target="#download-list">
@@ -478,30 +490,30 @@
                                     <div class="card">
                                         {#<a href="{{ path('actor_index',{'slug':item.actor.slug}) }}" class="d-block  has-detail text-white">#}
 
-                                        <div class="d-block  has-detail text-white">
+                                            <div class="d-block  has-detail text-white">
 
-                                            {% if item.actor.image %}
-                                                <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
-                                            {% else %}
-                                                <img class="card-img-top" src="{{ asset('img/vignette-landscape.png')}}"  alt="{{ item.actor.name|lower|title }}">
-                                            {% endif %}
+                                                {% if item.actor.image %}
+                                                    <img class="card-img-top" src="{{ asset('upload/public/'~item.actor.image)}}"  alt="{{ item.actor.name|lower|title }}">
+                                                {% else %}
+                                                    <img class="card-img-top" src="{{ asset('img/vignette-landscape.png')}}"  alt="{{ item.actor.name|lower|title }}">
+                                                {% endif %}
 
-                                            <div class="card-body d-none d-md-block media-info" >
-                                                <h6 class="card-title">
-                                                    {{item.actor.name|lower|title}}
-                                                </h6>
+                                                <div class="card-body d-none d-md-block media-info" >
+                                                    <h6 class="card-title">
+                                                        {{item.actor.name|lower|title}}
+                                                    </h6>
 
-                                                <p class="card-text">
-                                                    <small >
-                                                        {% if item.actor.description %}
-                                                            {{ item.actor.description }}
-                                                        {% else %}
-                                                            Description indisponible
-                                                        {% endif %}
-                                                    </small>
-                                                </p>
+                                                    <p class="card-text">
+                                                        <small >
+                                                            {% if item.actor.description %}
+                                                                {{ item.actor.description }}
+                                                            {% else %}
+                                                                Description indisponible
+                                                            {% endif %}
+                                                        </small>
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
                                         {#</a>#}
                                     </div>                                
                                 {% endfor %}
@@ -830,6 +842,7 @@
                         {% else %}
 
                             <div class="alert alert-light" role="alert">
+
                                 <h6 class="alert-heading">
                                     {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
                                 </h6>

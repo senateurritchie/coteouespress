@@ -121,6 +121,38 @@
         <source>Nom du programme</source>
         <target>Nom du programme</target>
       </trans-unit>
+      <trans-unit id="APYkkq1" resname="Information indisponible pour ce programme">
+        <source>Information indisponible pour ce programme</source>
+        <target>Information indisponible pour ce programme</target>
+      </trans-unit>
+      <trans-unit id="QaMg2KK" resname="Rechercher un programme">
+        <source>Rechercher un programme</source>
+        <target>Rechercher un programme</target>
+      </trans-unit>
+      <trans-unit id="zaqrRC0" resname="Télécharger">
+        <source>Télécharger</source>
+        <target>Télécharger</target>
+      </trans-unit>
+      <trans-unit id="s0ivbH." resname="Origine">
+        <source>Origine</source>
+        <target>Origine</target>
+      </trans-unit>
+      <trans-unit id="zFn4.qk" resname="Télécharger les vidéos">
+        <source>Télécharger les vidéos</source>
+        <target>Télécharger les vidéos</target>
+      </trans-unit>
+      <trans-unit id="cR5fLhm" resname="Fermer">
+        <source>Fermer</source>
+        <target>Fermer</target>
+      </trans-unit>
+      <trans-unit id="bGkck16" resname="Version disponible">
+        <source>Version disponible</source>
+        <target>Version disponible</target>
+      </trans-unit>
+      <trans-unit id="6buRkpG" resname="programmes.legal.mention">
+        <source>programmes.legal.mention</source>
+        <target>Sont présentés, à titre indicatif sur notre site, divers programmes que nous avons eus à distribuer ou contribués à distribuer dans l'un au moins des territoires que nous couvrons. Leur présence ici ne présume donc en rien de la détention actuelle d'un droit de quelque nature que ce soit. La disponibilité des droits souhaités pour le territoire souhaité vous sera donc confirmée sur demande.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

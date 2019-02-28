@@ -4,29 +4,41 @@
         <meta charset="UTF-8" />
         <title>
             {% block title %}
-               Côte Ouest Audiovisuel | leader de la distribution de programmes télévisés pour et à destination de l'Afrique
+                {% if app.request.getLocale() == 'en' %}
+                    Côte Ouest AUDIOVISUEL | leader in the distribution of television programs to Africa
+                {% else %}
+                    Côte Ouest Audiovisuel | leader de la distribution de programmes télévisés pour et à destination de l'Afrique
+                {% endif %}
             {% endblock %}
         </title>
 
         {% block meta_description %}
-            <meta name="description" content="avec un catalogue riche de plus de 20 000 heures de séries, de films, de télénovelas, de documentaires. Côte ouest est le premier distributeur de contenus télévisé en provenance et à destination de l’Afrique" />
+
+            {% if app.request.getLocale() == 'en' %}
+                <meta name="description" content="Cote Ouest offers its independent producers and production studio partners more than 17 years of expertise in the management of audiovisual rights along with a wide variety of services including marketing, legal aspects, and the fight against piracy" />
+                
+            {% else %}
+                <meta name="description" content="avec un catalogue riche de plus de 20 000 heures de séries, de films, de télénovelas, de documentaires. Côte ouest est le premier distributeur de contenus télévisé en provenance et à destination de l’Afrique" />
+            {% endif %}
+
+            
         {% endblock %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta charset="utf-8">
+        <meta name="robots" content="all" />
+        <meta name="language" content="fr" />
+        <meta content="C&ocirc;te Ouest" name="C&ocirc;te Ouest" />
 
         
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     
         {% block stylesheets %}
             <!-- Required meta tags -->
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-            <meta charset="utf-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
             <meta name="keywords" content="Côte Ouest  Audiovisuel, Côte Ouest , Côte Ouest , Côte Ouest  Audiovisuel, production de Côte Ouest ,film africain Côte Ouest ,production Côte Ouest ,production Côte Ouest  Audiovisuel, Côte Ouest  production, Côte Ouest  Audiovisuel production, Côte Ouest  Abidjan, Côte Ouest  cote d’ivoire, Côte Ouest  Maurice, Côte Ouest  ébène, Côte Ouest  ile Maurice, Côte Ouest  Maroc, Côte ouest Casablanca, coteouest.ci, coteouest.ma, coteouest.mu, cote-ouest.ci, cote-ouest.tv, coteouest.tv, programmes Audiovisuels, programmes de télévision, films, séries, télénovelas, films africains, cinémas du sud, comédie africaine, cinéma africain, film africain, comédies africaines, cinémas africains, films africains, distribution de programmes, distributeur de programme Audiovisuel, distribution de films, distributeur de programme en Afrique, Afrique, télévision en Afrique, cinémas africains, images africaines, télé africaines, production télévisuelle, tv en Afrique, production Audiovisuelle, tv program, tv programs, africain library, tv africaines, Abidjan, Côte d'Ivoire, Afrique, esa, fsa, dom tom, vod" />
 
-            <meta name="robots" content="all" />
-            <meta name="language" content="fr" />
-            <meta content="C&ocirc;te Ouest" name="C&ocirc;te Ouest" />
+            
 
             <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
@@ -69,6 +81,24 @@
             <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
             <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+
+
+            <script type="text/javascript">
+
+                var _gaq = _gaq || [];
+                _gaq.push(['_setAccount', 'UA-29840893-1']);
+                _gaq.push(['_setDomainName', 'coteouest.tv']);
+                _gaq.push(['_setAllowLinker', true]);
+                _gaq.push(['_trackPageview']);
+
+                (function() {
+                    var ga = document.createElement('script'); ga.type = 'text/javascript'; 
+                    ga.async = true;
+                    //ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+                    ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+                    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+                })();
+            </script>
 
         {% endblock %}
     </body>

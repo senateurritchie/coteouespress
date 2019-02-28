@@ -35,6 +35,13 @@ $(document).ready(function($){
 		menuHook();
 	});
 
+	$("#header-mobile-menu").on({
+		click:function(e){
+			e.preventDefault();
+			$("#master-menu-mobile").toggleClass('active');
+		}
+	});
+
 	/*$('.nav-contacts').click(function(e){
 		e.preventDefault();
 

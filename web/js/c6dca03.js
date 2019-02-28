@@ -22,6 +22,13 @@ $(document).ready(function($){
 		menuHook();
 	});
 
+	$("#header-mobile-menu").on({
+		click:function(e){
+			e.preventDefault();
+			$("#master-menu-mobile").toggleClass('active');
+		}
+	});
+
 	/*$('.nav-contacts').click(function(e){
 		e.preventDefault();
 
@@ -1006,6 +1013,18 @@ var AdminManager = AdminManager || {};
 
 (function(nsp){
 
+
+    /**
+    * evenement lorsqu'on lance un téléchargement de matériel promo
+    */
+    nsp.DownloadMovieListEvent = (function(){
+        function DownloadMovieListEvent(params){
+            nsp.Event.call(this,'download-movie-list',params);
+        };
+        Object.assign(DownloadMovieListEvent.prototype, nsp.Event.prototype);
+        return DownloadMovieListEvent;
+    })();
+
 	nsp.fn.VimeoPlayer = (function(){
 		function VimeoPlayer(params){
 			nsp.EventDispatcher.call(this);
@@ -1135,6 +1154,37 @@ var AdminManager = AdminManager || {};
 		return VimeoPlayer;
 	})();
 
+
+    nsp.fn.MovieSingleRepository = (function(){
+
+        function MovieSingleRepository(params){
+            nsp.Repository.call(this,params);
+        };
+
+        Object.assign(MovieSingleRepository.prototype, nsp.Repository.prototype);
+
+        MovieSingleRepository.prototype.downloadListRequest = function(event){
+
+            console.log(event)
+
+            return new Promise((resolve,reject)=>{
+                  this.request({
+                      url:`/${event.params.langId}/programmes/${event.params.movieId}/downloads/${event.params.downloadType}`,
+                      method:"GET",
+                      dataType:"text"
+                  })
+                  .done(data=>{
+                      resolve(data);
+                  })
+                  .fail(msg=>{
+                      reject(msg);
+                  });
+              });
+        };
+        return MovieSingleRepository;
+    })();
+
+
 	nsp.fn.MovieSingleView = (function(){
 		function MovieSingleView(params){
 			nsp.View.call(this,params);
@@ -1169,6 +1219,29 @@ var AdminManager = AdminManager || {};
             var movieProfil = $("#movie-profil");
             var masterCover = $("#master-cover");
             var otherMovies = $("#other-movies");
+            var btnDownloadList = $("[data-target='#download-list']");
+
+
+
+            this.subscribe(event=>{
+
+                if(event instanceof nsp.DownloadMovieListEvent){
+                    if(~["end","fails"].indexOf(event.params.state)){
+                        $(document.body).removeClass("download-list-active");
+
+                        if(event.params.state == "end"){
+                            var data = event.params.data;
+                            if(data){
+                                $(document.body).addClass("download-list-loaded");
+                                $("#download-list-container").html(data);
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                }
+            });
 
             win.on({
                 scroll:function(e){
@@ -1322,6 +1395,23 @@ var AdminManager = AdminManager || {};
                 console.log(pos)
             });
 
+            btnDownloadList.on({
+                click:(e)=>{
+
+                    if(!$(document.body).hasClass("download-list-loaded")){
+                        $(document.body).addClass("download-list-active");
+
+                        this.emit(new nsp.DownloadMovieListEvent({
+                            state:'start',
+                            movieId:$('[data-movie-id]').attr('data-movie-id'),
+                            langId:$('[data-lang-id]').attr('data-lang-id'),
+                            downloadType:'vimeo',
+                            dataType:"text"
+                        }));
+                    }
+                }
+            });
+
 			return this;
 		}
 		return MovieSingleView;
@@ -1387,10 +1477,42 @@ var AdminManager = AdminManager || {};
 $(document).ready(function($){
     var nsp = AdminManager;
     var view = AdminManager.container.get('MovieSingleView');
+    var repository = AdminManager.container.get('MovieSingleRepository');
+
     view.controller();
 
-    view.subscribe(event=>{
+   
+    repository.subscribe(event=>{
 
+		if(event instanceof nsp.DownloadMovieListEvent){
+			if(event.params.state != "start") return;
+
+			
+		}
+		
+	});
+
+
+	view.subscribe(event=>{
+
+    	if(event instanceof nsp.DownloadMovieListEvent){
+			if(event.params.state == "start"){
+				repository.downloadListRequest(event)
+				.then(data=>{
+
+					view.emit(new nsp.DownloadMovieListEvent({
+						state:'end',
+						data:data
+					}));
+
+				},msg=>{
+					view.emit(new nsp.DownloadMovieListEvent({
+						state:'fails',
+					}));
+				});
+			}
+		}
         
     });
+
 });

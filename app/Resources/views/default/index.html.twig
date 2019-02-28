@@ -6,6 +6,12 @@
 {% set original_cover = programmes_rest|slice(0,1)[0] %}
 {% set four_movie_2 = programmes_rest|slice(1,4) %}
 
+{% set event_movies_left = currentEvent.movies|slice(0,3) %}
+{% set event_movies_right = currentEvent.movies|slice(3) %}
+
+
+{% set event_movies_center = currentEvent.movies|shuffle %}
+
 
 {% block stylesheets %}
     {{ parent() }}
@@ -96,7 +102,7 @@
     </header>
 
 
-    <div  class="container mt-5">
+    <div  class="container mt-0" id="index-main-content">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <section class="block has-carousel animation-none" id="block-originals">
@@ -199,13 +205,197 @@
                                 </div>
                             </div>
                         </div>
-                        
                     </div>
-                    
                 </section>
+
+
+                {# Debut d'affichage mobile EVENT #}
+                <section class="block has-carousel animation-top " id="apex">
+                    <div class="block-header">
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            {{"event.special.title.apex"|trans({},'homepage')}} 
+                        </h3>
+                        <br><br>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+                        <div class="text-left owl-carousel">
+                            
+                            {% for item in currentEvent.movies %}
+                                <div>
+                                    <div class="position-relative has-media-detail d-block vid-hover">
+                                        {% if item.portraitImg %}
+                                            <img  src="{{ asset('upload/public/'~item.portraitImg) }}"  alt="{{ item.name|lower|title }}">
+                                        {% else %}
+                                            <img alt="" src="{{ asset('img/vignette.png')}}"  alt="">
+                                        {% endif %}
+
+                                        <div class="media-overlay"></div>
+
+                                        <div class="media-btn-wrapper">
+                                            <ul class="d-block">
+                                                <li>
+                                                    <a data-vbtype="video" href="{{ item.trailer }}" class="{{ item.trailer ? '' : 'my-disabled' }} venobox movie-trailer-link" >
+                                                        {{ 'Bande annonce'|trans({},'movies') }}
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{ path('movie_index',{'slug':item.slug})}}" class="movie-link">
+                                                        {{ 'Details'|trans({},'movies') }}
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+
+                                        <div class="movie-f d-none d-md-flex">
+                                            <h2 class="text-truncate movie-name" >
+                                                {{ item.name|lower|title }} 
+                                            </h2>
+
+                                            {#<small class="d-none d-md-block movie-rank">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                                <i class="far fa-star"></i>
+                                            </small>#}
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            {% else %}
+                                 <div class="alert alert-light" role="alert">
+                                    <h6 class="alert-heading">
+                                        {{ "Information indisponible pour ce programme"|trans({},"catalogue") }}
+                                    </h6>
+                                
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </section>
+                {# Fin d'affichage mobile EVENT #}
+
+                {# Debut d'affichage desktop EVENT 
+                <section class="d-none d-sm-none d-md-none d-lg-none d-xl-block block has-carousel animation-top " id="current-event-2">
+                    
+                    <div class="block-header">
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            {{ currentEvent.view_title }}
+                        </h3>
+                        <br><br>
+                    </div>
+
+                    <div class="row">
+                        <div class="prs_vp_main_slider_wrapper">
+                            <div class="prs_vp_left_slidebar_wrapper">
+                                <div class="wrap-album-slider">
+                                    <div class="bx-wrapper" style="max-width: 257px;">
+                                        <ul class="prs_vp_left_slider" >
+
+                                            {% for item in event_movies_left %}
+                                                <li class="album-slider__item prs_vp_hover_overlay" >
+                                                    <figure class="album">
+                                                        <div class="prs_vp_img_overlay">
+
+                                                            {% if item.portraitImg %}
+                                                                <img src="{{ asset('upload/public/'~item.portraitImg) }}" alt="{{ item.name|lower|title }}"> 
+                                                            {% else %}
+                                                                <img alt="" src="{{ asset('img/vignette.png')}}"  alt="">
+                                                            {% endif %}
+
+
+                                                            <a href="{{ path('movie_index',{'slug':item.slug})}}" class="info vbox-item" data-title="{{ item.name|lower|title }}" >
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </div>
+                                                    </figure>
+                                                    <!-- End album -->
+                                                </li>
+                                            {% endfor %}
+
+                                            
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="prs_vp_center_slidebar_wrapper">
+                                <div class="prs_vp_center_slider">
+                                    <div class="owl-carousel owl-theme owl-drag">
+
+                                        {% for item in event_movies_center if item.landscapeImg %}
+                                            <div class="item">
+                                                <div class="prs_vp_center_slider_img_wrapper prs_vp_hover_overlay">
+                                                    <figure class="album">
+
+                                                        <div class="prs_vp_img_overlay">
+
+                                                            <img src="{{ asset('upload/public/'~item.landscapeImg) }}" alt="{{ item.name|lower|title }}">
+
+                                                            <a href="{{ path('movie_index',{'slug':item.slug})}}" class="info vbox-item" data-title="{{ original_cover.name|lower|title }}">
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </div>
+                                                    </figure>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+
+                                    
+                                    
+
+                                </div>
+                            </div>
+                            <div class="prs_vp_right_slidebar_wrapper">
+                                <div class="wrap-album-slider">
+                                    <div class="bx-wrapper" style="max-width: 257px;">
+                                        <ul class="prs_vp_right_slider" >
+                                            {% for item in event_movies_right %}
+                                                <li class="album-slider__item prs_vp_hover_overlay" >
+                                                    <figure class="album">
+                                                        <div class="prs_vp_img_overlay">
+
+                                                            {% if item.portraitImg %}
+                                                                <img src="{{ asset('upload/public/'~item.portraitImg) }}" alt="{{ item.name|lower|title }}"> 
+                                                            {% else %}
+                                                                <img alt="" src="{{ asset('img/vignette.png')}}"  alt="">
+                                                            {% endif %} 
+
+                                                            <a href="{{ path('movie_index',{'slug':item.slug})}}" class="info vbox-item" data-title="{{ item.name|lower|title }}" >
+                                                                <i class="fa fa-search"></i>
+                                                            </a>
+                                                        </div>
+                                                    </figure>
+                                                    <!-- End album -->
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </section>
+                {# Fin d'affichage desktop EVENT #}
             </div>
         </div>
     </div>
+
+
 
     <section class="animation-right" style="margin-top: 40px;">
 
@@ -306,7 +496,7 @@
                                         {% if scenes|length %}
                                             {% for img in scenes %}
                                                 
-                                                <div class="col-sm-6 {{ loop.index > 2 ? 'd-none' : '' }}">
+                                                <div class="col-sm-6 col-6 {{ loop.index > 2 ? 'd-none' : '' }}">
                                                     <div class="position-relative" style="display:inline-block">
 
                                                         {% if loop.index <= 2 %}
@@ -352,7 +542,7 @@
                 <section class="block animation-right" id="block-video-a-voir">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
-                            {{ 'Trailers / Extraits'|trans({},'homepage') }}
+                            {{ 'trailer.homepage.title'|trans({},'homepage') }}
                         </h3>
                         <br><br>
                     </div>
@@ -360,15 +550,18 @@
                     <div class="block-content" >
 
                         <div class="row">
-                            {% for item in vimeoRsrc %}
-                                <div class="col-6 col-sm-6 col-md-3 mb-2 d-flex justify-content-center position-relative">
+                            {% for item in trailers %}
+                                <div class="col-6 col-sm-6 col-md-6 col-lg-6 col-xl-3 mb-2 d-flex justify-content-center position-relative">
 
-                                    <a href="{{ item.link }}" class="venobox"  data-vbtype="video" data-title="{{item.name }}" data-autoplay="true" data-gall="myGallery2" style="text-decoration:none">
-                                        <img  class="img-fluid" src="{{ item.thumbnail }}" alt=" {{ item.name }}">
+                                    <a href="{{ item.trailer }}" class="venobox"  data-vbtype="video" data-title="{{item.name }}" data-autoplay="true" data-gall="myGallery2" style="text-decoration:none">
+                                        
+
+                                        <img  class="img-fluid" src="{{ asset('upload/public/'~item.landscapeImg) }}" alt="{{ item.name|lower|title}}" />
+                                        
                                         <i class="video-icon video-popup-control"></i>
 
                                         
-                                        <div  class="d-flex align-items-center justify-content-center">
+                                        <div  class="d-flex align-items-center justify-content-center mt-2">
                                             <span class="badge badge-info">
                                                 {{item.name|lower|title}}
                                             </span>
@@ -393,6 +586,50 @@
                         <img src="{{ asset('img/div.png')}}" alt="">
                     </div>
                 </section>
+
+                
+                {# affichage coming soon des evenements #}
+
+                {#<section class="block animation-top" id="upcoming-events">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="prs_ec_ue_left_img_wrapper">
+                            <img src="{{ asset('img/events/apex-2019.jpg')}}" alt="apex - côte ouest audiovisuel">
+                        </div>
+                        <div class="prs_ec_ue_right_img_wrapper">
+                            <div class="prs_feature_img_cont prs_ec_ue_right_img_cont">
+                                <h2><a href="#">Apex MMM 2019</a></h2>
+                                <div class="prs_ft_small_cont_left">
+                                    <p>Dublin &amp; Ireland</p>
+                                </div>
+                               
+                                <ul>
+                                    <li>15 &mdash; 17 Avril 2019</li>
+                                    <li>09:30-15:00</li>
+                                </ul>
+                                <p class="prs_up_pera_sec">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiud tempor incididunt ut labore et dolore magna aliqua. Ut enim ad quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo is aute irure dolor in reprehenderit in voluptate velit esse cillum fugiat nulla pariatur Excepteur sint. <a href="#">Read More</a>
+                                </p>
+                            </div>
+                            <div class="prs_ec_ue_timer_wrapper">
+                                <div id="clockdiv">
+                                    <div><span class="days"></span>
+                                        <div class="smalltext">Jours</div>
+                                    </div>
+                                    <div><span class="hours"></span>
+                                        <div class="smalltext">Heures</div>
+                                    </div>
+                                    <div><span class="minutes"></span>
+                                        <div class="smalltext">Mins</div>
+                                    </div>
+                                    <div><span class="seconds"></span>
+                                        <div class="smalltext">Secs</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>#}
+
+                {# fin affichage coming soon des evenements #}
 
                 {#<section class="block  animation-top has-carousel" id="block-realisateurs">
                     <div class="block-header">
@@ -499,6 +736,79 @@
             let mainMenu = $("#master-menu");
             var sections = $("section");
 
+            /*var ComingSoon = (function(){
+                function ComingSoon(startingDate = "Apr 15, 2019 09:30:00"){
+                    this.timerId = null;
+                    this.startingDate = startingDate;
+                    this.params = {
+                        daysEl:null,
+                        hoursEl:null,
+                        minsEl:null,
+                        secsEl:null,
+                    }
+                }
+
+                ComingSoon.utils = {};
+
+                ComingSoon.utils.merge = function(target={},source={}){
+                   for(let i in source){
+                    target[i] = source[i];
+                   }
+                   return target;
+                }
+
+                ComingSoon.prototype.stop = function(){
+                    clearInterval(this.timerId);
+                }
+
+                ComingSoon.prototype.init = function(params){
+                    this.params = ComingSoon.utils.merge(this.params,params);
+                    var countDownDate = new Date(this.startingDate).getTime();
+
+                    this.timerId = setInterval(()=> {
+                        // Get todays date and time
+                        var now = new Date().getTime();
+
+                        // Find the distance between now an the count down date
+                        var distance = countDownDate - now;
+
+                        // Time calculations for days, hours, minutes and seconds
+                        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+                        this.params.daysEl.text(days);
+                        this.params.hoursEl.text(hours);
+                        this.params.minsEl.text(minutes);
+                        this.params.secsEl.text(seconds);
+
+                        // If the count down is finished, write some text
+                        if (distance < 0) {
+                            this.stop();
+                        }
+                    }, 1000); 
+                }
+                return ComingSoon;
+            })();
+
+
+            var myEvent = new ComingSoon("Apr 15, 2019 09:30:00");
+
+            myEvent.init({
+                daysEl:$(".prs_ec_ue_timer_wrapper #clockdiv .days"),
+                hoursEl:$(".prs_ec_ue_timer_wrapper #clockdiv .hours"),
+                minsEl:$(".prs_ec_ue_timer_wrapper #clockdiv .minutes"),
+                secsEl:$(".prs_ec_ue_timer_wrapper #clockdiv .seconds"),
+            });*/
+
+            if(window.location.hash){
+                sections.each(function(i,el){
+                    let obj = $(el);
+                    obj.addClass('section-animation');
+                });
+            }
+
 
             $(window).on({
                 scroll:function(e){
@@ -519,8 +829,7 @@
                             //console.log(`section ${i}: top: ${top}, scrollTop: ${pos}`)
                         }
                     });
-
-                    
+    
                 }
             });
 
@@ -549,6 +858,32 @@
                     opts.items = 4;
                     opts.margin = 4;
                 }
+                else if(obj.attr('id') == "apex"){
+                    opts.items = 6;
+                    opts.margin = 10;
+                    opts.autoplay = true;
+                    opts.responsive = {
+                        0: {
+                            items: 1,
+                        },
+                        500: {
+                            items: 2,
+                        },
+                        700: {
+                            items: 2,
+                        },
+                        800: {
+                            items: 2,
+                        },
+                        900: {
+                            items: 2,
+                        },
+                        1000: {
+                            items: 6,
+                        }
+                    };
+                    //opts.loop = false;
+                }
                 else{
                     opts.items = 1;
                 }
@@ -556,7 +891,93 @@
                 owl.owlCarousel(opts);
             });
 
-             /* 09. VENOBOX JS */
+
+            /*$(".album-slider").bxSlider({
+                minSlides: 1,
+                maxSlides: 10,
+                slideWidth: 257,
+                slideMargin: 17,
+                ticker: true,
+                tickerHover: true,
+                speed: 20000,
+                useCSS: false, 
+                infiniteLoop: false
+                
+                });
+
+            $(".movie-cast-slider").bxSlider({
+                minSlides: 1,
+                maxSlides: 10,
+                slideWidth: 257,
+                slideMargin: 17,
+                ticker: true,
+                tickerHover: true,
+                speed: 20000,
+                useCSS: false, 
+                infiniteLoop: false
+            });
+
+
+            $(".prs_vp_left_slider").bxSlider({
+                minSlides: 1,
+                autoDirection: 'next',
+                mode: 'vertical',
+                maxSlides: 10,
+                slideWidth: 257,
+                slideMargin: 5,
+                ticker: true,
+                tickerHover: true,
+                speed: 15000,
+                useCSS: false, 
+                infiniteLoop: false,
+            });
+
+            $(".prs_vp_right_slider").bxSlider({
+                minSlides: 1,
+                mode: 'vertical',
+                autoDirection: 'prev',
+                maxSlides: 10,
+                slideWidth: 257,
+                slideMargin: 5,
+                ticker: true,
+                tickerHover: true,
+                speed: 15000,
+                useCSS: false, 
+                infiniteLoop: false,
+            });
+
+            $('.prs_vp_center_slider .owl-carousel').owlCarousel({
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                responsiveClass: true,
+                smartSpeed: 1200,
+                dots:false,
+                navText:['<i class="fa fa-play"></i>','<i class="fa fa-play"></i>'],
+                responsive: {
+                    0: {
+                        items: 1,
+                        nav: true,
+
+                    },
+                    500: {
+                        items: 1,
+                        nav: true,
+                    },
+                    700: {
+                        items: 1,
+                        nav: true,
+                    },
+                    1000: {
+                        items: 1,
+                        nav: true,
+                        loop: true,
+                        margin: 20,
+                    }
+                },
+            });*/
+
+            /* 09. VENOBOX JS */
             $('.venobox').venobox({
                 numeratio: true,
                 titleattr: 'data-title',
@@ -574,6 +995,10 @@
                 auto:true,
                 easing:'ease-in-out',
             });
+
+            if(window.location.hash == "#apex"){
+                $("html,body").animate({scrollTop:$("#apex").offset().top - 300 },500)
+            }
 
         });
     </script>

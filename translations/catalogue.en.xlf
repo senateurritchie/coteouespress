@@ -157,6 +157,12 @@
         <source>Fermer</source>
         <target>Close</target>
       </trans-unit>
+      <trans-unit id="6buRkpG" resname="programmes.legal.mention">
+        <source>programmes.legal.mention</source>
+        <target>
+          The various program titles are listed on our website as a general guide to the type of programs we have distributed or currently distribute in our geographical regions. Their inclusion on our website does not imply actual ownership of license rights of any kind in relation to these programs. Program rights availability for any particular territory is subject to final confirmation upon request.
+        </target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

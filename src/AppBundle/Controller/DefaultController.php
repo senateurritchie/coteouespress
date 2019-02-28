@@ -50,7 +50,7 @@ class DefaultController extends Controller{
         $client_id = $vimeo_p['client_id'];
         $client_secret = $vimeo_p['client_secret'];
         $token = $vimeo_p['access_token'];
-        $vimeoRsrc = array();
+        /*$vimeoRsrc = array();
 
         $lib = new \Vimeo\Vimeo($client_id, $client_secret);
         // use the token
@@ -132,17 +132,56 @@ class DefaultController extends Controller{
 
         }
         
-        vimeo_cache_skip:
+        vimeo_cache_skip:*/
+
+
+        // quelques programmes a presenter à des evènements 
+
+        // liste des programmes a afficher
+        $currentEventMovies = [
+            "shampaign",
+            "poisoned-bait",
+            "les-bobodiouf-le-retour",
+            "18-hours",
+            "missie-madam",
+            "tohu-bohu",
+            "t-junction",
+            "abidjan-on-dit-quoi",
+            "banana-island-ghost"
+        ];
+
+        $currentEvent = [
+            "start"=>new \Datetime(),
+            "end"=>new \Datetime(),
+            "name"=>"Apex",
+            "view_title"=>"Nos programmes de l'Apex",
+            "movies"=>$rep_movie->findBySlug($currentEventMovies)
+        ];
+
+        $trailers = $rep_movie->search([
+            "is_trailer_exists"=>true,
+            "is_landscape_img_exists"=>true,
+            "order_id"=>"DESC"
+        ],4);
 
 
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
+            "currentEvent"=>$currentEvent,
             "actors"=>$actors,
             "directors"=>$directors,
             "director_exclusivity"=>$director_exclusivity,
-            "vimeoRsrc"=>$vimeoRsrc,
+            //"vimeoRsrc"=>$vimeoRsrc,
+            "trailers"=>$trailers,
         ));
+    }
+
+    /**
+    * @Route("/coming-soon", name="coming_soon")
+    */
+    public function comingSoonAction(Request $request){
+        return $this->render('default/coming-soon.html.twig',[]);
     }
 
 

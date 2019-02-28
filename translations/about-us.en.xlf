@@ -96,8 +96,8 @@
       </trans-unit>
       <trans-unit id=".jVy.s_" resname="notre.vision.text">
         <source>notre.vision.text</source>
-        <target>
-            <![CDATA[
+        <target><![CDATA[
+            
             <p>
                 Whether it is in art, literature, music, in every domain, Africaabounds with talents and gave a lot of these talents to the world. Africa deserves a much better place in the concert of nations and we think it’s time for these talents to serve the dreams and ambitions of Africa. It’s Time For Africa!
             </p>
@@ -108,8 +108,8 @@
 
             <br>
             <img class="img-fluid rounded" src="http://coteouest.tv/imgs/its-time-for-africa-def.jpg" alt="cote ouest audiovisuel. a propos de nous">
-                ]]>
-        </target>
+                
+        ]]></target>
       </trans-unit>
       <trans-unit id="vWfYiDE" resname="notre.catalogue.text">
         <source>notre.catalogue.text</source>
@@ -117,8 +117,8 @@
       </trans-unit>
       <trans-unit id="UrLH9iy" resname="notre.ambition.text">
         <source>notre.ambition.text</source>
-        <target>
-            <![CDATA[
+        <target><![CDATA[
+            
 
             <p>
                 Africa is also a diaspora of more than 200 million peopledistributed over the four corners of the planet. This diaspora is hungry for African content.The African audio-visual industry’s dynamism allowed and still allows the creation of quality works which can now claim their place in international TV programming.
@@ -133,28 +133,56 @@
                 Our will is then to get off the beaten track and to offer new still not much explored paths.So, thanks to its expertise on the Latin America, Africa and now Australia and the CaribbeanCOTE OUEST is now best positioned as a content provider from the South. 
             </p>
 
-            ]]>
-        </target>
+            
+        ]]></target>
       </trans-unit>
-      <trans-unit id="H2O5AYj" resname="Responsable Acquisition">
-        <source>Responsable Acquisition</source>
-        <target>Acquisition Manager</target>
-      </trans-unit>
-      <trans-unit id="ZVyFbBh" resname="Responsable Production">
-        <source>Responsable Production</source>
-        <target>Production Manager</target>
-      </trans-unit>
-      <trans-unit id="pkSHKaY" resname="Responsable Communication Produits">
-        <source>Responsable Communication Produits</source>
-        <target>Product Manager</target>
-      </trans-unit>
-      <trans-unit id="uXFgqFj" resname="Directeur Artistique et Technique">
-        <source>Directeur Artistique et Technique</source>
+      <trans-unit id="WDfMZob" resname="gilles.ntakpe.role">
+        <source>gilles.ntakpe.role</source>
         <target>Artistic and Technical Director</target>
       </trans-unit>
-      <trans-unit id="uBOj2io" resname="Responsable Gestion des supports">
-        <source>Responsable Gestion des supports</source>
+      <trans-unit id="R3mBugY" resname="babacar.diouf.role">
+        <source>babacar.diouf.role</source>
+        <target>Chief Operating Officer</target>
+      </trans-unit>
+      <trans-unit id="5Z1vWXm" resname="bruno.sans.role">
+        <source>bruno.sans.role</source>
+        <target>Channel Manager</target>
+      </trans-unit>
+      <trans-unit id="sOVeu7D" resname="maimouna.tiote.role">
+        <source>maimouna.tiote.role</source>
+        <target>Product Manager</target>
+      </trans-unit>
+      <trans-unit id="6PxV_Sf" resname="awoua.keita.role">
+        <source>awoua.keita.role</source>
+        <target>Acquisition Manager</target>
+      </trans-unit>
+      <trans-unit id="L9CPodx" resname="larissa.coulibaly.role">
+        <source>larissa.coulibaly.role</source>
+        <target>Chief Accountant</target>
+      </trans-unit>
+      <trans-unit id="RKlaprd" resname="anicet.parfait.role">
+        <source>anicet.parfait.role</source>
+        <target>Communication Manager</target>
+      </trans-unit>
+      <trans-unit id="miURwmz" resname="alain.kempinaire.role">
+        <source>alain.kempinaire.role</source>
+        <target>Technical Director</target>
+      </trans-unit>
+      <trans-unit id="lUpT_4m" resname="charles.henry.manedji.role">
+        <source>charles.henry.manedji.role</source>
+        <target>Sales Marketing Manager</target>
+      </trans-unit>
+      <trans-unit id="fkOc20N" resname="blanche.mbe.role">
+        <source>blanche.mbe.role</source>
         <target>Materials Coordinator</target>
+      </trans-unit>
+      <trans-unit id="l9g.yZD" resname="dodji.kwami.role">
+        <source>dodji.kwami.role</source>
+        <target>Content Manager</target>
+      </trans-unit>
+      <trans-unit id="kuOwpz2" resname="ezechiel.karamoko.role">
+        <source>ezechiel.karamoko.role</source>
+        <target>Sales Executive</target>
       </trans-unit>
     </body>
   </file>

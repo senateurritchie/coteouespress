@@ -1,13 +1,23 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-   Histoire de la compagnie Côte Ouest Audiovisuel 
+   
+    {% if app.request.getLocale() == 'en' %}
+        History of Côte Ouest Audiovisuel
+    {% else %}
+        Histoire de la compagnie Côte Ouest Audiovisuel 
+    {% endif %}
+
 {% endblock %}
 
 {% block meta_description %}
 
-    <meta name="description" content="En tant que premier distributeur d'œuvre audiovisuelle en Afrique depuis 1997, Côte Ouest incite et inspire ces partenaires à faire preuve d'innovation et de créativité. Nous apportions des solutions durables aux défis de notre industrie.">
-    
+    {% if app.request.getLocale() == 'en' %}
+        <meta name="description" content="As a leading distributor of audiovisual work in Africa since 1997, West Coast inspired and encouraged the partners to be innovative and creative. We provide sustainable solutions to challenged our industry">
+    {% else %}
+        <meta name="description" content="En tant que premier distributeur d'œuvre audiovisuelle en Afrique depuis 1997, Côte Ouest incite et inspire ces partenaires à faire preuve d'innovation et de créativité. Nous apportions des solutions durables aux défis de notre industrie.">
+    {% endif %}
+
 {% endblock %}
 
 {% block stylesheets %}
@@ -29,6 +39,10 @@
             background-image: url("{{asset('img/bannieres/slim/'~random(['the-river.jpg','mr-brau.jpg','edge-of-desire.jpg']))}}"); 
             /* background-image: url("{{asset('img/illustrator-banner.jpg')}}"); */
 		}
+
+        .prs_about_team_first_mem_wrapper p{
+            font-size: 14px;
+        }
     </style>
 
 {% endblock %}
@@ -126,6 +140,7 @@
                     <h3 class="mblock-title mblock-title-info">
                         {{ 'Notre vision'|trans({},"about-us")|raw }}
                     </h3>
+                    
                     <br>
 
                     {{ 'notre.vision.text'|trans({},"about-us")|raw }} 
@@ -183,7 +198,7 @@
                                                 </li>
                                                 <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
                                                 </li>
-                                                <li><a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -199,7 +214,96 @@
                                
                                 <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
                                     <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/1.jpg') }}" alt="Awoua keïta. cote ouest audiovisuel. a propos de nous">
+                                        <img src="{{ asset('img/employees/gilles-n-takpe.png') }}" alt="Gilles N’Takpe. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Gilles N’Takpe.</a></h2>
+                                        <p>{{"gilles.ntakpe.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/babacar-diouf.png') }}" alt="Babacar Diouf. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Babacar Diouf.</a></h2>
+                                        <p>{{"babacar.diouf.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/bruno-sans.png') }}" alt="Bruno Sans. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Bruno Sans</a></h2>
+                                        <p>{{"bruno.sans.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/maimouna-tiote.png') }}" alt="Maï Tiote. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Maï Tiote.</a></h2>
+                                        <p>{{"maimouna.tiote.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/awoua-keita.png') }}" alt="Awoua keïta. cote ouest audiovisuel. a propos de nous">
                                         <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
                                             <ul>
                                                 <li>
@@ -209,58 +313,14 @@
                                                     <a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
                                                 </li>
                                                 <li>
-                                                    <a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                    <a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
                                         <h2><a href="#">Awoua keïta.</a></h2>
-                                        <p>{{"Responsable Acquisition"|trans({},"about-us")}}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
-                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
-                                    <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/2.jpg') }}" alt="Babacar Diouf. cote ouest audiovisuel. a propos de nous">
-                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
-                                            <ul>
-                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
-                                                </li>
-                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
-                                                </li>
-                                                <li><a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
-                                        <h2><a href="#">Babacar Diouf.</a></h2>
-                                        <p>{{"Responsable Production"|trans({},"about-us")}}</p>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
-                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
-                                    <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/3.jpg') }}" alt="Maï Tiote. cote ouest audiovisuel. a propos de nous">
-                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
-                                            <ul>
-                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
-                                                </li>
-                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
-                                                </li>
-                                                <li><a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
-                                        <h2><a href="#">Maï Tiote.</a></h2>
-                                        <p>{{"Responsable Communication Produits"|trans({},"about-us")}}</p>
+                                        <p>{{"awoua.keita.role"|trans({},"about-us")}}</p>
                                     </div>
                                 </div>
                             </div>
@@ -270,41 +330,106 @@
                                
                                 <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
                                     <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/4.png') }}" alt="Gilles N’Takpe. cote ouest audiovisuel. a propos de nous">
+                                        <img src="{{ asset('img/employees/larissa-coulibaly.png') }}" alt="Larissa Coulibaly. cote ouest audiovisuel. a propos de nous">
                                         <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
                                             <ul>
                                                 <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
                                                 </li>
                                                 <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
                                                 </li>
-                                                <li><a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
                                     </div>
                                     <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
-                                        <h2><a href="#">Gilles N’Takpe.</a></h2>
-                                        <p>{{"Directeur Artistique et Technique"|trans({},"about-us")}}</p>
+                                        <h2><a href="#">Larissa Coulibaly.</a></h2>
+                                        <p>{{"larissa.coulibaly.role"|trans({},"about-us")}}</p>
                                     </div>
                                 </div>
                             </div>
 
-                            
-
-                           
-                            
 
                             <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
-                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
                                     <div class="prs_about_first_mem_img_wrapper">
-                                        <img src="{{ asset('img/employees/7.jpg') }}" alt="Blanche M’BE. cote ouest audiovisuel. a propos de nous">
+                                        <img src="{{ asset('img/employees/anicet-parfait.png') }}" alt="Anicet Parfait. cote ouest audiovisuel. a propos de nous">
                                         <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
                                             <ul>
                                                 <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
                                                 </li>
                                                 <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
                                                 </li>
-                                                <li><a target="_blank" href="#"><i class="fab fa-linkedin-in"></i></a>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Anicet Parfait.</a></h2>
+                                        <p>{{"anicet.parfait.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/alain-kempinaire.png') }}" alt="Alain Kempinaire. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Alain Kempinaire.</a></h2>
+                                        <p>{{"alain.kempinaire.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                             <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/charles-henry.png') }}" alt="Charles Henry Manedji. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Charles Henry Manadji.</a></h2>
+                                        <p>{{"charles.henry.manedji.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/blanche-m-be.png') }}" alt="Blanche M’BE. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
                                                 </li>
                                             </ul>
                                         </div>
@@ -312,11 +437,58 @@
                                     <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
                                         <h2><a href="#">Blanche M’BE.</a></h2>
                                         <p>
-                                            {{"Responsable Gestion des supports"|trans({},"about-us")}}
+                                            {{"blanche.mbe.role"|trans({},"about-us")}}
                                         </p>
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/dodji-kwami.png') }}" alt="Dodji Kwami. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Dodji Drah-Yawo.</a></h2>
+                                        <p>{{"dodji.kwami.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4 col-md-4 col-sm-6 col-6 prs_ap_colum_full">
+                               
+                                <div class="prs_about_team_first_mem_wrapper prs_about_team_first_mem_wrapper2_inner">
+                                    <div class="prs_about_first_mem_img_wrapper">
+                                        <img src="{{ asset('img/employees/ezechiel-karamoko.png') }}" alt="Ezechiel Karamoko. cote ouest audiovisuel. a propos de nous">
+                                        <div class="prs_at_social_main_wrapper prs_at_social_inner_main_wrapper">
+                                            <ul>
+                                                <li><a target="_blank" href="https://www.facebook.com/pages/C%C3%B4te-Ouest-Audiovisuel/204058126314146?ref=hl"><i class="fab fa-facebook-f"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://twitter.com/CoteOUEST2"><i class="fab fa-twitter"></i></a>
+                                                </li>
+                                                <li><a target="_blank" href="https://www.linkedin.com/company/c-te-ouest-audiovisuel/"><i class="fab fa-linkedin-in"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="prs_about_first_mem_img_cont_wrapper prs_about_first_mem_img_cont_inner_wrapper">
+                                        <h2><a href="#">Ezechiel Karamoko.</a></h2>
+                                        <p>{{"ezechiel.karamoko.role"|trans({},"about-us")}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            
                         </div>
                     </div>
                 </section>

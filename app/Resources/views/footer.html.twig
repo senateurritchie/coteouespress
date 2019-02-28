@@ -53,8 +53,7 @@
 						<ul class="sitemap text-left">
 							{% for item in categories|slice(0,5) %}
 								<li>
-									{#<a href="{{ path('movie_index',{'category':item.slug}) }}">#}
-									<a href="">
+									<a href="{{ path('movie_index',{'category':item.slug}) }}">
 										{{ item.name|lower|title }}
 									</a>
 								</li>
@@ -66,8 +65,7 @@
 						<ul class="sitemap text-right">
 							{% for item in categories|slice(5,5) %}
 								<li>
-									{#<a href="{{ path('movie_index',{'category':item.slug}) }}">#}
-									<a href="">
+									<a href="{{ path('movie_index',{'category':item.slug}) }}">
 										{{ item.name|lower|title }}
 									</a>
 								</li>

@@ -46,7 +46,7 @@ class ContactController extends Controller{
 	        // message a envoyer au visiteur
     		$message = (new \Swift_Message($clientMail->getSubject()))
 	        ->setFrom([$department->getEmail()=>"Côte Ouest Audiovisuel"])
-	        ->setTo($department->getEmail())
+	        ->setTo($clientMail->getEmail())
 	        ->setBody(
 	            $this->renderView(
 	                'contact/email/visitor.html.twig',

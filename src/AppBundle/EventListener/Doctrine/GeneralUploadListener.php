@@ -2,6 +2,7 @@
 namespace AppBundle\EventListener\Doctrine;
 
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
 use Symfony\Component\HttpFoundation\File\File;
@@ -108,6 +109,9 @@ class GeneralUploadListener{
                 $fileName = $this->uploader->upload($file);
                 $entity->setImage($fileName);
             }
+            elseif ($file instanceof File) {
+                $entity->setFile($file->getFilename());
+            }
         }
         else if($entity instanceof Movie){
 
@@ -117,6 +121,9 @@ class GeneralUploadListener{
                     $fileName = $this->uploader->upload($file);
                     $entity->setCoverImg($fileName);
                 }
+                elseif ($file instanceof File) {
+                    $entity->setFile($file->getFilename());
+                }
             }
 
             if(($file = $entity->getLandscapeImg())){
@@ -125,6 +132,9 @@ class GeneralUploadListener{
                     $fileName = $this->uploader->upload($file);
                     $entity->setLandscapeImg($fileName);
                 }
+                elseif ($file instanceof File) {
+                    $entity->setFile($file->getFilename());
+                }
             }
 
             if(($file = $entity->getPortraitImg())){
@@ -132,6 +142,9 @@ class GeneralUploadListener{
                 if ($file instanceof UploadedFile) {
                     $fileName = $this->uploader->upload($file);
                     $entity->setPortraitImg($fileName);
+                }
+                elseif ($file instanceof File) {
+                    $entity->setFile($file->getFilename());
                 }
             }
         }
@@ -144,6 +157,9 @@ class GeneralUploadListener{
                     $entity->setSize($file->getClientSize());
                     $entity->setStatus(Metadata::STATUS_PREMODERATE);
                 }
+                elseif ($file instanceof File) {
+                    $entity->setFile($file->getFilename());
+                }
             }
         }
         else if($entity instanceof CatalogStatic){
@@ -152,6 +168,9 @@ class GeneralUploadListener{
                 if ($file instanceof UploadedFile) {
                     $fileName = $this->docUploader->upload($file);
                     $entity->setFile($fileName);
+                }
+                elseif ($file instanceof File) {
+                    $entity->setFile($file->getFilename());
                 }
             }
         }

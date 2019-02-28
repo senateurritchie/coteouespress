@@ -201,6 +201,12 @@
                                 </a>
                             </li>
 
+                             <li class="">
+                                <a href="#m-events{{ complement }}" data-toggle="tab" aria-expanded="false">
+                                    Salons & Evènements
+                                </a>
+                            </li>
+
                             <li >
                                 <a href="#m-settings{{ complement }}" data-toggle="tab" aria-expanded="true">
                                     Paramètres
@@ -271,6 +277,10 @@
                                     </div>
 
                                 </div>
+                            </div>
+
+                            <div class="tab-pane" id="m-events{{ complement }}">
+                                {{ include('admin/movie/selected-view-tab-events.html.twig') }}
                             </div>
 
                             <div class="tab-pane" id="m-settings{{ complement }}">

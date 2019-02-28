@@ -1,0 +1,174 @@
+{% extends 'base.html.twig' %}
+
+
+{% block title %}
+
+    {% if app.request.getLocale() == 'en' %}
+        Côte Ouest Audiovisuel Launch Coming soon
+    {% else %}
+        Lancement du nouveau site web Côte Ouest Audiovisuel
+    {% endif %}
+
+{% endblock %}
+
+
+{% block stylesheets %}
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800" rel="stylesheet">
+
+
+    {% stylesheets filter='cssrewrite' 
+        'coming-soon/css/bootstrap.min.css' 
+        'coming-soon/css/style.css' 
+        'coming-soon/fontello/css/fontello.css'
+        'coming-soon/fontello/css/animation.css'
+    %}
+        <link rel="stylesheet" href="{{ asset_url }}" type="text/css" />
+    {% endstylesheets %} 
+
+
+{% endblock %}
+
+
+{% block body %}
+    <div id="wrapper">
+        <div id="main">
+            <div class="container">
+                <div class="row countdown">
+                    <div class="col-md-12">
+                        <div id="logo">
+                            <img src="{{ asset('img/lg-logo-white.png')}}" width="163"  alt="" data-retina="true">
+                        </div>
+                    
+                        <h1>
+                            {{'comingsoon.title'|trans({},"comingsoon") }}
+                        </h1>
+
+                        <h2>
+                            {{'comingsoon.message'|trans({},"comingsoon") }}
+                        </h2>
+
+
+                    </div>
+
+                    <div id="countdown_wp">
+                        <div class="container_count">
+                            <div id="days">00</div>
+                            {{'comingsoon.days'|trans({},"comingsoon") }}
+                        </div>
+
+                        <div class="container_count">
+                            <div id="hours">00</div>
+                            {{'comingsoon.hours'|trans({},"comingsoon") }}
+                        </div>
+
+                        <div class="container_count">
+                            <div id="minutes">00</div>
+                            {{'comingsoon.minutes'|trans({},"comingsoon") }}
+                        </div>
+
+                        <div class="container_count last">
+                            <div id="seconds">00</div>
+                            {{'comingsoon.seconds'|trans({},"comingsoon") }}
+                        </div>
+                    </div>
+
+                    <div>
+                        <p>
+                            {{ 'comingsoon.writeus'|trans({"%email%":"webmaster@coteouest.ci"},"comingsoon")|raw }}
+                        </p>
+                       
+                    </div>
+                </div>
+            
+    
+                    
+                <div id="social_footer">
+                    <ul>
+                        <li>
+                            <a target="_blank" href="https://www.facebook.com/CoteOuestTV/">
+                                <i class="icon-facebook"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://twitter.com/CoteOUEST2">
+                                <i class="icon-twitter"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://vimeo.com/coteouestv">
+                                <i class="icon-vimeo"></i>
+                            </a>
+                        </li>
+
+                        <li>
+                            <a target="_blank" href="https://www.youtube.com/user/Coteouestv">
+                                <i class="icon-youtube-play"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <p>© Côte Ouest Audiovisuel 2019</p>
+                </div>            
+            </div>
+        </div>
+    </div>
+
+    <div id="slides">
+        <ul class="slides-container">
+            <li>
+                <img src="http://demo.coteouest.mu/upload/public/a9c099e3c1b0d071c7fcb5ad6fabfbf6.png" alt="">
+            </li>
+            <li>
+                <img src="http://demo.coteouest.mu/upload/public/bab152a635ce882547e40a1ce023025b.png" alt="">
+            </li>
+
+            <li>
+                <img src="http://demo.coteouest.mu/upload/public/6b8bc935648f1e7f55964e99d5bf97bd.png" alt="">
+            </li>
+
+            
+        </ul>
+    </div>
+
+{% endblock %}
+
+
+{% block footer %}
+
+    <div></div>
+{% endblock %}
+
+
+
+
+{% block javascripts %}
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"  crossorigin="anonymous"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/gh/benbarnett/jQuery-Animate-Enhanced@1.2.0/jquery.animate-enhanced.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/superslides/0.6.2/jquery.superslides.min.js"></script>
+
+
+    <script  type="text/javascript">
+      $('#slides').superslides({
+          play: 6000,
+          pagination:false,
+          animation_speed: 800,
+          animation: 'fade'
+        });
+    </script>
+
+
+    {% javascripts 
+        'coming-soon/js/retina.min.js'
+        'coming-soon/js/functions.js'
+    %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
+
+{% endblock %}

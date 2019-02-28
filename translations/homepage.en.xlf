@@ -5,8 +5,8 @@
       <tool tool-id="symfony" tool-name="Symfony"/>
     </header>
     <body>
-      <trans-unit id="79kGVXW" resname="Videos à voir">
-        <source>Videos à voir</source>
+      <trans-unit id="8LFjNl3" resname="à l'affiche">
+        <source>à l'affiche</source>
         <target>Highlights</target>
       </trans-unit>
       <trans-unit id="_OIqsnH" resname="Nos projets">
@@ -38,6 +38,18 @@
       <trans-unit id="3x5Xsog" resname="Voir plus">
         <source>Voir plus</source>
         <target>Read more</target>
+      </trans-unit>
+      <trans-unit id="Kvg8iJV" resname="En vedette">
+        <source>En vedette</source>
+        <target>Featured</target>
+      </trans-unit>
+      <trans-unit id="jwVoJQJ" resname="trailer.homepage.title">
+        <source>trailer.homepage.title</source>
+        <target>Trailers</target>
+      </trans-unit>
+      <trans-unit id=".ExpSAk" resname="event.special.title.apex">
+        <source>event.special.title.apex</source>
+        <target>Our programs selection for the APEX</target>
       </trans-unit>
     </body>
   </file>

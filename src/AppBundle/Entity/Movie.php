@@ -11,7 +11,7 @@ use Gedmo\Translatable\Translatable;
 /**
  * Movie
  *
- * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"name","original_name","synopsis"},flags={"fulltext"}),@ORM\Index(columns={"name"},flags={"fulltext"}),@ORM\Index(columns={"synopsis"},flags={"fulltext"}),@ORM\Index(columns={"original_name"},flags={"fulltext"})})
+ * @ORM\Table(name="movie", options={"comment":"enregistre les programmes ou movies"}, indexes={@ORM\Index(columns={"name","original_name"},flags={"fulltext"}),@ORM\Index(columns={"name"},flags={"fulltext"}),@ORM\Index(columns={"synopsis"},flags={"fulltext"}),@ORM\Index(columns={"original_name"},flags={"fulltext"})})
  * @ORM\Entity(repositoryClass="AppBundle\Repository\MovieRepository")
  * @ORM\HasLifecycleCallbacks()
  */
@@ -219,7 +219,7 @@ class Movie implements Translatable
     *
     * @Groups({"group1","group2"})
     * @ORM\Column(name="cover_img", type="string", length=255, nullable=true, options={"comment":"stock l'image de couverture du programme"})
-    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=1080)
+    * @assert\Image(mimeTypes={"image/jpg","image/jpeg","image/png"},minWidth=1920, minHeight=800)
     */
     private $coverImg;
 

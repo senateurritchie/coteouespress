@@ -1,0 +1,24 @@
+<table class="table table-striped">
+    <tbody>
+        {% for rsrc in vimeoRsrc  %}
+            <tr>
+                <td>
+                    <img   src="{{ rsrc.thumbnail }}"  class="img-fluid"  alt="{{ programme.name|lower|title }}">
+                </td>
+                <td>
+                    {{ rsrc.name|lower|title }}<br><small>
+                    
+                    {% for i in rsrc.download if i.quality != 'source' %}
+                        <div>
+                            <a href="{{ i.link }}" download="{{ rsrc.name|lower|title }}">
+                                <i class="fas fa-download text-danger"></i>&nbsp;.&nbsp;{{ i.quality|upper }}&nbsp;.&nbsp;{{ i.height }}p&nbsp;&nbsp;.&nbsp;{{ i.width }} x {{ i.height }}&nbsp;.&nbsp;&nbsp;{{ i.size }}Mo 
+                            </a>
+
+                        </div>
+                    {% endfor %}
+                </td>
+               
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

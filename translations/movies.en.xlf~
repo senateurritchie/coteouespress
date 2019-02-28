@@ -27,7 +27,13 @@
       </trans-unit>
       <trans-unit id="zvfzy1Z" resname="Productions à l'affiche">
         <source>Productions à l'affiche</source>
-        <target>__Productions à l'affiche</target>
+        <target>Productions à l'affiche</target>
+      </trans-unit>
+      <trans-unit id="Wv7hdWD" resname="Aucun resultat disponible pour ces critères de recherche">
+        <source>Aucun resultat disponible pour ces critères de recherche</source>
+        <target>
+          No results available for these search criteria
+        </target>
       </trans-unit>
     </body>
   </file>

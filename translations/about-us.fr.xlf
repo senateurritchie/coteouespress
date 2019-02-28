@@ -86,8 +86,8 @@
       </trans-unit>
       <trans-unit id=".jVy.s_" resname="notre.vision.text">
         <source>notre.vision.text</source>
-        <target>
-          <![CDATA[
+        <target><![CDATA[
+          
                 <p>
                     Que ce soit dans les arts, la littérature, la musique, dans tous les domaines, l’Afrique regorge de talents, et a donné énormément de ces talents au Monde. L’Afrique mérite une bien meilleure place dans le concert des nations et nous pensons qu’il est temps pour ces talents de servir les rêves et les ambitions de l’Afrique. It’s Time For Africa !           
                 </p>
@@ -101,13 +101,13 @@
                 <p>
                     En effet, nous croyons que le temps est venu pour les Africains de raconter leurs propres histoires. Nous pensons que la créativité africaine mérite une meilleure place sur la scène internationale. Nous sommes convaincus que la production africaine peut voyager à travers et au-delà des frontières géographiques de son continent. Nous aimons passionnément la singularité de chacune de ces Afriques, dont les frontières visibles et invisibles vont bien au-delà du continent. Nous savons à quels points toutes ces Afriques sont belles, riches et colorées, et nous avons la grande ambition de réunir l’ensemble de ces flamboyantes couleurs en une seule et unique offre.         
                 </p>
-          ]]>
-        </target>
+          
+        ]]></target>
       </trans-unit>
       <trans-unit id="vWfYiDE" resname="notre.catalogue.text">
         <source>notre.catalogue.text</source>
-        <target>
-            <![CDATA[
+        <target><![CDATA[
+            
                 <p>
                     Nous croyons fortement que l’Afrique ne pourra réussir qu’à la condition qu’elle abolisse les séparations qui furent historiquement érigées en son sein, et que ce faisant elle réunisse ces forces, et plaidons pour cette profession de foi sous le credo « UNITED COLORS OF AFRICA ».       
                 </p>
@@ -121,8 +121,8 @@
                     Ainsi, ce catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes US. 
 
                 </p>
-            ]]>
-        </target>
+            
+        ]]></target>
       </trans-unit>
       <trans-unit id="UrLH9iy" resname="notre.ambition.text">
         <source>notre.ambition.text</source>
@@ -130,6 +130,54 @@
 
             L’Afrique, c’est également une diaspora de plus de 200 millions de personnes réparties aux quatre coins de la planète. Cette diaspora a soif de contenu africain. Le dynamisme de l’industrie audiovisuelle en Afrique a permis et permet la création d’œuvres de qualité qui peuvent maintenant revendiquer leur place dans la programmation des chaînes de télévision à l’international. Notre ambition est donc de porter l’Afrique au-delà de ses frontières. Mais au-delà de cela, nous croyons que l’avenir de l’humanité est dans son métissage et nous sommes un fervent partisan d’une approche multiculturelle du divertissement. Également, nous sommes convaincus qu’un grand potentiel se cache dans la collaboration sud-sud, encore trop peu exploitée. Notre volonté est donc de sortir des sentiers battus et de proposer de nouvelles voies encore peu explorées. Ainsi Côte Ouest, grâce à son expertise sur le marché de l’Amérique latine, l’Afrique et maintenant l’Australie et les Caraïbes, se positionne désormais davantage comme un fournisseur de contenus du Sud.
         </target>
+      </trans-unit>
+      <trans-unit id="WDfMZob" resname="gilles.ntakpe.role">
+        <source>gilles.ntakpe.role</source>
+        <target>Directeur Artistique et Technique</target>
+      </trans-unit>
+      <trans-unit id="R3mBugY" resname="babacar.diouf.role">
+        <source>babacar.diouf.role</source>
+        <target>Directeur d'exploitation</target>
+      </trans-unit>
+      <trans-unit id="5Z1vWXm" resname="bruno.sans.role">
+        <source>bruno.sans.role</source>
+        <target>Channel Manager</target>
+      </trans-unit>
+      <trans-unit id="sOVeu7D" resname="maimouna.tiote.role">
+        <source>maimouna.tiote.role</source>
+        <target>Responsable Communication Produits</target>
+      </trans-unit>
+      <trans-unit id="6PxV_Sf" resname="awoua.keita.role">
+        <source>awoua.keita.role</source>
+        <target>Responsable Acquisition</target>
+      </trans-unit>
+      <trans-unit id="L9CPodx" resname="larissa.coulibaly.role">
+        <source>larissa.coulibaly.role</source>
+        <target>Chef Comptable</target>
+      </trans-unit>
+      <trans-unit id="RKlaprd" resname="anicet.parfait.role">
+        <source>anicet.parfait.role</source>
+        <target>Responsable Communication</target>
+      </trans-unit>
+      <trans-unit id="miURwmz" resname="alain.kempinaire.role">
+        <source>alain.kempinaire.role</source>
+        <target>Responsable production</target>
+      </trans-unit>
+      <trans-unit id="lUpT_4m" resname="charles.henry.manedji.role">
+        <source>charles.henry.manedji.role</source>
+        <target>Responsable Commercial et Marketing</target>
+      </trans-unit>
+      <trans-unit id="fkOc20N" resname="blanche.mbe.role">
+        <source>blanche.mbe.role</source>
+        <target>Responsable Gestion des supports</target>
+      </trans-unit>
+      <trans-unit id="l9g.yZD" resname="dodji.kwami.role">
+        <source>dodji.kwami.role</source>
+        <target>Content Manager</target>
+      </trans-unit>
+      <trans-unit id="kuOwpz2" resname="ezechiel.karamoko.role">
+        <source>ezechiel.karamoko.role</source>
+        <target>Sales Executive</target>
       </trans-unit>
     </body>
   </file>

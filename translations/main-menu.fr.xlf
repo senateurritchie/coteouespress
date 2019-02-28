@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="rTnqN0g" resname="Condition générale d'utilisation">
+        <source>Condition générale d'utilisation</source>
+        <target>Condition générale d'utilisation</target>
+      </trans-unit>
+      <trans-unit id="UDmefsw" resname="Espace de téléchargement">
+        <source>Espace de téléchargement</source>
+        <target>Espace de téléchargement</target>
+      </trans-unit>
+      <trans-unit id="_HO33Mj" resname="Politique de confidentialité">
+        <source>Politique de confidentialité</source>
+        <target>Politique de confidentialité</target>
+      </trans-unit>
+      <trans-unit id="EgJslNb" resname="Espace d'administration">
+        <source>Espace d'administration</source>
+        <target>Espace d'administration</target>
+      </trans-unit>
+      <trans-unit id="Dvf5y03" resname="Se deconnecter">
+        <source>Se deconnecter</source>
+        <target>Se deconnecter</target>
+      </trans-unit>
+      <trans-unit id="eEhyLnd" resname="Programmes">
+        <source>Programmes</source>
+        <target>Programmes</target>
+      </trans-unit>
+      <trans-unit id="f4c3qR7" resname="Côte Ouest">
+        <source>Côte Ouest</source>
+        <target>Côte Ouest</target>
+      </trans-unit>
+      <trans-unit id="tFBkXev" resname="Contacts">
+        <source>Contacts</source>
+        <target>Contacts</target>
+      </trans-unit>
+      <trans-unit id="KPRXHyi" resname="Mon compte">
+        <source>Mon compte</source>
+        <target>Mon compte</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

@@ -2,6 +2,18 @@ var AdminManager = AdminManager || {};
 
 (function(nsp){
 
+
+    /**
+    * evenement lorsqu'on lance un téléchargement de matériel promo
+    */
+    nsp.DownloadMovieListEvent = (function(){
+        function DownloadMovieListEvent(params){
+            nsp.Event.call(this,'download-movie-list',params);
+        };
+        Object.assign(DownloadMovieListEvent.prototype, nsp.Event.prototype);
+        return DownloadMovieListEvent;
+    })();
+
 	nsp.fn.VimeoPlayer = (function(){
 		function VimeoPlayer(params){
 			nsp.EventDispatcher.call(this);
@@ -131,6 +143,37 @@ var AdminManager = AdminManager || {};
 		return VimeoPlayer;
 	})();
 
+
+    nsp.fn.MovieSingleRepository = (function(){
+
+        function MovieSingleRepository(params){
+            nsp.Repository.call(this,params);
+        };
+
+        Object.assign(MovieSingleRepository.prototype, nsp.Repository.prototype);
+
+        MovieSingleRepository.prototype.downloadListRequest = function(event){
+
+            console.log(event)
+
+            return new Promise((resolve,reject)=>{
+                  this.request({
+                      url:`/${event.params.langId}/programmes/${event.params.movieId}/downloads/${event.params.downloadType}`,
+                      method:"GET",
+                      dataType:"text"
+                  })
+                  .done(data=>{
+                      resolve(data);
+                  })
+                  .fail(msg=>{
+                      reject(msg);
+                  });
+              });
+        };
+        return MovieSingleRepository;
+    })();
+
+
 	nsp.fn.MovieSingleView = (function(){
 		function MovieSingleView(params){
 			nsp.View.call(this,params);
@@ -165,6 +208,29 @@ var AdminManager = AdminManager || {};
             var movieProfil = $("#movie-profil");
             var masterCover = $("#master-cover");
             var otherMovies = $("#other-movies");
+            var btnDownloadList = $("[data-target='#download-list']");
+
+
+
+            this.subscribe(event=>{
+
+                if(event instanceof nsp.DownloadMovieListEvent){
+                    if(~["end","fails"].indexOf(event.params.state)){
+                        $(document.body).removeClass("download-list-active");
+
+                        if(event.params.state == "end"){
+                            var data = event.params.data;
+                            if(data){
+                                $(document.body).addClass("download-list-loaded");
+                                $("#download-list-container").html(data);
+                            }
+                        }
+                        else{
+                            
+                        }
+                    }
+                }
+            });
 
             win.on({
                 scroll:function(e){
@@ -316,6 +382,23 @@ var AdminManager = AdminManager || {};
             })
             .on('slimscroll', function(e, pos){
                 console.log(pos)
+            });
+
+            btnDownloadList.on({
+                click:(e)=>{
+
+                    if(!$(document.body).hasClass("download-list-loaded")){
+                        $(document.body).addClass("download-list-active");
+
+                        this.emit(new nsp.DownloadMovieListEvent({
+                            state:'start',
+                            movieId:$('[data-movie-id]').attr('data-movie-id'),
+                            langId:$('[data-lang-id]').attr('data-lang-id'),
+                            downloadType:'vimeo',
+                            dataType:"text"
+                        }));
+                    }
+                }
             });
 
 			return this;

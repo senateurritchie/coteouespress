@@ -25,10 +25,18 @@
         {% for item in categories if item.slug == has_url_cat %}
             {{item.name|upper}} 
         {% else %}
-            Dernières entrées du catalogue Audiovisuel de Côte Ouest
+            {% if app.request.getLocale() == 'en' %}
+                Recent entries in Côte Ouest's audiovisual catalogue
+            {% else %}
+                Dernières entrées du catalogue Audiovisuel de Côte Ouest
+            {% endif %}
         {% endfor %}
     {% else %}
-        Dernières entrées du catalogue Audiovisuel de Côte Ouest
+        {% if app.request.getLocale() == 'en' %}
+            Recent entries in Côte Ouest's audiovisual catalogue
+        {% else %}
+            Dernières entrées du catalogue Audiovisuel de Côte Ouest
+        {% endif %}
     {% endif %}
 
     
@@ -36,7 +44,13 @@
 
 {% block meta_description %}
 
-   <meta name="description" content="Côte Ouest  possède un catalogue de plus de 22 000 heures de programmes dont les trois piliers sont les séries africaines, les télénovelas et les séries studios">
+    {% if app.request.getLocale() == 'en' %}
+        <meta name="description" content="Côte Ouest has a catalogue of more than 22,000 hours of programming that include three pillars: African series, telenovelas, and studio television series">
+    {% else %}
+        <meta name="description" content="Côte Ouest  possède un catalogue de plus de 22 000 heures de programmes dont les trois piliers sont les séries africaines, les télénovelas et les séries studios">
+    {% endif %}
+
+  
     
 {% endblock %}
 
@@ -193,7 +207,8 @@
                                 </div>
 
                             </div>
-                                
+
+                            <input type="hidden" value="google" name="_search_mode">
                            
                             {#<div class="col-md-2 col-sm-6">
                                 <div class="form-group">
@@ -271,7 +286,7 @@
                                                             {{item.name|lower|title}} 
                                                             <span class="sr-only">(current)</span>
 
-                                                            <span class="float-right badge badge-light">{{item.movieNbr}}</span>
+                                                            {#<span class="float-right badge badge-light">{{item.movieNbr}}</span>#}
                                                         </a>
                                                     </li>
                                                 {% endfor %}
@@ -293,6 +308,12 @@
                                         {% endfor %}
                                     </div>
                                 {% endif %}
+
+                                <div class="mt-4 alert alert-light" style="position:sticky;top: 4rem;overflow-y: auto;">
+                                    <small>
+                                        {{"programmes.legal.mention"|trans({},"catalogue")}}
+                                    </small>
+                                </div>
                                
                             </aside>
                         </div>

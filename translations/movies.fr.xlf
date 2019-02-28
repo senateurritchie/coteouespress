@@ -25,6 +25,10 @@
         <source>suivant</source>
         <target>Suivant</target>
       </trans-unit>
+      <trans-unit id="Wv7hdWD" resname="Aucun resultat disponible pour ces critères de recherche">
+        <source>Aucun resultat disponible pour ces critères de recherche</source>
+        <target>Aucun resultat disponible pour ces critères de recherche</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>

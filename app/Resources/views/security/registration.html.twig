@@ -3,11 +3,21 @@
 {% form_theme form 'bootstrap_4_layout.html.twig' %}
 
 {% block title %}
-   Espace privé de Côte Ouest Audiovisuel
+    {% if app.request.getLocale() == 'en' %}
+        Côte Ouest AUDIOVISUEL | Souscription form
+    {% else %}
+        Côte Ouest AUDIOVISUEL | Formulaire de souscription
+    {% endif %}
 {% endblock %}
 
 {% block meta_description %}
-    <meta name="description" content="Pour accéder à l’espace privé de Côte Ouest Audiovisuel, veuillez-vous connecter si vous possédez déjà un compte ou vous identifier.">
+    
+    {% if app.request.getLocale() == 'en' %}
+        <meta name="description" content="Souscription form">
+    {% else %}
+        <meta name="description" content="Formulaire de souscription">
+    {% endif %}
+
 {% endblock %}
 
 {% block stylesheets %}

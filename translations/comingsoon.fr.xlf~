@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="5HvEHRd" resname="comingsoon.title">
+        <source>comingsoon.title</source>
+        <target>En cours de maintenance</target>
+      </trans-unit>
+      <trans-unit id="hngv3x." resname="comingsoon.message">
+        <source>comingsoon.message</source>
+        <target>Nous serons de retour bientôt!</target>
+      </trans-unit>
+      <trans-unit id="ZKDZ7t4" resname="comingsoon.days">
+        <source>comingsoon.days</source>
+        <target>jours</target>
+      </trans-unit>
+      <trans-unit id="rFOSvow" resname="comingsoon.hours">
+        <source>comingsoon.hours</source>
+        <target>heures</target>
+      </trans-unit>
+      <trans-unit id="AuTvCxG" resname="comingsoon.minutes">
+        <source>comingsoon.minutes</source>
+        <target>minutes</target>
+      </trans-unit>
+      <trans-unit id="49mgRhc" resname="comingsoon.seconds">
+        <source>comingsoon.seconds</source>
+        <target>secondes</target>
+      </trans-unit>
+      <trans-unit id="I_tQjoe" resname="comingsoon.newsletter.action">
+        <source>comingsoon.newsletter.action</source>
+        <target>Abonnez-vous</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>

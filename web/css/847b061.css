@@ -37,6 +37,36 @@ body{
 	height: auto;
 }
 
+#master-menu-mobile{
+	top:60px;
+	bottom:0;
+	left:0;
+	right:0;
+	background:rgba(51,102,204,.5);
+	z-index:1;
+	transform: translateX(-100%);
+}
+
+#master-menu-mobile.active{
+	-webkit-transition:.2s linear all;
+    -moz-transition:.2s linear all;
+    -o-transition:.2s linear all;
+    transition:.2s linear all;
+	transform: translateX(0%);
+}
+
+
+
+#master-menu-mobile #master-menu-mobile-wrapper{
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	width: 45%;
+	background: #fff;
+	box-shadow: 0 8px 24px rgba(0,0,0,0.13);
+}
+
 header#header{
 	/*height: 458px;*/
 	width: 100%;
@@ -55,7 +85,67 @@ header #master-cover{
 	/*background: url('../img/photo1.jpg') no-repeat left top / cover;*/
 }
 
+#header-mobile-menu{
+	outline: none;
+    text-decoration: none;
+    vertical-align: middle;
+}
+
+#header-mobile-menu i.fa-bars{
+	font-size: 20px;
+	color: #137BBD !important;
+}
+
 @media (max-width: 576px) { 
+
+
+
+	section.block{
+		padding: 0 10px 0px 10px;
+	}
+
+	.container {
+	    padding-right: 10px;
+	    padding-left: 10px;
+	}
+
+	.bx-controls.bx-has-controls-direction .bx-controls-direction{
+		display: none;
+	}
+
+	header #master-menu{
+		opacity: 1 !important;
+		position: fixed !important;
+	}
+
+	.bx-wrapper{
+		margin-bottom: 0px !important;
+		margin-top: 55px !important;
+		-moz-box-shadow: none !important;
+    	-webkit-box-shadow: none !important;
+    	box-shadow: none !important;
+	}
+
+	.site-slogan{
+		font-size: 1.5rem !important;
+	}
+
+	section#block-video-a-voir span.badge{
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 150px;
+		white-space: nowrap!important;
+	}
+
+	#block-production-a-laffiche .btn{
+		position: static !important;
+		float: right;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	
+    
 
 	/* header #master-menu{
 	    	position: absolute !important;

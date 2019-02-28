@@ -2,12 +2,20 @@
 
 
 {% block title %}
-   Espace privé de Côte Ouest Audiovisuel
+    {% if app.request.getLocale() == 'en' %}
+        Côte Ouest AUDIOVISUEL | Connexion form
+    {% else %}
+        Côte Ouest AUDIOVISUEL | Formulaire de connexion
+    {% endif %}
 {% endblock %}
 
 {% block meta_description %}
     
-    <meta name="description" content="Pour accéder à l’espace privé de Côte Ouest Audiovisuel, veuillez-vous connecter si vous possédez déjà un compte ou vous identifier.">
+    {% if app.request.getLocale() == 'en' %}
+        <meta name="description" content="Connexion form">
+    {% else %}
+        <meta name="description" content="Formulaire de connexion">
+    {% endif %}
 
 {% endblock %}
 
@@ -68,10 +76,9 @@
                         <div class="position-relative">
                             <span class="fas fa-at position-absolute text-secondary" style="right: 5px;top:5px;"></span>
 
-                            <input required="" type="email" class="form-control form-control-sm pr-4" id="login-email" placeholder="votre email" name="_username" value="{{ last_username }}">
+                            <input required="" type="email" class="form-control form-control-sm pr-4" id="login-email" placeholder="" name="_username" value="{{ last_username }}">
 
                         </div>
-
                     </div>
                     
                     <div class="form-group">
@@ -80,7 +87,7 @@
                         <div class="position-relative">
                             <span class="fas fa-lock position-absolute text-secondary" style="right: 5px;top:5px;"></span>
 
-                            <input required="" type="password" class="form-control form-control-sm pr-4" id="login-pwd" placeholder="Mot de passe" name="_password">
+                            <input required="" type="password" class="form-control form-control-sm pr-4" id="login-pwd" placeholder="" name="_password">
 
                         </div>
                     </div>

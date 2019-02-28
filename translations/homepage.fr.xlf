@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="fr" target-language="fr" datatype="plaintext" original="file.ext">
+    <header>
+      <tool tool-id="symfony" tool-name="Symfony"/>
+    </header>
+    <body>
+      <trans-unit id="8LFjNl3" resname="à l'affiche">
+        <source>à l'affiche</source>
+        <target>à l'affiche</target>
+      </trans-unit>
+      <trans-unit id="fZ85fKU" resname="Premier Distributeur et Créateur de Contenu pour l'Afrique">
+        <source>Premier Distributeur et Créateur de Contenu pour l'Afrique</source>
+        <target>Premier Distributeur et Créateur de Contenu pour l'Afrique</target>
+      </trans-unit>
+      <trans-unit id="Kvg8iJV" resname="En vedette">
+        <source>En vedette</source>
+        <target>En vedette</target>
+      </trans-unit>
+      <trans-unit id="rJ1m.Hm" resname="Voir la fiche">
+        <source>Voir la fiche</source>
+        <target>Voir la fiche</target>
+      </trans-unit>
+      <trans-unit id="jwVoJQJ" resname="trailer.homepage.title">
+        <source>trailer.homepage.title</source>
+        <target>Bande Annonce</target>
+      </trans-unit>
+      <trans-unit id="_TN9ot5" resname="Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs.">
+        <source>Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs.</source>
+        <target>Notre catalogue, riche de près de 20 000 heures englobe tous les genres ; feuilletons, séries, films, documentaires, animations etc., principalement d’Afrique (ou plutôt des Afriques), d’Amérique du Sud, mais n’exclus pas quelques programmes d'ailleurs.</target>
+      </trans-unit>
+      <trans-unit id="CYR3xPu" resname="Réalisateurs / Créateurs">
+        <source>Réalisateurs / Créateurs</source>
+        <target>Réalisateurs / Créateurs</target>
+      </trans-unit>
+      <trans-unit id=".ExpSAk" resname="event.special.title.apex">
+        <source>event.special.title.apex</source>
+        <target>Nos programmes de l'Apex</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
