@@ -31,7 +31,7 @@ class DefaultController extends Controller{
             //"isPublished"=>1,
             "inTheather"=>1,
         );
-        $programmes = $rep_movie->findBy($ev,["id"=>"desc"],9);
+        $programmes = $rep_movie->findBy($ev,["id"=>"desc"],5);
 
         //  on charge les acteurs
         $rep = $em->getRepository(Actor::class);
@@ -138,7 +138,7 @@ class DefaultController extends Controller{
         // quelques programmes a presenter à des evènements 
 
         // liste des programmes a afficher
-        $currentEventMovies = [
+        /*$currentEventMovies = [
             "shampaign",
             "poisoned-bait",
             "les-bobodiouf-le-retour",
@@ -156,7 +156,7 @@ class DefaultController extends Controller{
             "name"=>"Apex",
             "view_title"=>"Nos programmes de l'Apex",
             "movies"=>$rep_movie->findBySlug($currentEventMovies)
-        ];
+        ];*/
 
         $trailers = $rep_movie->search([
             "is_trailer_exists"=>true,
@@ -168,7 +168,7 @@ class DefaultController extends Controller{
         return $this->render('default/index.html.twig',array(
             "programmes"=>$programmes,
             "inTheather"=>$rep_movie->findOneBy(['hasExclusivity'=>1,"isPublished"=>1]),
-            "currentEvent"=>$currentEvent,
+            //"currentEvent"=>$currentEvent,
             "actors"=>$actors,
             "directors"=>$directors,
             "director_exclusivity"=>$director_exclusivity,

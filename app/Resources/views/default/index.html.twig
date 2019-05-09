@@ -1,16 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% set four_movie = programmes|slice(0,4) %}
-{% set programmes_rest = programmes|slice(4)|shuffle %}
+{% set four_movie = programmes|slice(0) %}
+{% set programmes_rest = programmes|slice(0,6)|shuffle %}
 
 {% set original_cover = programmes_rest|slice(0,1)[0] %}
 {% set four_movie_2 = programmes_rest|slice(1,4) %}
 
+{#
 {% set event_movies_left = currentEvent.movies|slice(0,3) %}
 {% set event_movies_right = currentEvent.movies|slice(3) %}
-
-
-{% set event_movies_center = currentEvent.movies|shuffle %}
+{% set event_movies_center = currentEvent.movies|shuffle %} #}
 
 
 {% block stylesheets %}
@@ -31,18 +30,42 @@
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.15/jquery.bxslider.min.css" rel="stylesheet" />
 
+    <style>
+        header:before{
+            height: 100%;
+            width: 100%;
+            background: -webkit-gradient(linear,left bottom,left top,from(#fff),color-stop(15%,rgba(255,255,254,.4)),color-stop(50%,rgba(28,28,28,.1)));
+            background: linear-gradient(0deg,#fff 0,rgba(255,255,254,.4) 15%,rgba(28,28,28,.1) 50%);
+            content: "";
+            left: 0;
+            pointer-events: none;
+            position: absolute;
+            top: 0;
+            z-index: 1;
+        }
+    </style>
+
 {% endblock %}
+
 
 {% block body %}
     
     <header id="header" >
         {{ include('main-menu.html.twig') }}
 
-
+ 
         <div id="bxslider-baner" style="height:800px;overflow:hidden">
+
+            
+            <div>
+                <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHLzsd_Z8lTcp3LUGMwMbBXVA7Arl0TPtt-2i7X3JVbyZRlg/viewform" target="_blank">
+                <img src="{{ asset('img/bannieres/discop-abidjan-2019.jpg') }}" title="the river"></a>
+            </div>
+
             <div>
                 <img src="{{ asset('img/bannieres/the-river.jpg') }}" title="the river">
             </div>
+
             <div>
                 <img src="{{ asset('img/bannieres/mr-brau.jpg') }}" alt="mr brau">
             </div>
@@ -51,8 +74,8 @@
             </div>
         </div>
 
-
-        {#<div id="thumbnail-cover" class="d-none d-md-block">
+        {# a commenter pour BA 
+        <div id="thumbnail-cover" class="d-none d-md-block">
             <ul>
 
                 {% for movie in four_movie %}
@@ -98,7 +121,8 @@
                 {% endfor %}
             </ul>
             
-        </div>#}
+        </div>
+        {# FIN a commenter pour BA #}
     </header>
 
 
@@ -210,6 +234,116 @@
 
 
                 {# Debut d'affichage mobile EVENT #}
+                
+                <div id="discop">
+                <section class="block has-carousel animation-top " id="apex">
+                    <div class="block-header">
+                        <h3 class="block-title mblock-title mblock-title-info">
+                            Discop Abidjan
+                        </h3>
+                        <br><br>
+
+                        <div style="margin-left: auto;" class="d-flex">
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-p">
+                                <i class="fas fa-angle-left"></i>
+                            </a>
+
+                            <a href="" class="bg-circle coa-bg-secondary slide-nav nav-n ml-1">
+                                <i class="fas fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="block-content" >
+                        <div class="text-left owl-carousel">
+                         
+                            <div>
+                                <div class="position-relative has-media-detail d-block vid-hover">
+                                    <img  src="{{ asset('img/events/21-discop-abidjan-2019.jpg') }}"  alt="21">
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="position-relative has-media-detail d-block vid-hover">
+                                    <img  src="{{ asset('img/events/master-and-3-maids-discop-abidjan-2019.jpg') }}"  alt="master-and-3-maids">
+                                    
+                                </div>
+                            </div>
+
+                            <div>
+                                <div class="position-relative has-media-detail d-block vid-hover">
+                                    <img  src="{{ asset('img/events/roma-show-discop-abidjan-2019.jpg') }}"  alt="roma-show">
+                                </div>
+                            </div>
+                           
+                        </div>
+                    </div>
+                </section>
+                </div>
+                
+                {# FIN d'affichage mobile EVENT #}
+
+                {# affichage coming soon des evenements #}
+                {#
+                <div id="discop">
+                    <section class="block animation-top" id="upcoming-events">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            
+                            <div class="prs_ec_ue_left_img_wrapper" style="background: url({{asset('img/events/21-discop-abidjan-2019.jpg')}}) no-repeat 0px 0px / cover;width:50%;height:100%;padding-top:43%"></div>
+
+                            <div class="prs_ec_ue_right_img_wrapper">
+                                <div class="prs_feature_img_cont prs_ec_ue_right_img_cont">
+                                    <h2><a href="">Discop 2019</a></h2>
+                                    <div class="prs_ft_small_cont_left">
+                                        <p>Abidjan &mdash; Côte d'Ivoire</p>
+                                    </div>
+                                   
+                                    <ul>
+                                        <li>29 &mdash; 31 Mai 2019</li>
+                                        <li>07:30-19:00</li>
+                                    </ul>
+                                    <p class="prs_up_pera_sec">
+                                        Lors de la prochaine édition du Discop Abidjan qui se tiendra du 29 au 31 Mai 2019, au Radisson Blu Hôtel ; Côte Ouest Audiovisuel ; leader de la Distribution de contenu sur le continent africain, dévoilera aux professionnels de l’Audiovisuel, les plus récentes pages de catalogue ; et notamment les séries « 21 » et « Master &amp; 3 Maids ».
+                                    </p>
+
+                                    <div>
+                                        <a href="https://docs.google.com/forms/d/e/1FAIpQLSfHLzsd_Z8lTcp3LUGMwMbBXVA7Arl0TPtt-2i7X3JVbyZRlg/viewform" target="_blank">
+                                            <small>
+                                                 <i class="fa fa-envelope"></i> NOUS CONTACTER...
+                                             </small>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="prs_ec_ue_timer_wrapper">
+                                    <div id="clockdiv">
+                                        <div><span class="days"></span>
+                                            <div class="smalltext">Jours</div>
+                                        </div>
+                                        <div><span class="hours"></span>
+                                            <div class="smalltext">Heures</div>
+                                        </div>
+                                        <div><span class="minutes"></span>
+                                            <div class="smalltext">Mins</div>
+                                        </div>
+                                        <div><span class="seconds"></span>
+                                            <div class="smalltext">Secs</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+
+                            </div>
+                        </div>
+
+                    </section>
+                </div>
+                #}
+                {# fin affichage coming soon des evenements #}
+
+
+                {# Debut d'affichage mobile EVENT #}
+                {#
                 <section class="block has-carousel animation-top " id="apex">
                     <div class="block-header">
                         <h3 class="block-title mblock-title mblock-title-info">
@@ -263,13 +397,7 @@
                                                 {{ item.name|lower|title }} 
                                             </h2>
 
-                                            {#<small class="d-none d-md-block movie-rank">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                                <i class="far fa-star"></i>
-                                            </small>#}
+                                            
                                         </div>
                                     
                                     </div>
@@ -285,6 +413,7 @@
                         </div>
                     </div>
                 </section>
+                #}
                 {# Fin d'affichage mobile EVENT #}
 
                 {# Debut d'affichage desktop EVENT 
@@ -588,48 +717,7 @@
                 </section>
 
                 
-                {# affichage coming soon des evenements #}
-
-                {#<section class="block animation-top" id="upcoming-events">
-                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                        <div class="prs_ec_ue_left_img_wrapper">
-                            <img src="{{ asset('img/events/apex-2019.jpg')}}" alt="apex - côte ouest audiovisuel">
-                        </div>
-                        <div class="prs_ec_ue_right_img_wrapper">
-                            <div class="prs_feature_img_cont prs_ec_ue_right_img_cont">
-                                <h2><a href="#">Apex MMM 2019</a></h2>
-                                <div class="prs_ft_small_cont_left">
-                                    <p>Dublin &amp; Ireland</p>
-                                </div>
-                               
-                                <ul>
-                                    <li>15 &mdash; 17 Avril 2019</li>
-                                    <li>09:30-15:00</li>
-                                </ul>
-                                <p class="prs_up_pera_sec">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiud tempor incididunt ut labore et dolore magna aliqua. Ut enim ad quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo is aute irure dolor in reprehenderit in voluptate velit esse cillum fugiat nulla pariatur Excepteur sint. <a href="#">Read More</a>
-                                </p>
-                            </div>
-                            <div class="prs_ec_ue_timer_wrapper">
-                                <div id="clockdiv">
-                                    <div><span class="days"></span>
-                                        <div class="smalltext">Jours</div>
-                                    </div>
-                                    <div><span class="hours"></span>
-                                        <div class="smalltext">Heures</div>
-                                    </div>
-                                    <div><span class="minutes"></span>
-                                        <div class="smalltext">Mins</div>
-                                    </div>
-                                    <div><span class="seconds"></span>
-                                        <div class="smalltext">Secs</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>#}
-
-                {# fin affichage coming soon des evenements #}
+                
 
                 {#<section class="block  animation-top has-carousel" id="block-realisateurs">
                     <div class="block-header">
@@ -735,9 +823,9 @@
 
             let mainMenu = $("#master-menu");
             var sections = $("section");
-
-            /*var ComingSoon = (function(){
-                function ComingSoon(startingDate = "Apr 15, 2019 09:30:00"){
+            // debut coming soon 
+            var ComingSoon = (function(){
+                function ComingSoon(startingDate = "May 29, 2019 09:30:00"){
                     this.timerId = null;
                     this.startingDate = startingDate;
                     this.params = {
@@ -793,14 +881,16 @@
             })();
 
 
-            var myEvent = new ComingSoon("Apr 15, 2019 09:30:00");
+            var myEvent = new ComingSoon("May 29, 2019 07:30:00");
 
             myEvent.init({
                 daysEl:$(".prs_ec_ue_timer_wrapper #clockdiv .days"),
                 hoursEl:$(".prs_ec_ue_timer_wrapper #clockdiv .hours"),
                 minsEl:$(".prs_ec_ue_timer_wrapper #clockdiv .minutes"),
                 secsEl:$(".prs_ec_ue_timer_wrapper #clockdiv .seconds"),
-            });*/
+            });
+
+            // fin coming soon
 
             if(window.location.hash){
                 sections.each(function(i,el){
@@ -859,9 +949,10 @@
                     opts.margin = 4;
                 }
                 else if(obj.attr('id') == "apex"){
-                    opts.items = 6;
-                    opts.margin = 10;
-                    opts.autoplay = true;
+                    opts.items = 3;
+                    opts.loop = false;
+                    opts.margin = 15;
+                    opts.autoplay = false;
                     opts.responsive = {
                         0: {
                             items: 1,
@@ -879,7 +970,7 @@
                             items: 2,
                         },
                         1000: {
-                            items: 6,
+                            items: 3,
                         }
                     };
                     //opts.loop = false;
@@ -996,9 +1087,58 @@
                 easing:'ease-in-out',
             });
 
-            if(window.location.hash == "#apex"){
-                $("html,body").animate({scrollTop:$("#apex").offset().top - 300 },500)
+            // gestion de l'evenement << DISCOP >>
+            $("#discop_open_action").on({
+                click:function(e){
+                    e.preventDefault()
+                    $("#discop_action").fadeToggle(500)
+                }
+            })
+
+            if(window.location.hash == "#discop"){
+                $("html,body").animate({scrollTop:$("#discop").offset().top - 300 },500)
             }
+
+
+            /*// gestion duslide show pour le discop
+            (function(){
+                let wrapper = $(".prs_ec_ue_left_img_wrapper");
+                let url = wrapper.css('background-image');
+                
+                if(/url\("(.+?)"\)/.test(url)){
+
+                    let b_base = RegExp.$1;
+                    b_base = b_base.split('/');
+                    b_base.splice(-1,1);
+                    b_base = b_base.join("/")
+
+                    let data = [
+                        "master-and-3-maids-discop-abidjan-2019.jpg",
+                        "roma-show-discop-abidjan-2019.jpg",
+                        "21-discop-abidjan-2019.jpg"
+                    ];
+                    let pos = 0;
+
+                    setInterval(function(){
+                        if(pos >= data.length) pos = 0;
+                        let path = b_base + "/" + data[pos];
+                        wrapper.fadeOut(500,function(){
+                            wrapper.css('background-image','url("'+path+'")');
+                            wrapper.fadeIn(500);
+                        });
+                        pos++;
+                    },5000);
+                }
+                
+            })();*/
+
+
+           
+
+
+          
+
+           
 
         });
     </script>

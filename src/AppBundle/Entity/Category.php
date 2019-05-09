@@ -30,6 +30,7 @@ class Category
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @ORM\Column(name="name", type="string", length=30, unique=true)
     */
     private $name;
@@ -39,6 +40,7 @@ class Category
     * @var string
     *
     * @Groups({"group1","group2"})
+    * @Gedmo\Translatable
     * @Gedmo\Slug(fields={"name"})
     * @ORM\Column(name="slug", type="string", length=60, unique=true,nullable=true)
     */
@@ -60,12 +62,23 @@ class Category
     */
     private $movies;
 
+    /**
+    * @Gedmo\Locale
+    * Used locale to override Translation listener`s locale
+    * this is not a mapped field of entity metadata, just a simple property
+    */
+    private $locale;
+
      /**
      * Constructor
      */
     public function __construct()
     {
         $this->movies = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function setTranslatableLocale($locale){
+        $this->locale = $locale;
     }
 
 

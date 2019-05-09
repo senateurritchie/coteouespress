@@ -104,7 +104,7 @@ class CatalogType extends AbstractType
         ->add('category',EntityType::class,array(
             "required"=>false,
             "placeholder"=>$this->translator->trans("Catégorie",array(),"catalogue"),
-            "class"=>\AppBundle\Entity\CatalogSectionCategory::class,
+            "class"=>\AppBundle\Entity\Category::class,
             "choice_label"=>function($item,$key,$index){
                 return $item->getName();
             },

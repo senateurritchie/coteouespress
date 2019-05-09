@@ -62,7 +62,7 @@ class UserMailingRegistration{
         $message = (new \Swift_Message("Création de compte [".$user_type->getName()."]"))
         ->setFrom([$appsite["email"] => $appsite["name"]])
         ->setTo([$appsite["email"] => $appsite["name"]])
-        ->addCc("communication@coteouest.tv")
+        ->addCc("communication@coteouest.ci")
         ->setBody(
             $twig->render(
                 'admin/user/email/registration-self-notice.html.twig',
@@ -77,11 +77,14 @@ class UserMailingRegistration{
         );
 
         if($user_type->getSlug() == "client") {
-            //$message->addCc("sales@coteouest.tv");
+            $message->addCc("sales@coteouest.tv");
+            $message->addCc("sales@coteouest.ci");
             $message->addCc("zakeszako@gmail.com");
         }
         else if (in_array($user_type->getSlug(), array("producteur","réalisateur"))) {
             $message->addCc("acquisition@coteouest.tv");
+            $message->addCc("acquisition@coteouest.ci");
+            $message->addCc("zakeszako@gmail.com");
         }
         
         $mailer->send($message);
